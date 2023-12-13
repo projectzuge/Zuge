@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  zuge.ui.server:
+    image: ${DOCKER_REGISTRY-}zugeuiserver
+    build:
+      context: .
+      dockerfile: src/Zuge.UI/Zuge.UI.Server/Dockerfile
+  #   depends_on:
+  #     - "sqlserver"
+  # sqlserver:
+  #   image: mcr.microsoft.com/azure-sql-edge
+  #   ports:
+  #     - "1433:1433"
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - SA_PASSWORD=@someThingComplicated1234
