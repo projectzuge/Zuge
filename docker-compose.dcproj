@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
-  <PropertyGroup Label="Globals">
-    <ProjectVersion>2.1</ProjectVersion>
-    <DockerTargetOS>Linux</DockerTargetOS>
-    <DockerPublishLocally>False</DockerPublishLocally>
-    <ProjectGuid>fb2068ea-98cd-4330-95ac-da6fa75a2c29</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>zuge.ui.server</DockerServiceName>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="docker-compose.override.yml">
-      <DependentUpon>docker-compose.yml</DependentUpon>
-    </None>
-    <None Include="docker-compose.yml" />
-    <None Include=".dockerignore" />
-  </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+        <DockerPublishLocally>False</DockerPublishLocally>
+        <DockerServiceName>zuge.ui.server</DockerServiceName>
+        <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
+        <DockerTargetOS>Linux</DockerTargetOS>
+        <ProjectGuid>fb2068ea-98cd-4330-95ac-da6fa75a2c29</ProjectGuid>
+        <ProjectVersion>2.1</ProjectVersion>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="docker-compose.yml"/>
+        <None Include=".dockerignore"/>
+    </ItemGroup>
 </Project>

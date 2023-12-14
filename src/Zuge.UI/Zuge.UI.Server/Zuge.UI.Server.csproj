@@ -14,7 +14,6 @@
 		<WarningsAsErrors>Nullable</WarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
 		<PackageReference Include="Microsoft.AspNetCore.SpaProxy">
 			<Version>8.*-*</Version>
@@ -28,5 +27,8 @@
 		<ProjectReference Include="..\zuge.ui.client\zuge.ui.client.esproj">
 			<ReferenceOutputAssembly>false</ReferenceOutputAssembly>
 		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Controllers\" />
 	</ItemGroup>
 </Project>

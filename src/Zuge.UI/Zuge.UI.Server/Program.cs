@@ -1,30 +1,33 @@
+using Zuge.Domain;
+using Zuge.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// _ = builder.Services.AddDomain(builder.Configuration);
+// _ = builder.Services.AddInfrastructure(builder.Configuration);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+_ = builder.Services.AddControllers();
+
+_ = builder.Services
+    .AddEndpointsApiExplorer()
+    .AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
+_ = app
+    .UseDefaultFiles()
+    .UseStaticFiles();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+_ = app
+    .UseSwagger()
+    .UseSwaggerUI();
 
-app.UseHttpsRedirection();
+_ = app
+    .UseHttpsRedirection()
+    .UseAuthorization();
 
-app.UseAuthorization();
+_ = app.MapControllers();
 
-app.MapControllers();
-
-app.MapFallbackToFile("/index.html");
+_ = app.MapFallbackToFile("/index.html");
 
 app.Run();

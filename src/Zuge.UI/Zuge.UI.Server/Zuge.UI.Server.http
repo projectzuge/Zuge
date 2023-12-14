@@ -1,6 +1,0 @@
-@Zuge.UI.Server_HostAddress = http://localhost:5197
-
-GET {{Zuge.UI.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
