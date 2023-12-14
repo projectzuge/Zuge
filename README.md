@@ -1,3 +1,7 @@
+# Jäsenet
+
+- Jani Meronen
+
 # Käynnistäminen
 
 Aja projektin juuressa:
