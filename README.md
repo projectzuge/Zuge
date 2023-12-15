@@ -3,6 +3,7 @@
 - Jani Meronen
 - Arttu Knuutinen
 - Saara Sairanen
+- Tommy Niemi
 
 # Käynnistäminen
 
