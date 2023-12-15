@@ -1,0 +1,67 @@
+.Bar {
+    padding-right: 3%;
+    padding-left: 3%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    display: grid;
+    grid-template-columns: 15% 70% 15%;
+    height: 60px;
+    background-color:#eeeeee;
+}
+
+.HomePageButton {
+    height: 40px;
+    margin: 10px;
+    width: fit-content;
+    border-style: hidden;
+    background-color:#eeeeee;
+}
+
+.LogoImage {
+    height: 100%;
+}
+
+.UserButtonBody {
+    display: grid;
+    padding-right: 20px;
+    justify-content: end;
+    height: 60px;
+}
+
+.UserButton {
+    width: fit-content;
+    height: fit-content;
+    display: grid;
+    justify-content: center;
+    border-style: hidden;
+    background-color:#eeeeee;
+    font-size: large;
+    font-weight: 600;
+}
+
+.UsetText {
+    height: 100%;
+}
+
+.DropDownMenuButtonBody {
+    display: grid;
+    justify-content: end;
+    padding-right: 8px;
+    height: 40px;
+    margin: 10px;
+    background-color:#eeeeee;
+}
+
+.DropDownMenuButton {
+    width: 40px;
+    border-style: hidden;
+}
+
+.DropDownMenuImage {
+    height: 30px;
+}
+
+.ExitDropDownMenuImage {
+    display: none;
+    width: 100%;
+}
