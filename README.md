@@ -1,6 +1,7 @@
 # Jäsenet
 
 - Jani Meronen
+- Arttu Knuutinen
 - Saara Sairanen
 
 # Käynnistäminen
