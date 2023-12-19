@@ -1,6 +1,16 @@
 import './../Styles/DropDownMenu.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import PropTypes from 'prop-types';
+import {
+  Routes, Route, Link
+} from "react-router-dom";
+
+DropDownMenu.propTypes = {
+  anchorEl: PropTypes.any,
+  open: PropTypes.any,
+  handleClose: PropTypes.func
+};
 
 function DropDownMenu({ anchorEl, open, handleClose }) {
 
@@ -17,24 +27,24 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           }}
         >
           <MenuItem>
-            <button className="NewsButton">
-              <p>Uutiset</p>
-            </button>
+              <p><Link className="MenuItemLink">Uutiset</Link></p>
           </MenuItem>
           <MenuItem>
-            <button className="NewsButton">
-              <p>Yhteystiedot ja palaute</p>
-            </button>
+              <p><Link className="MenuItemLink">Yhteystiedot ja palaute</Link></p>
           </MenuItem>
-          <MenuItem>
+          <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
+          </MenuItem>
+          <MenuItem id="DarkThemeItem" disableRipple style={{ backgroundColor: 'transparent' }}>
             <div className="DarkThemeBody">
             <p className="DarkThemeText">Tumma tila</p>
-            <input type="checkbox"
-                  id="switch"
-                  className="checkbox" />     
-            <label htmlFor="switch"
-                  className="toggle">
-            </label>
+            <div className="toggleContainer">
+              <input type="checkbox"
+                    id="switch"
+                    className="checkbox" />     
+              <label htmlFor="switch"
+                    className="toggle">
+              </label>
+            </div>
             </div>
           </MenuItem>
         </Menu>        

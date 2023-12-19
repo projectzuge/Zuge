@@ -40,6 +40,7 @@
 }
 
 .UsetText {
+    all: initial;
     height: 100%;
 }
 
@@ -52,16 +53,31 @@
     background-color:#eeeeee;
 }
 
+.DropDownMenuButtonBody > :hover.MuiButtonBase-root {
+    outline: 0px;
+}
+
 .DropDownMenuButton {
     width: 40px;
     border-style: hidden;
 }
 
-.DropDownMenuImage {
+.DropDownMenuImageVisible {
     height: 30px;
 }
 
-.ExitDropDownMenuImage {
+.DropDownMenuImageInvisible {
+    display: none;
+    height: 30px;
+}
+
+.ExitDropDownMenuImageVisible {
+    width: 30px;
+    border-style: hidden;
+}
+
+.ExitDropDownMenuImageInvisible {
     display: none;
     width: 100%;
 }
+

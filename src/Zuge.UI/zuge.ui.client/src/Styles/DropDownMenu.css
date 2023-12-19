@@ -1,19 +1,33 @@
-.DropDownMenuBody {
-    display: grid;
+#dropDownMenu > .MuiPaper-root {
+    width: 400px;
+    height: 450px;
     background-color: #eeeeee;
-}
-
-#dropDownMenu {
-    width: 500px;
 }
 
 .NewsButton {
     border-style: none;
 }
 
+.MenuItemLink {
+    all: inherit;
+    margin: 0%;
+}
+
+.emptyItem {
+    height: 220px;
+}
+
 .DarkThemeBody {
+    width: 100%;
     display: grid;
     grid-template-columns: 50% 50%;
+    vertical-align: bottom;
+}
+
+.toggleContainer {
+    display: grid;
+    justify-content: center;
+    margin-top: 8%;
 }
 
 .toggle {
