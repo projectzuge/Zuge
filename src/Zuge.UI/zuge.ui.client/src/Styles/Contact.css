@@ -1,0 +1,48 @@
+.ContactInfoBackground {
+    border-radius: 10px;
+    align-self: center;
+    margin-left: 70px;
+    margin-right: 70px;
+    margin-top: 50px;
+    padding: 40px;
+    width: calc(100% - 220px);
+    height: fit-content;
+    background-color: rgba(238, 238, 238, 0.8);
+}
+
+.contactTitle {
+    padding-left: 40px;
+    display: grid;
+    justify-content: start;
+}
+
+.ContactInfoBody {
+    border-radius: 10px;
+    padding: 40px;
+    width: calc(100% - 80px);
+    height: fit-content;
+    background-color: rgba(238, 238, 238);
+}
+
+.ContactRow {
+    display: grid;
+    grid-template-columns: calc(50% - 60px) calc(50% - 60px);
+    justify-content: start;
+    column-gap: 120px;
+}
+
+.contact {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: start;
+}
+
+.contactName {
+    display: grid;
+    justify-content: start;
+}
+
+.contactEmail {
+    display: grid;
+    justify-content: start;
+}

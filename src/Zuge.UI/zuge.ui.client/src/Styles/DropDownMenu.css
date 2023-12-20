@@ -1,6 +1,7 @@
 #dropDownMenu > .MuiPaper-root {
     width: 400px;
     height: 450px;
+    padding-left: 30px;
     background-color: #eeeeee;
 }
 
@@ -20,14 +21,14 @@
 .DarkThemeBody {
     width: 100%;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 75%;
     vertical-align: bottom;
 }
 
 .toggleContainer {
     display: grid;
-    justify-content: center;
-    margin-top: 8%;
+    justify-content: start;
+    margin-top: 14px;
 }
 
 .toggle {

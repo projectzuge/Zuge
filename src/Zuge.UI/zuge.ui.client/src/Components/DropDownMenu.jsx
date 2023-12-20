@@ -2,6 +2,7 @@ import './../Styles/DropDownMenu.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PropTypes from 'prop-types';
+import Contact from "./../Pages/Contact.jsx";
 import {
   Routes, Route, Link
 } from "react-router-dom";
@@ -20,6 +21,14 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
         <Menu
           id="dropDownMenu"
           anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
           open={open}
           onClose={handleClose}
           MenuListProps={{
@@ -30,7 +39,7 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
               <p><Link className="MenuItemLink">Uutiset</Link></p>
           </MenuItem>
           <MenuItem>
-              <p><Link className="MenuItemLink">Yhteystiedot ja palaute</Link></p>
+              <p><Link className="MenuItemLink" to="/contact">Yhteystiedot ja palaute</Link></p>
           </MenuItem>
           <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
           </MenuItem>
@@ -49,6 +58,10 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           </MenuItem>
         </Menu>        
       </div>
+
+      <Routes>
+        <Route path="/contact" element={<Contact />} />
+      </Routes>
     </>
   )
 }

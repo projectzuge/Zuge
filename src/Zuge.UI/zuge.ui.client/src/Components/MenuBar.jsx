@@ -6,7 +6,6 @@ import DropDownMenu from "./DropDownMenu.jsx";
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import {
-  BrowserRouter as Router,
   Routes, Route, Link
 } from "react-router-dom";
 
@@ -28,9 +27,8 @@ function MenuBar() {
 
   return (
     <>
-      <Router>
         <div className="Bar">
-          <Link className="HomePageButton">
+          <Link className="HomePageButton" to="/home">
             <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
           </Link>
           <div className="UserButtonBody">
@@ -73,7 +71,6 @@ function MenuBar() {
           <Route></Route>
           <Route></Route>
         </Routes> */}
-      </Router>
     </>
   )
 }
