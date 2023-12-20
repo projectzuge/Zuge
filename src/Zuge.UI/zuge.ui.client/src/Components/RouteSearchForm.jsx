@@ -50,6 +50,7 @@ const RouteSearchForm = () => {
     console.log("To City:", toCity);
     console.log("Selected Date:", selectedDate);
     console.log("Who travels:", passengerType);
+    let formattedDate = moment(selectedDate).format("DD.MM.YYYY");
 
     if (fromCity !== toCity) {
       const listGrid = document.getElementById("route-list-grid");
@@ -61,7 +62,7 @@ const RouteSearchForm = () => {
           <FoundRoutesList
             from={fromCity}
             to={toCity}
-            date={selectedDate}
+            date={formattedDate}
             passenger={passengerType}
           />
         );

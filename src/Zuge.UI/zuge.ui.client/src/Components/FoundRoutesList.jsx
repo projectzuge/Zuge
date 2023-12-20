@@ -10,7 +10,7 @@ const FoundRoutesList = (props) => {
 
   return (
     <Box id="found-routes-list-box">
-        <p>{fromCity} {toCity} {passengerType}</p>
+        <p>{fromCity} {toCity} {passengerType} {travelDate}</p>
       <SingleFoundRoute />
     </Box>
   );
