@@ -8,8 +8,10 @@ function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <MenuBar />
-        <FrontPage />
+        <MenuBar id="menu-bar"/>
+        <div id="page-contents-container">
+          <FrontPage />
+        </div>
       </ThemeProvider>
     </>
   );
