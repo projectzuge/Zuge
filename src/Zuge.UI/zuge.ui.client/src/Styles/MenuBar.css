@@ -4,7 +4,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
     display: grid;
-    grid-template-columns: 15% 70% 15%;
+    grid-template-columns: 20% 80%;
     height: 60px;
     background-color:#eeeeee;
 }
@@ -21,27 +21,98 @@
     height: 100%;
 }
 
-.UserButtonBody {
+.MenuLink {
+    all: initial;
+    display: none;
+}
+
+.MenuLink > p {
+    padding-top: 15 px;
     display: grid;
+    justify-content: center;
+    font-weight: bolder;
+    padding: 5px;
+}
+
+.toggleContainerMenu {
+    display: none;
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 50% 50%;
+}
+
+.toggleContainerMenu > * {
+    display: none;
+}
+
+.DarkThemeText {
+    display: grid;
+    justify-content: center;
+    font-weight: bolder;
+}
+
+.toggleMenu {
+    position : relative ;
+    display : inline-block;
+    width: 45px;
+    height: 18px;
+    background-color: #eeeeee;
+    border-radius: 30px;
+    border: 1px solid #000000;
+}
+       
+/* After slide changes */
+.toggleMenu:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #000000;
+    top: 1px; 
+    left: 1px;
+    transition:  all 0.5s;
+}
+       
+/* Checkbox checked effect */
+.checkboxMenu:checked + .toggleMenu::after {
+    left : 36px; 
+}
+       
+/* Checkbox checked toggle label bg color */
+.checkboxMenu:checked + .toggleMenu {
+    background-color: #525252;
+}
+       
+/* Checkbox vanished */
+.checkboxMenu { 
+    display : none;
+}
+
+.UserButtonBody {
+    display: none;
+    display: grid;
+    padding-top: 15px;
     padding-right: 20px;
     justify-content: end;
     height: 60px;
 }
 
 .UserButton {
+    display: none;
     width: fit-content;
     height: fit-content;
     display: grid;
     justify-content: center;
     border-style: hidden;
     background-color:#eeeeee;
-    font-size: large;
-    font-weight: 600;
 }
 
-.UsetText {
+.UserText {
     all: initial;
+    display: none;
     height: 100%;
+    font-weight: bolder;
 }
 
 .DropDownMenuButtonBody {
@@ -81,3 +152,33 @@
     width: 100%;
 }
 
+@media screen and (min-width: 480px) {
+    .Bar {
+        grid-template-columns: 12% 16% 30% 16% 26%;
+    }
+    .toggleContainerMenu {
+        display: initial;
+    }
+    .toggleContainerMenu > * {
+        /* display: initial; */
+        display:
+    }
+    .DropDownMenuButtonBody {
+        display: none;
+    }
+    .DropDownMenuImageVisible {
+        display: none;
+    }
+    .MenuLink {
+        display: initial;
+    }
+    .UserButtonBody {
+        display: initial;
+    }
+    .UserButton {
+        display: initial;
+    }
+    .UserText {
+        display: initial;
+    }
+  }

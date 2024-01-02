@@ -5,9 +5,7 @@ import exitDropDownMenuLogo from "./../assets/ExitDropDownMenuLogo.jpg";
 import DropDownMenu from "./DropDownMenu.jsx";
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import {
-  Routes, Route, Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 function MenuBar() {
@@ -28,14 +26,24 @@ function MenuBar() {
   return (
     <>
         <div className="Bar">
-          <Link className="HomePageButton" to="/home">
+          <Link className="HomePageButton" to="/">
             <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
           </Link>
-          <div className="UserButtonBody">
-            <button className="UserButton">
-              <p className="UserText">Käyttäjä</p>
-            </button>
-          </div>
+          <Link className="MenuLink"><p>Uutiset</p>
+          </Link>
+          <Link className="MenuLink" to="/contact"><p>Yhteystiedot ja palaute</p>
+          </Link>
+          <Link className="MenuLink" to="/user"><p>Käyttäjä</p>
+          </Link>
+          <div className="toggleContainerMenu">
+            <p className="DarkThemeText">Tumma tila</p>
+            <input type="checkbox"
+                  id="switchMenu"
+                  className="checkboxMenu" />     
+            <label htmlFor="switchMenu"
+                  className="toggleMenu">
+            </label>
+          </div>  
           <div className="DropDownMenuButtonBody">
             <Button
               aria-controls={open ? 'basic-menu' : undefined}
@@ -66,11 +74,6 @@ function MenuBar() {
               handleClose={handleClose}/>
           </div>
         </div>
-
-        {/* <Routes>
-          <Route></Route>
-          <Route></Route>
-        </Routes> */}
     </>
   )
 }

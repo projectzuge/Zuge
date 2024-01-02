@@ -1,5 +1,5 @@
 #dropDownMenu > .MuiPaper-root {
-    width: 400px;
+    width: 300px;
     height: 450px;
     padding-left: 30px;
     background-color: #eeeeee;
@@ -21,7 +21,7 @@
 .DarkThemeBody {
     width: 100%;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 40% 60%;
     vertical-align: bottom;
 }
 

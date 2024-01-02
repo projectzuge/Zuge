@@ -2,10 +2,7 @@ import './../Styles/DropDownMenu.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import PropTypes from 'prop-types';
-import Contact from "./../Pages/Contact.jsx";
-import {
-  Routes, Route, Link
-} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 DropDownMenu.propTypes = {
   anchorEl: PropTypes.any,
@@ -58,10 +55,6 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           </MenuItem>
         </Menu>        
       </div>
-
-      <Routes>
-        <Route path="/contact" element={<Contact />} />
-      </Routes>
     </>
   )
 }

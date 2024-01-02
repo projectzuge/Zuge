@@ -4,8 +4,9 @@
     margin-left: 70px;
     margin-right: 70px;
     margin-top: 50px;
+    margin-bottom: 50px;
     padding: 40px;
-    width: calc(100% - 220px);
+    width: calc(100% - 200px);
     height: fit-content;
     background-color: rgba(238, 238, 238, 0.8);
 }
@@ -26,9 +27,9 @@
 
 .ContactRow {
     display: grid;
-    grid-template-columns: calc(50% - 60px) calc(50% - 60px);
+    grid-template-columns: calc(50% - 40px) calc(50% - 40px);
     justify-content: start;
-    column-gap: 120px;
+    column-gap: 80px;
 }
 
 .contact {

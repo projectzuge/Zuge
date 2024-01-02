@@ -8,22 +8,52 @@ function Contact() {
           <div className="ContactInfoBody">
             <div className="ContactRow">
               <div className="contact">
-                <p className="contactName">First Last</p>
-                <p className="contactEmail">firstlast@gmail.com</p>
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
               </div>
               <div className="contact">
-                <p className="contactName">Second SecondToLast</p>
-                <p className="contactEmail">second@gmail.com</p>
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
               </div>
             </div>
             <div className="ContactRow">
               <div className="contact">
-                <p className="contactName">Con Tact</p>
-                <p className="contactEmail">contact@gmail.com</p>
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
               </div>
               <div className="contact">
-                <p className="contactName">Tommy Niemi</p>
-                <p className="contactEmail">tommy@gmail.com</p>
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
+              </div>
+            </div>
+            <div className="ContactRow">
+              <div className="contact">
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
+              </div>
+              <div className="contact">
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
+              </div>
+            </div>
+            <div className="ContactRow">
+              <div className="contact">
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
+              </div>
+              <div className="contact">
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
+              </div>
+            </div>
+            <div className="ContactRow">
+              <div className="contact">
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
+              </div>
+              <div className="contact">
+                <p className="contactName">Firstname Lastname</p>
+                <p className="contactEmail">email@email.com</p>
               </div>
             </div>
           </div>
