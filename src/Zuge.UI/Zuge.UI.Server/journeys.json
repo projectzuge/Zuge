@@ -1,0 +1,418 @@
+﻿[
+  {
+    "Date": "2023-12-29",
+    "Id": "50781A4A-ECCD-4444-8E5C-A585CA0A7BB7",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "05:57:00",
+        "Departure": "05:57:00",
+        "Station": "Keuruu"
+      },
+      {
+        "Arrival": "06:11:00",
+        "Departure": "06:19:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "06:28:00",
+        "Departure": "06:29:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "06:38:00",
+        "Departure": "06:40:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "06:58:00",
+        "Departure": "06:59:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "07:09:00",
+        "Departure": "07:10:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "07:14:00",
+        "Departure": "07:15:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "07:40:00",
+        "Departure": "07:40:00",
+        "Station": "Tampere"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 420,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "DF73D7B6-880D-4989-88BD-6854A08CAC53",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "08:06:00",
+        "Departure": "08:06:00",
+        "Station": "Tampere"
+      },
+      {
+        "Arrival": "08:31:00",
+        "Departure": "08:32:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "08:35:00",
+        "Departure": "08:36:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "08:46:00",
+        "Departure": "08:47:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "09:06:00",
+        "Departure": "08:07:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "09:14:00",
+        "Departure": "09:15:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "09:25:00",
+        "Departure": "09:33:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "09:47:00",
+        "Departure": "09:47:00",
+        "Station": "Keuruu"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 421,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "BB62A62A-C2A5-47FD-97F9-AEBCE6086521",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "09:57:00",
+        "Departure": "09:57:00",
+        "Station": "Keuruu"
+      },
+      {
+        "Arrival": "10:11:00",
+        "Departure": "10:19:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "10:28:00",
+        "Departure": "10:29:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "10:38:00",
+        "Departure": "10:40:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "10:58:00",
+        "Departure": "10:59:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "11:09:00",
+        "Departure": "11:10:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "11:14:00",
+        "Departure": "11:15:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "11:40:00",
+        "Departure": "11:40:00",
+        "Station": "Tampere"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 424,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "4406921B-E902-4179-8B70-95BDEEAFC989",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "12:06:00",
+        "Departure": "12:06:00",
+        "Station": "Tampere"
+      },
+      {
+        "Arrival": "12:31:00",
+        "Departure": "12:32:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "12:35:00",
+        "Departure": "12:36:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "12:46:00",
+        "Departure": "12:47:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "13:06:00",
+        "Departure": "13:07:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "13:14:00",
+        "Departure": "13:15:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "13:25:00",
+        "Departure": "13:33:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "13:47:00",
+        "Departure": "13:47:00",
+        "Station": "Keuruu"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 423,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "68DD7483-3EE5-4CC8-9059-89FA362B6573",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "13:57:00",
+        "Departure": "13:57:00",
+        "Station": "Keuruu"
+      },
+      {
+        "Arrival": "14:11:00",
+        "Departure": "14:19:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "14:28:00",
+        "Departure": "14:29:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "14:38:00",
+        "Departure": "14:40:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "14:58:00",
+        "Departure": "14:59:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "15:09:00",
+        "Departure": "15:10:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "15:14:00",
+        "Departure": "15:15:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "15:40:00",
+        "Departure": "15:40:00",
+        "Station": "Tampere"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 426,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "FE916BB5-CBF1-44DD-8C78-AD88126503DA",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "16:16:00",
+        "Departure": "16:16:00",
+        "Station": "Tampere"
+      },
+      {
+        "Arrival": "16:41:00",
+        "Departure": "16:42:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "16:45:00",
+        "Departure": "16:46:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "16:56:00",
+        "Departure": "16:57:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "17:16:00",
+        "Departure": "17:17:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "17:24:00",
+        "Departure": "17:25:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "17:35:00",
+        "Departure": "17:43:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "17:57:00",
+        "Departure": "17:57:00",
+        "Station": "Keuruu"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 427,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "E58377CC-9AEC-49F2-A13D-88F3793035DE",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "18:09:00",
+        "Departure": "18:09:00",
+        "Station": "Keuruu"
+      },
+      {
+        "Arrival": "18:23:00",
+        "Departure": "18:31:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "18:40:00",
+        "Departure": "18:41:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "18:50:00",
+        "Departure": "18:52:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "19:10:00",
+        "Departure": "19:11:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "19:21:00",
+        "Departure": "19:22:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "19:26:00",
+        "Departure": "19:27:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "19:55:00",
+        "Departure": "19:55:00",
+        "Station": "Tampere"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 428,
+      "Type": "Taajamajuna"
+    }
+  },
+  {
+    "Date": "2023-12-29",
+    "Id": "386C6ADB-6D65-4B7C-8743-6913BD990690",
+    "Price": 10,
+    "Stops": [
+      {
+        "Arrival": "22:07:00",
+        "Departure": "22:07:00",
+        "Station": "Tampere"
+      },
+      {
+        "Arrival": "22:32:00",
+        "Departure": "22:33:00",
+        "Station": "Orivesi"
+      },
+      {
+        "Arrival": "22:36:00",
+        "Departure": "22:37:00",
+        "Station": "Orivesi Keskusta"
+      },
+      {
+        "Arrival": "22:47:00",
+        "Departure": "22:48:00",
+        "Station": "Juupajoki"
+      },
+      {
+        "Arrival": "23:07:00",
+        "Departure": "23:08:00",
+        "Station": "Vilppula"
+      },
+      {
+        "Arrival": "23:15:00",
+        "Departure": "23:16:00",
+        "Station": "Kolho"
+      },
+      {
+        "Arrival": "23:26:00",
+        "Departure": "23:34:00",
+        "Station": "Haapamäki"
+      },
+      {
+        "Arrival": "23:48:00",
+        "Departure": "23:48:00",
+        "Station": "Keuruu"
+      }
+    ],
+    "Train":
+    {
+      "LineNumber": 429,
+      "Type": "Taajamajuna"
+    }
+  }
+]
