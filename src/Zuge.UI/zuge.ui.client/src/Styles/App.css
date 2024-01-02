@@ -48,3 +48,20 @@ body {
   background-attachment: fixed;
   position: relative;
 }
+
+#page-contents-container {
+  display: inline-block;
+  left: 0px;
+  top: 0px;
+  margin: 5%;
+  width: 90%;
+}
+
+#page-contents-container > * {
+  align-items: center;
+}
+
+#menu-bar {
+  width: 100%;
+}
+

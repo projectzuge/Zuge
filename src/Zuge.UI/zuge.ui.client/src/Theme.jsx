@@ -4,6 +4,9 @@ const theme = createTheme({
   // default font family:
   typography: {
     fontFamily: "Inria Sans, sans-serif",
+    p: {
+      fontFamily: "Inria Sans, sans-serif", // Apply Inria Sans to heading level 1
+    },
   },
   // default button:
   palette: {
@@ -16,9 +19,16 @@ const theme = createTheme({
         root: ({ ownerState }) => ({
           "&:hover": {
             backgroundColor: "#eeeeee",
-            outline: "1px solid rgba(38, 38, 38, 0.5)"
+            outline: "1px solid rgba(38, 38, 38, 0.5)",
           },
         }),
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          fontFamily: "Inria Sans, sans-serif",
+        },
       },
     },
   },
