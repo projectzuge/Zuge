@@ -4,6 +4,7 @@
 - Arttu Knuutinen
 - Saara Sairanen
 - Tommy Niemi
+- Aleksandra Babenko
 
 # Käynnistäminen
 
