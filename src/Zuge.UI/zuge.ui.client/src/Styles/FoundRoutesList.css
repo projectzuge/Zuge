@@ -1,0 +1,12 @@
+#found-routes-list-box {
+  max-width: 100%;
+  padding: 40px;
+  background: rgba(238, 238, 238, 0.8);
+  border-radius: 10px;
+}
+
+#info-row {
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}

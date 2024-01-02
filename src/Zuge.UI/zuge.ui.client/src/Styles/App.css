@@ -50,11 +50,10 @@ body {
 }
 
 #page-contents-container {
-  position: fixed;
   display: inline-block;
   left: 0px;
   top: 0px;
-  margin: 10% 5%;
+  margin: 5%;
   width: 90%;
 }
 
