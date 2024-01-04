@@ -1,6 +1,6 @@
 ﻿namespace Zuge.Domain.Types;
 
-public record Journey(DateOnly Date, Guid Id, decimal Price, IEnumerable<Stop> Stops, Train Train)
+public record Journey(DateOnly Date, TimeSpan Duration, Guid Id, decimal Price, List<Stop> Stops, Train Train)
 {
-    Journey() : this(DateOnly.MinValue, Guid.Empty, decimal.Zero, new List<Stop>(), new(0, "")) { }
+    Journey() : this(DateOnly.MinValue, TimeSpan.Zero, Guid.Empty, decimal.Zero, [], new(0, "")) { }
 }
