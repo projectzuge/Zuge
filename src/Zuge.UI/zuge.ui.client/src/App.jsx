@@ -2,8 +2,7 @@ import "./Styles/App.css";
 import FrontPage from "./Pages/FrontPage.jsx";
 import MenuBar from "./Components/MenuBar.jsx";
 import SingleNews from "./Pages/SingleNews.jsx";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "./Theme.jsx";
+import Contact from "./Pages/Contact.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -19,18 +18,16 @@ function App() {
   return (
     <>
       <Router>
-        <ThemeProvider theme={theme}>
-          <MenuBar />
-          <Routes>
-            <Route path="/" element={<FrontPage />} />
-            <Route path="/SingleNews" element={<SingleNews />} />
-          </Routes>
-        </ThemeProvider>
+        <MenuBar id="menu-bar"/>
+        <div id="page-contents-container">
+            <Routes>
+                <Route path="/" element={<FrontPage />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/SingleNews" element={<SingleNews />} />
+                <Route path="/user" element={<FrontPage />} /> 
+            </Routes>
+        </div>
       </Router>
-      <MenuBar id="menu-bar" />
-      <div id="page-contents-container">
-        <FrontPage />
-      </div>
     </>
   );
 }

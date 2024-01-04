@@ -1,10 +1,11 @@
 .Bar {
+    font-family: 'Roboto', sans-serif;
     padding-right: 3%;
     padding-left: 3%;
     padding-top: 5px;
     padding-bottom: 5px;
     display: grid;
-    grid-template-columns: 15% 70% 15%;
+    grid-template-columns: 20% 80%;
     height: 60px;
     background-color:#eeeeee;
 }
@@ -15,32 +16,65 @@
     width: fit-content;
     border-style: hidden;
     background-color:#eeeeee;
+    z-index: 1;
 }
 
 .LogoImage {
     height: 100%;
 }
 
-.UserButtonBody {
-    display: grid;
-    padding-right: 20px;
-    justify-content: end;
-    height: 60px;
+.MenuLink {
+    display: none;
 }
 
-.UserButton {
-    width: fit-content;
-    height: fit-content;
-    display: grid;
-    justify-content: center;
-    border-style: hidden;
-    background-color:#eeeeee;
-    font-size: large;
-    font-weight: 600;
+.toggleContainerMenu {
+    display: none;
 }
 
-.UsetText {
-    height: 100%;
+.switchContainer {
+    padding-top: 20px;
+}
+
+.DarkThemeTextMenu {
+    display: none;
+}
+
+.toggleMenu {
+    position : relative ;
+    display : inline-block;
+    width: 45px;
+    height: 18px;
+    background-color: #eeeeee;
+    border-radius: 30px;
+    border: 1px solid #000000;
+}
+       
+/* After slide changes */
+.toggleMenu:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #000000;
+    top: 1px; 
+    left: 1px;
+    transition:  all 0.5s;
+}
+       
+/* Checkbox checked effect */
+.checkboxMenu:checked + .toggleMenu::after {
+    left : 28px; 
+}
+       
+/* Checkbox checked toggle label bg color */
+.checkboxMenu:checked + .toggleMenu {
+    background-color: #525252;
+}
+       
+/* Checkbox vanished */
+.checkboxMenu { 
+    display : none;
 }
 
 .DropDownMenuButtonBody {
@@ -52,16 +86,88 @@
     background-color:#eeeeee;
 }
 
+.DropDownMenuButtonBody > :hover.MuiButtonBase-root {
+    outline: 0px;
+}
+
 .DropDownMenuButton {
     width: 40px;
     border-style: hidden;
 }
 
-.DropDownMenuImage {
+.DropDownMenuImageVisible {
     height: 30px;
 }
 
-.ExitDropDownMenuImage {
+.DropDownMenuImageInvisible {
+    display: none;
+    height: 30px;
+}
+
+.ExitDropDownMenuImageVisible {
+    width: 30px;
+    border-style: hidden;
+}
+
+.ExitDropDownMenuImageInvisible {
     display: none;
     width: 100%;
 }
+
+@media screen and (min-width: 480px) {
+    .Bar {
+        grid-template-columns: 12% 23% 23% 23% 19%;
+    }
+    .toggleContainerMenu {
+        display: grid;
+        justify-content: center;
+        grid-template-columns: 100%;
+    }
+    .DropDownMenuButtonBody {
+        display: none;
+    }
+    .DropDownMenuImageVisible {
+        display: none;
+    }
+    .MenuLink {
+        display: grid;
+        margin-top: 20px;
+        justify-content: center;
+    }
+    .MenuLink > * {
+        color: #262626;
+        font-weight: bolder;
+        text-decoration: none;
+        z-index: 1; /* Oli ongelma linkkien kanssa, ilmeisesti joku elementti 
+        tuli linkin päälle, jolloin klikkailu ei enää onnistunut jonkun linkin 
+        klikkaamisen jälkeen. Tämä korjaa ongelman. */
+    }
+    .UserButtonBody {
+        display: inline;
+    }
+    .UserButton {
+        display: inline;
+    }
+    .UserText {
+        display: inline;
+    }
+  }
+
+  @media screen and (min-width: 730px) {
+    .Bar {
+        grid-template-columns: 12% 20% 20% 20% 28%;
+    }
+    .DarkThemeTextMenu {
+        padding-top: 4px;
+        display: grid;
+        justify-content: center;
+        font-weight: bolder;
+        color: #262626;
+    }
+    .toggleContainerMenu {
+        display: grid;
+        padding-left: 35px;
+        justify-content: start;
+        grid-template-columns: 85px 55px;
+    }
+  }

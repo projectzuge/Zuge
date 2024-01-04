@@ -1,0 +1,49 @@
+[
+    {
+        "firstName": "Tommy",
+        "lastName": "Niemi",
+        "email": "tommy@email.com"
+    },
+
+    {
+        "firstName": "Jani",
+        "lastName": "Meronen",
+        "email": "jani@email.com"
+    },
+
+    {
+        "firstName": "Saara",
+        "lastName": "Sairanen",
+        "email": "saara@email.com"
+    },
+
+    {
+        "firstName": "Arttu",
+        "lastName": "Knuutinen",
+        "email": "arttu@email.com"
+    },
+
+    {
+        "firstName": "Aleksandra",
+        "lastName": "Babenko",
+        "email": "aleksandra@email.com"
+    },
+
+    {
+        "firstName": "Erkki",
+        "lastName": "Esimerkki",
+        "email": "erkki@email.com"
+    },
+
+    {
+        "firstName": "Teppo",
+        "lastName": "Testiheppu",
+        "email": "teppo@email.com"
+    },
+
+    {
+        "firstName": "Yrjo",
+        "lastName": "Yhteystieto",
+        "email": "yrjo@email.com"
+    }
+]
