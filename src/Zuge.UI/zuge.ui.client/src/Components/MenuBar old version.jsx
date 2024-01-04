@@ -26,23 +26,15 @@ function MenuBar() {
   return (
     <>
         <div className="Bar">
-          <div className="HomePageButton">
-            <Link to="/">
-              <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
-            </Link>
-          </div>
-          <div className="MenuLink">
-            <Link to="/news">Uutiset
-            </Link>
-          </div>
-          <div className="MenuLink">
-            <Link to="/contact">Yhteystiedot ja palaute
-            </Link>
-          </div>
-          <div className="MenuLink">
-            <Link to="/user">Käyttäjä
-            </Link>
-          </div>
+          <Link className="HomePageButton" to="/">
+            <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
+          </Link>
+          <Link className="MenuLink" to="/news">Uutiset
+          </Link>
+          <Link className="MenuLink" to="/contact">Yhteystiedot ja palaute
+          </Link>
+          <Link className="MenuLink" to="/user">Käyttäjä
+          </Link>
           <div className="toggleContainerMenu">
             <p className="DarkThemeTextMenu">Tumma tila</p>
             <div className="switchContainer">

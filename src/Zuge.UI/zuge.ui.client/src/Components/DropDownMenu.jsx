@@ -38,6 +38,9 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           <MenuItem>
               <p><Link className="MenuItemLink" to="/contact">Yhteystiedot ja palaute</Link></p>
           </MenuItem>
+          <MenuItem>
+              <p><Link className="MenuItemLink" to="/user">Käyttäjä</Link></p>
+          </MenuItem>
           <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
           </MenuItem>
           <MenuItem id="DarkThemeItem" disableRipple style={{ backgroundColor: 'transparent' }}>

@@ -15,6 +15,8 @@ function App() {
           <Routes>
             <Route path="/" element={<FrontPage />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/news" element={<Contact />} />
+            <Route path="/user" element={<FrontPage />} />
           </Routes>
         </ThemeProvider>
       </Router>
