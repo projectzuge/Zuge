@@ -1,7 +1,7 @@
 ﻿namespace Zuge.Domain.Abstractions;
 
-public interface IUnitOfWork
+public interface IDomainUnitOfWork
 {
     Task CommitAsync(CancellationToken cancellationToken = default);
-    IRepository<T> Repository<T>() where T : class;
+    IDomainRepository<T> Repository<T>() where T : class;
 }

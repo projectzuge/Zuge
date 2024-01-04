@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,7 +9,7 @@ using Zuge.Infrastructure.Persistence;
 
 namespace Zuge.UI.Server.IntegrationTests;
 
-public class JourneySearchEndpointTest(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public sealed class JourneySearchEndpointTest(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
 {
     [Fact]
     public async Task ReturnsCorrectJourneysGivenQueryString()
@@ -18,7 +18,7 @@ public class JourneySearchEndpointTest(WebApplicationFactory<Program> factory) :
         var client = factory
             .WithWebHostBuilder(builder =>
                 builder.ConfigureTestServices(services =>
-                    services.AddDbContext<IUnitOfWork, ApplicationDbContext>(options =>
+                    services.AddDbContext<IDomainUnitOfWork, DomainContext>(options =>
                         options.UseInMemoryDatabase("Zuge"))))
             .CreateClient();
 
