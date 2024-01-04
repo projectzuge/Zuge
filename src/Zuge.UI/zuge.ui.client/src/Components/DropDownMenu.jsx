@@ -1,7 +1,7 @@
 import './../Styles/DropDownMenu.css';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-
+import { Link } from "react-router-dom";
 function DropDownMenu({ anchorEl, open, handleClose }) {
 
   return (
@@ -18,7 +18,13 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
         >
           <MenuItem>
             <button className="NewsButton">
-              <p>Uutiset</p>
+              <ul>
+                <li className="drop-down-menu">
+                  <Link to="/SingleNews" className="menu-link active">
+                    Single News Page
+                  </Link>
+                </li>
+              </ul>
             </button>
           </MenuItem>
           <MenuItem>
