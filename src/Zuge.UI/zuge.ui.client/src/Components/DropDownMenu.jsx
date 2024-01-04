@@ -33,7 +33,7 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           }}
         >
           <MenuItem>
-              <p><Link className="MenuItemLink">Uutiset</Link></p>
+              <p><Link className="MenuItemLink" to="/SingleNews">Uutiset</Link></p>
           </MenuItem>
           <MenuItem>
               <p><Link className="MenuItemLink" to="/contact">Yhteystiedot ja palaute</Link></p>

@@ -49,12 +49,12 @@ export default defineConfig({
         }
     },
     server: {
-        // proxy: {
-        //     '^/': {
-        //         target,
-        //         secure: false
-        //     }
-        // },
+         proxy: {
+             '^/Journey': {
+                 target,
+                 secure: false
+             }
+         },
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),

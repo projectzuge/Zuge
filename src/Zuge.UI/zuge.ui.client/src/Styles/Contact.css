@@ -14,7 +14,7 @@
 }
 
 .contactTitle {
-    padding-left: 40px;
+    padding-left: 10%;
     display: grid;
     justify-content: start;
 }
@@ -49,9 +49,14 @@
 }
 
 @media screen and (max-width: 850px) {
+    .ContactInfoBody {
+        padding: 20px;
+        width: calc(100% - 40px);
+    }
+
     .ContactInfoBackground {
-        margin-left: 80px;
-        margin-right: 80px;
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
     .contact {

@@ -32,7 +32,7 @@ function MenuBar() {
             </Link>
           </div>
           <div className="MenuLink">
-            <Link to="/news">Uutiset
+            <Link to="/SingleNews">Uutiset
             </Link>
           </div>
           <div className="MenuLink">
