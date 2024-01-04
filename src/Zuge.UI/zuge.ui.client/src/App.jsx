@@ -1,6 +1,7 @@
 import "./Styles/App.css";
 import FrontPage from "./Pages/FrontPage.jsx";
 import MenuBar from "./Components/MenuBar.jsx";
+import UserMenu from "./Components/UserMenu.jsx";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -24,7 +25,7 @@ function App() {
                 <Route path="/" element={<FrontPage />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
-                <Route path="/user" element={<FrontPage />} /> 
+                <Route path="/user" element={<UserMenu />} /> 
             </Routes>
         </div>
       </Router>
