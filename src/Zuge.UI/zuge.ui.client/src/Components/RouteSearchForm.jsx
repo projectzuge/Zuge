@@ -1,7 +1,7 @@
 import "../Styles/RouteSearchForm.css";
 import { useState } from "react";
+import ReactDOM from "react-dom";
 import FoundRoutesList from "./FoundRoutesList.jsx";
-import { createRoot } from "react-dom/client";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -13,21 +13,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "../Theme.jsx";
 import moment from "moment";
 
 const RouteSearchForm = () => {
+  let formattedDate = "";
   // these arrays are placeholders until data can be fetched from backend
   const arrayOfCities = [
-    "Helsinki",
-    "Pasila",
-    "Tikkurila",
-    "Riihimäki",
-    "Hämeenlinna",
-    "Toijala",
-    "Lempäälä",
     "Tampere",
+    "Orivesi",
+    "Orivesi Keskusta",
+    "Juupajoki",
+    "Vilppula",
+    "Kolho",
+    "Haapamäki",
+    "Keuruu",
   ];
 
   const passengerTypes = ["Aikuinen", "Opiskelija", "Lapsi", "Eläkeläinen"];
@@ -36,6 +35,7 @@ const RouteSearchForm = () => {
   const [toCity, setToCity] = useState(arrayOfCities[1]);
   const [selectedDate, setSelectedDate] = useState(dayjs(Date.now()));
   const [passengerType, setPassengerType] = useState(passengerTypes[0]);
+  const [showFoundRoutesList, setShowFoundRoutesList] = useState(false);
 
   const handleFromCityChange = async (event) => {
     setFromCity(event.target.value);
@@ -50,23 +50,10 @@ const RouteSearchForm = () => {
     console.log("To City:", toCity);
     console.log("Selected Date:", selectedDate);
     console.log("Who travels:", passengerType);
-    let formattedDate = moment(selectedDate).format("DD.MM.YYYY");
+    formattedDate = moment(selectedDate).format("DD.MM.YYYY");
 
     if (fromCity !== toCity) {
-      const listGrid = document.getElementById("route-list-grid");
-      if (listGrid) {
-        const root = createRoot(listGrid);
-
-        // Render the component using createRoot
-        root.render(
-          <FoundRoutesList
-            from={fromCity}
-            to={toCity}
-            date={formattedDate}
-            passenger={passengerType}
-          />
-        );
-      }
+          setShowFoundRoutesList(true);
     }
   };
 
@@ -184,17 +171,26 @@ const RouteSearchForm = () => {
             </Select>
           </div>
         </FormControl>
-        <ThemeProvider theme={theme}>
-          <Button
-            color={"primary"}
-            id="fetch-routes-button"
-            variant="contained"
-            onClick={handleSearchRoutesClick}
-          >
-            Hae matkoja
-          </Button>
-        </ThemeProvider>
+        <Button
+          color={"primary"}
+          id="fetch-routes-button"
+          variant="contained"
+          onClick={handleSearchRoutesClick}
+        >
+          Hae matkoja
+        </Button>
       </FormGroup>
+
+      {showFoundRoutesList &&
+        ReactDOM.createPortal(
+          <FoundRoutesList
+            from={fromCity}
+            to={toCity}
+            date={formattedDate}
+            passenger={passengerType}
+          />,
+          document.getElementById("route-list-grid") // Render into the specific div
+        )}
     </Box>
   );
 };

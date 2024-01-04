@@ -5,6 +5,7 @@ import exitDropDownMenuLogo from "./../assets/ExitDropDownMenuLogo.jpg";
 import DropDownMenu from "./DropDownMenu.jsx";
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import { Typography } from '@mui/material';
 
 function MenuBar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,7 +27,7 @@ function MenuBar() {
         </button>
         <div className="UserButtonBody">
           <button className="UserButton">
-            <p className="UserText">Käyttäjä</p>
+            <Typography variant="largeFont">Käyttäjä</Typography>
           </button>
         </div>
         <div className="DropDownMenuButtonBody">

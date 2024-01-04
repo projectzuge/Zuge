@@ -1,6 +1,5 @@
 #single-route-container {
   max-width: 100%;
-  padding: 40px;
   background: rgba(238, 238, 238, 0.8);
   border-radius: 10px;
   margin-bottom: 10px;
@@ -15,4 +14,12 @@
 #departure-arrival-container {
   display: flex;
   align-items: center;
+}
+
+#single-route-button {
+  padding: 40px;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: transparent;
 }

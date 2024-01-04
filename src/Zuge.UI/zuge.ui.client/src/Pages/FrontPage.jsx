@@ -3,9 +3,11 @@ import RouteSearchForm from "../Components/RouteSearchForm";
 import Grid from "@mui/system/Unstable_Grid";
 import Box from "@mui/system/Box";
 import "./../Styles/FrontPage.css";
-// import FoundRoutesList from "../Components/FoundRoutesList";
 
-function FrontPage() {
+function FrontPage(props) {
+  const journeys = props.journeys;
+  console.log(journeys);
+  
   return (
     <>
       <Box>
