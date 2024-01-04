@@ -1,0 +1,18 @@
+#single-route-container {
+  max-width: 100%;
+  padding: 40px;
+  background: rgba(238, 238, 238, 0.8);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+#right-arrow-icon {
+  height: 1em;
+  margin: 0 0.5em;
+}
+
+#departure-arrival-container {
+  display: flex;
+  align-items: center;
+}

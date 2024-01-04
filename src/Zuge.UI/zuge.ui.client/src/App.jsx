@@ -5,8 +5,17 @@ import SingleNews from "./Pages/SingleNews.jsx";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "./Theme.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 
 function App() {
+
+  useEffect(() =>
+    {
+      fetch("Journey?departure=2023-12-29&from=Tampere&to=Keuruu")
+            .then(response => response.json())
+            .then(console.log)
+    }, []);
+
   return (
     <>
       <Router>
@@ -18,6 +27,10 @@ function App() {
           </Routes>
         </ThemeProvider>
       </Router>
+      <MenuBar id="menu-bar" />
+      <div id="page-contents-container">
+        <FrontPage />
+      </div>
     </>
   );
 }

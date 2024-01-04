@@ -1,5 +1,5 @@
 #from-cities,
-#to-cities {
+#to-cities, #passenger-type {
   background-color: #eeeeee;
   border-radius: 10px;
 }
@@ -7,8 +7,6 @@
 #search-form-container {
   max-width: 100%;
   padding: 40px;
-  margin-left: 70px;
-  margin-top: 50px;
   background: rgba(238, 238, 238, 0.8);
   border-radius: 10px;
 }
@@ -27,8 +25,8 @@
 }
 
 #fetch-routes-button {
-  margin-top: 30px;
-  margin-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 10px;
   height: 50px;
 }
 

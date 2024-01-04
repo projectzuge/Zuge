@@ -29,6 +29,7 @@ module.exports =
     root: true,
     rules:
     {
+        "react/prop-types": "off",
         "react-refresh/only-export-components":
         [
             "warn",
