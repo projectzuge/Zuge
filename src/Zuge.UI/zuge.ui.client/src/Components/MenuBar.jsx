@@ -19,23 +19,34 @@ function MenuBar() {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    setDropDownClicked(!dropDownClicked);
+    setDropDownClicked(true);
   };
 
   const handleClickUser = (event) => {
-    event.preventDefault();
-    setAnchorElUser(event.currentTarget);
-    setUserClicked(!userClicked);
+    if (event.currentTarget.id !== "UserLink") {
+      setAnchorElUser(document.getElementById('UserLink'));
+    }
+    else {
+      setAnchorElUser(event.currentTarget);
+    }
+    setUserClicked(true);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-    setDropDownClicked(!dropDownClicked);
+    setDropDownClicked(false);
   };
 
   const handleCloseUser = () => {
     setAnchorElUser(null);
-    setUserClicked(!userClicked);
+    setUserClicked(false);
+  };
+
+  const handleItemClick = () => {
+    setAnchorEl(null);
+    setAnchorElUser(null);
+    setDropDownClicked(false);
+    setUserClicked(false);
   };
 
   return (
@@ -55,10 +66,10 @@ function MenuBar() {
             </Link>
           </div>
           <div className="MenuLink">
-            <a
-              onClick={(e) => handleClickUser(e)}
+            <Link id="UserLink" to="/user"
+              onClick={handleClickUser}
               >Käyttäjä
-            </a>
+            </Link>
           </div>
           <div className="toggleContainerMenu">
             <p className="DarkThemeTextMenu">Tumma tila</p>
@@ -98,7 +109,8 @@ function MenuBar() {
             <UserMenu 
               anchorEl={anchorElUser} 
               open={openUser} 
-              handleClose={handleCloseUser}/>
+              handleClose={handleCloseUser}
+              handleItemClick={handleItemClick}/>
           </div>
         </div>
         <div>
@@ -106,7 +118,9 @@ function MenuBar() {
             <DropDownMenu 
               anchorEl={anchorEl} 
               open={open} 
-              handleClose={handleClose}/>
+              handleClose={handleClose}
+              handleClickUser={handleClickUser}
+              handleItemClick={handleItemClick}/>
           </div>
         </div>
     </>

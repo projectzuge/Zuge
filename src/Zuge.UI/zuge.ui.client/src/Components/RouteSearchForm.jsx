@@ -98,6 +98,7 @@ const RouteSearchForm = () => {
               onChange={handleFromCityChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
