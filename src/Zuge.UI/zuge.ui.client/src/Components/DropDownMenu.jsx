@@ -1,19 +1,19 @@
-import './../Styles/DropDownMenu.css';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
+import "./../Styles/DropDownMenu.css";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
 
 function DropDownMenu({ anchorEl, open, handleClose }) {
-
   return (
     <>
       <div className="DropDownBody">
         <Menu
+          disableScrollLock={true}
           id="dropDownMenu"
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
           MenuListProps={{
-            'aria-labelledby': 'basic-button',
+            "aria-labelledby": "basic-button",
           }}
         >
           <MenuItem>
@@ -28,19 +28,15 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           </MenuItem>
           <MenuItem>
             <div className="DarkThemeBody">
-            <p className="DarkThemeText">Tumma tila</p>
-            <input type="checkbox"
-                  id="switch"
-                  className="checkbox" />     
-            <label htmlFor="switch"
-                  className="toggle">
-            </label>
+              <p className="DarkThemeText">Tumma tila</p>
+              <input type="checkbox" id="switch" className="checkbox" />
+              <label htmlFor="switch" className="toggle"></label>
             </div>
           </MenuItem>
-        </Menu>        
+        </Menu>
       </div>
     </>
-  )
+  );
 }
 
 export default DropDownMenu;

@@ -13,57 +13,40 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
-import moment from "moment";
 
-const RouteSearchForm = () => {
-  let formattedDate = "";
-  // these arrays are placeholders until data can be fetched from backend
-  const arrayOfCities = [
-    "Tampere",
-    "Orivesi",
-    "Orivesi Keskusta",
-    "Juupajoki",
-    "Vilppula",
-    "Kolho",
-    "Haapamäki",
-    "Keuruu",
-  ];
-
+const RouteSearchForm = (props) => {
+  const cities = props.cities;
   const passengerTypes = ["Aikuinen", "Opiskelija", "Lapsi", "Eläkeläinen"];
-
-  const [fromCity, setFromCity] = useState(arrayOfCities[0]);
-  const [toCity, setToCity] = useState(arrayOfCities[1]);
+  const [fromCity, setFromCity] = useState(cities[0]);
+  const [toCity, setToCity] = useState(cities[1]);
   const [selectedDate, setSelectedDate] = useState(dayjs(Date.now()));
   const [passengerType, setPassengerType] = useState(passengerTypes[0]);
   const [showFoundRoutesList, setShowFoundRoutesList] = useState(false);
 
   const handleFromCityChange = async (event) => {
+    setShowFoundRoutesList(false);
     setFromCity(event.target.value);
   };
 
   const handleToCityChange = async (event) => {
+    setShowFoundRoutesList(false);
     setToCity(event.target.value);
   };
 
   const handleSearchRoutesClick = async () => {
-    console.log("From City:", fromCity);
-    console.log("To City:", toCity);
-    console.log("Selected Date:", selectedDate);
-    console.log("Who travels:", passengerType);
-    formattedDate = moment(selectedDate).format("DD.MM.YYYY");
-
     if (fromCity !== toCity) {
-          setShowFoundRoutesList(true);
+      setShowFoundRoutesList(true);
     }
   };
 
   const handlePassengerTypeChange = async (event) => {
+    setShowFoundRoutesList(false);
     setPassengerType(event.target.value);
   };
 
   const handleDateChange = async (date) => {
-    let formattedDate = moment(date).format("DD.MM.YYYY");
-    setSelectedDate(formattedDate);
+    setSelectedDate(date);
+    setShowFoundRoutesList(false);
   };
 
   return (
@@ -85,6 +68,7 @@ const RouteSearchForm = () => {
               onChange={handleFromCityChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
@@ -92,7 +76,7 @@ const RouteSearchForm = () => {
                 },
               }}
             >
-              {arrayOfCities.map((city) => (
+              {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
@@ -114,6 +98,7 @@ const RouteSearchForm = () => {
               onChange={handleToCityChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
@@ -121,7 +106,7 @@ const RouteSearchForm = () => {
                 },
               }}
             >
-              {arrayOfCities.map((city) => (
+              {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
@@ -136,7 +121,9 @@ const RouteSearchForm = () => {
                 value={selectedDate}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
-                minDate={dayjs(Date.now())} // current date
+                minDate={dayjs("2023-12-29")}
+                // change minDate back to this when possible!!! :
+                // minDate={dayjs(Date.now())} // current date
                 maxDate={dayjs().add(1, "year")} // one year ahead
               />
             </LocalizationProvider>
@@ -156,6 +143,7 @@ const RouteSearchForm = () => {
               onChange={handlePassengerTypeChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
@@ -186,10 +174,10 @@ const RouteSearchForm = () => {
           <FoundRoutesList
             from={fromCity}
             to={toCity}
-            date={formattedDate}
+            date={selectedDate}
             passenger={passengerType}
           />,
-          document.getElementById("route-list-grid") // Render into the specific div
+          document.getElementById("route-list-grid")
         )}
     </Box>
   );
