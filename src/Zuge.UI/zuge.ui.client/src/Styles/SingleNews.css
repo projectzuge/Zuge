@@ -1,0 +1,33 @@
+#takaisin-button {
+  margin-top: 10px;
+  margin-bottom: 30px;
+  height: 40px;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  
+
+}
+
+#single-news-container {
+  max-width: 100%;
+  padding: 40px;
+  background-color: rgba(238, 238, 238);
+  border-radius: 10px;
+  font-family: "Inria Sans, sans-serif"
+
+}
+
+#text-news {
+  
+  font-family: "Inria Sans, sans-serif";
+  font-size: large;
+  
+}
+#header-news {
+  margin-bottom: 30px;
+  font-family: "Inria Sans, sans-serif";
+  font-size: larger;
+  font-weight: bold;
+  
+}
