@@ -20,8 +20,6 @@ const FoundRoutesList = (props) => {
 
   const fromCity = props.from;
   const toCity = props.to;
-  // const fromCity = props.from;
-  // const toCity = props.to;
   const passengerType = props.passenger;
 
   useEffect(() => {
@@ -31,13 +29,13 @@ const FoundRoutesList = (props) => {
   useEffect(() => {
     const foundJourneysArray = journeys.filter((route) => {
       console.log("route in filter:", route);
+
       // check that date matches
       const isMatchingDate = route.date === formattedDate;
 
-      console.log("stops:", route.stops);
       // check that stops match
       const hasStops =
-        route.stops.includes(fromCity) && route.stops.includes(toCity);
+        route.stops.some(obj => obj.station === fromCity) && route.stops.some(obj => obj.station === toCity);
 
       console.log(
         "is matching date?",
@@ -65,12 +63,12 @@ const FoundRoutesList = (props) => {
           <Typography>{passengerType}</Typography>
         </Grid>
         <Grid item xs={4} textAlign="right">
-          {/* <Typography>
+          <Typography>
             {fromCity} - {toCity}
-          </Typography> */}
+          </Typography>
         </Grid>
       </Grid>
-      {tempRoutes.map((route, index) => (
+      {filteredJourneys.map((route, index) => (
         <SingleFoundRoute
           key={index}
           departure={route.departure}
