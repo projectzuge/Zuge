@@ -36,6 +36,10 @@ function MenuBar() {
             </Link>
           </div>
           <div className="MenuLink">
+            <Link to="/NewsPage">Add News
+            </Link>
+          </div>
+          <div className="MenuLink">
             <Link to="/contact">Yhteystiedot ja palaute
             </Link>
           </div>

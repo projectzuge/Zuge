@@ -8,7 +8,7 @@ import FormGroup from "@mui/material/FormGroup";
 import Button from "@mui/material/Button";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../Theme.jsx";
-
+  
 const NewsAddForm = () => {
   
   return (

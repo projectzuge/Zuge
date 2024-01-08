@@ -5,6 +5,7 @@ import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
+import NewsPage from "./Pages/NewsPage.jsx";
 
 function App() {
 
@@ -25,6 +26,8 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
                 <Route path="/user" element={<FrontPage />} /> 
+                <Route path="/NewsPage" element={<NewsPage />} />
+
             </Routes>
         </div>
       </Router>

@@ -4,6 +4,7 @@ import Grid from "@mui/system/Unstable_Grid";
 import Box from "@mui/system/Box";
 import './../Styles/FrontPage.css';
 
+
 function NewsPage() {
   return (
     <>

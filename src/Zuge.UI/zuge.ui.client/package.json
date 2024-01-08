@@ -7,6 +7,7 @@
     "@mui/x-date-pickers": "^6.18.5",
     "axios": "^1.6.3",
     "dayjs": "^1.11.10",
+    "esbuild": "^0.19.11",
     "json-server": "^0.17.4",
     "moment": "^2.29.4",
     "react": "^18.2.0",
@@ -34,5 +35,10 @@
     "server": "json-server --watch db.json"
   },
   "type": "module",
-  "version": "0.0.0"
+  "version": "0.0.0",
+  "overrides": {
+    "vite": {
+      "rollup": "npm:@rollup/wasm-node"
+    }
+  }
 }
