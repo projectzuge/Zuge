@@ -75,7 +75,7 @@ const RouteSearchForm = (props) => {
   };
 
   return (
-    <Box id="search-form-container" marginTop="80px">
+    <Box id="search-form-container" marginTop="40px">
       <FormGroup>
         <FormControl fullWidth className="route-search-form">
           <div id="single-select-div">

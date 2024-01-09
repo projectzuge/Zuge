@@ -6,6 +6,10 @@
   margin-top: 10px;
 }
 
+#single-route-grid-container {
+  direction: column;
+}
+
 #right-arrow-icon {
   height: 1em;
   margin: 0 0.5em;
@@ -22,4 +26,10 @@
   height: 100%;
   border-radius: inherit;
   border: transparent;
+}
+
+@media screen and (max-width: 514px) {
+  #single-route-grid-container {
+    direction: column;
+  }
 }

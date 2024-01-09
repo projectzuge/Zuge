@@ -5,8 +5,14 @@ import Button from "@mui/material/Button";
 import "../Styles/SingleFoundRoute.css";
 import rightArrow from "./../assets/right-arrow.png";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const SingleFoundRoute = (props) => {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const showDuration = isSmallScreen ? false : true;
+
   const departure = props.departure;
   const arrival = props.arrival;
   const duration = props.duration;
@@ -41,18 +47,20 @@ const SingleFoundRoute = (props) => {
         id="single-route-button"
         onClick={handleRouteClick}
       >
-        <Grid container alignItems="center">
-          <Grid item xs={4} textAlign="left">
+        <Grid container alignItems="center" id="single-route-grid-container">
+          <Grid item xs={12} md={4} xl={4} textAlign="left">
             <Typography id="departure-arrival-container">
               {departure}{" "}
               <img src={rightArrow} alt="Array Icon" id="right-arrow-icon" />
               {arrival}
             </Typography>
           </Grid>
-          <Grid item xs={4} textAlign="center">
-            <Typography>{duration}</Typography>
-          </Grid>
-          <Grid item xs={4} textAlign="right">
+          {showDuration ? (
+            <Grid item xs={4} md={4} xl={4} textAlign="center">
+              <Typography>{duration}</Typography>
+            </Grid>
+          ) : null}
+          <Grid item xs={12} md={4} xl={4} textAlign="right">
             <Typography variant="h6" fontWeight="bold">
               {price} €
             </Typography>

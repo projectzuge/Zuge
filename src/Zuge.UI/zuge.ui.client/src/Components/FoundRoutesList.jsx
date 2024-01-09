@@ -81,7 +81,7 @@ const FoundRoutesList = (props) => {
   };
 
   return (
-    <Box id="found-routes-list-box" marginTop="80px">
+    <Box id="found-routes-list-box" marginTop="40px">
       <Grid container id="info-row" alignItems="center">
         <Grid item xs={4} textAlign="left">
           <Typography>Meno: {formattedDate}</Typography>
