@@ -11,22 +11,36 @@ const SingleFoundRoute = (props) => {
   const arrival = props.arrival;
   const duration = props.duration;
   const price = props.price;
+  const date = props.date;
+  const from = props.from;
+  const to = props.to;
+  const train = props.train;
+  const passengerType = props.passengerType;
 
   const navigate = useNavigate();
 
-  const convertMinutesToHoursAndMinutes = (totalMinutes) => {
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
-    return hours === 0 ? `${minutes} min` : `${hours} h ${minutes} min`;
-  };
-
   const handleRouteClick = async () => {
-    navigate("/route");
-  }
+    const data = {
+      date: date,
+      arrival: arrival,
+      departure: departure,
+      from: from,
+      to: to,
+      train: train,
+      duration: duration,
+      passengerType: passengerType,
+      price: price,
+    };
+    navigate("/route", { state: data });
+  };
 
   return (
     <Box id="single-route-container">
-      <Button color={"primary"} id="single-route-button" onClick={handleRouteClick}>
+      <Button
+        color={"primary"}
+        id="single-route-button"
+        onClick={handleRouteClick}
+      >
         <Grid container alignItems="center">
           <Grid item xs={4} textAlign="left">
             <Typography id="departure-arrival-container">
@@ -36,7 +50,7 @@ const SingleFoundRoute = (props) => {
             </Typography>
           </Grid>
           <Grid item xs={4} textAlign="center">
-            <Typography>{convertMinutesToHoursAndMinutes(duration)}</Typography>
+            <Typography>{duration}</Typography>
           </Grid>
           <Grid item xs={4} textAlign="right">
             <Typography variant="h6" fontWeight="bold">

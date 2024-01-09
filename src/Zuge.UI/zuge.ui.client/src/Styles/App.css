@@ -53,7 +53,7 @@ body {
   display: inline-block;
   left: 0px;
   top: 0px;
-  margin: 5%;
+  margin: 50px;
   width: 90%;
 }
 
@@ -63,4 +63,8 @@ body {
 
 #menu-bar {
   width: 100%;
+}
+
+#back-button {
+  width: 200px;
 }

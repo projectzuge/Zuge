@@ -13,7 +13,6 @@ function FrontPage() {
 
   useEffect(() => {
     const cities = extractUniqueStations(journeys);
-    console.log("cities in front page:", cities);
     setArrayOfCities(cities);
   }, []);
 

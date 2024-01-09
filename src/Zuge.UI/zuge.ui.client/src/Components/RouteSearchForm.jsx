@@ -1,5 +1,5 @@
 import "../Styles/RouteSearchForm.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import FoundRoutesList from "./FoundRoutesList.jsx";
 import Box from "@mui/material/Box";
@@ -23,6 +23,20 @@ const RouteSearchForm = (props) => {
   const [passengerType, setPassengerType] = useState(passengerTypes[0]);
   const [showFoundRoutesList, setShowFoundRoutesList] = useState(false);
 
+  useEffect(() => {
+    const savedFormState = JSON.parse(localStorage.getItem("formState"));
+    console.log("Retrieved form state: ", savedFormState); // Check the retrieved state
+
+    if (savedFormState) {
+      // Set state using the retrieved form state
+      setFromCity(savedFormState.fromCity || cities[0]);
+      setToCity(savedFormState.toCity || cities[1]);
+      setSelectedDate(dayjs(savedFormState.selectedDate) || dayjs(Date.now()));
+      setPassengerType(savedFormState.passengerType || passengerTypes[0]);
+      setShowFoundRoutesList(savedFormState.showFoundRoutesList || false);
+    }
+  }, []);
+
   const handleFromCityChange = async (event) => {
     setShowFoundRoutesList(false);
     setFromCity(event.target.value);
@@ -34,8 +48,19 @@ const RouteSearchForm = (props) => {
   };
 
   const handleSearchRoutesClick = async () => {
+    localStorage.removeItem("formState");
     if (fromCity !== toCity) {
       setShowFoundRoutesList(true);
+      const formState = {
+        fromCity,
+        toCity,
+        selectedDate,
+        passengerType,
+        showFoundRoutesList,
+      };
+
+      localStorage.setItem("formState", JSON.stringify(formState));
+      console.log("Saved form state: ", formState);
     }
   };
 
@@ -50,7 +75,7 @@ const RouteSearchForm = (props) => {
   };
 
   return (
-    <Box id="search-form-container">
+    <Box id="search-form-container" marginTop="80px">
       <FormGroup>
         <FormControl fullWidth className="route-search-form">
           <div id="single-select-div">

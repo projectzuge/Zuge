@@ -12,12 +12,6 @@ const FoundRoutesList = (props) => {
   const [filteredJourneys, setFilteredJourneys] = useState([]);
   const [formattedDate, setFormattedDate] = useState("");
 
-  const tempRoutes = [
-    { departure: "08.13", arrival: "09.20", duration: "67", price: "12" },
-    { departure: "14.13", arrival: "15.20", duration: "67", price: "10" },
-    { departure: "19.13", arrival: "20.00", duration: "47", price: "15" },
-  ];
-
   const fromCity = props.from;
   const toCity = props.to;
   const passengerType = props.passenger;
@@ -28,21 +22,15 @@ const FoundRoutesList = (props) => {
 
   useEffect(() => {
     const foundJourneysArray = journeys.filter((route) => {
-      console.log("route in filter:", route);
 
       // check that date matches
       const isMatchingDate = route.date === formattedDate;
 
       // check that stops match
       const hasStops =
-        route.stops.some(obj => obj.station === fromCity) && route.stops.some(obj => obj.station === toCity);
+        route.stops.some((obj) => obj.station === fromCity) &&
+        route.stops.some((obj) => obj.station === toCity);
 
-      console.log(
-        "is matching date?",
-        isMatchingDate,
-        "has all stops?",
-        hasStops
-      );
       return isMatchingDate && hasStops;
     });
 
@@ -50,11 +38,53 @@ const FoundRoutesList = (props) => {
   }, [formattedDate]);
 
   useEffect(() => {
-    console.log("filtered journeys:", filteredJourneys);
   }, [filteredJourneys]);
 
+  const getDeparture = (route) => {
+    const stationInfo = route.stops.filter((stop) => stop.station === fromCity);
+    const departureTime =
+      stationInfo.length > 0 ? stationInfo[0].departure : null;
+    return departureTime;
+  };
+
+  const getArrival = (route) => {
+    const stationInfo = route.stops.filter((stop) => stop.station === toCity);
+
+    const arrivalTime =
+      stationInfo.length > 0 ? stationInfo[0].departure : null;
+
+    return arrivalTime;
+  };
+
+  const countDuration = (departure, arrival) => {
+    // Split the time into hours and minutes
+    const [startHour, startMinute] = departure.split(":");
+    const [endHour, endMinute] = arrival.split(":");
+
+    // Create new Date objects
+    const startTime = new Date(0, 0, 0, startHour, startMinute);
+    const endTime = new Date(0, 0, 0, endHour, endMinute);
+
+    // Calculate the time difference in milliseconds
+    const timeDiff = endTime.getTime() - startTime.getTime();
+
+    // Convert milliseconds to hours and minutes
+    const hours = Math.floor(timeDiff / (1000 * 60 * 60));
+    const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+
+    // Format the time difference
+    let formattedTime = "";
+    if (hours > 0) {
+      formattedTime = `${hours} h ${minutes} min`;
+    } else {
+      formattedTime = `${minutes} min`;
+    }
+
+    return formattedTime;
+  };
+
   return (
-    <Box id="found-routes-list-box">
+    <Box id="found-routes-list-box" marginTop="80px">
       <Grid container id="info-row" alignItems="center">
         <Grid item xs={4} textAlign="left">
           <Typography>Meno: {formattedDate}</Typography>
@@ -68,15 +98,26 @@ const FoundRoutesList = (props) => {
           </Typography>
         </Grid>
       </Grid>
-      {filteredJourneys.map((route, index) => (
-        <SingleFoundRoute
-          key={index}
-          departure={route.departure}
-          arrival={route.arrival}
-          duration={route.duration}
-          price={route.price}
-        />
-      ))}
+      {filteredJourneys.length > 0 ? (
+        filteredJourneys.map((route, index) => (
+          <SingleFoundRoute
+            key={index}
+            departure={getDeparture(route)}
+            arrival={getArrival(route)}
+            duration={countDuration(getDeparture(route), getArrival(route))}
+            price={route.price}
+            date={formattedDate}
+            from={fromCity}
+            to={toCity}
+            train={route.train}
+            passengerType={passengerType}
+          />
+        ))
+      ) : (
+        <Typography variant="largeBoldFont">
+          Valitsemillasi hakuehdoilla ei löytynyt matkoja.
+        </Typography>
+      )}
     </Box>
   );
 };
