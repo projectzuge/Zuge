@@ -14,21 +14,22 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 
+// Note to devs: empty "formState" from sessionStorage when ticket is bought
+
 const RouteSearchForm = (props) => {
   const cities = props.cities;
   const passengerTypes = ["Aikuinen", "Opiskelija", "Lapsi", "Eläkeläinen"];
-  const [fromCity, setFromCity] = useState(cities[0]);
-  const [toCity, setToCity] = useState(cities[1]);
+  const [fromCity, setFromCity] = useState("Mistä");
+  const [toCity, setToCity] = useState("Minne");
   const [selectedDate, setSelectedDate] = useState(dayjs(Date.now()));
   const [passengerType, setPassengerType] = useState(passengerTypes[0]);
   const [showFoundRoutesList, setShowFoundRoutesList] = useState(false);
 
   useEffect(() => {
-    const savedFormState = JSON.parse(localStorage.getItem("formState"));
-    console.log("Retrieved form state: ", savedFormState); // Check the retrieved state
+    const savedFormState = JSON.parse(sessionStorage.getItem("formState"));
 
     if (savedFormState) {
-      // Set state using the retrieved form state
+      // Set states using the retrieved form state
       setFromCity(savedFormState.fromCity || cities[0]);
       setToCity(savedFormState.toCity || cities[1]);
       setSelectedDate(dayjs(savedFormState.selectedDate) || dayjs(Date.now()));
@@ -48,19 +49,18 @@ const RouteSearchForm = (props) => {
   };
 
   const handleSearchRoutesClick = async () => {
-    localStorage.removeItem("formState");
-    if (fromCity !== toCity) {
+    if (fromCity !== toCity && fromCity !== "Mistä" && toCity !== "Minne") {
       setShowFoundRoutesList(true);
+
       const formState = {
         fromCity,
         toCity,
         selectedDate,
         passengerType,
-        showFoundRoutesList,
+        showFoundRoutesList: true,
       };
 
-      localStorage.setItem("formState", JSON.stringify(formState));
-      console.log("Saved form state: ", formState);
+      sessionStorage.setItem("formState", JSON.stringify(formState));
     }
   };
 
@@ -101,6 +101,9 @@ const RouteSearchForm = (props) => {
                 },
               }}
             >
+              <MenuItem disabled value={"Mistä"}>
+                {"Mistä"}
+              </MenuItem>
               {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
@@ -131,6 +134,10 @@ const RouteSearchForm = (props) => {
                 },
               }}
             >
+              <MenuItem disabled value={"Minne"}>
+                {"Minne"}
+              </MenuItem>
+
               {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}

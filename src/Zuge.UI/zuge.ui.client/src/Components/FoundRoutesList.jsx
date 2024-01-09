@@ -57,15 +57,12 @@ const FoundRoutesList = (props) => {
   };
 
   const countDuration = (departure, arrival) => {
-    // Split the time into hours and minutes
     const [startHour, startMinute] = departure.split(":");
     const [endHour, endMinute] = arrival.split(":");
 
-    // Create new Date objects
     const startTime = new Date(0, 0, 0, startHour, startMinute);
     const endTime = new Date(0, 0, 0, endHour, endMinute);
 
-    // Calculate the time difference in milliseconds
     const timeDiff = endTime.getTime() - startTime.getTime();
 
     // Convert milliseconds to hours and minutes
