@@ -7,6 +7,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
+import SingleNews from "./Pages/SingleNews.jsx";
+import Contact from "./Pages/Contact.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -34,26 +36,26 @@ function App() {
 
   return (
     <>
-      <MenuBar id="menu-bar" />
-      <div id="page-contents-container">
-        <RouteContext.Provider value={journeys}>
-          <Router>
+      <RouteContext.Provider value={journeys}>
+        <Router>
+        <MenuBar id="menu-bar"/>
+        <div id="page-contents-container">
             <Routes>
-              <Route
-                path="/"
-                element={
+                <Route path="/" element={
                   loading ? (
                     <LoadingSpinner />
                   ) : (
                     <FrontPage />
                   )
-                }
-              />
-              <Route path="/route" element={<RouteInfo />} />
+                } />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/SingleNews" element={<SingleNews />} />
+                <Route path="/user" element={<FrontPage />} />
+                <Route path="/route" element={<RouteInfo />} />
             </Routes>
-          </Router>
-        </RouteContext.Provider>
-      </div>
+        </div>
+      </Router>
+      </RouteContext.Provider>
     </>
   );
 }
