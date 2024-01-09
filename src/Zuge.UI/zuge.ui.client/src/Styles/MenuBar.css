@@ -7,7 +7,7 @@
     display: grid;
     grid-template-columns: 20% 80%;
     height: 60px;
-    width: calc(100% + 16px);
+    width: 94%;
     background-color:#eeeeee;
 }
 

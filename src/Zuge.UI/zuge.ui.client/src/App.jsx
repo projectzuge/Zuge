@@ -4,6 +4,7 @@ import MenuBar from "./Components/MenuBar.jsx";
 import UserMenu from "./Components/UserMenu.jsx";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
+import Register from "./Pages/Register.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
                 <Route path="/user" element={<UserMenu />} />
+                <Route path="/register" element={<Register />} />
             </Routes>
         </div>
       </Router>

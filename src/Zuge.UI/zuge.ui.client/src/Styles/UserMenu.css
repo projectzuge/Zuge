@@ -1,0 +1,14 @@
+.registerLink {
+    all: inherit;
+    border: none;
+    margin: 0px;
+    padding: 7px;
+}
+
+.registerLink:hover {
+    border-style:none;
+}
+
+.registerButton {
+    padding: 0px;
+}
