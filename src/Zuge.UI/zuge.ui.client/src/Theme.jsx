@@ -4,9 +4,33 @@ const theme = createTheme({
   // default font family:
   typography: {
     fontFamily: "Inria Sans, sans-serif",
-    p: {
-      fontFamily: "Inria Sans, sans-serif", // Apply Inria Sans to heading level 1
+    smallFont: {
+      fontSize: 14,
     },
+    // Variant 2: Medium font sizes
+    mediumFont: {
+      fontSize: 18,
+    },
+    // Variant 3: Large font sizes
+    largeFont: {
+      fontSize: 22,
+    },
+    smallBoldFont: {
+      fontSize: 14,
+      fontWeight: "bolder",
+    },
+    // Variant 2: Medium font sizes
+    mediumBoldFont: {
+      fontSize: 18,
+      fontWeight: "bolder",
+    },
+    // Variant 3: Large font sizes
+    largeBoldFont: {
+      fontSize: 22,
+      fontWeight: "bolder",
+    },
+
+    color: "#eeeeee",
   },
   // default button:
   palette: {
@@ -28,6 +52,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: "Inria Sans, sans-serif",
+          color: "#262626",
         },
       },
     },
