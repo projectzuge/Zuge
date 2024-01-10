@@ -1,4 +1,4 @@
-import './../Styles/MenuBar.css';
+import "./../Styles/MenuBar.css";
 import trainLogo from "./../assets/trainLogo.jpg";
 import dropDownMenuLogo from "./../assets/dropDownMenuLogo.jpg";
 import exitDropDownMenuLogo from "./../assets/ExitDropDownMenuLogo.jpg";
@@ -7,9 +7,15 @@ import UserMenu from "./UserMenu.jsx";
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import { Link } from "react-router-dom";
-
+import { Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function MenuBar() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+  const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
+
   const [dropDownClicked, setDropDownClicked] = useState(false);
   const [userClicked, setUserClicked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -58,21 +64,25 @@ function MenuBar() {
             </Link>
           </div>
           <div className="MenuLink">
-            <Link to="/SingleNews">Uutiset
+            <Link to="/SingleNews">
+              <Typography variant={variant}>Uutiset</Typography>
             </Link>
           </div>
           <div className="MenuLink">
-            <Link to="/contact">Yhteystiedot ja palaute
+            <Link to="/contact">
+              <Typography variant={variant}>Yhteystiedot ja palaute</Typography>
             </Link>
           </div>
           <div className="MenuLink">
             <Link id="UserLink" to="/user"
-              onClick={handleClickUser}
-              >Käyttäjä
+              onClick={handleClickUser}>
+                <Typography variant={variant}>Käyttäjä</Typography>
             </Link>
           </div>
           <div className="toggleContainerMenu">
-            <p className="DarkThemeTextMenu">Tumma tila</p>
+            <Typography variant={variant} className="DarkThemeTextMenu">
+              Tumma tila
+            </Typography>
             <div className="switchContainer">
               <input type="checkbox"
                     id="switchMenu"
@@ -122,9 +132,9 @@ function MenuBar() {
               handleClickUser={handleClickUser}
               handleItemClick={handleItemClick}/>
           </div>
-        </div>
+      </div>
     </>
-  )
+  );
 }
 
 export default MenuBar;

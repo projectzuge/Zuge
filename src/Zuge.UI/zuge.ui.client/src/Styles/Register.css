@@ -14,6 +14,11 @@
 }
 
 @media screen and (max-width: 570px) {
+    .RegisterBackground {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
     .RegisterTitle {
         font-size: 80%;
     }
@@ -29,6 +34,11 @@
 }
 
 @media screen and (max-width: 480px) {
+    .RegisterBackground {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
     .RegisterTitle {
         font-size: 70%;
     }
