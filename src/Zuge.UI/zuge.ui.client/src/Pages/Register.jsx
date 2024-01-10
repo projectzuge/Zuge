@@ -2,6 +2,7 @@ import './../Styles/Register.css';
 import { useState } from "react";
 import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLabel } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 // import PropTypes from 'prop-types';
 
 // Register.propTypes = {
@@ -14,7 +15,7 @@ function Register() {
     const labelStyle = {
         display: "grid",
         justifyContent: "start",
-    }
+    };
 
     const buttonStyle = {
         color: '#262626',
@@ -133,10 +134,10 @@ function Register() {
                             "@media screen and (max-width: 480px)": {
                                 fontSize: '70%',
                             },
-                          }} 
+                        }} 
                         style={labelStyle}>Sukunimi</InputLabel>
                         <TextField
-                         className="registerTextField"
+                        className="registerTextField"
                         variant="outlined" 
                         fullWidth />
                     </Grid>
@@ -149,7 +150,7 @@ function Register() {
                             "@media screen and (max-width: 480px)": {
                                 fontSize: '70%',
                             },
-                          }}  
+                        }}  
                         style={labelStyle}>Puhelinnumero</InputLabel>
                         <TextField 
                         className="registerTextField"
@@ -172,7 +173,7 @@ function Register() {
                                 height: "70%",
                             },
                           }} >
-                            Register
+                            Rekisteröidy
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
@@ -191,7 +192,7 @@ function Register() {
                                 height: "70%",
                             },
                           }} >
-                            Back
+                            <p className="backLink"><Link className="MenuItemLink" to="/">Takaisin</Link></p>
                         </Button>
                     </Grid>
                 </Grid>

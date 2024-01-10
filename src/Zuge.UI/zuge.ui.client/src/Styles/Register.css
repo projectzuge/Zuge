@@ -67,3 +67,7 @@
     border-radius: 10px;
     overflow: auto;
 }
+
+.backLink {
+    margin: 0px;
+}
