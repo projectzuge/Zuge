@@ -9,6 +9,7 @@ import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
+import Profile from "./Pages/Profile.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -50,7 +51,7 @@ function App() {
                 } />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
-                <Route path="/user" element={<FrontPage />} />
+                <Route path="/user" element={<Profile />} />
                 <Route path="/route" element={<RouteInfo />} />
             </Routes>
         </div>

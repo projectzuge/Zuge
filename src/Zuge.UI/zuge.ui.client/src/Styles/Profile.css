@@ -1,0 +1,7 @@
+#profile-box {
+  width: 60%;
+  padding: 40px;
+  background: rgba(238, 238, 238, 0.8);
+  border-radius: 10px;
+  align-items: center;
+}
