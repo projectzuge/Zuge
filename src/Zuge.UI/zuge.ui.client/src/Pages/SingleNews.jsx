@@ -12,9 +12,13 @@ import { Link } from "react-router-dom";
 
 const SingleNews = () => {
   const[news, setNews] = useState([]);
+  const [todayFormatted, setTodayFormatted] = useState("");
 
-  let today = new Date();
-  let todayFormatted = moment(today).format('DD-MM-YYYY');
+  useEffect(() => {
+    let today = new Date();
+    let formattedDate = moment(today).format('DD.MM.YYYY');
+    setTodayFormatted(formattedDate);
+  }, []);
   
   useEffect(() => {
     ServiceNews

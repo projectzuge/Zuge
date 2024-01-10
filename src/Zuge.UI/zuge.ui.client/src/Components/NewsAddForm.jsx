@@ -13,27 +13,29 @@ import '../Styles/NewsAddForm.css';
 const NewsAddForm = () => {
   
   return (
-    <Grid container>
+    <Grid container paddingLeft={3} paddingRight={3}>
       <Grid item id="button-group-container">
-      <ButtonGroup   style={{ height: '70px'}} fullWidth variant="contained" aria-label="outlined primary button group">
-        <Button>Matkat</Button>
-        <Button>Käyttäjät</Button>
-        <Button>Tiedotteet</Button>  
-      </ButtonGroup>
+        <ButtonGroup   style={{ height: '70px'}} fullWidth variant="contained" aria-label="outlined primary button group">
+          <Button>Matkat</Button>
+          <Button>Käyttäjät</Button>
+          <Button>Tiedotteet</Button>  
+        </ButtonGroup>
      
-     </Grid>
-      <Grid id="news-add-container"> 
+      </Grid>
+      <Grid  id="news-add-container"> 
         <FormGroup>
         <FormControl >
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-              <Box p={1}>
+            <Grid  item xs={12} sm={12} md={12} lg={12} xl={12}>
+              <Box  p={1}>
                 <TextField
                   id="outlined-multiline-static"
                   multiline
                   rows={1}
                   placeholder="Otsikko"
+                  InputProps={{
+                    style: { backgroundColor: 'rgba(238, 238, 238)' }
+                  }}                  
                   fullWidth
-
                   />
               </Box>
             </Grid>
@@ -44,20 +46,29 @@ const NewsAddForm = () => {
                   multiline
                   rows={10}
                   placeholder="Lisää teksti"
+                  InputProps={{
+                    style: { backgroundColor: 'rgba(238, 238, 238)' }
+                  }}  
                   fullWidth
                   />
               </Box>
             </Grid>
         </FormControl>
-        <ThemeProvider theme={theme}>
-          <Button
-            color={"primary"}
-            id="fetch-routes-button"
-            variant="contained"
-            >
-            Talenna
-          </Button>
-        </ThemeProvider>
+        <Grid>
+          <Box p={1} textAlign="left" >
+            <ThemeProvider theme={theme}>
+              <Button
+                color={"primary"}
+                style={{ width: '200px' }}
+                id="fetch-routes-button"
+                variant="contained"
+              >
+              Talenna
+              </Button>
+            </ThemeProvider>  
+          </Box>
+        </Grid>
+       
        </FormGroup>
       </Grid>
     
