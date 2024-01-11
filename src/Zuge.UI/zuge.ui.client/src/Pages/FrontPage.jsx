@@ -2,18 +2,34 @@ import "../Styles/FrontPage.css";
 import RouteSearchForm from "../Components/RouteSearchForm";
 import Grid from "@mui/system/Unstable_Grid";
 import Box from "@mui/system/Box";
+import { useState, useEffect, useContext } from "react";
 import "./../Styles/FrontPage.css";
-// import FoundRoutesList from "../Components/FoundRoutesList";
+import { extractUniqueStations } from "../dataUtils";
+import { RouteContext } from "../Contexts/RouteContext";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 function FrontPage() {
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const spacing = isSmallScreen ? 0 : 20;
+
+  const journeys = useContext(RouteContext);
+  const [arrayOfCities, setArrayOfCities] = useState([]);
+
+  useEffect(() => {
+    const cities = extractUniqueStations(journeys);
+    setArrayOfCities(cities);
+  }, []);
+
   return (
     <>
-      <Box>
-        <Grid container spacing={20} id="search-form-grid">
+      <Box id="frontpage-box">
+        <Grid container spacing={spacing} id="search-form-grid">
           <Grid xs={12} sm={12} md={8} lg={6} xl={4}>
-            <RouteSearchForm />
+            <RouteSearchForm cities={arrayOfCities} />
           </Grid>
-          <Grid xs={12} sm={12} md={10} lg={8} xl={8} id="route-list-grid"/>
+          <Grid xs={12} sm={12} md={10} lg={8} xl={8} id="route-list-grid" />
         </Grid>
       </Box>
     </>

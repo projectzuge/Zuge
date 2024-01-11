@@ -1,7 +1,7 @@
 import "../Styles/RouteSearchForm.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import FoundRoutesList from "./FoundRoutesList.jsx";
-import { createRoot } from "react-dom/client";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -13,74 +13,69 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "../Theme.jsx";
-import moment from "moment";
 
-const RouteSearchForm = () => {
-  // these arrays are placeholders until data can be fetched from backend
-  const arrayOfCities = [
-    "Helsinki",
-    "Pasila",
-    "Tikkurila",
-    "Riihimäki",
-    "Hämeenlinna",
-    "Toijala",
-    "Lempäälä",
-    "Tampere",
-  ];
+// Note to devs: empty "formState" from sessionStorage when ticket is bought
 
+const RouteSearchForm = (props) => {
+  const cities = props.cities;
   const passengerTypes = ["Aikuinen", "Opiskelija", "Lapsi", "Eläkeläinen"];
-
-  const [fromCity, setFromCity] = useState(arrayOfCities[0]);
-  const [toCity, setToCity] = useState(arrayOfCities[1]);
+  const [fromCity, setFromCity] = useState("Mistä");
+  const [toCity, setToCity] = useState("Minne");
   const [selectedDate, setSelectedDate] = useState(dayjs(Date.now()));
   const [passengerType, setPassengerType] = useState(passengerTypes[0]);
+  const [showFoundRoutesList, setShowFoundRoutesList] = useState(false);
+
+  useEffect(() => {
+    const savedFormState = JSON.parse(sessionStorage.getItem("formState"));
+
+    if (savedFormState) {
+      // Set states using the retrieved form state
+      setFromCity(savedFormState.fromCity || cities[0]);
+      setToCity(savedFormState.toCity || cities[1]);
+      setSelectedDate(dayjs(savedFormState.selectedDate) || dayjs(Date.now()));
+      setPassengerType(savedFormState.passengerType || passengerTypes[0]);
+      setShowFoundRoutesList(savedFormState.showFoundRoutesList || false);
+    }
+  }, []);
 
   const handleFromCityChange = async (event) => {
+    setShowFoundRoutesList(false);
     setFromCity(event.target.value);
   };
 
   const handleToCityChange = async (event) => {
+    setShowFoundRoutesList(false);
     setToCity(event.target.value);
   };
 
   const handleSearchRoutesClick = async () => {
-    console.log("From City:", fromCity);
-    console.log("To City:", toCity);
-    console.log("Selected Date:", selectedDate);
-    console.log("Who travels:", passengerType);
-    let formattedDate = moment(selectedDate).format("DD.MM.YYYY");
+    if (fromCity !== toCity && fromCity !== "Mistä" && toCity !== "Minne") {
+      setShowFoundRoutesList(true);
 
-    if (fromCity !== toCity) {
-      const listGrid = document.getElementById("route-list-grid");
-      if (listGrid) {
-        const root = createRoot(listGrid);
+      const formState = {
+        fromCity,
+        toCity,
+        selectedDate,
+        passengerType,
+        showFoundRoutesList: true,
+      };
 
-        // Render the component using createRoot
-        root.render(
-          <FoundRoutesList
-            from={fromCity}
-            to={toCity}
-            date={formattedDate}
-            passenger={passengerType}
-          />
-        );
-      }
+      sessionStorage.setItem("formState", JSON.stringify(formState));
     }
   };
 
   const handlePassengerTypeChange = async (event) => {
+    setShowFoundRoutesList(false);
     setPassengerType(event.target.value);
   };
 
   const handleDateChange = async (date) => {
-    let formattedDate = moment(date).format("DD.MM.YYYY");
-    setSelectedDate(formattedDate);
+    setSelectedDate(date);
+    setShowFoundRoutesList(false);
   };
 
   return (
-    <Box id="search-form-container">
+    <Box id="search-form-container" marginTop="40px">
       <FormGroup>
         <FormControl fullWidth className="route-search-form">
           <div id="single-select-div">
@@ -98,6 +93,7 @@ const RouteSearchForm = () => {
               onChange={handleFromCityChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
@@ -105,7 +101,10 @@ const RouteSearchForm = () => {
                 },
               }}
             >
-              {arrayOfCities.map((city) => (
+              <MenuItem disabled value={"Mistä"}>
+                {"Mistä"}
+              </MenuItem>
+              {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
@@ -127,6 +126,7 @@ const RouteSearchForm = () => {
               onChange={handleToCityChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
@@ -134,7 +134,11 @@ const RouteSearchForm = () => {
                 },
               }}
             >
-              {arrayOfCities.map((city) => (
+              <MenuItem disabled value={"Minne"}>
+                {"Minne"}
+              </MenuItem>
+
+              {cities.map((city) => (
                 <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
@@ -149,7 +153,9 @@ const RouteSearchForm = () => {
                 value={selectedDate}
                 onChange={handleDateChange}
                 renderInput={(params) => <TextField {...params} />}
-                minDate={dayjs(Date.now())} // current date
+                minDate={dayjs("2023-12-29")}
+                // change minDate back to this when possible!!! :
+                // minDate={dayjs(Date.now())} // current date
                 maxDate={dayjs().add(1, "year")} // one year ahead
               />
             </LocalizationProvider>
@@ -169,6 +175,7 @@ const RouteSearchForm = () => {
               onChange={handlePassengerTypeChange}
               inputProps={{ IconComponent: () => null }}
               MenuProps={{
+                disableScrollLock: true,
                 PaperProps: {
                   style: {
                     backgroundColor: "#eeeeee",
@@ -184,17 +191,26 @@ const RouteSearchForm = () => {
             </Select>
           </div>
         </FormControl>
-        <ThemeProvider theme={theme}>
-          <Button
-            color={"primary"}
-            id="fetch-routes-button"
-            variant="contained"
-            onClick={handleSearchRoutesClick}
-          >
-            Hae matkoja
-          </Button>
-        </ThemeProvider>
+        <Button
+          color={"primary"}
+          id="fetch-routes-button"
+          variant="contained"
+          onClick={handleSearchRoutesClick}
+        >
+          Hae matkoja
+        </Button>
       </FormGroup>
+
+      {showFoundRoutesList &&
+        ReactDOM.createPortal(
+          <FoundRoutesList
+            from={fromCity}
+            to={toCity}
+            date={selectedDate}
+            passenger={passengerType}
+          />,
+          document.getElementById("route-list-grid")
+        )}
     </Box>
   );
 };

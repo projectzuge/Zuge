@@ -1,0 +1,9 @@
+#search-form-grid {
+  width: 100%;
+  justify-content: center;
+}
+
+#frontpage-box {
+  display: flex;
+  justify-content: center;
+}

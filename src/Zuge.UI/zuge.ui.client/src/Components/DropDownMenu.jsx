@@ -11,11 +11,11 @@ DropDownMenu.propTypes = {
 };
 
 function DropDownMenu({ anchorEl, open, handleClose }) {
-
   return (
     <>
       <div className="DropDownBody">
         <Menu
+          disableScrollLock={true}
           id="dropDownMenu"
           anchorEl={anchorEl}
           anchorOrigin={{
@@ -29,7 +29,7 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
           open={open}
           onClose={handleClose}
           MenuListProps={{
-            'aria-labelledby': 'basic-button',
+            "aria-labelledby": "basic-button",
           }}
         >
           <MenuItem>
@@ -49,17 +49,17 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
             <div className="toggleContainer">
               <input type="checkbox"
                     id="switch"
-                    className="checkbox" />     
+                    className="checkbox" />
               <label htmlFor="switch"
                     className="toggle">
               </label>
             </div>
             </div>
           </MenuItem>
-        </Menu>        
+        </Menu>
       </div>
     </>
-  )
+  );
 }
 
 export default DropDownMenu;
