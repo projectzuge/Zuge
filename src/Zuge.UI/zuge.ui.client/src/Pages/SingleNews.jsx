@@ -12,14 +12,7 @@ import { Link } from "react-router-dom";
 
 const SingleNews = () => {
   const[news, setNews] = useState([]);
-  const [todayFormatted, setTodayFormatted] = useState("");
 
-  useEffect(() => {
-    let today = new Date();
-    let formattedDate = moment(today).format('DD.MM.YYYY');
-    setTodayFormatted(formattedDate);
-  }, []);
-  
   useEffect(() => {
     ServiceNews
       .getAllNews()
@@ -42,19 +35,19 @@ const SingleNews = () => {
       <Box id="single-news-container">
         <Grid xs={12} sm={12} md={8} lg={6} xl={4}>
             {news.map((item) => (
-              <Grid item key={item.id} >
-                <Typography id="header-news" align="left" >{todayFormatted}</Typography>
-                <Typography id="header-news" align="center" >{item.otsikko}</Typography>
+              <Grid item key={item.id} marginBottom={2}>
+                <Typography id="header-news" align="left" >{moment(item.date).format('DD.MM.YYYY')}</Typography>
+                <Typography id="header-news"  variant="smallBoldFont" align="center" >{item.otsikko}</Typography>
               </Grid>
             ))}
         </Grid>
-            <Grid xs={12} sm={12} md={8} lg={6} xl={4}>
-            {news.map((item) => (
-              <Grid item key={item.id} style={{ width: 'auto' }}>
-                <Typography id="text-news" paragraph={true} align="left">{item.teksti}</Typography>
-              </Grid>
-            ))}
-            </Grid>    
+        <Grid xs={12} sm={12} md={8} lg={6} xl={4}>
+          {news.map((item) => (
+            <Grid item key={item.id} style={{ width: 'auto' }}>
+              <Typography    paragraph={true} align="left">{item.teksti}</Typography>
+            </Grid>
+          ))}
+        </Grid>    
       </Box>
     </Box>
   );

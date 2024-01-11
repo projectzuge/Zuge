@@ -20,7 +20,6 @@ const NewsAddForm = () => {
           <Button>Käyttäjät</Button>
           <Button>Tiedotteet</Button>  
         </ButtonGroup>
-     
       </Grid>
       <Grid  id="news-add-container"> 
         <FormGroup>
@@ -39,7 +38,7 @@ const NewsAddForm = () => {
                   />
               </Box>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Grid item xs={12} >
               <Box p={1}>
                 <TextField
                   id="outlined-multiline-static"
@@ -54,21 +53,20 @@ const NewsAddForm = () => {
               </Box>
             </Grid>
         </FormControl>
-        <Grid>
-          <Box p={1} textAlign="left" >
-            <ThemeProvider theme={theme}>
-              <Button
-                color={"primary"}
-                style={{ width: '200px' }}
-                id="fetch-routes-button"
-                variant="contained"
-              >
-              Talenna
-              </Button>
-            </ThemeProvider>  
-          </Box>
-        </Grid>
-       
+            <Grid  item xs={12} sm={12} md={8} lg={12} xl={12}>
+              <Box p={1} textAlign="left" >
+                <ThemeProvider theme={theme}>
+                  <Button
+                    color={"primary"}
+                    style={{ width: '200px' }}
+                    id="fetch-routes-button"
+                    variant="contained"
+                  >
+                  Tallenna
+                  </Button>
+                </ThemeProvider>  
+              </Box>
+            </Grid>
        </FormGroup>
       </Grid>
     
