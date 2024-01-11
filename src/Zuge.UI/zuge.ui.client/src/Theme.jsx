@@ -32,22 +32,38 @@ const theme = createTheme({
 
     color: "#eeeeee",
   },
-  // default button:
+
+  // buttons:
   palette: {
     primary: { main: "#eeeeee", contrastText: "#262626" },
+    secondary: {
+      main: "#52eb34",
+      contrastText: "#262626",
+      borderRadius: "10px",
+      height: "60px",
+    },
   },
-  //button hover (can include others too):
+  //button hovers:
   components: {
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
+          borderRadius: "10px",
           "&:hover": {
             backgroundColor: "#eeeeee",
             outline: "1px solid rgba(38, 38, 38, 0.5)",
           },
         }),
+        containedSecondary: {
+          height: "56px",
+          "&:hover": {
+            backgroundColor: "#88ed74", // Set the desired hover color for secondary buttons
+            outline: "1px solid rgba(38, 38, 38, 0.5)",
+          },
+        },
       },
     },
+
     MuiTypography: {
       styleOverrides: {
         root: {
