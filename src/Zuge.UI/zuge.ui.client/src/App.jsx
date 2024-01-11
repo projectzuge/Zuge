@@ -10,8 +10,6 @@ import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
-import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
-import { useEffect } from "react";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
