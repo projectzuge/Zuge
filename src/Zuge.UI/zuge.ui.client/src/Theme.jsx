@@ -72,6 +72,26 @@ const theme = createTheme({
         },
       },
     },
+
+    MuiTextField: {
+      styleOverrides: {
+        // root: {
+        //   "& .MuiOutlinedInput-root": {
+        //     backgroundColor: "#eeeeee",
+        //   },
+        // },
+        root: ({ ownerState }) => ({
+          "& .MuiOutlinedInput-root": {
+            backgroundColor: "#eeeeee",
+          },
+          borderRadius: "10px",
+          "&:hover": {
+            backgroundColor: "#eeeeee",
+            outline: "1px solid rgba(38, 38, 38, 0.5)",
+          },
+        }),
+      },
+    },
   },
   // Other theme configurations can be added here
 });

@@ -14,26 +14,38 @@ const ProfileComponent = () => {
   const placeholderEmail = "Sähköpostiosoite";
   const placeholderPhone = "Puhelinnumero";
 
+  const [firstName, setFirstName] = useState(placeholderFirstName);
+  const onFirstNameChange = () => {
+
+  }
+
+  const onLastNameChange = () => {};
+
+  const onEmailChange = () => {};
+
+  const onPhoneNumberChange = () => {};
+
   return (
     <>
       <Box>
         <FormGroup>
           <FormControl>
-            <Grid container id="textfield-grid">
+            <Grid container id="textfield-grid" spacing="20px">
               <Grid item xs="12">
                 <Typography variant="largeBoldFont">Henkilötiedot</Typography>
               </Grid>
-              <Grid item xs="12" md="12" lg="6" xl="6">
+              <Grid id="profile-item-grid" item xs="12" md="12" lg="6" xl="6">
                 <TextField
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   id="profile-text-field"
                   fullWidth
                   defaultValue={placeholderFirstName}
+                  onChange={onFirstNameChange}
                 >
                   {placeholderFirstName}
                 </TextField>
               </Grid>
-              <Grid item xs="12" md="12" lg="6" xl="6">
+              <Grid id="profile-item-grid" item xs="12" md="12" lg="6" xl="6">
                 <TextField
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   id="profile-text-field"
@@ -43,7 +55,7 @@ const ProfileComponent = () => {
                   {placeholderLastName}
                 </TextField>
               </Grid>
-              <Grid item xs="12" md="12" lg="6" xl="6">
+              <Grid id="profile-item-grid" item xs="12" md="12" lg="6" xl="6">
                 <TextField
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   id="profile-text-field"
@@ -53,7 +65,7 @@ const ProfileComponent = () => {
                   {placeholderEmail}
                 </TextField>
               </Grid>
-              <Grid item xs="12" md="12" lg="6" xl="6">
+              <Grid id="profile-item-grid" item xs="12" md="12" lg="6" xl="6">
                 <TextField
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   id="profile-text-field"
@@ -63,12 +75,12 @@ const ProfileComponent = () => {
                   {placeholderPhone}
                 </TextField>
               </Grid>
-              <Grid item xs="12" md="12" lg="6" xl="6">
+              <Grid id="profile-item-grid" item xs="12" md="12" lg="6" xl="6">
                 <Button fullWidth color={"secondary"} variant="contained">
                   Vaihda salasana
                 </Button>
               </Grid>
-              <Grid item xs="12" md="12" lg="6" xl="6">
+              <Grid display="none" id="profile-item-grid" item xs="12" md="12" lg="6" xl="6">
                 <Button fullWidth color={"secondary"} variant="contained">
                   Tallenna
                 </Button>
