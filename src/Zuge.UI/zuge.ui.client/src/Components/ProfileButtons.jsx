@@ -1,14 +1,21 @@
 import Button from "@mui/material/Button";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import { Grid } from "@mui/material";
 
 const ProfileButtons = () => {
   return (
     <>
-      <Button color={"primary"} id="fetch-routes-button" variant="contained">
-        Lippusi
-      </Button>
-      <Button color={"primary"} id="fetch-routes-button" variant="contained">
-        Omat tiedot
-      </Button>
+      <Grid item id="profile-button-group-container">
+        <ButtonGroup
+          style={{ height: "70px" }}
+          fullWidth
+          variant="contained"
+          aria-label="outlined primary button group"
+        >
+          <Button>Lippusi</Button>
+          <Button>Omat tiedot</Button>
+        </ButtonGroup>
+      </Grid>
     </>
   );
 };
