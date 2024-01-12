@@ -9,4 +9,10 @@ const getAllNews = () => {
   )
   }
 
-export default {getAllNews}
+const create = (newObject) => {
+  const request = axios.post(newsUrl, newObject)
+  return (
+    request.then(response => response.data)
+  )
+ }
+export default {getAllNews, create}
