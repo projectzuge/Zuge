@@ -18,16 +18,7 @@
 
 }
 
-#text-news {
-  
-  font-family: "Inria Sans, sans-serif";
-  font-size: large;
-  
-}
+
 #header-news {
-  margin-bottom: 30px;
-  font-family: "Inria Sans, sans-serif";
-  font-size: larger;
-  font-weight: bold;
-  
+  font-weight:bolder;
 }

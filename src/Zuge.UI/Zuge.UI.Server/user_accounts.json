@@ -1,0 +1,30 @@
+[
+  {
+    "Id": "fbc588ba-8f01-439f-bb6d-a3434133a034",
+    "FirstName": "Test",
+    "LastName": "Person",
+    "Email": "test@example.com",
+    "PhoneNumber": "1234567890",
+    "UserLoginData": {
+      "UserAccountId": "fbc588ba-8f01-439f-bb6d-a3434133a034",
+      "PasswordSalt": "fbc588ba-8f01-439f-bb6d-a3434133a035",
+      "PasswordHash": "1832363167312381916716717340124250213951652941542322451651121301704117195234231204223",
+      "Email": "test@example.com",
+      "UserAccount": null
+    }
+  },
+  {
+    "Id": "2438e136-02aa-438d-a8d3-ceb9340dd062",
+    "FirstName": "Admin",
+    "LastName": "Admin",
+    "Email": "admin@zuge.com",
+    "PhoneNumber": "1234567890",
+    "UserLoginData": {
+      "UserAccountId": "2438e136-02aa-438d-a8d3-ceb9340dd062",
+      "PasswordSalt": "2438e136-02aa-438d-a8d3-ceb9340dd063",
+      "PasswordHash": "356612281571401921371945620215911410314519813524618920518822929251229159222813312110210",
+      "Email": "admin@zuge.com",
+      "UserAccount": null
+    }
+  }
+]

@@ -11,6 +11,7 @@ import SingleNews from "./Pages/SingleNews.jsx";
 import UserMenu from "./Components/UserMenu.jsx";
 import Contact from "./Pages/Contact.jsx";
 import Register from "./Pages/Register.jsx";
+import NewsPage from "./Pages/NewsPage.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -51,6 +52,7 @@ function App() {
                   )
                 } />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/NewsPage" element={<NewsPage />} /> 
                 <Route path="/SingleNews" element={<SingleNews />} />
                 <Route path="/user" element={<UserMenu />} />
                 <Route path="/register" element={<Register />} />
