@@ -32,14 +32,15 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
   const passwordData = useRef(null);
   const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
-  const checkPassword = () => {
+  const checkPassword = (e) => {
     const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
     const acceptedCapitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
     const acceptedNumbers = "1234567890";
     const acceptedSpecialChars = "!?-_#@{}()[]";
     const isChars = {isSmallLetters: 0, isCapitalLetters: 0, isNumbers: 0, isSpecialChars: 0};
+    const passwordInput = e.target.value;
 
-    for (const char of password) {
+    for (const char of passwordInput) {
       if (acceptedSmallLetters.includes(char)) {
         isChars.isSmallLetters = 1;
       }
@@ -54,7 +55,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
       }
     }
 
-    if (password.length < 6 || password.length > 100) {
+    if (passwordInput.length < 6 || passwordInput.length > 100) {
       setIsPasswordValid(false);
     }
     else  if (!Object.values(isChars).every(value => value === 1)){
@@ -79,20 +80,20 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
   };
 
   const onEmailChange = (e) => {
-    setEmail(emailData.current.value);
     checkEmail(e);
+    setEmail(emailData.current.value);
   }
 
   const onPasswordChange = (e) => {
-    // e.preventDefault();
+    checkPassword(e);
     setPassword(passwordData.current.value);
-    checkPassword();
     
   }
 
   const handleSignInClicked = (e) => {
     e.preventDefault();
-    checkPassword();
+    checkPassword(e);
+    checkEmail(e);
     // else {
     //     fetch("http://localhost:3000/edit", { method: "PUT", body: data }) // "Content-Type": "application/json"
     //     .then(res => {
