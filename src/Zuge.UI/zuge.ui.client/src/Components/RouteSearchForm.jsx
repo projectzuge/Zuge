@@ -76,130 +76,131 @@ const RouteSearchForm = (props) => {
 
   return (
     <Box id="search-form-container" marginTop="40px">
-      <FormGroup>
-        <FormControl fullWidth className="route-search-form">
-          <div id="single-select-div">
-            <Select
-              sx={{
-                "&:hover": {
-                  "&& fieldset": {
-                    border: "1px solid rgba(38, 38, 38, 0.5)",
-                  },
-                },
-              }}
-              id="from-cities"
-              required
-              value={fromCity}
-              onChange={handleFromCityChange}
-              inputProps={{ IconComponent: () => null }}
-              MenuProps={{
-                disableScrollLock: true,
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#eeeeee",
-                  },
-                },
-              }}
-            >
-              <MenuItem disabled value={"Mistä"}>
-                {"Mistä"}
-              </MenuItem>
-              {cities.map((city) => (
-                <MenuItem key={city} value={city}>
-                  {city}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-          <div id="single-select-div">
-            <Select
-              sx={{
-                "&:hover": {
-                  "&& fieldset": {
-                    border: "1px solid rgba(38, 38, 38, 0.5)",
-                  },
-                },
-              }}
-              id="to-cities"
-              required
-              value={toCity}
-              onChange={handleToCityChange}
-              inputProps={{ IconComponent: () => null }}
-              MenuProps={{
-                disableScrollLock: true,
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#eeeeee",
-                  },
-                },
-              }}
-            >
-              <MenuItem disabled value={"Minne"}>
-                {"Minne"}
-              </MenuItem>
-
-              {cities.map((city) => (
-                <MenuItem key={city} value={city}>
-                  {city}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-          <div id="date-picker">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                format="DD.MM.YYYY"
-                label="Lähtö"
-                value={selectedDate}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} />}
-                minDate={dayjs("2023-12-29")}
-                // change minDate back to this when possible!!! :
-                // minDate={dayjs(Date.now())} // current date
-                maxDate={dayjs().add(1, "year")} // one year ahead
-              />
-            </LocalizationProvider>
-          </div>
-          <div id="single-select-div">
-            <Select
-              sx={{
-                "&:hover": {
-                  "&& fieldset": {
-                    border: "1px solid rgba(38, 38, 38, 0.5)",
-                  },
-                },
-              }}
-              id="passenger-type"
-              required
-              value={passengerType}
-              onChange={handlePassengerTypeChange}
-              inputProps={{ IconComponent: () => null }}
-              MenuProps={{
-                disableScrollLock: true,
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#eeeeee",
-                  },
-                },
-              }}
-            >
-              {passengerTypes.map((pass) => (
-                <MenuItem key={pass} value={pass}>
-                  {pass}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-        </FormControl>
-        <Button
-          color={"primary"}
-          id="fetch-routes-button"
-          variant="contained"
-          onClick={handleSearchRoutesClick}
+      {/* <FormGroup>
+        <FormControl fullWidth className="route-search-form"> */}
+      <div id="single-select-div">
+        <Select
+          sx={{
+            "&:hover": {
+              "&& fieldset": {
+                border: "1px solid rgba(38, 38, 38, 0.5)",
+              },
+            },
+          }}
+          id="from-cities"
+          required
+          value={fromCity}
+          onChange={handleFromCityChange}
+          inputProps={{ IconComponent: () => null }}
+          MenuProps={{
+            disableScrollLock: true,
+            PaperProps: {
+              style: {
+                backgroundColor: "#eeeeee",
+              },
+            },
+          }}
         >
-          Hae matkoja
-        </Button>
-      </FormGroup>
+          <MenuItem disabled value={"Mistä"}>
+            {"Mistä"}
+          </MenuItem>
+          {cities.map((city) => (
+            <MenuItem key={city} value={city}>
+              {city}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
+      <div id="single-select-div">
+        <Select
+          sx={{
+            "&:hover": {
+              "&& fieldset": {
+                border: "1px solid rgba(38, 38, 38, 0.5)",
+              },
+            },
+          }}
+          id="to-cities"
+          required
+          value={toCity}
+          onChange={handleToCityChange}
+          inputProps={{ IconComponent: () => null }}
+          MenuProps={{
+            disableScrollLock: true,
+            PaperProps: {
+              style: {
+                backgroundColor: "#eeeeee",
+              },
+            },
+          }}
+        >
+          <MenuItem disabled value={"Minne"}>
+            {"Minne"}
+          </MenuItem>
+
+          {cities.map((city) => (
+            <MenuItem key={city} value={city}>
+              {city}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
+      <div id="date-picker">
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            format="DD.MM.YYYY"
+            value={selectedDate}
+            onChange={handleDateChange}
+            renderInput={(params) => (
+              <TextField {...params} id="date-picker-elem" />
+            )}
+            minDate={dayjs("2023-12-29")}
+            // change minDate back to this when possible!!! :
+            // minDate={dayjs(Date.now())} // current date
+            maxDate={dayjs().add(1, "year")} // one year ahead
+          />
+        </LocalizationProvider>
+      </div>
+      <div id="single-select-div">
+        <Select
+          sx={{
+            "&:hover": {
+              "&& fieldset": {
+                border: "1px solid rgba(38, 38, 38, 0.5)",
+              },
+            },
+          }}
+          id="passenger-type"
+          required
+          value={passengerType}
+          onChange={handlePassengerTypeChange}
+          inputProps={{ IconComponent: () => null }}
+          MenuProps={{
+            disableScrollLock: true,
+            PaperProps: {
+              style: {
+                backgroundColor: "#eeeeee",
+              },
+            },
+          }}
+        >
+          {passengerTypes.map((pass) => (
+            <MenuItem key={pass} value={pass}>
+              {pass}
+            </MenuItem>
+          ))}
+        </Select>
+      </div>
+      {/* </FormControl> */}
+      <Button
+        color={"primary"}
+        id="fetch-routes-button"
+        variant="contained"
+        onClick={handleSearchRoutesClick}
+      >
+        Hae matkoja
+      </Button>
+      {/* </FormGroup> */}
 
       {showFoundRoutesList &&
         ReactDOM.createPortal(

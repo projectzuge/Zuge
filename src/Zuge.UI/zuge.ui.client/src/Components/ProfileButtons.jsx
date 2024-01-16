@@ -2,7 +2,10 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { Grid } from "@mui/material";
 
-const ProfileButtons = () => {
+const ProfileButtons = (props) => {
+  const onButtonClick = props.onButtonClick;
+  const selectedButton = props.selectedButton;
+
   return (
     <>
       <Grid item id="profile-button-group-container">
@@ -12,8 +15,20 @@ const ProfileButtons = () => {
           variant="contained"
           aria-label="outlined primary button group"
         >
-          <Button>Lippusi</Button>
-          <Button>Omat tiedot</Button>
+          <Button
+            onClick={() => onButtonClick("Lippusi")}
+            color={selectedButton === "Lippusi" ? "primary" : "notSelected"}
+          >
+            Lippusi
+          </Button>
+          <Button
+            onClick={() => onButtonClick("Omat tiedot")}
+            color={
+              selectedButton === "Omat tiedot" ? "primary" : "notSelected"
+            }
+          >
+            Omat tiedot
+          </Button>
         </ButtonGroup>
       </Grid>
     </>

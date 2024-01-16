@@ -5,7 +5,6 @@ import Grid from "@mui/material/Grid";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
-import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 
 const ProfileComponent = () => {
   // these will be users own information when such info is available!!!
@@ -15,18 +14,30 @@ const ProfileComponent = () => {
   const [phoneNumber, setPhoneNumber] = useState("+358411231231");
   const [emailNotValid, setEmailNotValid] = useState(false);
   const [phoneNumberNotValid, setPhoneNumberNotValid] = useState(false);
+  const [isEmptyFirstName, setIsEmptyFirstName] = useState(false);
+  const [isEmptyLastName, setIsEmptyLastName] = useState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
 
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
   const onFirstNameChange = (e) => {
-    setFirstName(e.target.value);
-    setShowSaveButton(true);
+    if (e.target.value && e.target.value.length > 0) {
+      setFirstName(e.target.value);
+      setIsEmptyFirstName(false);
+      setShowSaveButton(true);
+    } else {
+      setIsEmptyFirstName(true);
+    }
   };
 
   const onLastNameChange = (e) => {
-    setLastName(e.target.value);
-    setShowSaveButton(true);
+    if (e.target.value && e.target.value.length > 0) {
+      setLastName(e.target.value);
+      setIsEmptyLastName(false);
+      setShowSaveButton(true);
+    } else {
+      setIsEmptyLastName(true);
+    }
   };
 
   const onEmailChange = (e) => {
@@ -39,9 +50,15 @@ const ProfileComponent = () => {
     }
   };
 
-  const onPhoneNumberChange = (newVal) => {
-    if (matchIsValidTel(newVal)) {
-      setPhoneNumber(newVal);
+  const onPhoneNumberChange = (e) => {
+    e.preventDefault();
+    if (
+      e.target.value &&
+      e.target.value.length > 6 &&
+      e.target.value.length < 14 &&
+      /^[\d,+]+$/.test(e.target.value)
+    ) {
+      setPhoneNumber(e.target.value);
       setShowSaveButton(true);
       setPhoneNumberNotValid(false);
     } else {
@@ -51,17 +68,17 @@ const ProfileComponent = () => {
 
   const onSaveClicked = (e) => {
     e.preventDefault();
-    console.log("clicked");
 
     if (
       firstName !== "" &&
       lastName !== "" &&
       !emailNotValid &&
-      phoneNumber !== ""
+      !phoneNumberNotValid
     ) {
-      // do something
+      // PUT REQUEST FOR BACKEND
+      window.alert("Saved");
     } else {
-      window.alert("Invalid inputs");
+      window.alert("Invalid or missing inputs");
     }
   };
   return (
@@ -74,12 +91,14 @@ const ProfileComponent = () => {
             </Grid>
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
+                variant="outlined"
                 InputProps={{ sx: { borderRadius: "10px" } }}
                 id="profile-text-field"
                 fullWidth
                 defaultValue={firstName}
                 onChange={onFirstNameChange}
                 required
+                error={isEmptyFirstName}
               >
                 {firstName}
               </TextField>
@@ -92,6 +111,7 @@ const ProfileComponent = () => {
                 defaultValue={lastName}
                 onChange={onLastNameChange}
                 required
+                error={isEmptyLastName}
               >
                 {lastName}
               </TextField>
@@ -112,23 +132,24 @@ const ProfileComponent = () => {
               </TextField>
             </Grid>
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
-              <MuiTelInput
+              <TextField
                 InputProps={{ sx: { borderRadius: "10px" } }}
                 id="profile-text-field"
                 fullWidth
-                value={phoneNumber}
+                defaultValue={phoneNumber}
                 onChange={onPhoneNumberChange}
                 required
                 error={phoneNumberNotValid}
               >
                 {phoneNumber}
-              </MuiTelInput>
+              </TextField>
             </Grid>
-            <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
+            {/* Don't delete this button yet! :  */}
+            {/* <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <Button fullWidth color={"secondary"} variant="contained">
                 Vaihda salasana
               </Button>
-            </Grid>
+            </Grid> */}
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               {" "}
               {showSaveButton ? (

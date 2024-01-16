@@ -42,6 +42,10 @@ const theme = createTheme({
       borderRadius: "10px",
       height: "60px",
     },
+    notSelected: {
+      main: "rgba(238, 238, 238, 0.9)",
+      contrastText: "#262626",
+    },
   },
   //button hovers:
   components: {
@@ -75,21 +79,30 @@ const theme = createTheme({
 
     MuiTextField: {
       styleOverrides: {
-        // root: {
-        //   "& .MuiOutlinedInput-root": {
-        //     backgroundColor: "#eeeeee",
-        //   },
-        // },
         root: ({ ownerState }) => ({
           "& .MuiOutlinedInput-root": {
             backgroundColor: "#eeeeee",
           },
-          borderRadius: "10px",
-          "&:hover": {
-            backgroundColor: "#eeeeee",
-            outline: "1px solid rgba(38, 38, 38, 0.5)",
-          },
+
+          // borderRadius: "10px",
+          // "&:hover": {
+          //   backgroundColor: "#eeeeee",
+          //   outline: "#eeeeee",
+          // },
         }),
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          notched: false,
+          "& .MuiOutlinedInput-notchedOutline": {
+            border: "0px transparent",
+          },
+          "& .MuiInputBase-input:hover + fieldset": {
+            border: "1px solid rgba(38, 38, 38, 0.5)",
+          },
+        },
       },
     },
   },

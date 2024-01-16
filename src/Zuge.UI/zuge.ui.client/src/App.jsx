@@ -39,23 +39,20 @@ function App() {
     <>
       <RouteContext.Provider value={journeys}>
         <Router>
-        <MenuBar id="menu-bar"/>
-        <div id="page-contents-container">
+          <MenuBar id="menu-bar" />
+          <div id="page-contents-container">
             <Routes>
-                <Route path="/" element={
-                  loading ? (
-                    <LoadingSpinner />
-                  ) : (
-                    <FrontPage />
-                  )
-                } />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/SingleNews" element={<SingleNews />} />
-                <Route path="/user" element={<Profile />} />
-                <Route path="/route" element={<RouteInfo />} />
+              <Route
+                path="/"
+                element={loading ? <LoadingSpinner /> : <FrontPage />}
+              />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/SingleNews" element={<SingleNews />} />
+              <Route path="/user" element={<Profile />} />
+              <Route path="/route" element={<RouteInfo />} />
             </Routes>
-        </div>
-      </Router>
+          </div>
+        </Router>
       </RouteContext.Provider>
     </>
   );
