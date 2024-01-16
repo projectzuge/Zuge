@@ -13,13 +13,15 @@ namespace Zuge.UI.Server.Controllers
     public class LoginController(IAuthUnitOfWork unitOfWork) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync([FromBody] string email, [FromBody] string password)
+        public async Task<IActionResult> OnPostAsync([FromBody] LoginDetails loginDetails)
         {
-            var account = await unitOfWork.Repository<UserAccount>().FirstOrNull(new WhereEmailAccountSpecification(email.Trim()));
+            if (!TryValidateModel(loginDetails)) return BadRequest();
+
+            var account = await unitOfWork.Repository<UserAccount>().FirstOrNull(new WhereEmailAccountSpecification(loginDetails.Email.Trim()));
             if (account == null) return NotFound();
 
             var loginData = await unitOfWork.Repository<UserLoginData>().FirstOrNull(new WhereIdLoginDataSpecification(account.Id));
-            var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(loginData!.PasswordSalt + password.Trim()));
+            var passwordHash = SHA256.HashData(Encoding.UTF8.GetBytes(loginData!.PasswordSalt + loginDetails.Password.Trim()));
             string pass = ""; // väliaikainen räpellys koska encoding getstring palauttaa jotain sekavaa dataa
                               // Tarkoitus ottaa aspnetcore Identity kirjasto käyttöön myöhemmin
             foreach (var item in passwordHash)
