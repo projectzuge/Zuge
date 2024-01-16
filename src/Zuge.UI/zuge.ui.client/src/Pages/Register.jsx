@@ -3,7 +3,8 @@ import { useState, useRef } from "react";
 import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLabel } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
+import axios from "axios";
+// import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
 // import PropTypes from 'prop-types';
 
 // Register.propTypes = {
@@ -18,18 +19,19 @@ function Register() {
     const [lastName, setLastName] = useState('');
     const [phoneNum, setPhoneNum] = useState('');
     const [rePassword, setRePassword] = useState('');
+    const [isPasswordsEqual, setIsPasswordsEqual] = useState(true);
     const [isEmailValid, setIsEmailValid] = useState(true);
     const [isPasswordValid, setIsPasswordValid] = useState(true);
     const [isRePasswordValid, setIsRePasswordValid] = useState(true);
     const [isFirstNameValid, setIsFirstNameValid] = useState(true);
     const [isLastNameValid, setIsLastNameValid] = useState(true);
-    const [isPhoneNumValid, setPhoneNumValid] = useState(true);
+    const [isPhoneNumValid, setIsPhoneNumValid] = useState(true);
     const emailData = useRef(null);
     const passwordData = useRef(null);
     const rePasswordData = useRef(null);
     const firstNameData = useRef(null);
     const lastNameData = useRef(null);
-    // const phoneNumData = useRef(null);
+    const phoneNumData = useRef(null);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
     const labelStyle = {
@@ -44,10 +46,10 @@ function Register() {
 
     const arePasswordsEqual = () => {
         if (password === rePassword) {
-            console.log("Passwords are the same!!!!");
+            setIsPasswordsEqual(true);
         }
         else {
-            console.log("Passwords are not the same!!!");
+            setIsPasswordsEqual(false);
         }
     }
 
@@ -205,42 +207,49 @@ function Register() {
         setLastName(lastNameData.current.value);
     }
 
-    const onPhoneNumChange = (newVal) => {
-        setPhoneNum(newVal);
-        if (matchIsValidTel(newVal)) {
-            setPhoneNumValid(true);
-        } else {
-            setPhoneNumValid(false);
+    const onPhoneNumChange = (e) => {
+        const acceptedNums = "0123456789";
+        const phoneNumInput = e.target.value;
+
+        let validChars = 0;
+        for (const char of phoneNumInput) {
+            if (acceptedNums.includes(char)) {
+                validChars += 1;
+            }
         }
+
+        if (phoneNumInput.length < 10 || phoneNumInput.length > 15) {
+            setIsPhoneNumValid(false);
+        }
+        else if (validChars !== phoneNumInput.length) {
+            setIsPhoneNumValid(false);
+        }
+        else {
+            setIsPhoneNumValid(true);
+        }
+        setPhoneNum(phoneNumData.current.value);
     };
 
     const handleRegisterClicked = (e) => {
         e.preventDefault();
         arePasswordsEqual();
-        // else {
-        //     fetch("http://localhost:3000/edit", { method: "PUT", body: data }) // "Content-Type": "application/json"
-        //     .then(res => {
-        //         if (!res.ok) {
-        //             throw new Error("Server responded " + res.status);
-        //         }
-        //         return res.json();
-        //     })
-        //     .then((data) => {
-        //         const newData = unitsData.map(unit => {
-        //             if (unit.unitName === data.unit.unitName) {
-        //                 return data.unit;
-        //             }
-        //             else {
-        //                 return unit;
-        //             }
-        //         });
-        //         setUnitsData(newData);
-        //         setSuccessPopUp(true);
-        //     })
-        //     .catch(error => {
-        //         console.log(error);
-        //     });
-        // }
+
+        if (isEmailValid && isPasswordValid && isRePasswordValid 
+            && isFirstNameValid && isLastNameValid && isPhoneNumValid 
+            && isPasswordsEqual) {
+            axios.post("Account", {FirstName: firstName
+            , LastName: lastName, Email: email, Password: password, PhoneNumber: phoneNum})
+            .then(function (res) {
+                console.log(res);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+        else {
+            // POPUP: These values are invalid, give them in this format please!!
+        }
+
     }
 
     const handlePasswordInput = (event) => {
@@ -407,7 +416,7 @@ function Register() {
                             },
                         }}  
                         style={labelStyle}>Puhelinnumero</InputLabel>
-                        {/* <TextField 
+                        <TextField 
                         inputRef={phoneNumData}
                         className="registerTextField"
                         onChange={onPhoneNumChange}
@@ -415,8 +424,8 @@ function Register() {
                         helperText={!isPhoneNumValid ? "Invalid phone number" : ""}
                         required
                         variant="outlined" 
-                        fullWidth /> */}
-                        <MuiTelInput
+                        fullWidth />
+                        {/* <MuiTelInput
                         id="profile-text-field"
                         fullWidth
                         className="registerTextField"
@@ -424,10 +433,10 @@ function Register() {
                         value={phoneNum}
                         onChange={onPhoneNumChange}
                         required
-                        error={isPhoneNumValid}
-                        // helperText={!isPhoneNumValid ? "Invalid phone number" : ""}
+                        error={!isPhoneNumValid}
+                        helperText={!isPhoneNumValid ? "Invalid phone number" : ""}
                         >
-                        </MuiTelInput>
+                        </MuiTelInput> */}
                     </Grid>
                     <Grid item xs={6}>
                         <Button 
