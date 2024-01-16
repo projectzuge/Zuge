@@ -13,7 +13,7 @@ namespace Zuge.UI.Server.Controllers
     public class LoginController(IAuthUnitOfWork unitOfWork) : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync([FromForm] string email, [FromForm] string password)
+        public async Task<IActionResult> OnPostAsync([FromBody] string email, [FromBody] string password)
         {
             var account = await unitOfWork.Repository<UserAccount>().FirstOrNull(new WhereEmailAccountSpecification(email.Trim()));
             if (account == null) return NotFound();
