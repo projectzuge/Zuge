@@ -23,7 +23,7 @@ namespace Zuge.UI.Server.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync([FromForm] RegistrationInformation info)
+        public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info)
         {
             var trimmedInfo = new RegistrationInformation(
                 info.FirstName.Trim(),
