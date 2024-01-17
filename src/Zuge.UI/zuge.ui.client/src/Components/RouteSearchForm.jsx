@@ -5,7 +5,6 @@ import FoundRoutesList from "./FoundRoutesList.jsx";
 import Box from "@mui/material/Box";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import FormGroup from "@mui/material/FormGroup";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -76,130 +75,155 @@ const RouteSearchForm = (props) => {
 
   return (
     <Box id="search-form-container" marginTop="40px">
-      <FormGroup>
-        <FormControl fullWidth className="route-search-form">
-          <div id="single-select-div">
-            <Select
-              sx={{
-                "&:hover": {
-                  "&& fieldset": {
-                    border: "1px solid rgba(38, 38, 38, 0.5)",
-                  },
+      <FormControl fullWidth className="route-search-form" variant="outlined">
+        <div id="single-select-div">
+          <Select
+            sx={{
+              "&:hover": {
+                "&& fieldset": {
+                  border: "1px solid rgba(38, 38, 38, 0.5)",
                 },
-              }}
-              id="from-cities"
-              required
-              value={fromCity}
-              onChange={handleFromCityChange}
-              inputProps={{ IconComponent: () => null }}
-              MenuProps={{
-                disableScrollLock: true,
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#eeeeee",
-                  },
+              },
+            }}
+            id="from-cities"
+            required
+            value={fromCity}
+            onChange={handleFromCityChange}
+            inputProps={{ IconComponent: () => null }}
+            MenuProps={{
+              disableScrollLock: true,
+              PaperProps: {
+                style: {
+                  backgroundColor: "#eeeeee",
                 },
-              }}
-            >
-              <MenuItem disabled value={"Mistä"}>
-                {"Mistä"}
+              },
+            }}
+          >
+            <MenuItem disabled value={"Mistä"}>
+              {"Mistä"}
+            </MenuItem>
+            {cities.map((city) => (
+              <MenuItem key={city} value={city}>
+                {city}
               </MenuItem>
-              {cities.map((city) => (
-                <MenuItem key={city} value={city}>
-                  {city}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-          <div id="single-select-div">
-            <Select
-              sx={{
-                "&:hover": {
-                  "&& fieldset": {
-                    border: "1px solid rgba(38, 38, 38, 0.5)",
-                  },
+            ))}
+          </Select>
+        </div>
+        <div id="single-select-div">
+          <Select
+            sx={{
+              "&:hover": {
+                "&& fieldset": {
+                  border: "1px solid rgba(38, 38, 38, 0.5)",
                 },
-              }}
-              id="to-cities"
-              required
-              value={toCity}
-              onChange={handleToCityChange}
-              inputProps={{ IconComponent: () => null }}
-              MenuProps={{
-                disableScrollLock: true,
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#eeeeee",
-                  },
+              },
+            }}
+            id="to-cities"
+            required
+            value={toCity}
+            onChange={handleToCityChange}
+            inputProps={{ IconComponent: () => null }}
+            MenuProps={{
+              disableScrollLock: true,
+              PaperProps: {
+                style: {
+                  backgroundColor: "#eeeeee",
                 },
-              }}
-            >
-              <MenuItem disabled value={"Minne"}>
-                {"Minne"}
-              </MenuItem>
+              },
+            }}
+          >
+            <MenuItem disabled value={"Minne"}>
+              {"Minne"}
+            </MenuItem>
 
-              {cities.map((city) => (
-                <MenuItem key={city} value={city}>
-                  {city}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-          <div id="date-picker">
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker
-                format="DD.MM.YYYY"
-                label="Lähtö"
-                value={selectedDate}
-                onChange={handleDateChange}
-                renderInput={(params) => <TextField {...params} />}
-                minDate={dayjs("2023-12-29")}
-                // change minDate back to this when possible!!! :
-                // minDate={dayjs(Date.now())} // current date
-                maxDate={dayjs().add(1, "year")} // one year ahead
-              />
-            </LocalizationProvider>
-          </div>
-          <div id="single-select-div">
-            <Select
+            {cities.map((city) => (
+              <MenuItem key={city} value={city}>
+                {city}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+        <div id="date-picker">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker
               sx={{
-                "&:hover": {
-                  "&& fieldset": {
+                "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+                  outline: "0px transparent",
+                  border: "0px transparent",
+                },
+                "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                  {
                     border: "1px solid rgba(38, 38, 38, 0.5)",
                   },
-                },
               }}
-              id="passenger-type"
-              required
-              value={passengerType}
-              onChange={handlePassengerTypeChange}
-              inputProps={{ IconComponent: () => null }}
-              MenuProps={{
-                disableScrollLock: true,
-                PaperProps: {
-                  style: {
-                    backgroundColor: "#eeeeee",
-                  },
+              format="DD.MM.YYYY"
+              value={selectedDate}
+              onChange={handleDateChange}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  id="date-picker-elem"
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        borderColor: "red",
+                      },
+                      "&:hover fieldset": {
+                        borderColor: "green",
+                      },
+                      "&.Mui-focused fieldset": {
+                        borderColor: "purple",
+                      },
+                    },
+                  }}
+                />
+              )}
+              minDate={dayjs("2023-12-29")}
+              // change minDate back to this when possible!!! :
+              // minDate={dayjs(Date.now())} // current date
+              maxDate={dayjs().add(1, "year")} // one year ahead
+            />
+          </LocalizationProvider>
+        </div>
+        <div id="single-select-div">
+          <Select
+            sx={{
+              "&:hover": {
+                "&& fieldset": {
+                  border: "1px solid rgba(38, 38, 38, 0.5)",
                 },
-              }}
-            >
-              {passengerTypes.map((pass) => (
-                <MenuItem key={pass} value={pass}>
-                  {pass}
-                </MenuItem>
-              ))}
-            </Select>
-          </div>
-        </FormControl>
-        <Button
-          color={"primary"}
-          id="fetch-routes-button"
-          variant="contained"
-          onClick={handleSearchRoutesClick}
-        >
-          Hae matkoja
-        </Button>
-      </FormGroup>
+              },
+            }}
+            id="passenger-type"
+            required
+            value={passengerType}
+            onChange={handlePassengerTypeChange}
+            inputProps={{ IconComponent: () => null }}
+            MenuProps={{
+              disableScrollLock: true,
+              PaperProps: {
+                style: {
+                  backgroundColor: "#eeeeee",
+                },
+              },
+            }}
+          >
+            {passengerTypes.map((pass) => (
+              <MenuItem key={pass} value={pass}>
+                {pass}
+              </MenuItem>
+            ))}
+          </Select>
+        </div>
+      </FormControl>
+      <Button
+        color={"primary"}
+        id="fetch-routes-button"
+        variant="contained"
+        onClick={handleSearchRoutesClick}
+      >
+        Hae matkoja
+      </Button>
 
       {showFoundRoutesList &&
         ReactDOM.createPortal(

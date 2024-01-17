@@ -10,6 +10,7 @@ import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
+import Profile from "./Pages/Profile.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -39,8 +40,8 @@ function App() {
     <>
       <RouteContext.Provider value={journeys}>
         <Router>
-        <MenuBar id="menu-bar"/>
-        <div id="page-contents-container">
+          <MenuBar id="menu-bar" />
+          <div id="page-contents-container">
             <Routes>
                 <Route path="/" element={
                   loading ? (
@@ -50,13 +51,13 @@ function App() {
                   )
                 } />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/NewsPage" element={<NewsPage />} /> 
+                <Route path="/NewsPage" element={<NewsPage />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
-                <Route path="/user" element={<FrontPage />} />
+                <Route path="/user" element={<Profile />} />
                 <Route path="/route" element={<RouteInfo />} />
             </Routes>
-        </div>
-      </Router>
+          </div>
+        </Router>
       </RouteContext.Provider>
     </>
   );

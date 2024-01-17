@@ -14,7 +14,7 @@ const RouteInfoBlock = () => {
 
   const onConfirmClicked = () => {
     console.log("Confirm clicked");
-  }
+  };
 
   return (
     <>
@@ -81,16 +81,16 @@ const RouteInfoBlock = () => {
             </Grid>
           </Box>
         </Box>
-        <Button
-          color={"primary"}
-          id="confirm-journey-button"
-          variant="contained"
-          onClick={onConfirmClicked}
-        >
-          <Typography variant="smallFont">Vahvista matka</Typography>
-          <Typography>&nbsp;</Typography>
-          <Typography variant="mediumBoldFont">({data.price} €)</Typography>
-        </Button>
+          <Button
+            color={"primary"}
+            id="confirm-journey-button"
+            variant="contained"
+            onClick={onConfirmClicked}
+          >
+            <Typography variant="smallFont">Vahvista matka</Typography>
+            <Typography>&nbsp;</Typography>
+            <Typography variant="mediumBoldFont">({data.price} €)</Typography>
+          </Button>
       </Grid>
     </>
   );

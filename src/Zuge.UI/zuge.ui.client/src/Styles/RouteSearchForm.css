@@ -2,7 +2,7 @@
 #to-cities,
 #passenger-type {
   background-color: #eeeeee;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 #search-form-container {
@@ -36,3 +36,4 @@
     padding: 20px;
   }
 }
+
