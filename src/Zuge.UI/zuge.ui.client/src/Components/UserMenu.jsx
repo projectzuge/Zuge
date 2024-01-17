@@ -90,34 +90,21 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
     
   }
 
-  const handleSignInClicked = (e) => {
-    e.preventDefault();
-    checkPassword(e);
-    checkEmail(e);
-    // else {
-    //     fetch("http://localhost:3000/edit", { method: "PUT", body: data }) // "Content-Type": "application/json"
-    //     .then(res => {
-    //         if (!res.ok) {
-    //             throw new Error("Server responded " + res.status);
-    //         }
-    //         return res.json();
-    //     })
-    //     .then((data) => {
-    //         const newData = unitsData.map(unit => {
-    //             if (unit.unitName === data.unit.unitName) {
-    //                 return data.unit;
-    //             }
-    //             else {
-    //                 return unit;
-    //             }
-    //         });
-    //         setUnitsData(newData);
-    //         setSuccessPopUp(true);
-    //     })
-    //     .catch(error => {
-    //         console.log(error);
-    //     });
-    // }
+  const handleSignInClicked = () => {
+
+    if (isEmailValid && isPasswordValid) {
+      console.log("Valid Input!!!!");
+      // axios.get("Login")
+      // .then(function (res) {
+      //     console.log(res);
+      // })
+      // .catch(function (error) {
+      //     console.log(error);
+      // });
+    }
+    else {
+        // POPUP: These values are invalid, give them in this format please!!
+    }
   }
 
   const handlePasswordInput = (event) => {
