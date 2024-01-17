@@ -1,5 +1,5 @@
 import './../Styles/Register.css';
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLabel } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
@@ -26,12 +26,12 @@ function Register() {
     const [isFirstNameValid, setIsFirstNameValid] = useState(true);
     const [isLastNameValid, setIsLastNameValid] = useState(true);
     const [isPhoneNumValid, setIsPhoneNumValid] = useState(true);
-    const emailData = useRef(null);
-    const passwordData = useRef(null);
-    const rePasswordData = useRef(null);
-    const firstNameData = useRef(null);
-    const lastNameData = useRef(null);
-    const phoneNumData = useRef(null);
+    // const emailData = useRef(null);
+    // const passwordData = useRef(null);
+    // const rePasswordData = useRef(null);
+    // const firstNameData = useRef(null);
+    // const lastNameData = useRef(null);
+    // const phoneNumData = useRef(null);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
     const labelStyle = {
@@ -52,6 +52,15 @@ function Register() {
             setIsPasswordsEqual(false);
         }
     }
+
+    useEffect(() => {
+        arePasswordsEqual();
+        // console.log("PASSWORD DATA: " + passwordData.current.value);
+        console.log("PASSWORD: " + password);
+        // console.log("RE-PASSWORD DATA: " + rePasswordData.current.value);
+        console.log("RE-PASSWORD: " + rePassword);
+        console.log("PASSWORDS EQUAL: " + isPasswordsEqual);
+    }, [password, rePassword])
 
     const checkPassword = (e) => {
         const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
@@ -190,13 +199,11 @@ function Register() {
     const onPasswordChange = (e) => {
         checkPassword(e);
         setPassword(e.target.value);
-        arePasswordsEqual();
     }
 
     const onRePasswordChange = (e) => {
         checkRePassword(e);
         setRePassword(e.target.value);
-        arePasswordsEqual();
     }
 
     const onFirstNameChange = (e) => {
@@ -287,7 +294,7 @@ function Register() {
                         onChange={onEmailChange}
                         error={!isEmailValid}
                         helperText={!isEmailValid ? "Invalid email address" : ""}
-                        inputRef={emailData} 
+                        // inputRef={emailData} 
                         type="email" 
                         fullWidth
                         required />
@@ -306,7 +313,7 @@ function Register() {
                         <TextField 
                         value={password} 
                         className="registerTextField"
-                        inputRef={passwordData}
+                        // inputRef={passwordData}
                         name="password"
                         variant="outlined" 
                         type={showPassword ? 'text' : 'password'} 
@@ -343,7 +350,7 @@ function Register() {
                         <TextField
                         value={rePassword}   
                         className="registerTextField"
-                        inputRef={rePasswordData}
+                        // inputRef={rePasswordData}
                         name="password"
                         variant="outlined" 
                         type={showRePassword ? 'text' : 'password'}  
@@ -379,7 +386,7 @@ function Register() {
                         style={labelStyle}>Etunimi</InputLabel>
                         <TextField 
                         value={firstName} 
-                        inputRef={firstNameData}
+                        // inputRef={firstNameData}
                         className="registerTextField"
                         onChange={onFirstNameChange}
                         error={!isFirstNameValid}
@@ -401,7 +408,7 @@ function Register() {
                         style={labelStyle}>Sukunimi</InputLabel>
                         <TextField
                         value={lastName} 
-                        inputRef={lastNameData}
+                        // inputRef={lastNameData}
                         className="registerTextField"
                         onChange={onLastNameChange}
                         error={!isLastNameValid}
@@ -423,7 +430,7 @@ function Register() {
                         style={labelStyle}>Puhelinnumero</InputLabel>
                         <TextField 
                         value={phoneNum} 
-                        inputRef={phoneNumData}
+                        // inputRef={phoneNumData}
                         className="registerTextField"
                         onChange={onPhoneNumChange}
                         error={!isPhoneNumValid}
