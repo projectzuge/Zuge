@@ -77,6 +77,7 @@ const ProfileComponent = () => {
     ) {
       // PUT REQUEST FOR BACKEND
       window.alert("Saved");
+      setShowSaveButton(false);
     } else {
       window.alert("Invalid or missing inputs");
     }
