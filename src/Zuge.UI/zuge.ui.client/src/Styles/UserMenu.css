@@ -12,3 +12,14 @@
 .registerButton {
     padding: 0px;
 }
+
+.LoginTextField .MuiInputBase-root {  
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #262626;
+}
+
+.LoginTextField .MuiInputBase-root:hover {  
+    border: none;
+}

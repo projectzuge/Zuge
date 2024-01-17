@@ -13,6 +13,17 @@
     background-color: rgba(238, 238, 238, 0.8);
 }
 
+.registerTextField .MuiInputBase-root {  
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #262626;
+}
+
+.registerTextField .MuiInputBase-root:hover {  
+    border: none;
+}
+
 @media screen and (max-width: 570px) {
     .RegisterBackground {
         padding-left: 30px;

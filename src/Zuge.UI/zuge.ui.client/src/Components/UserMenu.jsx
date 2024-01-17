@@ -206,6 +206,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
               <FormControl style={inputFieldStyle} variant="outlined">
                 <FormLabel style={labelStyle}>Sähköposti</FormLabel>
                 <TextField 
+                className="LoginTextField"
                 onInput={handleEmailInput}
                 onChange={onEmailChange}
                 error={!isEmailValid}
@@ -220,6 +221,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
               <FormControl style={inputFieldStyle} variant="outlined">
                 <FormLabel style={labelStyle}>Salasana</FormLabel>
                 <TextField 
+                className="LoginTextField"
                 inputRef={passwordData}
                 name="password"
                 variant="outlined" 

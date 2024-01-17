@@ -1,0 +1,9 @@
+#profile-box {
+  width: 60%;
+  padding: 40px;
+  align-items: center;
+}
+
+#profile-button-group-container {
+  margin-bottom: 30px;
+}

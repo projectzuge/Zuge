@@ -4,7 +4,7 @@ import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLa
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axios from "axios";
-// import { MuiTelInput, matchIsValidTel } from "mui-tel-input";
+
 // import PropTypes from 'prop-types';
 
 // Register.propTypes = {
@@ -55,12 +55,7 @@ function Register() {
 
     useEffect(() => {
         arePasswordsEqual();
-        // console.log("PASSWORD DATA: " + passwordData.current.value);
-        console.log("PASSWORD: " + password);
-        // console.log("RE-PASSWORD DATA: " + rePasswordData.current.value);
-        console.log("RE-PASSWORD: " + rePassword);
-        console.log("PASSWORDS EQUAL: " + isPasswordsEqual);
-    }, [password, rePassword])
+    }, [password, rePassword, isPasswordsEqual])
 
     const checkPassword = (e) => {
         const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
@@ -384,7 +379,7 @@ function Register() {
                             },
                           }} 
                         style={labelStyle}>Etunimi</InputLabel>
-                        <TextField 
+                        <TextField
                         value={firstName} 
                         // inputRef={firstNameData}
                         className="registerTextField"
