@@ -184,27 +184,29 @@ function Register() {
 
     const onEmailChange = (e) => {
         checkEmail(e);
-        setEmail(emailData.current.value);
+        setEmail(e.target.value);
       }
     
     const onPasswordChange = (e) => {
         checkPassword(e);
-        setPassword(passwordData.current.value);
+        setPassword(e.target.value);
+        arePasswordsEqual();
     }
 
     const onRePasswordChange = (e) => {
         checkRePassword(e);
-        setRePassword(rePasswordData.current.value);
+        setRePassword(e.target.value);
+        arePasswordsEqual();
     }
 
     const onFirstNameChange = (e) => {
         checkFirstName(e);
-        setFirstName(firstNameData.current.value);
+        setFirstName(e.target.value);
     }
 
     const onLastNameChange = (e) => {
         checkLastName(e);
-        setLastName(lastNameData.current.value);
+        setLastName(e.target.value);
     }
 
     const onPhoneNumChange = (e) => {
@@ -227,12 +229,10 @@ function Register() {
         else {
             setIsPhoneNumValid(true);
         }
-        setPhoneNum(phoneNumData.current.value);
+        setPhoneNum(e.target.value);
     };
 
-    const handleRegisterClicked = (e) => {
-        e.preventDefault();
-        arePasswordsEqual();
+    const handleRegisterClicked = () => {
 
         if (isEmailValid && isPasswordValid && isRePasswordValid 
             && isFirstNameValid && isLastNameValid && isPhoneNumValid 
@@ -279,7 +279,8 @@ function Register() {
                             },
                           }} 
                         style={labelStyle}>Sähköposti</InputLabel>
-                        <TextField 
+                        <TextField
+                        value={email} 
                         className="registerTextField"
                         variant="outlined" 
                         onInput={handleEmailInput}
@@ -303,6 +304,7 @@ function Register() {
                           }} 
                         style={labelStyle}>Salasana</InputLabel>
                         <TextField 
+                        value={password} 
                         className="registerTextField"
                         inputRef={passwordData}
                         name="password"
@@ -338,7 +340,8 @@ function Register() {
                             },
                           }} 
                         style={labelStyle}>Vahvista salasana</InputLabel>
-                        <TextField  
+                        <TextField
+                        value={rePassword}   
                         className="registerTextField"
                         inputRef={rePasswordData}
                         name="password"
@@ -375,6 +378,7 @@ function Register() {
                           }} 
                         style={labelStyle}>Etunimi</InputLabel>
                         <TextField 
+                        value={firstName} 
                         inputRef={firstNameData}
                         className="registerTextField"
                         onChange={onFirstNameChange}
@@ -396,6 +400,7 @@ function Register() {
                         }} 
                         style={labelStyle}>Sukunimi</InputLabel>
                         <TextField
+                        value={lastName} 
                         inputRef={lastNameData}
                         className="registerTextField"
                         onChange={onLastNameChange}
@@ -417,6 +422,7 @@ function Register() {
                         }}  
                         style={labelStyle}>Puhelinnumero</InputLabel>
                         <TextField 
+                        value={phoneNum} 
                         inputRef={phoneNumData}
                         className="registerTextField"
                         onChange={onPhoneNumChange}
