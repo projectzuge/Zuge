@@ -47,7 +47,7 @@ const theme = createTheme({
       contrastText: "#262626",
     },
   },
-  //button hovers:
+  //style overrides:
   components: {
     MuiButton: {
       styleOverrides: {
@@ -83,24 +83,17 @@ const theme = createTheme({
           "& .MuiOutlinedInput-root": {
             backgroundColor: "#eeeeee",
           },
-
-          // borderRadius: "10px",
-          // "&:hover": {
-          //   backgroundColor: "#eeeeee",
-          //   outline: "#eeeeee",
-          // },
         }),
       },
     },
+
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          notched: false,
-          "& .MuiOutlinedInput-notchedOutline": {
-            border: "0px transparent",
-          },
-          "& .MuiInputBase-input:hover + fieldset": {
-            border: "1px solid rgba(38, 38, 38, 0.5)",
+          "&:not(:hover)": {
+            "& fieldset": {
+              border: "none",
+            },
           },
         },
       },

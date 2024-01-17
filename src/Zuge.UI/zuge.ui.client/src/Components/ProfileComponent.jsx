@@ -126,7 +126,6 @@ const ProfileComponent = () => {
                 onChange={onEmailChange}
                 required
                 error={emailNotValid}
-                // helperText={emailNotValid ? "Invalid" : ""}
               >
                 {email}
               </TextField>
