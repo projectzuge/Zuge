@@ -223,19 +223,24 @@ function Register() {
                 });
             }
             if (inputValidities.isPasswordValid === "initial") {
-                setInputValidities((prev) => { return {...prev, isPasswordValid: false}});
+                setInputValidities((prev) => { 
+                    return {...prev, isPasswordValid: false}});
             }
             if (inputValidities.isRePasswordValid === "initial") {
-                setInputValidities((prev) => { return {...prev, isRePasswordValid: false}});
+                setInputValidities((prev) => { 
+                    return {...prev, isRePasswordValid: false}});
             }
             if (inputValidities.isFirstNameValid === "initial") {
-                setInputValidities((prev) => { return {...prev, isFirstNameValid: false}});
+                setInputValidities((prev) => { 
+                    return {...prev, isFirstNameValid: false}});
             }
             if (inputValidities.isLastNameValid === "initial") {
-                setInputValidities((prev) => { return {...prev, isLastNameValid: false}});
+                setInputValidities((prev) => { 
+                    return {...prev, isLastNameValid: false}});
             }
             if (inputValidities.isPhoneNumValid === "initial") {
-                setInputValidities((prev) => { return {...prev, isPhoneNumValid: false}});
+                setInputValidities((prev) => { 
+                    return {...prev, isPhoneNumValid: false}});
             }
 
             setIsValidRegistration(false);
@@ -252,7 +257,6 @@ function Register() {
                 setIsValidRegistration(true);
             })
             .catch(function (error) {
-                console.log("Hello!")
                 console.log("ERROR MESSAGE: " + error);
                 setIsValidRegistration(false);
             });
@@ -260,9 +264,6 @@ function Register() {
         else {
             setIsValidRegistration(false);
         }
-
-        console.log(isValidRegistration);
-
     }
 
   return (
