@@ -88,5 +88,19 @@
 }
 
 .invalidRegistrationButton {
-    color: #c70000;
+    color: #ff3c3c;
 }
+
+
+@media screen and (max-width: 570px) {
+    .registerTextField .MuiFormHelperText-root {
+        font-size: 70%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .registerTextField .MuiFormHelperText-root {
+        font-size: 60%;
+    }
+}
+
