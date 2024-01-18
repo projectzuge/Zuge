@@ -1,14 +1,9 @@
 import './../Styles/Register.css';
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLabel } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import axios from "axios";
-
-// import PropTypes from 'prop-types';
-
-// Register.propTypes = {
-// };
 
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
@@ -20,18 +15,13 @@ function Register() {
     const [phoneNum, setPhoneNum] = useState('');
     const [rePassword, setRePassword] = useState('');
     const [isPasswordsEqual, setIsPasswordsEqual] = useState(true);
-    const [isEmailValid, setIsEmailValid] = useState(true);
-    const [isPasswordValid, setIsPasswordValid] = useState(true);
-    const [isRePasswordValid, setIsRePasswordValid] = useState(true);
-    const [isFirstNameValid, setIsFirstNameValid] = useState(true);
-    const [isLastNameValid, setIsLastNameValid] = useState(true);
-    const [isPhoneNumValid, setIsPhoneNumValid] = useState(true);
-    // const emailData = useRef(null);
-    // const passwordData = useRef(null);
-    // const rePasswordData = useRef(null);
-    // const firstNameData = useRef(null);
-    // const lastNameData = useRef(null);
-    // const phoneNumData = useRef(null);
+    const [isEmailValid, setIsEmailValid] = useState("initial");
+    const [isPasswordValid, setIsPasswordValid] = useState("initial");
+    const [isRePasswordValid, setIsRePasswordValid] = useState("initial");
+    const [isFirstNameValid, setIsFirstNameValid] = useState("initial");
+    const [isLastNameValid, setIsLastNameValid] = useState("initial");
+    const [isPhoneNumValid, setIsPhoneNumValid] = useState("initial");
+    const [isValidRegistration, setIsValidRegistration] = useState(true);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
     const labelStyle = {
@@ -44,18 +34,18 @@ function Register() {
         color: '#262626',
     };
 
-    const arePasswordsEqual = () => {
+    const inValidInputButtonStyle = {
+        color: '#c70000',
+    };
+
+    useEffect(() => {
         if (password === rePassword) {
             setIsPasswordsEqual(true);
         }
         else {
             setIsPasswordsEqual(false);
         }
-    }
-
-    useEffect(() => {
-        arePasswordsEqual();
-    }, [password, rePassword, isPasswordsEqual])
+    }, [password, rePassword, isPasswordsEqual]);
 
     const checkPassword = (e) => {
         const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
@@ -236,21 +226,60 @@ function Register() {
 
     const handleRegisterClicked = () => {
 
+        const validityStateArray = [
+            isEmailValid, 
+            isPasswordValid, 
+            isRePasswordValid, 
+            isFirstNameValid, 
+            isLastNameValid, 
+            isPhoneNumValid, 
+        ];
+
+        if (validityStateArray.includes("initial")) {
+
+            if (isEmailValid === "initial") {
+                setIsEmailValid(false);
+            }
+            if (isPasswordValid === "initial") {
+                setIsPasswordValid(false);
+            }
+            if (isRePasswordValid === "initial") {
+                setIsRePasswordValid(false);
+            }
+            if (isFirstNameValid === "initial") {
+                setIsFirstNameValid(false);
+            }
+            if (isLastNameValid === "initial") {
+                setIsLastNameValid(false);
+            }
+            if (isPhoneNumValid === "initial") {
+                setIsPhoneNumValid(false);
+            }
+
+            setIsValidRegistration(false);
+            return;
+        }
+        
         if (isEmailValid && isPasswordValid && isRePasswordValid 
             && isFirstNameValid && isLastNameValid && isPhoneNumValid 
             && isPasswordsEqual) {
             axios.post("Account", {FirstName: firstName
             , LastName: lastName, Email: email, Password: password, PhoneNumber: phoneNum})
             .then(function (res) {
-                console.log(res);
+                console.log("VALID RESPONSE: " + res);
+                setIsValidRegistration(true);
             })
             .catch(function (error) {
-                console.log(error);
+                console.log("Hello!")
+                console.log("ERROR MESSAGE: " + error);
+                setIsValidRegistration(false);
             });
         }
         else {
-            // POPUP: These values are invalid, give them in this format please!!
+            setIsValidRegistration(false);
         }
+
+        console.log(isValidRegistration);
 
     }
 
@@ -288,8 +317,7 @@ function Register() {
                         onInput={handleEmailInput}
                         onChange={onEmailChange}
                         error={!isEmailValid}
-                        helperText={!isEmailValid ? "Invalid email address" : ""}
-                        // inputRef={emailData} 
+                        helperText={!isEmailValid ? "Invalid email address." : ""}
                         type="email" 
                         fullWidth
                         required />
@@ -308,13 +336,13 @@ function Register() {
                         <TextField 
                         value={password} 
                         className="registerTextField"
-                        // inputRef={passwordData}
                         name="password"
                         variant="outlined" 
                         type={showPassword ? 'text' : 'password'} 
                         fullWidth 
                         error={!isPasswordValid}
-                        helperText={!isPasswordValid ? "Invalid password" : ""}
+                        helperText={!isPasswordValid ? 
+                            "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '{', '}', '[', ']', '(', ')', '-' or '_'." : ""}
                         required
                         onInput={handlePasswordInput}
                         onChange={onPasswordChange}
@@ -345,13 +373,12 @@ function Register() {
                         <TextField
                         value={rePassword}   
                         className="registerTextField"
-                        // inputRef={rePasswordData}
                         name="password"
                         variant="outlined" 
                         type={showRePassword ? 'text' : 'password'}  
                         fullWidth 
                         error={!isRePasswordValid}
-                        helperText={!isRePasswordValid ? "Invalid password" : ""}
+                        helperText={!isRePasswordValid ? "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '{', '}', '[', ']', '(', ')', '-' or '_'." : ""}
                         required
                         onInput={handlePasswordInput}
                         onChange={onRePasswordChange}
@@ -381,11 +408,11 @@ function Register() {
                         style={labelStyle}>Etunimi</InputLabel>
                         <TextField
                         value={firstName} 
-                        // inputRef={firstNameData}
                         className="registerTextField"
                         onChange={onFirstNameChange}
                         error={!isFirstNameValid}
-                        helperText={!isFirstNameValid ? "Invalid name" : ""}
+                        helperText={!isFirstNameValid ? 
+                            "Invalid name. Name must be 1 to 100 letters long and can only have letters from a to z and A to Z and å, ä, ö, Å, Ä and Ö. Space is not allowed." : ""}
                         required
                         variant="outlined" 
                         fullWidth />
@@ -403,11 +430,11 @@ function Register() {
                         style={labelStyle}>Sukunimi</InputLabel>
                         <TextField
                         value={lastName} 
-                        // inputRef={lastNameData}
                         className="registerTextField"
                         onChange={onLastNameChange}
                         error={!isLastNameValid}
-                        helperText={!isLastNameValid ? "Invalid name" : ""}
+                        helperText={!isLastNameValid ? 
+                            "Invalid name. Name must be 1 to 100 letters long and can only have letters from a to z and A to Z and å, ä, ö, Å, Ä and Ö. Space is not allowed." : ""}
                         required
                         variant="outlined" 
                         fullWidth />
@@ -425,31 +452,18 @@ function Register() {
                         style={labelStyle}>Puhelinnumero</InputLabel>
                         <TextField 
                         value={phoneNum} 
-                        // inputRef={phoneNumData}
                         className="registerTextField"
                         onChange={onPhoneNumChange}
                         error={!isPhoneNumValid}
-                        helperText={!isPhoneNumValid ? "Invalid phone number" : ""}
+                        helperText={!isPhoneNumValid ? "Invalid phone number. Phone number needs to be 10 to 15 characters long and can only have numbers. Don't use the country code." : ""}
                         required
                         variant="outlined" 
                         fullWidth />
-                        {/* <MuiTelInput
-                        id="profile-text-field"
-                        fullWidth
-                        className="registerTextField"
-                        // inputRef={phoneNumData}
-                        value={phoneNum}
-                        onChange={onPhoneNumChange}
-                        required
-                        error={!isPhoneNumValid}
-                        helperText={!isPhoneNumValid ? "Invalid phone number" : ""}
-                        >
-                        </MuiTelInput> */}
                     </Grid>
                     <Grid item xs={6}>
                         <Button 
+                        style={isValidRegistration? buttonStyle : inValidInputButtonStyle}
                         onClick={handleRegisterClicked}
-                        style={buttonStyle} 
                         variant="contained" 
                         color="primary" 
                         fullWidth

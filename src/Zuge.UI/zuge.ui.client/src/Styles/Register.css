@@ -82,3 +82,11 @@
 .backLink {
     margin: 0px;
 }
+
+.validRegistrationButton {
+    color: #262626;
+}
+
+.invalidRegistrationButton {
+    color: #c70000;
+}
