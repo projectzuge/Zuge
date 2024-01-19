@@ -7,8 +7,10 @@ import rightArrow from "./../assets/right-arrow.png";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useJourney } from "../Contexts/SelectedRouteContext";
 
 const SingleFoundRoute = (props) => {
+  const { setJourney } = useJourney();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const showDuration = isSmallScreen ? false : true;
@@ -37,7 +39,8 @@ const SingleFoundRoute = (props) => {
       passengerType: passengerType,
       price: price,
     };
-    navigate("/route", { state: data });
+    setJourney(data);
+    navigate("/route");
   };
 
   return (

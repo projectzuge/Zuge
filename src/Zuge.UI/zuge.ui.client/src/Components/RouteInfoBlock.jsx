@@ -3,17 +3,16 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import "../Styles/RouteInfoBlock.css";
 import rightArrow from "./../assets/right-arrow.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
+import { useJourney } from "../Contexts/SelectedRouteContext";
 
 const RouteInfoBlock = () => {
-  const location = useLocation();
+  const selectedJourney = useJourney().selectedJourney;
   const navigate = useNavigate();
 
-  const data = location.state;
-
   const onConfirmClicked = () => {
-    console.log("Confirm clicked");
+    navigate("/revise");
   };
 
   return (
@@ -34,63 +33,77 @@ const RouteInfoBlock = () => {
             MENOMATKA:
           </Typography>
           <Box id="route-inside-box">
-            <Typography variant="mediumBoldFont">{data.date}</Typography>
+            <Typography variant="mediumBoldFont">
+              {selectedJourney.date}
+            </Typography>
             <Grid id="times-grid" alignItems="center">
               <Grid item xs={4}>
                 <Typography variant="smallBoldFont">
-                  {data.departure}
+                  {selectedJourney.departure}
                 </Typography>
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4}>
-                <Typography variant="smallBoldFont">{data.arrival}</Typography>
+                <Typography variant="smallBoldFont">
+                  {selectedJourney.arrival}
+                </Typography>
               </Grid>
             </Grid>
             <Grid id="from-to-grid" alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="largeBoldFont">{data.from}</Typography>
+                <Typography variant="largeBoldFont">
+                  {selectedJourney.from}
+                </Typography>
               </Grid>
               <Grid item xs={4} id="arrow-item-grid" alignContent={"center"}>
                 <img src={rightArrow} alt="Array Icon" id="right-arrow-icon" />
               </Grid>
               <Grid item xs={4}>
-                <Typography variant="largeBoldFont">{data.to}</Typography>
-              </Grid>
-            </Grid>
-            <Grid id="from-to-grid" alignItems="center">
-              <Grid item xs={4}>
-                <Typography variant="mediumFont">{data.train}</Typography>
-              </Grid>
-              <Grid item xs={4}></Grid>
-              <Grid item xs={4} textAlign={"start"}>
-                <Typography variant="mediumFont">
-                  Kesto: {data.duration}
+                <Typography variant="largeBoldFont">
+                  {selectedJourney.to}
                 </Typography>
               </Grid>
             </Grid>
             <Grid id="from-to-grid" alignItems="center">
               <Grid item xs={4}>
                 <Typography variant="mediumFont">
-                  {data.passengerType}
+                  {selectedJourney.train}
                 </Typography>
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4} textAlign={"start"}>
-                <Typography variant="largeBoldFont">{data.price} €</Typography>
+                <Typography variant="mediumFont">
+                  Kesto: {selectedJourney.duration}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid id="from-to-grid" alignItems="center">
+              <Grid item xs={4}>
+                <Typography variant="mediumFont">
+                  {selectedJourney.passengerType}
+                </Typography>
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4} textAlign={"start"}>
+                <Typography variant="largeBoldFont">
+                  {selectedJourney.price} €
+                </Typography>
               </Grid>
             </Grid>
           </Box>
         </Box>
-          <Button
-            color={"primary"}
-            id="confirm-journey-button"
-            variant="contained"
-            onClick={onConfirmClicked}
-          >
-            <Typography variant="smallFont">Vahvista matka</Typography>
-            <Typography>&nbsp;</Typography>
-            <Typography variant="mediumBoldFont">({data.price} €)</Typography>
-          </Button>
+        <Button
+          color={"primary"}
+          id="confirm-journey-button"
+          variant="contained"
+          onClick={onConfirmClicked}
+        >
+          <Typography variant="smallFont">Vahvista matka</Typography>
+          <Typography>&nbsp;</Typography>
+          <Typography variant="mediumBoldFont">
+            ({selectedJourney.price} €)
+          </Typography>
+        </Button>
       </Grid>
     </>
   );

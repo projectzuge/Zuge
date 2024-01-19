@@ -61,7 +61,7 @@ const theme = createTheme({
         containedSecondary: {
           height: "56px",
           "&:hover": {
-            backgroundColor: "#88ed74", // Set the desired hover color for secondary buttons
+            backgroundColor: "#88ed74",
             outline: "1px solid rgba(38, 38, 38, 0.5)",
           },
         },

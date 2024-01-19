@@ -11,6 +11,8 @@ import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
 import Profile from "./Pages/Profile.jsx";
+import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
+import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -39,25 +41,25 @@ function App() {
   return (
     <>
       <RouteContext.Provider value={journeys}>
-        <Router>
-          <MenuBar id="menu-bar" />
-          <div id="page-contents-container">
-            <Routes>
-                <Route path="/" element={
-                  loading ? (
-                    <LoadingSpinner />
-                  ) : (
-                    <FrontPage />
-                  )
-                } />
+        <JourneyProvider>
+          <Router>
+            <MenuBar id="menu-bar" />
+            <div id="page-contents-container">
+              <Routes>
+                <Route
+                  path="/"
+                  element={loading ? <LoadingSpinner /> : <FrontPage />}
+                />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/NewsPage" element={<NewsPage />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
                 <Route path="/user" element={<Profile />} />
                 <Route path="/route" element={<RouteInfo />} />
-            </Routes>
-          </div>
-        </Router>
+                <Route path="/revise" element={<ReviseAndPay />} />
+              </Routes>
+            </div>
+          </Router>
+        </JourneyProvider>
       </RouteContext.Provider>
     </>
   );
