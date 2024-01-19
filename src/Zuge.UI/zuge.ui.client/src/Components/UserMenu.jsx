@@ -262,7 +262,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                 style={isLoginValid ? {display: "none"} : 
                 {display: "inline"}}
                 > 
-                  Login failed. Some inputs are invalid.
+                  Kirjautuminen epäonnistui.
                 </Typography>
               </div>
               <Typography variant="body1" style={registerTextStyle}>

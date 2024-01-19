@@ -108,7 +108,6 @@ function Register() {
     const checkName = (e, nameValidity) => {
         const acceptedLetters = "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
         const nameInput = e.target.value;
-            e["skeidaa"] = "";
 
         let validCharCount = 0;
         for (const char of nameInput) {
@@ -463,7 +462,7 @@ function Register() {
                         style={isValidRegistration ? {display: "none"} : 
                         {display: "inline"}}
                         > 
-                          Registration failed. Some inputs are invalid.
+                          Rekisteröinti epäonnistui.
                         </Typography>
                     </Grid>
                 </Grid>
