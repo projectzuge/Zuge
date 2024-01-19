@@ -15,7 +15,7 @@ function MenuBar() {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
-
+  const [DarkMode, setDarkMode] = useState(false);
   const [dropDownClicked, setDropDownClicked] = useState(false);
   const [userClicked, setUserClicked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -55,6 +55,11 @@ function MenuBar() {
     setUserClicked(false);
   };
 
+  const switchLightDark = () => {
+    setDarkMode(!DarkMode);
+    console.log(DarkMode);
+  };
+
   return (
     <>
         <div className="Bar">
@@ -86,7 +91,8 @@ function MenuBar() {
             <div className="switchContainer">
               <input type="checkbox"
                     id="switchMenu"
-                    className="checkboxMenu" />     
+                    className="checkboxMenu"
+                    onClick={switchLightDark} />     
               <label htmlFor="switchMenu"
                     className="toggleMenu">
               </label>
@@ -130,7 +136,8 @@ function MenuBar() {
               open={open} 
               handleClose={handleClose}
               handleClickUser={handleClickUser}
-              handleItemClick={handleItemClick}/>
+              handleItemClick={handleItemClick}
+              switchLightDark={switchLightDark}/>
           </div>
       </div>
     </>

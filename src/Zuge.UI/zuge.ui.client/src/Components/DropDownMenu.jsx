@@ -7,11 +7,14 @@ import { Link } from "react-router-dom";
 DropDownMenu.propTypes = {
   anchorEl: PropTypes.any,
   open: PropTypes.any,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
+  handleClickUser: PropTypes.func,
+  handleItemClick: PropTypes.func,
+  switchLightDark: PropTypes.func
 };
 
 
-function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick }) {
+function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick, switchLightDark }) {
 
   return (
     <>
@@ -54,7 +57,8 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
             <div className="toggleContainer">
               <input type="checkbox"
                     id="switch"
-                    className="checkbox" />
+                    className="checkbox"
+                    onClick={switchLightDark} />
               <label htmlFor="switch"
                     className="toggle">
               </label>

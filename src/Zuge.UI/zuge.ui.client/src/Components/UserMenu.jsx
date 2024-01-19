@@ -176,12 +176,13 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
       setIsLoginValid(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
       navigate('/'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
       handleItemClick(); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-      // axios.get("Login")
+      // axios.get("Login", {Email: email, Password: password})
       // .then(function (res) {
       //     console.log("VALID RESPONSE: " + res);
       //     setIsLoginValid(true);
       //     navigate('/');
       //     handleItemClick();
+      //     // Do something with the response data...
       // })
       // .catch(function (error) {
       //     console.log("ERROR MESSAGE: " + error);

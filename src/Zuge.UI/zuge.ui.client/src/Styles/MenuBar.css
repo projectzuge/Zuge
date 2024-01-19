@@ -172,13 +172,8 @@
     grid-template-columns: 35% 35%;
   }
 
-  /* .toggleContainerMenu {
-    display: flex;
-    align-items: center;
-    justify-content: ;
-  } */
   .toggleContainerMenu > * {
-    flex: 1; /* Equal width for both children */
-    text-align: center; /* Optional: Align text in the center */
+    flex: 1;
+    text-align: center;
   }
 }
