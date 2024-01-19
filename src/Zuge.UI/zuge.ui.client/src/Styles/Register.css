@@ -1,0 +1,106 @@
+.RegisterBackground {
+    font-family: 'Roboto', sans-serif;
+    color: #262626;
+    border-radius: 10px;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    padding: 40px;
+    padding-top: 10px;
+    max-width: 600px;
+    height: fit-content;
+    background-color: rgba(238, 238, 238, 0.8);
+}
+
+.registerTextField .MuiInputBase-root {  
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #262626;
+}
+
+.registerTextField .MuiInputBase-root:hover {  
+    border: none;
+}
+
+@media screen and (max-width: 570px) {
+    .RegisterBackground {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .RegisterTitle {
+        font-size: 80%;
+    }
+
+    .registerTextField > .MuiInputBase-input {
+        height: 80%;
+        font-size: 80%;
+    }
+    .registerVisibilityIcon > .MuiSvgIcon {
+        width: 80%;
+        font-size: 80%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .RegisterBackground {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .RegisterTitle {
+        font-size: 70%;
+    }
+
+    .registerTextField > .MuiInputBase-root {
+        height: 70%;
+        font-size: 70%;
+    }
+    .registerVisibilityIcon > .MuiSvgIcon {
+        width: 70%;
+        font-size: 70%;
+    }
+}
+
+
+.RegisterTitle {
+    padding-left: 10%;
+    display: grid;
+    justify-content: start;
+}
+
+.RegisterBody {
+    background-color: #eeeeee;
+    padding: 20px;
+    padding-bottom: 40px;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+.backLink {
+    margin: 0px;
+}
+
+.validRegistrationButton {
+    color: #262626;
+}
+
+.invalidRegistrationButton {
+    color: #ff3c3c;
+}
+
+
+@media screen and (max-width: 570px) {
+    .registerTextField .MuiFormHelperText-root {
+        font-size: 70%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .registerTextField .MuiFormHelperText-root {
+        font-size: 60%;
+    }
+}
+

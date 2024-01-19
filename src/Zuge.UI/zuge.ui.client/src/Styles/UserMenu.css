@@ -1,0 +1,25 @@
+.registerLink {
+    all: inherit;
+    border: none;
+    margin: 0px;
+    padding: 7px;
+}
+
+.registerLink:hover {
+    border-style:none;
+}
+
+.registerButton {
+    padding: 0px;
+}
+
+.LoginTextField .MuiInputBase-root {  
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #262626;
+}
+
+.LoginTextField .MuiInputBase-root:hover {  
+    border: none;
+}

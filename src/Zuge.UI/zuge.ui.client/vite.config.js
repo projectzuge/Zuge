@@ -53,7 +53,11 @@ export default defineConfig({
              '^/Journey': {
                  target,
                  secure: false
-             }
+             },
+             '^/Account': {
+                target,
+                secure: false
+            }
          },
         port: 5173,
         https: {

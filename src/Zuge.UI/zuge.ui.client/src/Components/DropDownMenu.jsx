@@ -10,7 +10,9 @@ DropDownMenu.propTypes = {
   handleClose: PropTypes.func
 };
 
-function DropDownMenu({ anchorEl, open, handleClose }) {
+
+function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick }) {
+
   return (
     <>
       <div className="DropDownBody">
@@ -32,14 +34,17 @@ function DropDownMenu({ anchorEl, open, handleClose }) {
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem>
+          <MenuItem onClick={handleItemClick}>
               <p><Link className="MenuItemLink" to="/SingleNews">Uutiset</Link></p>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={handleItemClick}>
               <p><Link className="MenuItemLink" to="/contact">Yhteystiedot ja palaute</Link></p>
           </MenuItem>
-          <MenuItem>
-              <p><Link className="MenuItemLink" to="/user">Käyttäjä</Link></p>
+          <MenuItem onClick={(event) => {
+            handleItemClick();
+            handleClickUser(event);
+          }}>
+              <p><Link to="/user" className="MenuItemLink">Käyttäjä</Link></p>
           </MenuItem>
           <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
           </MenuItem>

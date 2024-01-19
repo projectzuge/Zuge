@@ -8,7 +8,9 @@ import axios from "axios";
 import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
+import UserMenu from "./Components/UserMenu.jsx";
 import Contact from "./Pages/Contact.jsx";
+import Register from "./Pages/Register.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
 import Profile from "./Pages/Profile.jsx";
 
@@ -53,6 +55,8 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/NewsPage" element={<NewsPage />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
+                <Route path="/userMenu" element={<UserMenu />} />
+                <Route path="/register" element={<Register />} />
                 <Route path="/user" element={<Profile />} />
                 <Route path="/route" element={<RouteInfo />} />
             </Routes>
