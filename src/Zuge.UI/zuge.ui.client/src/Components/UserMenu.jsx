@@ -13,7 +13,7 @@ import {
   InputAdornment, 
   IconButton
 } from '@mui/material';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 UserMenu.propTypes = {
   anchorEl: PropTypes.any,
@@ -30,6 +30,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
   const [isPasswordValid, setIsPasswordValid] = useState("initial");
   const [isLoginValid, setIsLoginValid] = useState(true);
   const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  const navigate = useNavigate();
 
   const menuStyle = {
     position: 'absolute',
@@ -73,11 +74,13 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
   const buttonStyle = {
     color: '#262626',
     border: "solid",
+    borderWidth: "1px",
   };
 
   const buttonRegisterStyle = {
     color: '#262626',
     border: "solid",
+    borderWidth: "1px",
     padding: "0px",
   };
 
@@ -171,10 +174,14 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
     if (isEmailValid && isPasswordValid) {
       console.log("Valid Input!!!!");
       setIsLoginValid(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
+      navigate('/'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
+      handleItemClick(); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
       // axios.get("Login")
       // .then(function (res) {
       //     console.log("VALID RESPONSE: " + res);
       //     setIsLoginValid(true);
+      //     navigate('/');
+      //     handleItemClick();
       // })
       // .catch(function (error) {
       //     console.log("ERROR MESSAGE: " + error);

@@ -2,7 +2,7 @@ import './../Styles/Register.css';
 import { useState, useEffect } from "react";
 import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLabel, Typography } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Register() {
@@ -25,6 +25,7 @@ function Register() {
         isPhoneNumValid: "initial"});
     const [isValidRegistration, setIsValidRegistration] = useState(true);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+    const navigate = useNavigate();
 
     const labelStyle = {
         display: "grid",
@@ -254,6 +255,7 @@ function Register() {
             .then(function (res) {
                 console.log("VALID RESPONSE: " + res);
                 setIsValidRegistration(true);
+                navigate('/');
             })
             .catch(function (error) {
                 console.log("ERROR MESSAGE: " + error);

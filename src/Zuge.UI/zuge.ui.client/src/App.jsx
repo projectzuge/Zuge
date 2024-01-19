@@ -55,7 +55,7 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/NewsPage" element={<NewsPage />} />
                 <Route path="/SingleNews" element={<SingleNews />} />
-                <Route path="/user" element={<UserMenu />} />
+                <Route path="/userMenu" element={<UserMenu />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/user" element={<Profile />} />
                 <Route path="/route" element={<RouteInfo />} />

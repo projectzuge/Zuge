@@ -74,7 +74,7 @@ function MenuBar() {
             </Link>
           </div>
           <div className="MenuLink">
-            <Link id="UserLink" to="/user"
+            <Link id="UserLink" to="/userMenu"
               onClick={handleClickUser}>
                 <Typography variant={variant}>Käyttäjä</Typography>
             </Link>
