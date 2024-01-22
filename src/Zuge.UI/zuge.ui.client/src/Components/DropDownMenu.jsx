@@ -10,7 +10,7 @@ DropDownMenu.propTypes = {
   handleClose: PropTypes.func,
   handleClickUser: PropTypes.func,
   handleItemClick: PropTypes.func,
-  switchLightDark: PropTypes.func
+  switchLightDark: PropTypes.func,
 };
 
 

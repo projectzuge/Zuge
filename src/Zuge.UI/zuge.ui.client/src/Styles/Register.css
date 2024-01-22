@@ -1,6 +1,5 @@
 .RegisterBackground {
     font-family: 'Roboto', sans-serif;
-    color: #262626;
     border-radius: 10px;
     align-self: center;
     margin-left: auto;
@@ -13,11 +12,35 @@
     background-color: rgba(238, 238, 238, 0.8);
 }
 
+.darkBackground {
+    color: #eeeeee;
+    background-color: rgba(38, 38, 33, 0.8);
+}
+
+.light {
+    color: #262626;
+    background-color: rgb(238, 238, 238);
+}
+
+.dark {
+    color: #eeeeee;
+    background-color: rgb(38, 38, 33);
+}
+
 .registerTextField .MuiInputBase-root {  
     border: solid;
     border-width: 1px;
     border-radius: 5px;
     border-color: #262626;
+}
+
+/* MIKSI ET TOIMI??? */
+.registerTextField .darkText .MuiInputBase-root {  
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #262626;
+    color: #eeeeee;
 }
 
 .registerTextField .MuiInputBase-root:hover {  
@@ -72,7 +95,6 @@
 }
 
 .RegisterBody {
-    background-color: #eeeeee;
     padding: 20px;
     padding-bottom: 40px;
     border-radius: 10px;

@@ -36,7 +36,7 @@
     display : inline-block;
     width: 60px;
     height: 25px;
-    background-color: #eeeeee;
+    background-color: #525252;
     border-radius: 30px;
     border: 1px solid #000000;
 }
@@ -61,7 +61,7 @@
        
 /* Checkbox checked toggle label bg color */
 .checkbox:checked + .toggle {
-    background-color: #525252;
+    background-color: #eeeeee;
 }
        
 /* Checkbox vanished */

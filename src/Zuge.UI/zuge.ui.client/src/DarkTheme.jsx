@@ -43,7 +43,7 @@ const DarkTheme = createTheme({
       height: "60px",
     },
     notSelected: {
-      main: "rgba(238, 238, 238, 0.9)",
+      main: "rgba(38, 38, 38, 0.9)",
       contrastText: "#eeeeee",
     },
   },
@@ -55,14 +55,14 @@ const DarkTheme = createTheme({
           borderRadius: "10px",
           "&:hover": {
             backgroundColor: "#262626",
-            outline: "1px solid rgba(38, 38, 38, 0.5)",
+            outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         }),
         containedSecondary: {
           height: "56px",
           "&:hover": {
             backgroundColor: "#88ed74", // Set the desired hover color for secondary buttons
-            outline: "1px solid rgba(38, 38, 38, 0.5)",
+            outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         },
       },

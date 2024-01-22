@@ -10,12 +10,17 @@ import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import PropTypes from 'prop-types';
 
-function MenuBar() {
+MenuBar.propTypes = {
+  DarkMode: PropTypes.bool,
+  setDarkMode: PropTypes.func,
+};
+
+function MenuBar({ DarkMode, setDarkMode }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
-  const [DarkMode, setDarkMode] = useState(false);
   const [dropDownClicked, setDropDownClicked] = useState(false);
   const [userClicked, setUserClicked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -57,12 +62,11 @@ function MenuBar() {
 
   const switchLightDark = () => {
     setDarkMode(!DarkMode);
-    console.log(DarkMode);
   };
 
   return (
     <>
-        <div className="Bar">
+        <div className={DarkMode? "Bar dark" : "Bar light"}>
           <div className="HomePageButton">
             <Link to="/">
               <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
