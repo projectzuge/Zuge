@@ -57,9 +57,9 @@ function App() {
                       <FrontPage />
                     )
                   } />
-                  <Route path="/contact" element={<Contact />} />
-                  <Route path="/NewsPage" element={<NewsPage />} />
-                  <Route path="/SingleNews" element={<SingleNews />} />
+                  <Route path="/contact" element={<Contact DarkMode={DarkMode} />} />
+                  <Route path="/NewsPage" element={<NewsPage DarkMode={DarkMode} />} />
+                  <Route path="/SingleNews" element={<SingleNews DarkMode={DarkMode} />} />
                   <Route path="/userMenu" element={<UserMenu />} />
                   <Route path="/register" element={<Register DarkMode={DarkMode} />} />
                   <Route path="/user" element={<Profile />} />

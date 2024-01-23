@@ -24,7 +24,7 @@
 
 .dark {
     color: #eeeeee;
-    background-color: rgb(38, 38, 33);
+    background-color: rgb(38, 38, 38);
 }
 
 .registerTextField .MuiInputBase-root {  
@@ -32,18 +32,22 @@
     border-width: 1px;
     border-radius: 5px;
     border-color: #262626;
+    color: #262626;
 }
 
-/* MIKSI ET TOIMI??? */
-.registerTextField .darkText .MuiInputBase-root {  
+.darkRegisterTextField .MuiInputBase-root {  
     border: solid;
     border-width: 1px;
     border-radius: 5px;
-    border-color: #262626;
+    border-color: #eeeeee;
     color: #eeeeee;
 }
 
 .registerTextField .MuiInputBase-root:hover {  
+    border: none;
+}
+
+.darkRegisterTextField .MuiInputBase-root:hover {  
     border: none;
 }
 

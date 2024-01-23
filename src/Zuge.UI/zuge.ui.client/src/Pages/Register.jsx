@@ -316,7 +316,7 @@ function Register({ DarkMode }) {
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Sähköposti</InputLabel>
                         <TextField
                         value={inputs.email} 
-                        className={DarkMode? "registerTextField darkText" : "registerTextField"}
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         variant="outlined" 
                         onInput={handleEmailInput}
                         onChange={onEmailChange}
@@ -334,7 +334,7 @@ function Register({ DarkMode }) {
                           style={DarkMode? labelDarkStyle : labelLightStyle}>Salasana</InputLabel>
                         <TextField 
                         value={inputs.password} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         name="password"
                         variant="outlined" 
                         type={showPassword ? 'text' : 'password'} 
@@ -371,7 +371,7 @@ function Register({ DarkMode }) {
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Vahvista salasana</InputLabel>
                         <TextField
                         value={inputs.rePassword}   
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         name="password"
                         variant="outlined" 
                         type={showRePassword ? 'text' : 'password'}  
@@ -402,7 +402,7 @@ function Register({ DarkMode }) {
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Etunimi</InputLabel>
                         <TextField
                         value={inputs.firstName} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onFirstNameChange}
                         error={!inputValidities.isFirstNameValid}
                         helperText={!inputValidities.isFirstNameValid ? 
@@ -419,7 +419,7 @@ function Register({ DarkMode }) {
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Sukunimi</InputLabel>
                         <TextField
                         value={inputs.lastName} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onLastNameChange}
                         error={!inputValidities.isLastNameValid}
                         helperText={!inputValidities.isLastNameValid ? 
@@ -436,7 +436,7 @@ function Register({ DarkMode }) {
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Puhelinnumero</InputLabel>
                         <TextField 
                         value={inputs.phoneNum} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onPhoneNumChange}
                         error={!inputValidities.isPhoneNumValid}
                         helperText={!inputValidities.isPhoneNumValid ? "Invalid phone number. Phone number needs to be 10 to 15 characters long and can only have numbers. Don't use the country code." : ""}

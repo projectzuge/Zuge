@@ -18,6 +18,15 @@
   z-index: 1;
 }
 
+.HomePageButtonDark {
+  height: 40px;
+  margin: 10px;
+  width: fit-content;
+  border-style: hidden;
+  background-color: #262626;
+  z-index: 1;
+}
+
 .LogoImage {
   height: 100%;
 }

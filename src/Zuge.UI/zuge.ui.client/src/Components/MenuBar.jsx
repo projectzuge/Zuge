@@ -1,7 +1,10 @@
 import "./../Styles/MenuBar.css";
 import trainLogo from "./../assets/trainLogo.jpg";
+import trainLogoDark from "./../assets/trainLogoDark.jpg";
 import dropDownMenuLogo from "./../assets/dropDownMenuLogo.jpg";
+import dropDownMenuLogoDark from "./../assets/dropDownMenuLogoDark.jpg";
 import exitDropDownMenuLogo from "./../assets/ExitDropDownMenuLogo.jpg";
+import exitDropDownMenuLogoDark from "./../assets/ExitDropDownMenuLogoDark.jpg";
 import DropDownMenu from "./DropDownMenu.jsx";
 import UserMenu from "./UserMenu.jsx";
 import Button from '@mui/material/Button';
@@ -67,9 +70,9 @@ function MenuBar({ DarkMode, setDarkMode }) {
   return (
     <>
         <div className={DarkMode? "Bar dark" : "Bar light"}>
-          <div className="HomePageButton">
+          <div className={DarkMode? "HomePageButtonDark" : "HomePageButton"}>
             <Link to="/">
-              <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
+              <img className="LogoImage" src={DarkMode? trainLogoDark : trainLogo} alt="Train logo"></img>
             </Link>
           </div>
           <div className="MenuLink">
@@ -102,7 +105,7 @@ function MenuBar({ DarkMode, setDarkMode }) {
               </label>
             </div>
           </div>  
-          <div className="DropDownMenuButtonBody">
+          <div className={DarkMode? "DropDownMenuButtonBody dark" : "DropDownMenuButtonBody light"}>
             <Button
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
@@ -112,12 +115,12 @@ function MenuBar({ DarkMode, setDarkMode }) {
                 <Link>
                   <img className=
                   {dropDownClicked?"DropDownMenuImageInvisible":"DropDownMenuImageVisible"} 
-                  src={dropDownMenuLogo} 
+                  src={DarkMode? dropDownMenuLogoDark : dropDownMenuLogo} 
                   alt="Dropdown menu logo">
                   </img>
                   <img className=
                   {dropDownClicked?"ExitDropDownMenuImageVisible":"ExitDropDownMenuImageInvisible"} 
-                  src={exitDropDownMenuLogo} 
+                  src={DarkMode? exitDropDownMenuLogoDark : exitDropDownMenuLogo} 
                   alt="Exit dropdown menu logo">
                   </img>
                 </Link>
@@ -130,7 +133,8 @@ function MenuBar({ DarkMode, setDarkMode }) {
               anchorEl={anchorElUser} 
               open={openUser} 
               handleClose={handleCloseUser}
-              handleItemClick={handleItemClick}/>
+              handleItemClick={handleItemClick}
+              DarkMode={DarkMode}/>
           </div>
         </div>
         <div>
@@ -141,7 +145,8 @@ function MenuBar({ DarkMode, setDarkMode }) {
               handleClose={handleClose}
               handleClickUser={handleClickUser}
               handleItemClick={handleItemClick}
-              switchLightDark={switchLightDark}/>
+              switchLightDark={switchLightDark}
+              DarkMode={DarkMode}/>
           </div>
       </div>
     </>

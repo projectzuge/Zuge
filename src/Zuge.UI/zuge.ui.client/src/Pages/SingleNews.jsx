@@ -9,7 +9,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import news from  "./../assets/news.json";
 
-const SingleNews = () => {
+const SingleNews = ({ DarkMode }) => {
   // const[news, setNews] = useState([]);
 
   // useEffect(() => {
@@ -31,7 +31,7 @@ const SingleNews = () => {
         Takaisin
       </Button>
       </Link>
-      <Box id="single-news-container">
+      <Box id={DarkMode? "single-news-container-dark" : "single-news-container"}>
         <Grid xs={12} sm={12} md={8} lg={6} xl={4}>
             {news.news.map(item => (
               <Grid item key={item.id} marginBottom={2}>

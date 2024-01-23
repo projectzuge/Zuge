@@ -9,6 +9,18 @@
   
 }
 
+#news-add-container-dark {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  margin-top: 70px;
+  background-color: rgba(38, 38, 38, 0.8);
+  border-radius: 10px;
+  font-family: "Inria Sans, sans-serif";
+  color: #eeeeee;
+  
+}
+
 #button-group-container {
   width: 100%;
   background-color: rgba(238, 238, 238, 0.8);
@@ -16,3 +28,11 @@
   font-family: "Inria Sans, sans-serif";
 }
 
+#fetch-routes-button-dark {
+  color: #eeeeee;
+  background-color: #262626;
+}
+
+.NewsTextFieldDark .MuiInputBase-root {  
+  color: #eeeeee;
+}

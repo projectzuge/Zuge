@@ -5,6 +5,13 @@
     background-color: #eeeeee;
 }
 
+#dropDownMenuDark > .MuiPaper-root {
+    width: 300px;
+    height: 450px;
+    padding-left: 30px;
+    background-color: #262626;
+}
+
 .NewsButton {
     border-style: none;
 }
