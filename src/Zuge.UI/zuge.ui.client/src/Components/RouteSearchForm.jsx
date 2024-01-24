@@ -74,18 +74,18 @@ const RouteSearchForm = (props) => {
   };
 
   return (
-    <Box id="search-form-container" marginTop="40px">
+    <Box id={props.DarkMode? "search-form-container-dark" : "search-form-container"} marginTop="40px">
       <FormControl fullWidth className="route-search-form" variant="outlined">
         <div id="single-select-div">
           <Select
             sx={{
               "&:hover": {
                 "&& fieldset": {
-                  border: "1px solid rgba(38, 38, 38, 0.5)",
+                  border: props.DarkMode? "1px solid rgba(238, 238, 238, 0.5)" : "1px solid rgba(38, 38, 38, 0.5)",
                 },
               },
             }}
-            id="from-cities"
+            id={props.DarkMode? "from-cities-dark" : "from-cities"}
             required
             value={fromCity}
             onChange={handleFromCityChange}
@@ -114,11 +114,11 @@ const RouteSearchForm = (props) => {
             sx={{
               "&:hover": {
                 "&& fieldset": {
-                  border: "1px solid rgba(38, 38, 38, 0.5)",
+                  border: props.DarkMode? "1px solid rgba(238, 238, 238, 0.5)" : "1px solid rgba(38, 38, 38, 0.5)",
                 },
               },
             }}
-            id="to-cities"
+            id={props.DarkMode? "to-cities-dark" : "to-cities"}
             required
             value={toCity}
             onChange={handleToCityChange}
@@ -127,7 +127,7 @@ const RouteSearchForm = (props) => {
               disableScrollLock: true,
               PaperProps: {
                 style: {
-                  backgroundColor: "#eeeeee",
+                  backgroundColor: props.DarkMode? "262626" : "#eeeeee",
                 },
               },
             }}
@@ -146,6 +146,7 @@ const RouteSearchForm = (props) => {
         <div id="date-picker">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
+              className={props.DarkMode? "DatePickerDark" : "DatePicker"}
               sx={{
                 "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                   outline: "0px transparent",
@@ -190,11 +191,11 @@ const RouteSearchForm = (props) => {
             sx={{
               "&:hover": {
                 "&& fieldset": {
-                  border: "1px solid rgba(38, 38, 38, 0.5)",
+                  border: props.DarkMode? "1px solid rgba(238, 238, 238, 0.5)" : "1px solid rgba(38, 38, 38, 0.5)",
                 },
               },
             }}
-            id="passenger-type"
+            id={props.DarkMode? "passenger-type-dark" : "passenger-type"}
             required
             value={passengerType}
             onChange={handlePassengerTypeChange}
@@ -203,7 +204,7 @@ const RouteSearchForm = (props) => {
               disableScrollLock: true,
               PaperProps: {
                 style: {
-                  backgroundColor: "#eeeeee",
+                  backgroundColor: props.DarkMode? "#262626" : "#eeeeee",
                 },
               },
             }}
@@ -232,6 +233,7 @@ const RouteSearchForm = (props) => {
             to={toCity}
             date={selectedDate}
             passenger={passengerType}
+            DarkMode={props.DarkMode}
           />,
           document.getElementById("route-list-grid")
         )}

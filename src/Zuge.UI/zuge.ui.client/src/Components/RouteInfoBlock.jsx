@@ -3,10 +3,11 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import "../Styles/RouteInfoBlock.css";
 import rightArrow from "./../assets/right-arrow.png";
+import rightArrowDark from "./../assets/right-arrow-dark.png";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 
-const RouteInfoBlock = () => {
+const RouteInfoBlock = ({ DarkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,11 +30,11 @@ const RouteInfoBlock = () => {
         </Button>
       </div>
       <Grid id="route-info-grid" container direction="column">
-        <Box id="route-info-box">
+        <Box id={DarkMode? "route-info-box-dark" : "route-info-box"}>
           <Typography id="title-typography" variant="largeBoldFont">
             MENOMATKA:
           </Typography>
-          <Box id="route-inside-box">
+          <Box id={DarkMode? "route-inside-box-dark" : "route-inside-box"}>
             <Typography variant="mediumBoldFont">{data.date}</Typography>
             <Grid id="times-grid" alignItems="center">
               <Grid item xs={4}>
@@ -51,7 +52,7 @@ const RouteInfoBlock = () => {
                 <Typography variant="largeBoldFont">{data.from}</Typography>
               </Grid>
               <Grid item xs={4} id="arrow-item-grid" alignContent={"center"}>
-                <img src={rightArrow} alt="Array Icon" id="right-arrow-icon" />
+                <img src={DarkMode? rightArrowDark : rightArrow} alt="Array Icon" id="right-arrow-icon" />
               </Grid>
               <Grid item xs={4}>
                 <Typography variant="largeBoldFont">{data.to}</Typography>

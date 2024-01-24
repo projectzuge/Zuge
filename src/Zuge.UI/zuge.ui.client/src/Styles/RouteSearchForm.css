@@ -5,6 +5,14 @@
   border-radius: 5px;
 }
 
+#from-cities-dark,
+#to-cities-dark,
+#passenger-type-dark {
+  background-color: #262626;
+  border-radius: 5px;
+  color: #eeeeee;
+}
+
 #search-form-container {
   max-width: 100%;
   padding: 40px;
@@ -12,8 +20,19 @@
   border-radius: 10px;
 }
 
+#search-form-container-dark {
+  max-width: 100%;
+  padding: 40px;
+  background: rgba(38, 38, 38, 0.8);
+  border-radius: 10px;
+}
+
 #single-select-div {
   margin-bottom: 20px;
+}
+
+.DatePickerDark .MuiInputBase-input {
+  color: #eeeeee;
 }
 
 .MuiInputBase-root {
@@ -32,7 +51,7 @@
 }
 
 @media screen and (max-width: 480px) {
-  #search-form-container {
+  #search-form-container, #search-form-container-dark {
     padding: 20px;
   }
 }

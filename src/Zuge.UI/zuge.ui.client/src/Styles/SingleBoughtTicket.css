@@ -5,3 +5,11 @@
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
+#single-bought-journey-container-dark {
+  max-width: 100%;
+  background: rgba(38, 38, 38, 0.8);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}

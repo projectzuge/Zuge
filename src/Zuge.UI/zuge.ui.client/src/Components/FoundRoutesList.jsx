@@ -81,7 +81,7 @@ const FoundRoutesList = (props) => {
   };
 
   return (
-    <Box id="found-routes-list-box" marginTop="40px">
+    <Box id={props.DarkMode? "found-routes-list-box-dark" : "found-routes-list-box"} marginTop="40px">
       <Grid container id="info-row" alignItems="center">
         <Grid item xs={4} textAlign="left">
           <Typography>Meno: {formattedDate}</Typography>
@@ -108,6 +108,7 @@ const FoundRoutesList = (props) => {
             to={toCity}
             train={route.train}
             passengerType={passengerType}
+            DarkMode={props.DarkMode}
           />
         ))
       ) : (

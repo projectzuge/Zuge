@@ -54,7 +54,7 @@ function App() {
                     loading ? (
                       <LoadingSpinner />
                     ) : (
-                      <FrontPage />
+                      <FrontPage DarkMode={DarkMode}/>
                     )
                   } />
                   <Route path="/contact" element={<Contact DarkMode={DarkMode} />} />
@@ -62,8 +62,8 @@ function App() {
                   <Route path="/SingleNews" element={<SingleNews DarkMode={DarkMode} />} />
                   <Route path="/userMenu" element={<UserMenu />} />
                   <Route path="/register" element={<Register DarkMode={DarkMode} />} />
-                  <Route path="/user" element={<Profile />} />
-                  <Route path="/route" element={<RouteInfo />} />
+                  <Route path="/user" element={<Profile DarkMode={DarkMode} />} />
+                  <Route path="/route" element={<RouteInfo DarkMode={DarkMode} />} />
               </Routes>
             </div>
           </Router>

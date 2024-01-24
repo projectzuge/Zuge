@@ -48,7 +48,7 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
             handleItemClick();
             handleClickUser(event);
           }}>
-              <p><Link to="/user" className={DarkMode? "MenuItemLink dark" : "MenuItemLink"}>Käyttäjä</Link></p>
+              <p><Link to="/userMenu" className={DarkMode? "MenuItemLink dark" : "MenuItemLink"}>Käyttäjä</Link></p>
           </MenuItem>
           <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
           </MenuItem>

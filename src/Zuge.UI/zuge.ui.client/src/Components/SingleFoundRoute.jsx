@@ -41,7 +41,7 @@ const SingleFoundRoute = (props) => {
   };
 
   return (
-    <Box id="single-route-container">
+    <Box id={props.DarkMode? "single-route-container-dark" : "single-route-container"}>
       <Button
         color={"primary"}
         id="single-route-button"

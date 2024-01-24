@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 
 Register.propTypes = {
     DarkMode: PropTypes.bool,
-  };
+};
 
 function Register({ DarkMode }) {
     const [showPassword, setShowPassword] = useState(false);
