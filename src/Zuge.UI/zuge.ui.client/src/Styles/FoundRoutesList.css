@@ -5,6 +5,14 @@
   border-radius: 10px;
 }
 
+#found-routes-list-box-dark {
+  max-width: 100%;
+  padding: 40px;
+  background: rgba(38, 38, 38, 0.8);
+  color: #eeeeee;
+  border-radius: 10px;
+}
+
 #info-row {
   padding-left: 10px;
   padding-right: 10px;

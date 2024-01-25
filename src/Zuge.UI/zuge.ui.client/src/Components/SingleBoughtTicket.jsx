@@ -16,7 +16,7 @@ const SingleBoughtTicket = (props) => {
   };
 
   return (
-    <Box id="single-bought-journey-container">
+    <Box id={props.DarkMode? "single-bought-journey-container-dark" : "single-bought-journey-container"}>
       <Button
         color={"primary"}
         id="single-route-button"
