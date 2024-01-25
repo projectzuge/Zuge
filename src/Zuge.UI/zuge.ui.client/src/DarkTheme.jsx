@@ -85,13 +85,6 @@ const DarkTheme = createTheme({
         }),
       },
     },
-    MuiTypography: {
-      styleOverrides: {
-        root: ({ ownerState }) => ({
-          color: "rgba(255, 255, 255, 0.6)",
-        }),
-      },
-    },
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
@@ -116,7 +109,7 @@ const DarkTheme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: "Inria Sans, sans-serif",
-          color: "#eeeeee",
+          color: "#eeeeee !important",
         },
       },
     },

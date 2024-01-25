@@ -47,24 +47,26 @@ function App() {
       <ThemeProvider theme={DarkMode ? darkTheme : theme}>
         <RouteContext.Provider value={journeys}>
           <Router>
-            <MenuBar id="menu-bar" DarkMode={DarkMode} setDarkMode={setDarkMode} />
-            <div id="page-contents-container">
-              <Routes>
-                  <Route path="/" element={
-                    loading ? (
-                      <LoadingSpinner />
-                    ) : (
-                      <FrontPage DarkMode={DarkMode}/>
-                    )
-                  } />
-                  <Route path="/contact" element={<Contact DarkMode={DarkMode} />} />
-                  <Route path="/NewsPage" element={<NewsPage DarkMode={DarkMode} />} />
-                  <Route path="/SingleNews" element={<SingleNews DarkMode={DarkMode} />} />
-                  <Route path="/userMenu" element={<UserMenu />} />
-                  <Route path="/register" element={<Register DarkMode={DarkMode} />} />
-                  <Route path="/user" element={<Profile DarkMode={DarkMode} />} />
-                  <Route path="/route" element={<RouteInfo DarkMode={DarkMode} />} />
-              </Routes>
+            <div id={DarkMode? "body-dark" : "body-light"}>
+              <MenuBar id="menu-bar" DarkMode={DarkMode} setDarkMode={setDarkMode} />
+              <div id="page-contents-container">
+                <Routes>
+                    <Route path="/" element={
+                      loading ? (
+                        <LoadingSpinner />
+                      ) : (
+                        <FrontPage DarkMode={DarkMode}/>
+                      )
+                    } />
+                    <Route path="/contact" element={<Contact DarkMode={DarkMode} />} />
+                    <Route path="/NewsPage" element={<NewsPage DarkMode={DarkMode} />} />
+                    <Route path="/SingleNews" element={<SingleNews DarkMode={DarkMode} />} />
+                    <Route path="/userMenu" element={<UserMenu />} />
+                    <Route path="/register" element={<Register DarkMode={DarkMode} />} />
+                    <Route path="/user" element={<Profile DarkMode={DarkMode} />} />
+                    <Route path="/route" element={<RouteInfo DarkMode={DarkMode} />} />
+                </Routes>
+              </div>
             </div>
           </Router>
         </RouteContext.Provider>

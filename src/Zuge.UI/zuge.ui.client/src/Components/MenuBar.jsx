@@ -99,6 +99,7 @@ function MenuBar({ DarkMode, setDarkMode }) {
               <input type="checkbox"
                     id="switchMenu"
                     className="checkboxMenu"
+                    checked={DarkMode}
                     onClick={switchLightDark} />     
               <label htmlFor="switchMenu"
                     className="toggleMenu">

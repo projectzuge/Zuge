@@ -58,6 +58,7 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
             <div className="toggleContainer">
               <input type="checkbox"
                     id="switch"
+                    checked={DarkMode}
                     className="checkbox"
                     onClick={switchLightDark} />
               <label htmlFor="switch"

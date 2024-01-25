@@ -256,6 +256,9 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
                 className={DarkMode? "LoginTextFieldDark" : "LoginTextField"}
                 onInput={handleEmailInput}
                 onChange={onEmailChange}
+                onKeyDown = {(e) => { // Estää focuksen katoamisen s-näppäintä painaessa.
+                  e.stopPropagation()}
+                }
                 error={!isEmailValid}
                 helperText={!isEmailValid ? "Invalid email address" : ""} 
                 value={email}
@@ -288,6 +291,9 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
                 }}
                 onInput={handlePasswordInput}
                 onChange={onPasswordChange}
+                onKeyDown = {(e) => { // Estää focuksen katoamisen s-näppäintä painaessa.
+                  e.stopPropagation()}
+                }
                 />
               </FormControl>
               <div style={buttonsContainerStyle}>
