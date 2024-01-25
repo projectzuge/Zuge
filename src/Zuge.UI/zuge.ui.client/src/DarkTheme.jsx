@@ -49,10 +49,54 @@ const DarkTheme = createTheme({
   },
   //style overrides:
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "#eeeeee",
+          backgroundColor: "#262626",
+        }),
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          backgroundColor: "#262626",
+        }),
+      },
+    },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "#909090",
+        }),
+      },
+    },
+    MuiDayCalendar: {
+      styleOverrides: {
+        weekDayLabel: ({ ownerState }) => ({
+          color: "#eeeeee",
+        }),
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "rgba(255, 255, 255, 0.54)",
+        }),
+      },
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "rgba(255, 255, 255, 0.6)",
+        }),
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
           borderRadius: "10px",
+          color: "#eeeeee",
           "&:hover": {
             backgroundColor: "#262626",
             outline: "1px solid rgba(238, 238, 238, 0.5)",

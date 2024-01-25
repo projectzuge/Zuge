@@ -53,6 +53,7 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ ownerState }) => ({
           borderRadius: "10px",
+          color: "#262626",
           "&:hover": {
             backgroundColor: "#eeeeee",
             outline: "1px solid rgba(38, 38, 38, 0.5)",

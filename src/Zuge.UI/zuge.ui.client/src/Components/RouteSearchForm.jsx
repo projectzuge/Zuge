@@ -210,7 +210,7 @@ const RouteSearchForm = (props) => {
             }}
           >
             {passengerTypes.map((pass) => (
-              <MenuItem key={pass} value={pass}>
+              <MenuItem className={props.DarkMode? "MenuItemDark" : "MenuItem"} key={pass} value={pass}>
                 {pass}
               </MenuItem>
             ))}
