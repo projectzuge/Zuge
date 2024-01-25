@@ -46,6 +46,9 @@ const theme = createTheme({
       main: "rgba(238, 238, 238, 0.9)",
       contrastText: "#262626",
     },
+    addEmailButton: {
+      main: "rgba(0, 0, 0, 0)",
+    }
   },
   //style overrides:
   components: {
@@ -65,6 +68,13 @@ const theme = createTheme({
             outline: "1px solid rgba(38, 38, 38, 0.5)",
           },
         },
+        containedAddEmailButton: {
+          "&:hover": {
+            border: "none",
+            outline: "none",
+            backgroundColor: "rgba(0, 0, 0, 0)",
+          }
+        }
       },
     },
 

@@ -1,0 +1,29 @@
+#payment-container {
+  padding: 100px;
+  max-width: 60%;
+  background: rgba(238, 238, 238, 0.8);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+#payment-div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 950px) {
+  #payment-container {
+    max-width: 80%;
+    padding: 60px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  #payment-container {
+    max-width: 100%;
+    padding: 10px;
+  }
+}
+

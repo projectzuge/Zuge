@@ -6,22 +6,67 @@ import { useJourney } from "../Contexts/SelectedRouteContext";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import plusSign from "./../assets/plus-sign.png";
+import { useNavigate } from "react-router-dom";
 
 const ReviseJourneyInfo = () => {
-  const [email, setEmail] = useState("Sähköpostiosoite");
-  const [emailNotValid, setEmailNotValid] = useState(false);
+  const navigate = useNavigate();
+  const [emailFields, setEmailFields] = useState([
+    { value: "Sähköpostiosoite", isValid: false },
+  ]);
+  //   const [emailNotValid, setEmailNotValid] = useState(false);
 
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
   const selectedJourney = useJourney().selectedJourney;
-  console.log("selected journey in revise page:", selectedJourney);
 
-  const onEmailChange = (e) => {
-    if (e.target?.value && e.target.value.match(isValidEmail)) {
-      setEmailNotValid(false);
-      setEmail(e.target.value);
+  const onEmailChange = (index, value) => {
+    if (
+      value &&
+      value.match(isValidEmail) &&
+      !emailFields.some((field) => field.value === value)
+    ) {
+      setEmailFields((prevFields) => {
+        // create new array to prevent modifying the states directly
+        const newEmailFields = prevFields.map((field, i) =>
+          i === index ? { ...field, value, isValid: true } : field
+        );
+        return newEmailFields;
+      });
     } else {
-      setEmailNotValid(true);
+      setEmailFields((prevFields) => {
+        const newEmailFields = prevFields.map((field, i) =>
+          i === index ? { ...field, value, isValid: false } : field
+        );
+        return newEmailFields;
+      });
+    }
+  };
+
+  const handleAddEmailFields = () => {
+    // allow max 5 fields and only add field if previous ones are valid
+    if (emailFields.length < 5 && emailFields.every((field) => field.isValid)) {
+      setEmailFields([...emailFields, ""]);
+      //   setEmailNotValid(false);
+    } else {
+      //   setEmailNotValid(true);
+    }
+  };
+
+  const handlePaymentCardClick = () => {
+    console.log("EMAILS:", emailFields);
+    const uniqueEmails = new Map();
+    const validUniqueEmails = emailFields.reduce((result, field) => {
+      if (field.isValid && !uniqueEmails.has(field.value)) {
+        uniqueEmails.set(field.value, true);
+        result.push(field);
+      }
+      return result;
+    }, []);
+
+    if (validUniqueEmails.length > 0) {
+      navigate("/payment", { state: { emails: validUniqueEmails } });
+    } else {
+      window.alert("Lisää ainakin yksi sähköpostiosoite");
     }
   };
 
@@ -117,7 +162,7 @@ const ReviseJourneyInfo = () => {
                   {selectedJourney.passengerType}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6} lg={3} xl={3}>
+              <Grid item xs={12} md={6} lg={3} xl={3} textAlign={"end"}>
                 <Typography variant="largeBoldFont" style={{ lineHeight: 1.5 }}>
                   {selectedJourney.price} €
                 </Typography>
@@ -126,35 +171,66 @@ const ReviseJourneyInfo = () => {
           </Grid>
         </Grid>
         <Grid item id="revise-sub-grid">
-          <Typography variant="largeFont">Lipun toimitus:</Typography>
-          <Grid container alignItems="center">
-            <Grid item xs={11} md={11} lg={5} xl={5}>
-              <TextField
-                variant="outlined"
-                InputProps={{ sx: { borderRadius: "10px" } }}
-                id="profile-text-field"
-                fullWidth
-                defaultValue={email}
-                onChange={onEmailChange}
-                required
-                error={emailNotValid}
-              ></TextField>
-            </Grid>
-            <Grid item xs={1}>
-              <Button style={{ minWidth: 0 }} id="add-email-button">
-                <img
-                  src={plusSign}
-                  alt="Plus Icon"
-                  id="plus-icon"
-                  style={{ maxWidth: "30px", maxHeight: "30px" }}
+          <Typography variant="largeFont" marginBottom={"10px"}>
+            Lipun toimitus:
+          </Typography>
+          {emailFields.map((email, index) => (
+            <Grid
+              container
+              alignItems="center"
+              key={index}
+              marginBottom={"10px"}
+            >
+              <Grid item xs={11} md={11} lg={5} xl={5}>
+                <TextField
+                  variant="outlined"
+                  InputProps={{ sx: { borderRadius: "10px" } }}
+                  id={`profile-text-field-${index}`}
+                  fullWidth
+                  value={email.value}
+                  onChange={(e) => onEmailChange(index, e.target.value)}
+                  required
                 />
+              </Grid>
+              <Grid item xs={1}>
+                {index === emailFields.length - 1 && (
+                  <Button
+                    style={{ minWidth: 0 }}
+                    id="add-email-button"
+                    color="addEmailButton"
+                    variant="containedAddEmailButton"
+                    onClick={handleAddEmailFields}
+                  >
+                    <img
+                      src={plusSign}
+                      alt="Plus Icon"
+                      id="plus-icon"
+                      style={{ width: "20px", height: "20px" }}
+                    />
+                  </Button>
+                )}
+              </Grid>
+            </Grid>
+          ))}
+        </Grid>
+
+        <Grid item id="revise-sub-grid">
+          <Typography variant="largeFont" marginBottom={"10px"}>
+            Maksutapa
+          </Typography>
+          <Grid container>
+            <Grid item xs={12} md={8} lg={5} xl={5}>
+              <Button
+                fullWidth
+                color={"primary"}
+                variant="contained"
+                sx={{ padding: "15px" }}
+                onClick={handlePaymentCardClick}
+              >
+                Maksukortti
               </Button>
             </Grid>
           </Grid>
-        </Grid>
-        <Grid item id="revise-sub-grid">
-          <Typography variant="largeFont">Maksutapa</Typography>
-          <Grid container id="selected-journey"></Grid>
         </Grid>
       </Grid>
     </>

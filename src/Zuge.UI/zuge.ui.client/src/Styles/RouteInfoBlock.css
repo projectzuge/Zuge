@@ -30,7 +30,14 @@
   display: flex;
   direction: row;
   justify-content: flex-start;
-  margin-top: 30px;
+  margin-top: 10px;
+}
+
+#departure-arrival-text-grid {
+  display: flex;
+  direction: row;
+  justify-content: flex-start;
+  margin-top: 40px;
 }
 
 #arrow-item-grid {

@@ -22,7 +22,6 @@ const FoundRoutesList = (props) => {
 
   useEffect(() => {
     const foundJourneysArray = journeys.filter((route) => {
-
       // check that date matches
       const isMatchingDate = route.date === formattedDate;
 
@@ -37,8 +36,7 @@ const FoundRoutesList = (props) => {
     setFilteredJourneys(foundJourneysArray);
   }, [formattedDate]);
 
-  useEffect(() => {
-  }, [filteredJourneys]);
+  useEffect(() => {}, [filteredJourneys]);
 
   const getDeparture = (route) => {
     const stationInfo = route.stops.filter((stop) => stop.station === fromCity);
@@ -96,20 +94,24 @@ const FoundRoutesList = (props) => {
         </Grid>
       </Grid>
       {filteredJourneys.length > 0 ? (
-        filteredJourneys.map((route, index) => (
-          <SingleFoundRoute
-            key={index}
-            departure={getDeparture(route)}
-            arrival={getArrival(route)}
-            duration={countDuration(getDeparture(route), getArrival(route))}
-            price={route.price}
-            date={formattedDate}
-            from={fromCity}
-            to={toCity}
-            train={route.train}
-            passengerType={passengerType}
-          />
-        ))
+        filteredJourneys.map((route, index) => {
+          if (getDeparture(route) < getArrival(route)) {
+            return (
+              <SingleFoundRoute
+                key={index}
+                departure={getDeparture(route)}
+                arrival={getArrival(route)}
+                duration={countDuration(getDeparture(route), getArrival(route))}
+                price={route.price}
+                date={formattedDate}
+                from={fromCity}
+                to={toCity}
+                train={route.train}
+                passengerType={passengerType}
+              />
+            );
+          }
+        })
       ) : (
         <Typography variant="largeBoldFont">
           Valitsemillasi hakuehdoilla ei löytynyt matkoja.

@@ -36,6 +36,19 @@ const RouteInfoBlock = () => {
             <Typography variant="mediumBoldFont">
               {selectedJourney.date}
             </Typography>
+            <Grid id="departure-arrival-text-grid" alignItems="center">
+              <Grid item xs={4}>
+                <Typography variant="mediumBoldFont">
+                  Lähtö:
+                </Typography>
+              </Grid>
+              <Grid item xs={4}></Grid>
+              <Grid item xs={4}>
+                <Typography variant="mediumBoldFont">
+                  Määränpää:
+                </Typography>
+              </Grid>
+            </Grid>
             <Grid id="times-grid" alignItems="center">
               <Grid item xs={4}>
                 <Typography variant="smallBoldFont">
@@ -55,9 +68,12 @@ const RouteInfoBlock = () => {
                   {selectedJourney.from}
                 </Typography>
               </Grid>
-              <Grid item xs={4} id="arrow-item-grid" alignContent={"center"}>
-                <img src={rightArrow} alt="Array Icon" id="right-arrow-icon" />
-              </Grid>
+              <Grid
+                item
+                xs={4}
+                id="arrow-item-grid"
+                alignContent={"center"}
+              ></Grid>
               <Grid item xs={4}>
                 <Typography variant="largeBoldFont">
                   {selectedJourney.to}

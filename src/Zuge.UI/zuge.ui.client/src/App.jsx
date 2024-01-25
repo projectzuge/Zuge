@@ -13,6 +13,7 @@ import NewsPage from "./Pages/NewsPage.jsx";
 import Profile from "./Pages/Profile.jsx";
 import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
 import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
+import Payment from "./Pages/Payment.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -56,6 +57,7 @@ function App() {
                 <Route path="/user" element={<Profile />} />
                 <Route path="/route" element={<RouteInfo />} />
                 <Route path="/revise" element={<ReviseAndPay />} />
+                <Route path="/payment" element={<Payment />} />
               </Routes>
             </div>
           </Router>
