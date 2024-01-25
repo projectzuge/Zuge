@@ -4,6 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import "../Styles/SingleFoundRoute.css";
 import rightArrow from "./../assets/right-arrow.png";
+import rightArrowDark from "./../assets/right-arrow-dark.png";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -51,7 +52,7 @@ const SingleFoundRoute = (props) => {
           <Grid item xs={12} md={4} xl={4} textAlign="left">
             <Typography id="departure-arrival-container">
               {departure}{" "}
-              <img src={rightArrow} alt="Array Icon" id="right-arrow-icon" />
+              <img src={props.DarkMode? rightArrowDark : rightArrow} alt="Array Icon" id="right-arrow-icon" />
               {arrival}
             </Typography>
           </Grid>
