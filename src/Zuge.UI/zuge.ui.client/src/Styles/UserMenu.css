@@ -1,3 +1,11 @@
+#userMenuDark .MuiList-root {
+    background-color: #262626;
+}
+
+#userMenuDark .MuiButtonBase-root {
+    background-color: #262626;
+}
+
 .registerLink {
     all: inherit;
     border: none;
@@ -20,6 +28,18 @@
     border-color: #262626;
 }
 
+.LoginTextFieldDark .MuiInputBase-root {  
+    border: solid;
+    border-width: 1px;
+    border-radius: 5px;
+    border-color: #eeeeee;
+    color: #eeeeee;
+}
+
 .LoginTextField .MuiInputBase-root:hover {  
+    border: none;
+}
+
+.LoginTextFieldDark .MuiInputBase-root:hover {  
     border: none;
 }

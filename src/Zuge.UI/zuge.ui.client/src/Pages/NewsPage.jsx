@@ -3,10 +3,10 @@ import NewsAddForm from "../Components/NewsAddForm";"../Components/NewsAddForm";
 
 import './../Styles/FrontPage.css';
 
-function NewsPage() {
+function NewsPage({ DarkMode }) {
   return (
     <>
-      <NewsAddForm />
+      <NewsAddForm DarkMode={DarkMode} />
     </>
   );
 }

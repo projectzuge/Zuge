@@ -1,7 +1,10 @@
 import "./../Styles/MenuBar.css";
 import trainLogo from "./../assets/trainLogo.jpg";
+import trainLogoDark from "./../assets/trainLogoDark.jpg";
 import dropDownMenuLogo from "./../assets/dropDownMenuLogo.jpg";
+import dropDownMenuLogoDark from "./../assets/dropDownMenuLogoDark.jpg";
 import exitDropDownMenuLogo from "./../assets/ExitDropDownMenuLogo.jpg";
+import exitDropDownMenuLogoDark from "./../assets/ExitDropDownMenuLogoDark.jpg";
 import DropDownMenu from "./DropDownMenu.jsx";
 import UserMenu from "./UserMenu.jsx";
 import Button from '@mui/material/Button';
@@ -10,12 +13,17 @@ import { Link } from "react-router-dom";
 import { Typography } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import PropTypes from 'prop-types';
 
-function MenuBar() {
+MenuBar.propTypes = {
+  DarkMode: PropTypes.bool,
+  setDarkMode: PropTypes.func,
+};
+
+function MenuBar({ DarkMode, setDarkMode }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
-
   const [dropDownClicked, setDropDownClicked] = useState(false);
   const [userClicked, setUserClicked] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -55,12 +63,16 @@ function MenuBar() {
     setUserClicked(false);
   };
 
+  const switchLightDark = () => {
+    setDarkMode(!DarkMode);
+  };
+
   return (
     <>
-        <div className="Bar">
-          <div className="HomePageButton">
+        <div className={DarkMode? "Bar dark" : "Bar light"}>
+          <div className={DarkMode? "HomePageButtonDark" : "HomePageButton"}>
             <Link to="/">
-              <img className="LogoImage" src={trainLogo} alt="Train logo"></img>
+              <img className="LogoImage" src={DarkMode? trainLogoDark : trainLogo} alt="Train logo"></img>
             </Link>
           </div>
           <div className="MenuLink">
@@ -86,13 +98,15 @@ function MenuBar() {
             <div className="switchContainer">
               <input type="checkbox"
                     id="switchMenu"
-                    className="checkboxMenu" />     
+                    className="checkboxMenu"
+                    checked={DarkMode}
+                    onClick={switchLightDark} />     
               <label htmlFor="switchMenu"
                     className="toggleMenu">
               </label>
             </div>
           </div>  
-          <div className="DropDownMenuButtonBody">
+          <div className={DarkMode? "DropDownMenuButtonBody dark" : "DropDownMenuButtonBody light"}>
             <Button
               aria-controls={open ? 'basic-menu' : undefined}
               aria-haspopup="true"
@@ -102,12 +116,12 @@ function MenuBar() {
                 <Link>
                   <img className=
                   {dropDownClicked?"DropDownMenuImageInvisible":"DropDownMenuImageVisible"} 
-                  src={dropDownMenuLogo} 
+                  src={DarkMode? dropDownMenuLogoDark : dropDownMenuLogo} 
                   alt="Dropdown menu logo">
                   </img>
                   <img className=
                   {dropDownClicked?"ExitDropDownMenuImageVisible":"ExitDropDownMenuImageInvisible"} 
-                  src={exitDropDownMenuLogo} 
+                  src={DarkMode? exitDropDownMenuLogoDark : exitDropDownMenuLogo} 
                   alt="Exit dropdown menu logo">
                   </img>
                 </Link>
@@ -120,7 +134,8 @@ function MenuBar() {
               anchorEl={anchorElUser} 
               open={openUser} 
               handleClose={handleCloseUser}
-              handleItemClick={handleItemClick}/>
+              handleItemClick={handleItemClick}
+              DarkMode={DarkMode}/>
           </div>
         </div>
         <div>
@@ -130,7 +145,9 @@ function MenuBar() {
               open={open} 
               handleClose={handleClose}
               handleClickUser={handleClickUser}
-              handleItemClick={handleItemClick}/>
+              handleItemClick={handleItemClick}
+              switchLightDark={switchLightDark}
+              DarkMode={DarkMode}/>
           </div>
       </div>
     </>

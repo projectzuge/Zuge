@@ -1,15 +1,19 @@
 import "./../Styles/Contact.css";
 import contacts from "./../assets/ContactsTest.json";
+import PropTypes from 'prop-types';
 
-function Contact() {
+Contact.propTypes = {
+  DarkMode: PropTypes.bool,
+};
+
+function Contact({DarkMode}) {
     return (
       <>
-        <div className="ContactInfoBackground">
+        <div className={DarkMode? "ContactInfoBackgroundDark" : "ContactInfoBackground"}>
           <h3 className="contactTitle">YHTEYSTIEDOT</h3>
-          <div className="ContactInfoBody">
-
+          <div className={DarkMode? "ContactInfoBodyDark" : "ContactInfoBody"}>
             {contacts.map(elem => {
-              return <div className="contact" key={elem.firstName + elem.lastName}>
+              return <div className={DarkMode? "contact dark" : "contact"} key={elem.firstName + elem.lastName}>
                 <p className="contactName">{elem.firstName} {elem.lastName}</p>
                 <p className="contactEmail">{elem.email}</p>
                 </div>})}
