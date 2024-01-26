@@ -22,8 +22,8 @@ _ = builder.Services
     .AddSingleton<IPaymentGateway, NoneGateway>();
 
 _ = builder.Services
-    .AddDbContext<AuthenticationDbContext>(options => options.UseNpgsql("Database=postgres;Host=localhost;Password=12345;Username=postgres"))
-    //.AddDbContext<AuthenticationDbContext>(options => options.UseInMemoryDatabase("IdentityAuth"))
+    //.AddDbContext<AuthenticationDbContext>(options => options.UseNpgsql("Database=postgres;Host=localhost;Password=12345;Username=postgres"))
+    .AddDbContext<AuthenticationDbContext>(options => options.UseInMemoryDatabase("IdentityAuth"))
     .AddAuthorization(options =>
     {
         options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
