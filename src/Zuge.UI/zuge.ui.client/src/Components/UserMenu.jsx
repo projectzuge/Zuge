@@ -19,10 +19,11 @@ import axios from 'axios';
 UserMenu.propTypes = {
   anchorEl: PropTypes.any,
   open: PropTypes.any,
-  handleClose: PropTypes.func
+  handleClose: PropTypes.func,
+  DarkMode: PropTypes.bool
 };
 
-function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
+function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
 
   const [showPasswordUser, setShowPasswordUser] = useState(false);
   const [email, setEmail] = useState('');
@@ -57,8 +58,23 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
     marginTop: '20px',
   };
 
+  const containerStyleDark = {
+    backgroundColor: "#262626",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    width: '300px',
+    margin: 'auto',
+    marginTop: '20px',
+  };
+
   const labelStyle = {
     fontWeight: 'bold',
+  };
+
+  const labelStyleDark = {
+    fontWeight: 'bold',
+    color: "#eeeeee",
   };
 
   const inputFieldStyle = {
@@ -78,8 +94,22 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
     borderWidth: "1px",
   };
 
+  const buttonStyleDark = {
+    color: '#eeeeee',
+    borderColor: "#eeeeee",
+    border: "solid",
+    borderWidth: "1px",
+  };
+
   const buttonRegisterStyle = {
     color: '#262626',
+    border: "solid",
+    borderWidth: "1px",
+    padding: "0px",
+  };
+
+  const buttonRegisterStyleDark = {
+    color: '#eeeeee',
     border: "solid",
     borderWidth: "1px",
     padding: "0px",
@@ -89,6 +119,14 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
     marginTop: '20px',
     textAlign: 'center',
   };
+
+  const iconDark = {
+    color: '#b7b7b7',
+  }
+
+  const iconLight = {
+      color: '#707070',
+  }
 
   const checkPassword = (e) => {
     const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
@@ -213,7 +251,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
     <>
       <div className="UserMenuBody">
         <Menu
-          id="userMenu"
+          id={DarkMode? "userMenuDark" : "userMenu"}
           disableScrollLock={true}
           anchorEl={anchorEl}
           open={open}
@@ -226,14 +264,16 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
           }}
         >
           <MenuItem disableRipple  style={customCursorStyle}>
-            <div style={containerStyle}>
+            <div style={DarkMode? containerStyleDark : containerStyle}>
               <FormControl style={inputFieldStyle} variant="outlined">
-                <FormLabel style={labelStyle}>Sähköposti</FormLabel>
+                <FormLabel style={DarkMode? labelStyleDark : labelStyle}>Sähköposti</FormLabel>
                 <TextField 
-                className="LoginTextField"
-                onKeyDown={e => e.stopPropagation()}
+                className={DarkMode? "LoginTextFieldDark" : "LoginTextField"}
                 onInput={handleEmailInput}
                 onChange={onEmailChange}
+                onKeyDown = {(e) => { // Estää focuksen katoamisen s-näppäintä painaessa.
+                  e.stopPropagation()}
+                }
                 error={!isEmailValid}
                 helperText={!isEmailValid ? "Invalid email address" : ""} 
                 value={email}
@@ -244,9 +284,9 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                 required={true} />
               </FormControl>
               <FormControl style={inputFieldStyle} variant="outlined">
-                <FormLabel style={labelStyle}>Salasana</FormLabel>
+                <FormLabel style={DarkMode? labelStyleDark : labelStyle}>Salasana</FormLabel>
                 <TextField 
-                className="LoginTextField"
+                className={DarkMode? "LoginTextFieldDark" : "LoginTextField"}
                 value={password}
                 name="password"
                 variant="outlined" 
@@ -258,21 +298,24 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={handleUserPasswordVisibility} edge="end">
+                      <IconButton onClick={handleUserPasswordVisibility} style={DarkMode? iconDark : iconLight} edge="end">
                         {showPasswordUser ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
-                onKeyDown={e => e.stopPropagation()}
-                onChange={e => setPassword(e.target.value)}
+                onInput={handlePasswordInput}
+                onChange={onPasswordChange}
+                onKeyDown = {(e) => { // Estää focuksen katoamisen s-näppäintä painaessa.
+                  e.stopPropagation()}
+                }
                 />
               </FormControl>
               <div style={buttonsContainerStyle}>
-                <Button  onClick={handleSignInClicked} style={buttonStyle}>
+                <Button  onClick={handleSignInClicked} style={DarkMode? buttonStyleDark : buttonStyle}>
                   Kirjaudu
                 </Button>
-                <Button  onClick={handleItemClick} style={buttonStyle}>
+                <Button  onClick={handleItemClick} style={DarkMode? buttonStyleDark : buttonStyle}>
                   Peruuta
                 </Button>
               </div>
@@ -292,7 +335,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
               <Typography variant="body1" style={registerTextStyle}>
                 Uusi käyttäjä? Rekisteröidy tästä:
               </Typography>
-              <Button onClick={handleItemClick} style={buttonRegisterStyle}>
+              <Button onClick={handleItemClick} style={DarkMode? buttonRegisterStyleDark : buttonRegisterStyle}>
                 <Link className="registerLink" to="/register">Rekisteröidy
                 </Link>
               </Button>

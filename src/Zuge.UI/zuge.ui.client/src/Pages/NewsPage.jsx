@@ -5,12 +5,12 @@ import './../Styles/FrontPage.css';
 import AuthorizeView, { AuthorizedUser } from "../Components/AuthorizeView";
 import LogoutLink from "../Components/LogoutLink";
 
-function NewsPage() {
+function NewsPage({ DarkMode }) {
   return (
     <>
       <AuthorizeView requiredRole={"admin"}>
         <span><LogoutLink>Logout <AuthorizedUser value="email" /></LogoutLink></span>
-        <NewsAddForm />
+        <NewsAddForm DarkMode={DarkMode}/>
       </AuthorizeView>
     </>
   );

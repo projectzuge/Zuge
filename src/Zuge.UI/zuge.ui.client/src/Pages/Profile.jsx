@@ -7,7 +7,7 @@ import { useState } from "react";
 import AuthorizeView, { AuthorizedUser } from "../Components/AuthorizeView";
 import LogoutLink from "../Components/LogoutLink";
 
-const Profile = () => {
+const Profile = ({ DarkMode }) => {
   const [selectedButton, setSelectedButton] = useState("Lippusi");
 
   const handleButtonClick = (buttonName) => {
@@ -23,9 +23,9 @@ const Profile = () => {
             selectedButton={selectedButton}
           />
           {selectedButton === "Omat tiedot" ? (
-            <ProfileComponent />
+            <ProfileComponent DarkMode={DarkMode}/>
           ) : (
-            <ProfileBoughtTickets />
+            <ProfileBoughtTickets DarkMode={DarkMode}/>
           )}
         </Box>
       </AuthorizeView>

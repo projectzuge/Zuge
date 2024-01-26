@@ -1,9 +1,9 @@
 import RouteInfoBlock from "../Components/RouteInfoBlock";
 
-const RouteInfo = () => {
+const RouteInfo = ({ DarkMode }) => {
   return (
     <>
-      <RouteInfoBlock />
+      <RouteInfoBlock DarkMode={DarkMode}/>
     </>
   );
 };

@@ -4,8 +4,13 @@ import { Container, TextField, Button, Grid, InputAdornment, IconButton, InputLa
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import PropTypes from 'prop-types';
 
-function Register() {
+Register.propTypes = {
+    DarkMode: PropTypes.bool,
+};
+
+function Register({ DarkMode }) {
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
     const [inputs, setInputs] = useState({
@@ -27,15 +32,33 @@ function Register() {
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const navigate = useNavigate();
 
-    const labelStyle = {
+    const labelLightStyle = {
         display: "grid",
         justifyContent: "start",
         color: "#262626",
     };
 
-    const buttonStyle = {
+    const labelDarkStyle = {
+        display: "grid",
+        justifyContent: "start",
+        color: "#eeeeee",
+    };
+
+    const buttonStyleLight = {
         color: '#262626',
     };
+
+    const buttonStyleDark = {
+        color: '#eeeeee',
+    };
+
+    const iconDark = {
+        color: '#b7b7b7',
+    }
+
+    const iconLight = {
+        color: '#707070',
+    }
 
     const inValidInputButtonStyle = {
         color: '#c70000',
@@ -211,6 +234,18 @@ function Register() {
             "";
         }
     };
+
+    const RegisterButtonClick = () => {
+        if (!isValidRegistration) {
+            return inValidInputButtonStyle;
+        }
+        else if (DarkMode) {
+            return buttonStyleDark;
+        }
+        else {
+            return buttonStyleLight;
+        }
+    }
     
 
     const handleRegisterClicked = () => {
@@ -277,19 +312,19 @@ function Register() {
 
   return (
     <>
-        <div className="RegisterBackground">
+        <div className={DarkMode? "RegisterBackground darkBackground" : "RegisterBackground"}>
         <h3 className="RegisterTitle">REKISTERÖIDY</h3>
-            <Container className="RegisterBody" maxWidth="sm">
+            <Container className={DarkMode? "RegisterBody dark" : "RegisterBody light"} maxWidth="sm">
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>
                         <InputLabel 
                         sx={{
                             inputResponsiveness
                           }} 
-                        style={labelStyle}>Sähköposti</InputLabel>
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>Sähköposti</InputLabel>
                         <TextField
                         value={inputs.email} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         variant="outlined" 
                         onInput={handleEmailInput}
                         onChange={onEmailChange}
@@ -304,10 +339,10 @@ function Register() {
                         sx={{
                             inputResponsiveness
                           }} 
-                        style={labelStyle}>Salasana</InputLabel>
+                          style={DarkMode? labelDarkStyle : labelLightStyle}>Salasana</InputLabel>
                         <TextField 
                         value={inputs.password} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         name="password"
                         variant="outlined" 
                         type={showPassword ? 'text' : 'password'} 
@@ -326,7 +361,7 @@ function Register() {
                         InputProps={{
                             endAdornment: (
                             <InputAdornment position="end">
-                                <IconButton onClick={handlePasswordVisibility} edge="end">
+                                <IconButton onClick={handlePasswordVisibility} style={DarkMode? iconDark : iconLight} edge="end">
                                 {showPassword ? <VisibilityOff 
                                 className="registerVisibilityIcon" /> : <Visibility  
                                 className="registerVisibilityIcon"/>}
@@ -341,10 +376,10 @@ function Register() {
                         sx={{
                             inputResponsiveness
                           }} 
-                        style={labelStyle}>Vahvista salasana</InputLabel>
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>Vahvista salasana</InputLabel>
                         <TextField
                         value={inputs.rePassword}   
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         name="password"
                         variant="outlined" 
                         type={showRePassword ? 'text' : 'password'}  
@@ -357,7 +392,7 @@ function Register() {
                         InputProps={{
                             endAdornment: (
                             <InputAdornment position="end">
-                                <IconButton onClick={handleRePasswordVisibility} edge="end">
+                                <IconButton onClick={handleRePasswordVisibility} style={DarkMode? iconDark : iconLight} edge="end">
                                 {showRePassword ? <VisibilityOff  
                                 className="registerVisibilityIcon"/> : <Visibility  
                                 className="registerVisibilityIcon"/>}
@@ -372,10 +407,10 @@ function Register() {
                         sx={{
                             inputResponsiveness
                           }} 
-                        style={labelStyle}>Etunimi</InputLabel>
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>Etunimi</InputLabel>
                         <TextField
                         value={inputs.firstName} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onFirstNameChange}
                         error={!inputValidities.isFirstNameValid}
                         helperText={!inputValidities.isFirstNameValid ? 
@@ -389,10 +424,10 @@ function Register() {
                         sx={{
                             inputResponsiveness
                         }} 
-                        style={labelStyle}>Sukunimi</InputLabel>
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>Sukunimi</InputLabel>
                         <TextField
                         value={inputs.lastName} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onLastNameChange}
                         error={!inputValidities.isLastNameValid}
                         helperText={!inputValidities.isLastNameValid ? 
@@ -406,10 +441,10 @@ function Register() {
                         sx={{
                             inputResponsiveness
                         }}  
-                        style={labelStyle}>Puhelinnumero</InputLabel>
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>Puhelinnumero</InputLabel>
                         <TextField 
                         value={inputs.phoneNum} 
-                        className="registerTextField"
+                        className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onPhoneNumChange}
                         error={!inputValidities.isPhoneNumValid}
                         helperText={!inputValidities.isPhoneNumValid ? "Invalid phone number. Phone number needs to be 10 to 15 characters long and can only have numbers. Don't use the country code." : ""}
@@ -419,7 +454,7 @@ function Register() {
                     </Grid>
                     <Grid item xs={6}>
                         <Button 
-                        style={isValidRegistration? buttonStyle : inValidInputButtonStyle}
+                        style={RegisterButtonClick()}
                         onClick={handleRegisterClicked}
                         variant="contained" 
                         color="primary" 
@@ -439,7 +474,7 @@ function Register() {
                     </Grid>
                     <Grid item xs={6}>
                         <Button 
-                        style={buttonStyle} 
+                        style={DarkMode? buttonStyleDark : buttonStyleLight} 
                         variant="contained" 
                         color="primary" 
                         fullWidth
