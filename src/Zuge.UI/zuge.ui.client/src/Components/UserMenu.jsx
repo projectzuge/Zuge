@@ -14,6 +14,7 @@ import {
   IconButton
 } from '@mui/material';
 import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 UserMenu.propTypes = {
   anchorEl: PropTypes.any,
@@ -148,7 +149,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
   }
 
   const handlePasswordInput = (event) => {
-    const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_{(\[\])}äöåÄÖÅ]/g, '');
+    const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_{(\\[\])}äöåÄÖÅ]/g, '');
     event.target.value = sanitizedValue;
   };
 
@@ -158,39 +159,54 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
   };
 
   const handleSignInClicked = () => {
-
-    if (isEmailValid === "initial" || isPasswordValid === "initial") {
-      if (isEmailValid === "initial") {
-        setIsEmailValid(false);
-      }
-      if (isPasswordValid === "initial") {
-        setIsPasswordValid(false);
-      }
+    // Kirjautumisvaihtoehdot:
+    // useSessionCookies=true -- muistaa kirjautumisen kunnes selain suljetaan
+    // useCookies=true -- muistaa vaikka sulkisi selaimen
+    // Login valikkoon joku "muista minut" checkboxi
+    // const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
+    // axios.post("account/login?" + cookieSetting + "=true", { email, password })
     
-      setIsLoginValid(false);
-      return;
-    }
+    axios.post("account/login?useSessionCookies=true", { email, password })
+      .then(response => {
+        if (response.status === 200) {
+          console.log("Logged in");
+          navigate("/");
+        } else {
+          console.log(response.error);
+        }
+      });
+    // if (isEmailValid === "initial" || isPasswordValid === "initial") {
+    //   if (isEmailValid === "initial") {
+    //     setIsEmailValid(false);
+    //   }
+    //   if (isPasswordValid === "initial") {
+    //     setIsPasswordValid(false);
+    //   }
+    
+    //   setIsLoginValid(false);
+    //   return;
+    // }
 
-    if (isEmailValid && isPasswordValid) {
-      console.log("Valid Input!!!!");
-      setIsLoginValid(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-      navigate('/'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-      handleItemClick(); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-      // axios.get("Login")
-      // .then(function (res) {
-      //     console.log("VALID RESPONSE: " + res);
-      //     setIsLoginValid(true);
-      //     navigate('/');
-      //     handleItemClick();
-      // })
-      // .catch(function (error) {
-      //     console.log("ERROR MESSAGE: " + error);
-      //     setIsLoginValid(false);
-      // });
-    }
-    else {
-      setIsLoginValid(false);
-    }
+    // if (isEmailValid && isPasswordValid) {
+    //   console.log("Valid Input!!!!");
+    //   setIsLoginValid(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
+    //   navigate('/'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
+    //   handleItemClick(); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
+    //   // axios.get("Login")
+    //   // .then(function (res) {
+    //   //     console.log("VALID RESPONSE: " + res);
+    //   //     setIsLoginValid(true);
+    //   //     navigate('/');
+    //   //     handleItemClick();
+    //   // })
+    //   // .catch(function (error) {
+    //   //     console.log("ERROR MESSAGE: " + error);
+    //   //     setIsLoginValid(false);
+    //   // });
+    // }
+    // else {
+    //   setIsLoginValid(false);
+    // }
   }
 
   return (
@@ -215,6 +231,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                 <FormLabel style={labelStyle}>Sähköposti</FormLabel>
                 <TextField 
                 className="LoginTextField"
+                onKeyDown={e => e.stopPropagation()}
                 onInput={handleEmailInput}
                 onChange={onEmailChange}
                 error={!isEmailValid}
@@ -224,7 +241,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                 name="email" 
                 variant="outlined" 
                 fullWidth
-                required />
+                required={true} />
               </FormControl>
               <FormControl style={inputFieldStyle} variant="outlined">
                 <FormLabel style={labelStyle}>Salasana</FormLabel>
@@ -237,7 +254,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                 fullWidth 
                 error={!isPasswordValid}
                 helperText={!isPasswordValid ? "Invalid password" : ""}
-                required
+                required={true}
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
@@ -247,8 +264,8 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick }) {
                     </InputAdornment>
                   ),
                 }}
-                onInput={handlePasswordInput}
-                onChange={onPasswordChange}
+                onKeyDown={e => e.stopPropagation()}
+                onChange={e => setPassword(e.target.value)}
                 />
               </FormControl>
               <div style={buttonsContainerStyle}>

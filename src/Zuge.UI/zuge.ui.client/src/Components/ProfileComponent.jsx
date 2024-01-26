@@ -76,6 +76,7 @@ const ProfileComponent = () => {
       !phoneNumberNotValid
     ) {
       // PUT REQUEST FOR BACKEND
+      // axios.post("/account/manage/info", {newEmail, newPassword, oldPassword})
       window.alert("Saved");
       setShowSaveButton(false);
     } else {

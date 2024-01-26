@@ -49,16 +49,44 @@ export default defineConfig({
         }
     },
     server: {
-         proxy: {
-             '^/Journey': {
-                 target,
-                 secure: false
-             },
-             '^/Account': {
+        proxy: {
+            '^/Journey': {
+                target,
+                secure: false
+            },
+            '^/Account': {
+                target,
+                secure: false
+            },
+            '^/account/register': {
+                target,
+                secure: false
+            },
+            '^/account/login': {
+                target,
+                secure: false
+            },
+            '^/account/pingauth/': {
+                target,
+                secure: false
+            },
+            '^/account/logout': {
+                target,
+                secure: false
+            },
+            '^/account/pingauth/employee': {
+                target,
+                secure: false
+            },
+            '^/account/pingauth/admin': {
+                target,
+                secure: false
+            },
+            '^/account/manage/info': {
                 target,
                 secure: false
             }
-         },
+        },
         port: 5173,
         https: {
             key: fs.readFileSync(keyFilePath),

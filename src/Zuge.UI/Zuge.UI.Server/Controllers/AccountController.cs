@@ -5,51 +5,61 @@ using System.Text;
 using Zuge.Domain.Abstractions;
 using Zuge.Domain.Specifications;
 using Zuge.Domain.Types.Authentication;
+using Zuge.Infrastructure.Auth;
 
 namespace Zuge.UI.Server.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class AccountController(IAuthUnitOfWork unitOfWork) : ControllerBase
+    public class AccountController(AuthenticationDbContext authenticationDbContext, IAuthUnitOfWork unitOfWork) : ControllerBase
     {
-        [HttpGet("{email}")]
-        public async Task<IActionResult> OnGetByEmailAsync(string email)
-        {
-            var account = await unitOfWork.Repository<UserAccount>().FirstOrNull(new WhereEmailAccountSpecification(email));
-            
-            if (account == null) return NotFound();
-            
-            return Ok(account);
-        }
+        private readonly AuthenticationDbContext _authenticationDbContext = authenticationDbContext;
+        //[HttpGet("{email}")]
+        //public async Task<IActionResult> OnGetByEmailAsync(string email)
+        //{
+        //    var account = await _authenticationDbContext.Users().FirstOrNull(new WhereEmailAccountSpecification(email));
+        //    //var account = await unitOfWork.Repository<UserAccount>().FirstOrNull(new WhereEmailAccountSpecification(email));
+
+        //    if (account == null) return NotFound();
+
+        //    return Ok(account);
+        //}
+
 
         [HttpPost]
-        public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info)
+        public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
         {
+            var user = _authenticationDbContext.Users.FirstOrDefault(user => user.Email == email);
+            if (user == null) return NotFound();
+            
             var trimmedInfo = new RegistrationInformation(
                 info.FirstName.Trim(),
                 info.LastName.Trim(),
-                info.Email.Trim(),
-                info.Password.Trim(),
                 info.PhoneNumber?.Trim());
 
             if (!TryValidateModel(trimmedInfo)) return BadRequest();
             
-            var repo = unitOfWork.Repository<UserAccount>();
+            user.FirstName = trimmedInfo.FirstName;
+            user.LastName = trimmedInfo.LastName;
+            user.PhoneNumber = trimmedInfo.PhoneNumber;
 
-            if (await repo.FirstOrNull(new WhereEmailAccountSpecification(trimmedInfo.Email)) != null) return BadRequest("Email is already in use.");
+            await _authenticationDbContext.SaveChangesAsync();
+            //var repo = unitOfWork.Repository<UserAccount>();
 
-            Guid accountId = Guid.NewGuid();
-            Guid passwordSalt = Guid.NewGuid();
+            //if (await repo.FirstOrNull(new WhereEmailAccountSpecification(trimmedInfo.Email)) != null) return BadRequest("Email is already in use.");
+
+            //Guid accountId = Guid.NewGuid();
+            //Guid passwordSalt = Guid.NewGuid();
             
-            var passwordHash = Encoding.UTF8.GetString(SHA256.HashData(Encoding.UTF8.GetBytes(passwordSalt + info.Password)));
-            var newAccount = new UserAccount(accountId, trimmedInfo.FirstName, trimmedInfo.LastName, trimmedInfo.Email, 
-                trimmedInfo.PhoneNumber, new UserLoginData(accountId, passwordSalt, passwordHash, trimmedInfo.Email, null));
-            repo.AddRange(new List<UserAccount>()
-            {
-                newAccount
-            });
-            await unitOfWork.CommitAsync();
-            return Ok("Added new account with email: " + trimmedInfo.Email);
+            //var passwordHash = Encoding.UTF8.GetString(SHA256.HashData(Encoding.UTF8.GetBytes(passwordSalt + info.Password)));
+            //var newAccount = new UserAccount(accountId, trimmedInfo.FirstName, trimmedInfo.LastName, trimmedInfo.Email, 
+            //    trimmedInfo.PhoneNumber, new UserLoginData(accountId, passwordSalt, passwordHash, trimmedInfo.Email, null));
+            //repo.AddRange(new List<UserAccount>()
+            //{
+            //    newAccount
+            //});
+            //await unitOfWork.CommitAsync();
+            return Ok("Filled info");
         }
     }
 }
