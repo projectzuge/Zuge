@@ -6,6 +6,7 @@ import { useJourney } from "../Contexts/SelectedRouteContext";
 import { TextField } from "@mui/material";
 import { useState } from "react";
 import plusSign from "./../assets/plus-sign.png";
+import plusSignWhite from "./../assets/plus-sign-white.png";
 import { useNavigate } from "react-router-dom";
 
 const ReviseJourneyInfo = ({ DarkMode }) => {
@@ -222,7 +223,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                     onClick={handleAddEmailFields}
                   >
                     <img
-                      src={plusSign}
+                      src={DarkMode ? plusSignWhite : plusSign}
                       alt="Plus Icon"
                       id="plus-icon"
                       style={{ width: "20px", height: "20px" }}
