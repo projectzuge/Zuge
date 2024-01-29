@@ -18,6 +18,15 @@
   z-index: 1;
 }
 
+.HomePageButtonDark {
+  height: 40px;
+  margin: 10px;
+  width: fit-content;
+  border-style: hidden;
+  background-color: #262626;
+  z-index: 1;
+}
+
 .LogoImage {
   height: 100%;
 }
@@ -46,7 +55,7 @@
   display: inline-block;
   width: 45px;
   height: 18px;
-  background-color: #eeeeee;
+  background-color: #525252;
   border-radius: 30px;
   border: 1px solid #000000;
 }
@@ -71,7 +80,7 @@
 
 /* Checkbox checked toggle label bg color */
 .checkboxMenu:checked + .toggleMenu {
-  background-color: #525252;
+  background-color: #eeeeee;
 }
 
 /* Checkbox vanished */
@@ -172,13 +181,8 @@
     grid-template-columns: 35% 35%;
   }
 
-  /* .toggleContainerMenu {
-    display: flex;
-    align-items: center;
-    justify-content: ;
-  } */
   .toggleContainerMenu > * {
-    flex: 1; /* Equal width for both children */
-    text-align: center; /* Optional: Align text in the center */
+    flex: 1;
+    text-align: center;
   }
 }

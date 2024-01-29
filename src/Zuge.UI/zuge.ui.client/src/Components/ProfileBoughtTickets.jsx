@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import { Typography } from "@mui/material";
 import SingleBoughtTicket from "./SingleBoughtTicket";
 
-const ProfileBoughtTickets = () => {
+const ProfileBoughtTickets = ({ DarkMode }) => {
   // in context ?
   const placeholderJourneys = [
     {
@@ -58,7 +58,7 @@ const ProfileBoughtTickets = () => {
     <>
       <Box id="journeys-info-box">
         <Grid container id="profile-journeys-grid" spacing="20px">
-          <Grid item id="journeys-box" xs={12}>
+          <Grid item id={DarkMode? "journeys-box-dark" : "journeys-box"} xs={12}>
             <Typography variant="largeBoldFont">Tulevat matkat</Typography>
             {placeholderJourneys.map((journey, index) =>
               isJourneyBeforeNow(journey) ? null : (
@@ -69,11 +69,12 @@ const ProfileBoughtTickets = () => {
                   departure={journey.departure}
                   arrival={journey.arrival}
                   date={journey.date}
+                  DarkMode={DarkMode}
                 />
               )
             )}
           </Grid>
-          <Grid item id="journeys-box" xs={12}>
+          <Grid item id={DarkMode? "journeys-box-dark" : "journeys-box"} xs={12}>
             <Typography variant="largeBoldFont">Menneet matkat</Typography>
             {placeholderJourneys.map((journey, index) =>
               isJourneyBeforeNow(journey) ? (
@@ -84,6 +85,7 @@ const ProfileBoughtTickets = () => {
                   departure={journey.departure}
                   arrival={journey.arrival}
                   date={journey.date}
+                  DarkMode={DarkMode}
                 />
               ) : null
             )}

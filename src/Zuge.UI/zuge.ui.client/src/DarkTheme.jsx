@@ -1,6 +1,6 @@
 import { createTheme } from "@mui/material/styles";
 
-const theme = createTheme({
+const DarkTheme = createTheme({
   // default font family:
   typography: {
     fontFamily: "Inria Sans, sans-serif",
@@ -35,45 +35,71 @@ const theme = createTheme({
 
   // buttons:
   palette: {
-    primary: { main: "#eeeeee", contrastText: "#262626" },
+    primary: { main: "#262626", contrastText: "#eeeeee" },
     secondary: {
       main: "#52eb34",
-      contrastText: "#262626",
+      contrastText: "#eeeeee",
       borderRadius: "10px",
       height: "60px",
     },
     notSelected: {
-      main: "rgba(238, 238, 238, 0.9)",
-      contrastText: "#262626",
-    },
-    addEmailButton: {
-      main: "rgba(0, 0, 0, 0)",
+      main: "rgba(38, 38, 38, 0.9)",
+      contrastText: "#eeeeee",
     },
   },
   //style overrides:
   components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "#eeeeee",
+          backgroundColor: "#262626",
+        }),
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          backgroundColor: "#262626",
+        }),
+      },
+    },
+    MuiPickersDay: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "#909090",
+        }),
+      },
+    },
+    MuiDayCalendar: {
+      styleOverrides: {
+        weekDayLabel: ({ ownerState }) => ({
+          color: "#eeeeee",
+        }),
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: ({ ownerState }) => ({
+          color: "rgba(255, 255, 255, 0.54)",
+        }),
+      },
+    },
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
           borderRadius: "10px",
-          color: "#262626",
+          color: "#eeeeee",
           "&:hover": {
-            backgroundColor: "#eeeeee",
-            outline: "1px solid rgba(38, 38, 38, 0.5)",
+            backgroundColor: "#262626",
+            outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         }),
         containedSecondary: {
           height: "56px",
           "&:hover": {
-            backgroundColor: "#88ed74",
-            outline: "1px solid rgba(38, 38, 38, 0.5)",
-          },
-        },
-        containedAddEmailButton: {
-          "&:hover": {
-            border: "none",
-            outline: "none",
-            backgroundColor: "rgba(0, 0, 0, 0)",
+            backgroundColor: "#88ed74", // Set the desired hover color for secondary buttons
+            outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         },
       },
@@ -83,7 +109,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontFamily: "Inria Sans, sans-serif",
-          color: "#262626",
+          color: "#eeeeee !important",
         },
       },
     },
@@ -92,7 +118,8 @@ const theme = createTheme({
       styleOverrides: {
         root: ({ ownerState }) => ({
           "& .MuiOutlinedInput-root": {
-            backgroundColor: "#eeeeee",
+            backgroundColor: "#262626",
+            color: "#eeeeee"
           },
         }),
       },
@@ -106,6 +133,9 @@ const theme = createTheme({
               border: "none",
             },
           },
+          "&:hover": {
+            outline: "1px solid rgba(238, 238, 238, 0.5)",
+          },
         },
       },
     },
@@ -113,4 +143,4 @@ const theme = createTheme({
   // Other theme configurations can be added here
 });
 
-export default theme;
+export default DarkTheme;

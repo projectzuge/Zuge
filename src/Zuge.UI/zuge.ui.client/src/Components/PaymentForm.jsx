@@ -8,7 +8,7 @@ import InputMask from "react-input-mask";
 import { useJourney } from "../Contexts/SelectedRouteContext";
 import { useNavigate } from "react-router-dom";
 
-const PaymentForm = () => {
+const PaymentForm = ({ DarkMode }) => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
@@ -71,7 +71,10 @@ const PaymentForm = () => {
   return (
     <form onSubmit={handlePayment}>
       <div id="payment-div">
-        <Grid container id="payment-container">
+        <Grid
+          container
+          id={DarkMode ? "payment-container-dark" : "payment-container"}
+        >
           <Typography variant="largeBoldFont" marginBottom="40px">
             {selectedJourney.price}€
           </Typography>

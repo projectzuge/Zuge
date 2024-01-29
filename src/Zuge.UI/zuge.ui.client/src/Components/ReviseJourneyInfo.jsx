@@ -8,7 +8,7 @@ import { useState } from "react";
 import plusSign from "./../assets/plus-sign.png";
 import { useNavigate } from "react-router-dom";
 
-const ReviseJourneyInfo = () => {
+const ReviseJourneyInfo = ({ DarkMode }) => {
   const navigate = useNavigate();
   const [emailFields, setEmailFields] = useState([
     { value: "", isValid: false },
@@ -66,7 +66,6 @@ const ReviseJourneyInfo = () => {
     }
   };
 
-
   return (
     <>
       <div id="back-button-div">
@@ -84,11 +83,14 @@ const ReviseJourneyInfo = () => {
         </Grid>
       </div>
       <Grid container id="revise-box">
-        <Grid item id="revise-sub-grid">
+        <Grid item id={DarkMode ? "revise-sub-grid-dark" : "revise-sub-grid"}>
           <Typography variant="largeFont" marginBottom={"10px"}>
             Menomatka:
           </Typography>
-          <Grid container id="selected-journey">
+          <Grid
+            container
+            id={DarkMode ? "selected-journey-dark" : "selected-journey"}
+          >
             <Grid container marginBottom={"10px"}>
               <Grid
                 item
@@ -181,7 +183,7 @@ const ReviseJourneyInfo = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item id="revise-sub-grid">
+        <Grid item id={DarkMode ? "revise-sub-grid-dark" : "revise-sub-grid"}>
           <Typography variant="largeFont" marginBottom={"10px"}>
             Lipun toimitus:
           </Typography>
@@ -196,6 +198,12 @@ const ReviseJourneyInfo = () => {
                 <TextField
                   variant="outlined"
                   InputProps={{ sx: { borderRadius: "10px" } }}
+                  sx={{
+                    "& .MuiInputBase-root.MuiOutlinedInput-root ::placeholder":
+                      {
+                        color: DarkMode ? "white" : "black",
+                      },
+                  }}
                   id={`profile-text-field-${index}`}
                   fullWidth
                   placeholder="Sähköpostiosoite"
@@ -226,7 +234,7 @@ const ReviseJourneyInfo = () => {
           ))}
         </Grid>
 
-        <Grid item id="revise-sub-grid">
+        <Grid item id={DarkMode ? "revise-sub-grid-dark" : "revise-sub-grid"}>
           <Typography variant="largeFont" marginBottom={"10px"}>
             Maksutapa
           </Typography>

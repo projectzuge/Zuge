@@ -7,6 +7,15 @@
   margin-top: 10px;
 }
 
+#payment-container-dark {
+  padding: 100px;
+  max-width: 60%;
+  background: rgba(38, 38, 38, 0.8);
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
 #payment-div {
   display: flex;
   align-items: center;
@@ -26,4 +35,3 @@
     padding: 10px;
   }
 }
-

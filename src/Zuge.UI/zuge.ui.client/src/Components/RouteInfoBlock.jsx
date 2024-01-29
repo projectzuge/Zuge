@@ -2,12 +2,11 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import "../Styles/RouteInfoBlock.css";
-import rightArrow from "./../assets/right-arrow.png";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useJourney } from "../Contexts/SelectedRouteContext";
 
-const RouteInfoBlock = () => {
+const RouteInfoBlock = ({ DarkMode }) => {
   const selectedJourney = useJourney().selectedJourney;
   const navigate = useNavigate();
 
@@ -32,11 +31,11 @@ const RouteInfoBlock = () => {
         </Grid>
       </div>
       <Grid id="route-info-grid" container direction="column">
-        <Box id="route-info-box">
+        <Box id={DarkMode ? "route-info-box-dark" : "route-info-box"}>
           <Typography id="title-typography" variant="largeBoldFont">
             MENOMATKA:
           </Typography>
-          <Box id="route-inside-box">
+          <Box id={DarkMode ? "route-inside-box-dark" : "route-inside-box"}>
             <Typography variant="mediumBoldFont">
               {selectedJourney.date}
             </Typography>

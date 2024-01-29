@@ -13,6 +13,15 @@
   text-align: start;
 }
 
+#journeys-box-dark {
+  padding: 40px;
+  width: 100%;
+  background: rgba(38, 38, 38, 0.8);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: start;
+}
+
 #journeys-info-box {
   display: flex;
   align-items: center;

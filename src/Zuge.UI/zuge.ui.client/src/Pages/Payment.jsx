@@ -1,9 +1,9 @@
 import PaymentForm from "../Components/PaymentForm";
 
-const Payment = () => {
+const Payment = ({DarkMode}) => {
   return (
     <>
-      <PaymentForm />
+      <PaymentForm DarkMode={DarkMode}/>
     </>
   );
 };

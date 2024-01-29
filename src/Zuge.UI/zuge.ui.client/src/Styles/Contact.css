@@ -5,12 +5,25 @@
     align-self: center;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 50px;
     margin-bottom: 50px;
     padding: 40px;
     max-width: 600px;
     height: fit-content;
     background-color: rgba(238, 238, 238, 0.8);
+}
+
+.ContactInfoBackgroundDark {
+    font-family: 'Roboto', sans-serif;
+    color: #eeeeee;
+    border-radius: 10px;
+    align-self: center;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 50px;
+    padding: 40px;
+    max-width: 600px;
+    height: fit-content;
+    background-color: rgba(38, 38, 38, 0.8);
 }
 
 .contactTitle {
@@ -28,10 +41,27 @@
     overflow: auto;
 }
 
-.contact {
+.ContactInfoBodyDark {
+    border-radius: 10px;
+    padding: 40px;
+    width: calc(100% - 80px);
+    height: fit-content;
+    background-color: rgba(38, 38, 38);
+    overflow: auto;
+}
+
+.contactLight {
     display: grid;
     grid-template-columns: 300px auto;
     justify-content: start;
+    border-color: #262626;
+}
+
+.contactDark {
+    display: grid;
+    grid-template-columns: 300px auto;
+    justify-content: start;
+    border-color: #eeeeee;
 }
 
 .contactName {
@@ -50,16 +80,39 @@
 
 @media screen and (max-width: 850px) {
     .ContactInfoBody {
+        font-size: 95%;
         padding: 20px;
         width: calc(100% - 40px);
     }
 
     .ContactInfoBackground {
-        margin-left: 20px;
-        margin-right: 20px;
+        padding: 20px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .contactTitle {
+        font-size: 95%;
     }
 
     .contact {
+        font-size: 95%;
+        grid-template-columns: 200px auto;
+    }
+
+}
+
+@media screen and (max-width: 470px) {
+    .ContactInfoBody {
+        font-size: 90%;
+    }
+
+    .contactTitle {
+        font-size: 90%;
+    }
+
+    .contact {
+        font-size: 90%;
         display: grid;
         grid-template-columns: 300px;
         justify-content: start;
@@ -70,6 +123,5 @@
         margin-bottom: 0px;
         border-bottom-style: solid;
         border-width: 1px;
-        border-color: #262626;
     }
 }

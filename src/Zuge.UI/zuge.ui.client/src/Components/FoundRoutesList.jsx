@@ -79,7 +79,7 @@ const FoundRoutesList = (props) => {
   };
 
   return (
-    <Box id="found-routes-list-box" marginTop="40px">
+    <Box id={props.DarkMode? "found-routes-list-box-dark" : "found-routes-list-box"} marginTop="40px">
       <Grid container id="info-row" alignItems="center">
         <Grid item xs={4} textAlign="left">
           <Typography>Meno: {formattedDate}</Typography>
@@ -94,24 +94,21 @@ const FoundRoutesList = (props) => {
         </Grid>
       </Grid>
       {filteredJourneys.length > 0 ? (
-        filteredJourneys.map((route, index) => {
-          if (getDeparture(route) < getArrival(route)) {
-            return (
-              <SingleFoundRoute
-                key={index}
-                departure={getDeparture(route)}
-                arrival={getArrival(route)}
-                duration={countDuration(getDeparture(route), getArrival(route))}
-                price={route.price}
-                date={formattedDate}
-                from={fromCity}
-                to={toCity}
-                train={route.train}
-                passengerType={passengerType}
-              />
-            );
-          }
-        })
+        filteredJourneys.map((route, index) => (
+          <SingleFoundRoute
+            key={index}
+            departure={getDeparture(route)}
+            arrival={getArrival(route)}
+            duration={countDuration(getDeparture(route), getArrival(route))}
+            price={route.price}
+            date={formattedDate}
+            from={fromCity}
+            to={toCity}
+            train={route.train}
+            passengerType={passengerType}
+            DarkMode={props.DarkMode}
+          />
+        ))
       ) : (
         <Typography variant="largeBoldFont">
           Valitsemillasi hakuehdoilla ei löytynyt matkoja.

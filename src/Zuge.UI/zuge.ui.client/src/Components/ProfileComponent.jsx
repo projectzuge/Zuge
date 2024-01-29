@@ -6,7 +6,7 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useState } from "react";
 
-const ProfileComponent = () => {
+const ProfileComponent = ({ DarkMode }) => {
   // these will be users own information when such info is available!!!
   const [firstName, setFirstName] = useState("Enni");
   const [lastName, setLastName] = useState("Esimerkki");
@@ -84,7 +84,7 @@ const ProfileComponent = () => {
   };
   return (
     <>
-      <Box id="personal-info-box">
+      <Box id={DarkMode? "personal-info-box-dark" : "personal-info-box"}>
         <form onSubmit={onSaveClicked}>
           <Grid container id="textfield-grid" spacing="20px">
             <Grid item xs={12}>

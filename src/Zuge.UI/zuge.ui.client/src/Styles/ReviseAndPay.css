@@ -18,6 +18,17 @@
   text-align: start;
   justify-content: center;
 }
+#revise-sub-grid-dark, #selected-journey-dark {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 100%;
+  background: rgba(38, 38, 38, 0.8);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: start;
+  justify-content: center;
+}
 
 #add-email-button:hover #plus-icon {
   max-width: 40px;
