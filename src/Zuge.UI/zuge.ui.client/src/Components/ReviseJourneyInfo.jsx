@@ -11,9 +11,8 @@ import { useNavigate } from "react-router-dom";
 const ReviseJourneyInfo = () => {
   const navigate = useNavigate();
   const [emailFields, setEmailFields] = useState([
-    { value: "Sähköpostiosoite", isValid: false },
+    { value: "", isValid: false },
   ]);
-  //   const [emailNotValid, setEmailNotValid] = useState(false);
 
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -46,14 +45,11 @@ const ReviseJourneyInfo = () => {
     // allow max 5 fields and only add field if previous ones are valid
     if (emailFields.length < 5 && emailFields.every((field) => field.isValid)) {
       setEmailFields([...emailFields, ""]);
-      //   setEmailNotValid(false);
-    } else {
-      //   setEmailNotValid(true);
     }
   };
 
-  const handlePaymentCardClick = () => {
-    console.log("EMAILS:", emailFields);
+  const handlePaymentCardClick = async () => {
+    // check that only one email is recognized in case of multiple same emails, and that they are valid
     const uniqueEmails = new Map();
     const validUniqueEmails = emailFields.reduce((result, field) => {
       if (field.isValid && !uniqueEmails.has(field.value)) {
@@ -70,8 +66,23 @@ const ReviseJourneyInfo = () => {
     }
   };
 
+
   return (
     <>
+      <div id="back-button-div">
+        <Grid container>
+          <Grid item xs={12} sm={6} md={4} lg={2} xl={2}>
+            <Button
+              fullWidth
+              color={"primary"}
+              variant="contained"
+              onClick={() => navigate(-1)}
+            >
+              Takaisin
+            </Button>
+          </Grid>
+        </Grid>
+      </div>
       <Grid container id="revise-box">
         <Grid item id="revise-sub-grid">
           <Typography variant="largeFont" marginBottom={"10px"}>
@@ -187,6 +198,7 @@ const ReviseJourneyInfo = () => {
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   id={`profile-text-field-${index}`}
                   fullWidth
+                  placeholder="Sähköpostiosoite"
                   value={email.value}
                   onChange={(e) => onEmailChange(index, e.target.value)}
                   required

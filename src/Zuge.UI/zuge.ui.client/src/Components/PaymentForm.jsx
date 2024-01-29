@@ -1,44 +1,70 @@
 import Grid from "@mui/material/Grid";
 import { TextField, Typography } from "@mui/material";
 import "../Styles/Payment.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "@mui/material/Button";
 import { useCreditCardValidator } from "react-creditcard-validator";
 import InputMask from "react-input-mask";
 import { useJourney } from "../Contexts/SelectedRouteContext";
+import { useNavigate } from "react-router-dom";
 
 const PaymentForm = () => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
 
+  const navigate = useNavigate();
   const selectedJourney = useJourney().selectedJourney;
 
   const {
     getCardNumberProps,
     getCVCProps,
     getExpiryDateProps,
-    meta: { erroredInputs, error },
+    meta: { erroredInputs },
   } = useCreditCardValidator();
 
-  useEffect(() => {
-    console.log("errored inputs: ", erroredInputs);
-    console.log("errors:", error);
-  }, [erroredInputs]);
+  const onCardNumberChange = (e) => {
+    e.preventDefault();
+    const cardNumberNoSpaces = e.target.value.replace(/[\s_]/g, "");
+    setCardNumber(cardNumberNoSpaces);
+  };
 
-  const handlePayment = (e) => {
+  const checkLuhn = (cardNo) => {
+    if (cardNo.length != 16) {
+      return false;
+    }
+
+    let nDigits = cardNo.length;
+
+    let nSum = 0;
+    let isSecond = false;
+    for (let i = nDigits - 1; i >= 0; i--) {
+      let d = cardNo[i].charCodeAt() - "0".charCodeAt();
+
+      if (isSecond == true) d = d * 2;
+
+      // We add two digits to handle cases that make two digits after doubling
+      nSum += parseInt(d / 10, 10);
+      nSum += d % 10;
+
+      isSecond = !isSecond;
+    }
+    return nSum % 10 == 0;
+  };
+
+  const handlePayment = async (e) => {
     e.preventDefault();
     if (
-      erroredInputs.cardNumber ||
+      !checkLuhn(cardNumber) ||
       erroredInputs.cvc ||
       erroredInputs.expiryDate ||
       cardNumber.length === 0 ||
       cvc.length === 0 ||
       expiryDate === 0
     ) {
-      console.log("somethings missing");
+      console.log(window.alert("Tarkista kortin tiedot ja yritä uudelleen."));
     } else {
-      console.log("handle payment with values:", cardNumber, expiryDate, cvc);
+      window.alert("Kortin tiedot kunnossa!");
     }
   };
 
@@ -65,13 +91,13 @@ const PaymentForm = () => {
                 fullWidth
                 required
                 value={cardNumber}
-                onChange={(e) => setCardNumber(e.target.value)}
+                onChange={onCardNumberChange}
                 alwaysShowMask={true}
               >
                 {() => <TextField />}
               </InputMask>{" "}
-              <Typography variant="smallFont">
-                {error ? erroredInputs.cardNumber : "\u00a0"}
+              <Typography variant="smallFont" color="red">
+                {!checkLuhn(cardNumber) ? erroredInputs.cardNumber : "\u00a0"}
               </Typography>
             </Grid>
           </Grid>
@@ -95,7 +121,7 @@ const PaymentForm = () => {
                 >
                   {() => <TextField />}
                 </InputMask>
-                <Typography variant="smallFont">
+                <Typography variant="smallFont" color="red">
                   {erroredInputs.expiryDate
                     ? erroredInputs.expiryDate
                     : "\u00a0"}
@@ -125,7 +151,7 @@ const PaymentForm = () => {
                   {() => <TextField />}
                 </InputMask>
 
-                <Typography variant="smallFont">
+                <Typography variant="smallFont" color="red">
                   {erroredInputs.cvc ? erroredInputs.cvc : "\u00a0"}
                 </Typography>
               </Grid>
@@ -145,7 +171,12 @@ const PaymentForm = () => {
               </Grid>
               <Grid item xs={0} md={0} lg={2} xl={2}></Grid>
               <Grid item xs={12} md={12} lg={5} xl={5}>
-                <Button variant="contained" color="primary" fullWidth>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => navigate(-1)}
+                  fullWidth
+                >
                   Peruuta
                 </Button>
               </Grid>

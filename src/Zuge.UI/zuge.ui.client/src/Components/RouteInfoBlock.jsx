@@ -18,14 +18,18 @@ const RouteInfoBlock = () => {
   return (
     <>
       <div id="back-button-div">
-        <Button
-          color={"primary"}
-          id="back-button"
-          variant="contained"
-          onClick={() => navigate(-1)}
-        >
-          Takaisin
-        </Button>
+        <Grid container>
+          <Grid item xs={12} md={4} lg={2} xl={2}>
+            <Button
+              fullWidth
+              color={"primary"}
+              variant="contained"
+              onClick={() => navigate(-1)}
+            >
+              Takaisin
+            </Button>
+          </Grid>
+        </Grid>
       </div>
       <Grid id="route-info-grid" container direction="column">
         <Box id="route-info-box">
@@ -38,15 +42,11 @@ const RouteInfoBlock = () => {
             </Typography>
             <Grid id="departure-arrival-text-grid" alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="mediumBoldFont">
-                  Lähtö:
-                </Typography>
+                <Typography variant="mediumBoldFont">Lähtö:</Typography>
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4}>
-                <Typography variant="mediumBoldFont">
-                  Määränpää:
-                </Typography>
+                <Typography variant="mediumBoldFont">Määränpää:</Typography>
               </Grid>
             </Grid>
             <Grid id="times-grid" alignItems="center">
@@ -108,18 +108,24 @@ const RouteInfoBlock = () => {
             </Grid>
           </Box>
         </Box>
-        <Button
-          color={"primary"}
-          id="confirm-journey-button"
-          variant="contained"
-          onClick={onConfirmClicked}
-        >
-          <Typography variant="smallFont">Vahvista matka</Typography>
-          <Typography>&nbsp;</Typography>
-          <Typography variant="mediumBoldFont">
-            ({selectedJourney.price} €)
-          </Typography>
-        </Button>
+        <Grid container>
+          <Grid item xs={0} md={0} lg={4} xl={4}></Grid>
+          <Grid item xs={12} md={12} lg={4} xl={4}>
+            <Button
+              color={"primary"}
+              id="confirm-journey-button"
+              variant="contained"
+              onClick={onConfirmClicked}
+              fullWidth
+            >
+              <Typography variant="smallFont">Vahvista matka</Typography>
+              <Typography>&nbsp;</Typography>
+              <Typography variant="mediumBoldFont">
+                ({selectedJourney.price} €)
+              </Typography>
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
     </>
   );

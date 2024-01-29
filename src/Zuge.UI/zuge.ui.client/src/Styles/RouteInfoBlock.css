@@ -49,13 +49,13 @@
 #confirm-journey-button {
   margin-top: 50px;
   margin-bottom: 10px;
-  height: 50px;
-  width: 20%;
+
 }
 
 #back-button-div {
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1700px) {
@@ -78,6 +78,10 @@
 
 @media screen and (max-width: 750px) {
   #route-info-box {
-    width: 100%;
+    width: 80%;
+    padding: 10%;
+  }
+  #route-inside-box {
+    padding: 10%;
   }
 }
