@@ -1,37 +1,44 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Zuge.Domain.Abstractions;
 using Zuge.Domain.Specifications;
 using Zuge.Domain.Types.Authentication;
 using Zuge.Infrastructure.Auth;
+using Zuge.Infrastructure.Auth.Entities;
 
 namespace Zuge.UI.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class AccountController(AuthenticationDbContext authenticationDbContext, IAuthUnitOfWork unitOfWork) : ControllerBase
+    [Route("account")]
+    public class AccountController(AuthenticationDbContext authenticationDbContext, ApplicationUserManager userManager) : ControllerBase
     {
         private readonly AuthenticationDbContext _authenticationDbContext = authenticationDbContext;
-        //[HttpGet("{email}")]
-        //public async Task<IActionResult> OnGetByEmailAsync(string email)
-        //{
-        //    var account = await _authenticationDbContext.Users().FirstOrNull(new WhereEmailAccountSpecification(email));
-        //    //var account = await unitOfWork.Repository<UserAccount>().FirstOrNull(new WhereEmailAccountSpecification(email));
+        private readonly ApplicationUserManager _userManager = userManager;
 
-        //    if (account == null) return NotFound();
+        [HttpGet]
+        [Authorize(Policy = "User")]
+        public async Task<IActionResult> OnGetAsync()
+        {
+            var appUser = await _userManager.GetUserAsync(User);
 
-        //    return Ok(account);
-        //}
+            if (appUser == null) return NotFound("User not found? but why");
+
+            return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber });
+        }
 
 
         [HttpPost]
+        [Route("manage/register")]
         public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
         {
             var user = _authenticationDbContext.Users.FirstOrDefault(user => user.Email == email);
             if (user == null) return NotFound();
-            
+
             var trimmedInfo = new RegistrationInformation(
                 info.FirstName.Trim(),
                 info.LastName.Trim(),
@@ -42,24 +49,27 @@ namespace Zuge.UI.Server.Controllers
             user.FirstName = trimmedInfo.FirstName;
             user.LastName = trimmedInfo.LastName;
             user.PhoneNumber = trimmedInfo.PhoneNumber;
+            await _userManager.AddToRoleAsync(user, "User");
+            await _userManager.UpdateAsync(user);
 
-            await _authenticationDbContext.SaveChangesAsync();
-            //var repo = unitOfWork.Repository<UserAccount>();
+            return Ok();
+        }
+        [HttpPut]
+        [Route("manage/info")]
+        [Authorize(Policy = "User")]
+        public async Task<IActionResult> OnPutAsync([FromBody] RegistrationInformation info)
+        {
+            if (!TryValidateModel(info)) return BadRequest();
 
-            //if (await repo.FirstOrNull(new WhereEmailAccountSpecification(trimmedInfo.Email)) != null) return BadRequest("Email is already in use.");
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
 
-            //Guid accountId = Guid.NewGuid();
-            //Guid passwordSalt = Guid.NewGuid();
-            
-            //var passwordHash = Encoding.UTF8.GetString(SHA256.HashData(Encoding.UTF8.GetBytes(passwordSalt + info.Password)));
-            //var newAccount = new UserAccount(accountId, trimmedInfo.FirstName, trimmedInfo.LastName, trimmedInfo.Email, 
-            //    trimmedInfo.PhoneNumber, new UserLoginData(accountId, passwordSalt, passwordHash, trimmedInfo.Email, null));
-            //repo.AddRange(new List<UserAccount>()
-            //{
-            //    newAccount
-            //});
-            //await unitOfWork.CommitAsync();
-            return Ok("Filled info");
+            user.FirstName = info.FirstName;
+            user.LastName = info.LastName;
+            user.PhoneNumber = info.PhoneNumber;
+            await _userManager.UpdateAsync(user);
+
+            return Ok();
         }
     }
 }
