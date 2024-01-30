@@ -22,4 +22,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Zuge.Domain\Zuge.Domain.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Auth\Migrations\" />
+	</ItemGroup>
 </Project>
