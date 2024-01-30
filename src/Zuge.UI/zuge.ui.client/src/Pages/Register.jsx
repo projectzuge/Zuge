@@ -291,7 +291,7 @@ function Register({ DarkMode }) {
             .then(response => {
                 if (response.status === 200) {
                      // add missing info since Identity only registers with email/password
-                    axios.post("Account?email=" + inputs.email, { FirstName: inputs.firstName, LastName: inputs.lastName, PhoneNumber: inputs.phoneNum })
+                    axios.post("account/manage/register?email=" + inputs.email, { FirstName: inputs.firstName, LastName: inputs.lastName, PhoneNumber: inputs.phoneNum })
                         .then(response => console.log(response));
                 }
             })
