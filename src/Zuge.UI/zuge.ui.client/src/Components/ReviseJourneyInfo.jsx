@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { useJourney } from "../Contexts/SelectedRouteContext";
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import plusSign from "./../assets/plus-sign.png";
 import plusSignWhite from "./../assets/plus-sign-white.png";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +15,41 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
     { value: "", isValid: false },
   ]);
 
+  const [date, setDate] = useState("");
+  const [arrival, setArrival] = useState("");
+  const [departure, setDeparture] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [train, setTrain] = useState("");
+  const [duration, setDuration] = useState("");
+  const [passengerType, setPassengerType] = useState("");
+  const [price, setPrice] = useState("");
+
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
   const selectedJourney = useJourney().selectedJourney;
+
+  useEffect(() => {
+    const savedRouteState = JSON.parse(
+      sessionStorage.getItem("routeDataState")
+    );
+
+    if (savedRouteState || selectedJourney) {
+      setDate(savedRouteState.date || selectedJourney.date);
+      setArrival(savedRouteState.arrival || selectedJourney.arrival);
+      setDeparture(savedRouteState.departure || selectedJourney.departure);
+      setFrom(savedRouteState.from || selectedJourney.from);
+      setTo(savedRouteState.to || selectedJourney.to);
+      setTrain(savedRouteState.train || selectedJourney.train);
+      setDuration(savedRouteState.duration || selectedJourney.duration);
+      setPassengerType(
+        savedRouteState.passengerType || selectedJourney.passengerType
+      );
+      setPrice(savedRouteState.price || selectedJourney.price);
+    } else {
+      navigate("/");
+    }
+  }, []);
 
   const onEmailChange = (index, value) => {
     if (
@@ -103,7 +135,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="mediumBoldFont">
-                  {selectedJourney.date}
+                  {date}
                 </Typography>
               </Grid>
               <Grid
@@ -116,7 +148,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="mediumFont">
-                  {selectedJourney.train}
+                  {train}
                 </Typography>
               </Grid>
               <Grid
@@ -129,7 +161,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="mediumFont">
-                  Kesto: {selectedJourney.duration}
+                  Kesto: {duration}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={3} xl={3}></Grid>
@@ -145,9 +177,9 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="largeBoldFont" style={{ lineHeight: 1.5 }}>
-                  {selectedJourney.from}
+                  {from}
                   {" - "}
-                  {selectedJourney.to}
+                  {to}
                 </Typography>
               </Grid>
               <Grid
@@ -173,12 +205,12 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="mediumFont" style={{ lineHeight: 2.0 }}>
-                  {selectedJourney.passengerType}
+                  {passengerType}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={3} xl={3} textAlign={"end"}>
                 <Typography variant="largeBoldFont" style={{ lineHeight: 1.5 }}>
-                  {selectedJourney.price} €
+                  {price} €
                 </Typography>
               </Grid>
             </Grid>
