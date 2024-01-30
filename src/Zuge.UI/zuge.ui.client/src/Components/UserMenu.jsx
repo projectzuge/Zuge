@@ -131,7 +131,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
     const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
     const acceptedCapitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
     const acceptedNumbers = "1234567890";
-    const acceptedSpecialChars = "!?-_#@{}()[]";
+    const acceptedSpecialChars = "!?-_#@£$";
     const isChars = {isSmallLetters: 0, isCapitalLetters: 0, isNumbers: 0, isSpecialChars: 0};
     const passwordInput = e.target.value;
 
@@ -186,7 +186,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
   }
 
   const handlePasswordInput = (event) => {
-    const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_{(\[\])}äöåÄÖÅ]/g, '');
+    const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_£$äöåÄÖÅ]/g, '');
     event.target.value = sanitizedValue;
   };
 
@@ -212,7 +212,7 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
     if (isEmailValid && isPasswordValid) {
       console.log("Valid Input!!!!");
       setIsLoginValid(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-      navigate('/'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
+      navigate('/user'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
       handleItemClick(); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
       // axios.get("Login", {Email: email, Password: password})
       // .then(function (res) {
@@ -230,6 +230,10 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
     else {
       setIsLoginValid(false);
     }
+
+    setEmail("");
+    setPassword("");
+
   }
 
   return (
@@ -300,7 +304,11 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
                 <Button  onClick={handleSignInClicked} style={DarkMode? buttonStyleDark : buttonStyle}>
                   Kirjaudu
                 </Button>
-                <Button  onClick={handleItemClick} style={DarkMode? buttonStyleDark : buttonStyle}>
+                <Button  onClick={ () => {
+                  handleItemClick()
+                  setEmail("");
+                  setPassword("");
+                }} style={DarkMode? buttonStyleDark : buttonStyle}>
                   Peruuta
                 </Button>
               </div>

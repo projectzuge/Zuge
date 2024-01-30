@@ -1,0 +1,15 @@
+.RegisterSuccessBodyDark {
+    padding: 40px;
+    margin-top: 40px;
+    background-color: #262626;
+    color: #eeeeee;
+    border-radius: 10px;
+}
+
+.RegisterSuccessBodyLight {
+    padding: 40px;
+    margin-top: 40px;
+    background-color: #eeeeee;
+    color: #262626;
+    border-radius: 10px;
+}

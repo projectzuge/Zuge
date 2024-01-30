@@ -87,7 +87,7 @@ function Register({ DarkMode }) {
         const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";
         const acceptedCapitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
         const acceptedNumbers = "1234567890";
-        const acceptedSpecialChars = "!?-_#@{}()[]";
+        const acceptedSpecialChars = "!?-_#@£$";
         const isChars = {isSmallLetters: 0, isCapitalLetters: 0, isNumbers: 0, isSpecialChars: 0};
         const passwordInput = e.target.value;
     
@@ -214,7 +214,7 @@ function Register({ DarkMode }) {
     };
 
     const handlePasswordInput = (event) => {
-        const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_{(\[\])}äöåÄÖÅ]/g, '');
+        const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_%£$äöåÄÖÅ]/g, '');
         event.target.value = sanitizedValue;
         };
     
@@ -225,7 +225,7 @@ function Register({ DarkMode }) {
 
     const getHelperText = () => {
         if (!inputValidities.isPasswordValid) {
-            return "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '{', '}', '[', ']', '(', ')', '-' or '_'.";
+            return "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '£', '$', '-' or '_'.";
         }
         else if (!inputValidities.isPasswordsEqual) {
             return "The passwords doesn't match.";
@@ -290,7 +290,14 @@ function Register({ DarkMode }) {
             .then(function (res) {
                 console.log("VALID RESPONSE: " + res);
                 setIsValidRegistration(true);
-                navigate('/');
+                setInputs({
+                email: "", 
+                password: "", 
+                rePassword: "", 
+                firstName: "", 
+                lastName: "", 
+                phoneNum: ""});
+                navigate('/successfulRegister');
             })
             .catch(function (error) {
                 console.log("ERROR MESSAGE: " + error);
@@ -313,7 +320,8 @@ function Register({ DarkMode }) {
                         sx={{
                             inputResponsiveness
                           }} 
-                        style={DarkMode? labelDarkStyle : labelLightStyle}>Sähköposti</InputLabel>
+                        style={DarkMode? labelDarkStyle : labelLightStyle}
+                        >Sähköposti</InputLabel>
                         <TextField
                         value={inputs.email} 
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
@@ -326,7 +334,7 @@ function Register({ DarkMode }) {
                         fullWidth
                         required />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
                             inputResponsiveness
@@ -363,7 +371,7 @@ function Register({ DarkMode }) {
                         }}
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
                             inputResponsiveness
@@ -377,7 +385,7 @@ function Register({ DarkMode }) {
                         type={showRePassword ? 'text' : 'password'}  
                         fullWidth 
                         error={!inputValidities.isRePasswordValid}
-                        helperText={!inputValidities.isRePasswordValid ? "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '{', '}', '[', ']', '(', ')', '-' or '_'." : ""}
+                        helperText={!inputValidities.isRePasswordValid ? "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '£', '$', '-' or '_'." : ""}
                         required
                         onInput={handlePasswordInput}
                         onChange={onRePasswordChange}
@@ -394,7 +402,7 @@ function Register({ DarkMode }) {
                         }}
                         />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
                             inputResponsiveness
@@ -411,7 +419,7 @@ function Register({ DarkMode }) {
                         variant="outlined" 
                         fullWidth />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
                             inputResponsiveness

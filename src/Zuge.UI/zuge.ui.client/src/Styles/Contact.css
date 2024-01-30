@@ -50,18 +50,9 @@
     overflow: auto;
 }
 
-.contactLight {
+.contact {
     display: grid;
-    grid-template-columns: 300px auto;
-    justify-content: start;
-    border-color: #262626;
-}
-
-.contactDark {
-    display: grid;
-    grid-template-columns: 300px auto;
-    justify-content: start;
-    border-color: #eeeeee;
+    grid-template-columns: 200px auto;
 }
 
 .contactName {

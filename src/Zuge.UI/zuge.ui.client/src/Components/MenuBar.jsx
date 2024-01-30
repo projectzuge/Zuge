@@ -86,7 +86,7 @@ function MenuBar({ DarkMode, setDarkMode }) {
             </Link>
           </div>
           <div className="MenuLink">
-            <Link id="UserLink" to="/userMenu"
+            <Link id="UserLink"
               onClick={handleClickUser}>
                 <Typography variant={variant}>Käyttäjä</Typography>
             </Link>

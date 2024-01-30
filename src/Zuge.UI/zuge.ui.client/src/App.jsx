@@ -16,6 +16,7 @@ import Contact from "./Pages/Contact.jsx";
 import Register from "./Pages/Register.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
 import Profile from "./Pages/Profile.jsx";
+import RegisterSuccess from "./Pages/RegisterSuccess.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -61,10 +62,10 @@ function App() {
                     <Route path="/contact" element={<Contact DarkMode={DarkMode} />} />
                     <Route path="/NewsPage" element={<NewsPage DarkMode={DarkMode} />} />
                     <Route path="/SingleNews" element={<SingleNews DarkMode={DarkMode} />} />
-                    <Route path="/userMenu" element={<UserMenu />} />
                     <Route path="/register" element={<Register DarkMode={DarkMode} />} />
                     <Route path="/user" element={<Profile DarkMode={DarkMode} />} />
                     <Route path="/route" element={<RouteInfo DarkMode={DarkMode} />} />
+                    <Route path="/successfulRegister" element={<RegisterSuccess DarkMode={DarkMode} />} />
                 </Routes>
               </div>
             </div>
