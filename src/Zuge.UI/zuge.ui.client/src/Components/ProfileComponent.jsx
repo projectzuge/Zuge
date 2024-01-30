@@ -4,7 +4,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const ProfileComponent = ({ DarkMode }) => {
   // these will be users own information when such info is available!!!
@@ -17,6 +18,12 @@ const ProfileComponent = ({ DarkMode }) => {
   const [isEmptyFirstName, setIsEmptyFirstName] = useState(false);
   const [isEmptyLastName, setIsEmptyLastName] = useState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
+  
+  useEffect(() => {
+    axios.get("account").then(response => {
+      console.log(response.data);
+    });
+  },[]);
 
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -76,7 +83,11 @@ const ProfileComponent = ({ DarkMode }) => {
       !phoneNumberNotValid
     ) {
       // PUT REQUEST FOR BACKEND
-      // axios.post("/account/manage/info", {newEmail, newPassword, oldPassword})
+      // sähköpostin vaihto (newEmail) ei toimi ennen kuin toteutetaan email confirmation,
+      // mutta tekisi testaamisesta vaikeaa/ärsyttävää
+      // salasanan vaihto kuitenkin onnistuu
+      // axios.post("account/manage/info", {newEmail, newPassword, oldPassword})
+      // axios.put("account/manage/info", {firstName, lastName, phoneNumber})
       window.alert("Saved");
       setShowSaveButton(false);
     } else {
