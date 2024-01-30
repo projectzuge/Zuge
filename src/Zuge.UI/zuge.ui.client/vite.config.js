@@ -54,7 +54,7 @@ export default defineConfig({
                 target,
                 secure: false
             },
-            '^/Account': {
+            '^/account': {
                 target,
                 secure: false
             },
