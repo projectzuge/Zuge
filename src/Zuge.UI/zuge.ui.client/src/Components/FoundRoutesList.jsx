@@ -22,7 +22,6 @@ const FoundRoutesList = (props) => {
 
   useEffect(() => {
     const foundJourneysArray = journeys.filter((route) => {
-
       // check that date matches
       const isMatchingDate = route.date === formattedDate;
 
@@ -37,8 +36,7 @@ const FoundRoutesList = (props) => {
     setFilteredJourneys(foundJourneysArray);
   }, [formattedDate]);
 
-  useEffect(() => {
-  }, [filteredJourneys]);
+  useEffect(() => {}, [filteredJourneys]);
 
   const getDeparture = (route) => {
     const stationInfo = route.stops.filter((stop) => stop.station === fromCity);

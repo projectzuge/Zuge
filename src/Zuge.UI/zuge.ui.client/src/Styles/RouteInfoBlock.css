@@ -45,7 +45,14 @@
   display: flex;
   direction: row;
   justify-content: flex-start;
-  margin-top: 30px;
+  margin-top: 10px;
+}
+
+#departure-arrival-text-grid {
+  display: flex;
+  direction: row;
+  justify-content: flex-start;
+  margin-top: 40px;
 }
 
 #arrow-item-grid {
@@ -57,13 +64,13 @@
 #confirm-journey-button {
   margin-top: 50px;
   margin-bottom: 10px;
-  height: 50px;
-  width: 20%;
+
 }
 
 #back-button-div {
   display: flex;
   justify-content: flex-start;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1700px) {
@@ -86,6 +93,10 @@
 
 @media screen and (max-width: 750px) {
   #route-info-box, #route-info-box-dark {
-    width: 100%;
+    width: 80%;
+    padding: 10%;
+  }
+  #route-inside-box {
+    padding: 10%;
   }
 }
