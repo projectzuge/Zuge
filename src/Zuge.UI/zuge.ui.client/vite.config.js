@@ -85,6 +85,10 @@ export default defineConfig({
             '^/account/manage/info': {
                 target,
                 secure: false
+            },
+            '^/account/manage/register': {
+                target,
+                secure: false
             }
         },
         port: 5173,
