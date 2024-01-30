@@ -13,7 +13,7 @@ import {
     InputAdornment, 
     IconButton
 } from '@mui/material';
-
+import axios from 'axios';
 import PropTypes from 'prop-types';
 
 LoginForm.propTypes = {
@@ -185,7 +185,13 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
     }
 
     const handleSignInClicked = () => {
-    
+      // Kirjautumisvaihtoehdot:
+      // useSessionCookies=true -- muistaa kirjautumisen kunnes selain suljetaan
+      // useCookies=true -- muistaa vaikka sulkisi selaimen
+      // Login valikkoon joku "muista minut" checkboxi
+      // const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
+      // axios.post("account/login?" + cookieSetting + "=true", { email, password })
+          
         if (isEmailValid === "initial" || isPasswordValid === "initial") {
           if (isEmailValid === "initial") {
             setIsEmailValid(false);
@@ -198,24 +204,18 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
           return;
     }
     if (isEmailValid && isPasswordValid) {
-        console.log("Valid Input!!!!");
-        setIsLoginValid(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-        navigate('/user'); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-        handleItemClick(); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-        setSignedIn(true); // VAIN TESTAUKSEEN!!! POISTA, KUN TEET AXIOS OSION!
-        // axios.get("Login", {Email: email, Password: password})
-        // .then(function (res) {
-        //     console.log("VALID RESPONSE: " + res);
-        //     setIsLoginValid(true);
-        //     navigate('/');
-        //     handleItemClick();
-        //     setSignedIn(true);
-        //     // Do something with the response data...
-        // })
-        // .catch(function (error) {
-        //     console.log("ERROR MESSAGE: " + error);
-        //     setIsLoginValid(false);
-        // });
+        axios.post("account/login?useSessionCookies=true", { email, password })
+        .then(response => {
+          if (response.status === 200) {
+            console.log("Logged in");
+            handleItemClick();
+            setSignedIn(true);
+            navigate("/user");
+          } else {
+            console.log(response.error);
+            setIsLoginValid(false);
+          }
+        });
       }
       else {
         setIsLoginValid(false);
@@ -226,7 +226,6 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
   
     }
 
-      
     return (
       <>
         <MenuItem disableRipple  style={customCursorStyle}>

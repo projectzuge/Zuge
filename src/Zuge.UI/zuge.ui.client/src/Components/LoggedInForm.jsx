@@ -1,7 +1,9 @@
 import './../Styles/LoggedInForm.css';
 import Button from '@mui/material/Button';
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
+import LogoutLink from "../Components/LogoutLink";
+import { useNavigate } from "react-router-dom";
 
 LoggedInForm.propTypes = {
     setSignedIn: PropTypes.func,
@@ -9,6 +11,7 @@ LoggedInForm.propTypes = {
 };
 
 function LoggedInForm({ setSignedIn, DarkMode }) {
+  const navigate = useNavigate();
 
     const profileButtonStyle = {
         backgroundColor: '#eeeeee',
@@ -47,6 +50,10 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
         marginTop: '50px',
     };
 
+    const handleProfileClick = () => {
+      navigate("/user");
+    }
+
     const handleLogOut = () => {
         setSignedIn(false);
     }
@@ -55,11 +62,11 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
   return (
     <>
       <Container style={formContainerStyle}>
-      <Button style={DarkMode? profileButtonStyleDark : profileButtonStyle} variant="contained">
+      <Button onClick={handleProfileClick} style={DarkMode? profileButtonStyleDark : profileButtonStyle} variant="contained">
         Profiili
       </Button>
       <Button onClick={handleLogOut} style={DarkMode? logoutButtonStyleDark : logoutButtonStyle} variant="contained">
-        Kirjaudu ulos
+      <LogoutLink ><Typography sx={{textDecoration: 'none',}}>Kirjaudu ulos</Typography></LogoutLink>
       </Button>
     </Container>
     </>
