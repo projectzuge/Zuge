@@ -74,22 +74,22 @@ _ = app.MapPost("/account/logout", async (SignInManager<ApplicationUser> signInM
 _ = app.MapGet("/account/pingauth/", (ClaimsPrincipal user) =>
     {
         var email = user.FindFirstValue(ClaimTypes.Email);
-        var role = user.FindFirstValue(ClaimTypes.Role);
-        return Results.Json(new { Email = email, Role = role });
+        bool isInRole = user.IsInRole("User");
+        return Results.Json(new { Email = email, IsInRole = isInRole });
     }).RequireAuthorization("User");
 
 _ = app.MapGet("/account/pingauth/employee", (ClaimsPrincipal user) =>
 {
     var email = user.FindFirstValue(ClaimTypes.Email);
-    var role = user.FindFirstValue(ClaimTypes.Role);
-    return Results.Json(new { Email = email, Role = role });
+    bool isInRole = user.IsInRole("Employee");
+    return Results.Json(new { Email = email, IsInRole = isInRole });
 }).RequireAuthorization("Employee");
 
 _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 {
     var email = user.FindFirstValue(ClaimTypes.Email);
-    var role = user.FindFirstValue(ClaimTypes.Role);
-    return Results.Json(new { Email = email, Role = role });
+    bool isInRole = user.IsInRole("Employee");
+    return Results.Json(new { Email = email, IsInRole = isInRole });
 }).RequireAuthorization("Admin");
 #endregion
 
