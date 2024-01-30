@@ -14,7 +14,7 @@ function AuthorizeView({requiredRole = "", children}) {
 
   const [authorized, setAuthorized] = useState(false);
   const [loading, setLoading] = useState(true);
-  let emptyUser = { email: "" };
+  let emptyUser = { email: "", role: "" };
   const [user, setUser] = useState(emptyUser);
   const navigate = useNavigate();
   const pingUrl = "account/pingauth/" + requiredRole;
@@ -23,7 +23,7 @@ function AuthorizeView({requiredRole = "", children}) {
     axios.get(pingUrl)
       .then(response => {
         if (response.status === 200) {
-          setUser({ email: response.data.email });
+          setUser({ ...response.data });
           setAuthorized(true);
         } else {
           console.log(response);
@@ -49,7 +49,7 @@ function AuthorizeView({requiredRole = "", children}) {
       </>
     );
   } else {
-    navigate(-1);
+    navigate("/");
   }
 }
 
@@ -57,7 +57,7 @@ export function AuthorizedUser(props) {
   // Consume the username from the UserContext
   const user = React.useContext(UserContext);
   if (props.value === "email")
-    return <>{user.email}</>;
+    return <>{user}</>;
   else
     return <></>
 }
