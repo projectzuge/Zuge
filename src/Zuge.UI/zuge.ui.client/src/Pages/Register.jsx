@@ -285,8 +285,16 @@ function Register({ DarkMode }) {
         if (inputValidities.isEmailValid && inputValidities.isPasswordValid && inputValidities.isRePasswordValid 
             && inputValidities.isFirstNameValid && inputValidities.isLastNameValid && inputValidities.isPhoneNumValid 
             && inputValidities.isPasswordsEqual) {
-            axios.post("Account", {FirstName: inputs.firstName
-            , LastName: inputs.lastName, Email: inputs.email, Password: inputs.password, PhoneNumber: inputs.phoneNum})
+            // axios.post("Account", {FirstName: inputs.firstName
+            // , LastName: inputs.lastName, Email: inputs.email, Password: inputs.password, PhoneNumber: inputs.phoneNum})
+            axios.post("account/register", { Email: inputs.email, Password: inputs.password })
+            .then(response => {
+                if (response.status === 200) {
+                     // add missing info since Identity only registers with email/password
+                    axios.post("account/manage/register?email=" + inputs.email, { FirstName: inputs.firstName, LastName: inputs.lastName, PhoneNumber: inputs.phoneNum })
+                        .then(response => console.log(response));
+                }
+            })
             .then(function (res) {
                 console.log("VALID RESPONSE: " + res);
                 setIsValidRegistration(true);
