@@ -11,12 +11,14 @@ import axios from "axios";
 import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
-import UserMenu from "./Components/UserMenu.jsx";
 import Contact from "./Pages/Contact.jsx";
 import Register from "./Pages/Register.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
 import Profile from "./Pages/Profile.jsx";
 import RegisterSuccess from "./Pages/RegisterSuccess.jsx";
+import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
+import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
+import Payment from "./Pages/Payment.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -47,29 +49,66 @@ function App() {
     <>
       <ThemeProvider theme={DarkMode ? darkTheme : theme}>
         <RouteContext.Provider value={journeys}>
-          <Router>
-            <div id={DarkMode? "body-dark" : "body-light"}>
-              <MenuBar id="menu-bar" DarkMode={DarkMode} setDarkMode={setDarkMode} />
-              <div id="page-contents-container">
-                <Routes>
-                    <Route path="/" element={
-                      loading ? (
-                        <LoadingSpinner />
-                      ) : (
-                        <FrontPage DarkMode={DarkMode}/>
-                      )
-                    } />
-                    <Route path="/contact" element={<Contact DarkMode={DarkMode} />} />
-                    <Route path="/NewsPage" element={<NewsPage DarkMode={DarkMode} />} />
-                    <Route path="/SingleNews" element={<SingleNews DarkMode={DarkMode} />} />
-                    <Route path="/register" element={<Register DarkMode={DarkMode} />} />
-                    <Route path="/user" element={<Profile DarkMode={DarkMode} />} />
-                    <Route path="/route" element={<RouteInfo DarkMode={DarkMode} />} />
-                    <Route path="/successfulRegister" element={<RegisterSuccess DarkMode={DarkMode} />} />
-                </Routes>
+          <JourneyProvider>
+            <Router>
+              <div id={DarkMode ? "body-dark" : "body-light"}>
+                <MenuBar
+                  id="menu-bar"
+                  DarkMode={DarkMode}
+                  setDarkMode={setDarkMode}
+                />
+                <div id="page-contents-container">
+                  <Routes>
+                    <Route
+                      path="/"
+                      element={
+                        loading ? (
+                          <LoadingSpinner />
+                        ) : (
+                          <FrontPage DarkMode={DarkMode} />
+                        )
+                      }
+                    />
+                    <Route
+                      path="/contact"
+                      element={<Contact DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/NewsPage"
+                      element={<NewsPage DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/SingleNews"
+                      element={<SingleNews DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/register"
+                      element={<Register DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/user"
+                      element={<Profile DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/route"
+                      element={<RouteInfo DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/revise"
+                      element={<ReviseAndPay DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/payment"
+                      element={<Payment DarkMode={DarkMode} />}
+                    />
+                    <Route 
+                    path="/successfulRegister" 
+                    element={<RegisterSuccess DarkMode={DarkMode} />} />
+                  </Routes>
+                </div>
               </div>
-            </div>
-          </Router>
+            </Router>
+          </JourneyProvider>
         </RouteContext.Provider>
       </ThemeProvider>
     </>

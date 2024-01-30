@@ -102,6 +102,13 @@ const DarkTheme = createTheme({
             outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         },
+        containedAddEmailButton: {
+          "&:hover": {
+            border: "none",
+            outline: "none",
+            backgroundColor: "rgba(0, 0, 0, 0)",
+          },
+        },
       },
     },
 
@@ -119,6 +126,7 @@ const DarkTheme = createTheme({
         root: ({ ownerState }) => ({
           "& .MuiOutlinedInput-root": {
             backgroundColor: "#262626",
+            color: "#eeeeee",
           },
         }),
       },
@@ -131,6 +139,9 @@ const DarkTheme = createTheme({
             "& fieldset": {
               border: "none",
             },
+          },
+          "&:hover": {
+            outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         },
       },
