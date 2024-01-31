@@ -104,7 +104,9 @@ function App() {
                       element={<Payment DarkMode={DarkMode} />}
                     />
                     <Route
-                      path="/purchaseDone" element={<SuccessfulPayment DarkMode={DarkMode}/>}
+                      path="/purchaseDone"
+                      element={<SuccessfulPayment DarkMode={DarkMode} />}
+                    />
                   </Routes>
                 </div>
               </div>

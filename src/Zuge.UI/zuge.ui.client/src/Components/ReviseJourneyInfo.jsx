@@ -16,8 +16,6 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
   ]);
 
   const [date, setDate] = useState("");
-  const [arrival, setArrival] = useState("");
-  const [departure, setDeparture] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [train, setTrain] = useState("");
@@ -36,8 +34,6 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
 
     if (savedRouteState || selectedJourney) {
       setDate(savedRouteState.date || selectedJourney.date);
-      setArrival(savedRouteState.arrival || selectedJourney.arrival);
-      setDeparture(savedRouteState.departure || selectedJourney.departure);
       setFrom(savedRouteState.from || selectedJourney.from);
       setTo(savedRouteState.to || selectedJourney.to);
       setTrain(savedRouteState.train || selectedJourney.train);

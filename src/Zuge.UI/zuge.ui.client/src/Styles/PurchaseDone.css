@@ -1,0 +1,11 @@
+#purchase-ok-grid {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  width: 100%;
+  background: rgba(238, 238, 238, 0.8);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: start;
+  justify-content: center;
+}

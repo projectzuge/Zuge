@@ -79,7 +79,7 @@ const PaymentForm = ({ DarkMode }) => {
     ) {
       console.log(window.alert("Tarkista kortin tiedot ja yritä uudelleen."));
     } else {
-      window.alert("Kortin tiedot kunnossa!");
+      navigate("/purchaseDone");
     }
   };
 

@@ -13,9 +13,6 @@ const RouteInfoBlock = ({ DarkMode }) => {
   );
   const navigate = useNavigate();
 
-  const savedRouteState = JSON.parse(sessionStorage.getItem("routeDataState"));
-  console.log("got item:", savedRouteState);
-
   const [date, setDate] = useState("");
   const [arrival, setArrival] = useState("");
   const [departure, setDeparture] = useState("");
