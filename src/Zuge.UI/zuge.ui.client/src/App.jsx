@@ -11,11 +11,11 @@ import axios from "axios";
 import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
-import UserMenu from "./Components/UserMenu.jsx";
 import Contact from "./Pages/Contact.jsx";
 import Register from "./Pages/Register.jsx";
 import NewsPage from "./Pages/NewsPage.jsx";
 import Profile from "./Pages/Profile.jsx";
+import RegisterSuccess from "./Pages/RegisterSuccess.jsx";
 import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
 import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
 import Payment from "./Pages/Payment.jsx";
@@ -82,7 +82,6 @@ function App() {
                       path="/SingleNews"
                       element={<SingleNews DarkMode={DarkMode} />}
                     />
-                    <Route path="/userMenu" element={<UserMenu />} />
                     <Route
                       path="/register"
                       element={<Register DarkMode={DarkMode} />}
@@ -103,6 +102,9 @@ function App() {
                       path="/payment"
                       element={<Payment DarkMode={DarkMode} />}
                     />
+                    <Route 
+                    path="/successfulRegister" 
+                    element={<RegisterSuccess DarkMode={DarkMode} />} />
                     <Route
                       path="/purchaseDone"
                       element={<SuccessfulPayment DarkMode={DarkMode} />}

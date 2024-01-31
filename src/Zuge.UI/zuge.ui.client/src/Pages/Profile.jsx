@@ -4,6 +4,8 @@ import "./../Styles/Profile.css";
 import ProfileComponent from "../Components/ProfileComponent";
 import ProfileBoughtTickets from "../Components/ProfileBoughtTickets";
 import { useState } from "react";
+import AuthorizeView, { AuthorizedUser } from "../Components/AuthorizeView";
+import LogoutLink from "../Components/LogoutLink";
 
 const Profile = ({ DarkMode }) => {
   const [selectedButton, setSelectedButton] = useState("Lippusi");
@@ -13,17 +15,19 @@ const Profile = ({ DarkMode }) => {
   };
   return (
     <>
-      <Box id="profile-box">
-        <ProfileButtons
-          onButtonClick={handleButtonClick}
-          selectedButton={selectedButton}
-        />
-        {selectedButton === "Omat tiedot" ? (
-          <ProfileComponent DarkMode={DarkMode} />
-        ) : (
-          <ProfileBoughtTickets DarkMode={DarkMode} />
-        )}
-      </Box>
+      <AuthorizeView>
+        <Box id="profile-box">
+          <ProfileButtons
+            onButtonClick={handleButtonClick}
+            selectedButton={selectedButton}
+          />
+          {selectedButton === "Omat tiedot" ? (
+            <ProfileComponent DarkMode={DarkMode}/>
+          ) : (
+            <ProfileBoughtTickets DarkMode={DarkMode}/>
+          )}
+        </Box>
+      </AuthorizeView>
     </>
   );
 };
