@@ -8,7 +8,6 @@
     "@mui/x-date-pickers": "^6.18.5",
     "axios": "^1.6.3",
     "dayjs": "^1.11.10",
-    "json-server": "^0.17.4",
     "moment": "^2.29.4",
     "mui-tel-input": "^5.0.0",
     "react": "^18.2.0",
@@ -34,8 +33,7 @@
     "build": "vite build",
     "dev": "vite",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "server": "json-server --watch db.json"
+    "preview": "vite preview"
   },
   "type": "module",
   "version": "0.0.0"
