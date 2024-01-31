@@ -26,10 +26,12 @@ const PurchaseDone = ({ DarkMode }) => {
         </Typography>
         {emails.length !== 0 ? (
           emails.length === 1 ? (
-            <Typography variant="mediumFont" marginBottom={"30px"}>
-              Matkalippu on lähetetty sähköpostiosoitteeseen
+            <>
+              <Typography variant="mediumFont" marginBottom={"30px"}>
+                Matkalippu on lähetetty sähköpostiosoitteeseen
+              </Typography>
               <Typography variant="mediumBoldFont">{emails}</Typography>
-            </Typography>
+            </>
           ) : (
             <>
               <Typography variant="mediumFont" marginBottom={"30px"}>
