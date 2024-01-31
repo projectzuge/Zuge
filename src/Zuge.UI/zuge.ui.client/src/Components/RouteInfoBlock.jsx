@@ -5,10 +5,45 @@ import "../Styles/RouteInfoBlock.css";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { useJourney } from "../Contexts/SelectedRouteContext";
+import { useEffect, useState } from "react";
 
 const RouteInfoBlock = ({ DarkMode }) => {
-  const selectedJourney = useJourney().selectedJourney;
+  const [selectedJourney, setSelectedJourney] = useState(
+    useJourney().selectedJourney
+  );
   const navigate = useNavigate();
+
+  const [date, setDate] = useState("");
+  const [arrival, setArrival] = useState("");
+  const [departure, setDeparture] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [train, setTrain] = useState("");
+  const [duration, setDuration] = useState("");
+  const [passengerType, setPassengerType] = useState("");
+  const [price, setPrice] = useState("");
+
+  useEffect(() => {
+    const savedRouteState = JSON.parse(
+      sessionStorage.getItem("routeDataState")
+    );
+
+    if (savedRouteState || selectedJourney) {
+      setDate(savedRouteState.date || selectedJourney.date);
+      setArrival(savedRouteState.arrival || selectedJourney.arrival);
+      setDeparture(savedRouteState.departure || selectedJourney.departure);
+      setFrom(savedRouteState.from || selectedJourney.from);
+      setTo(savedRouteState.to || selectedJourney.to);
+      setTrain(savedRouteState.train || selectedJourney.train);
+      setDuration(savedRouteState.duration || selectedJourney.duration);
+      setPassengerType(
+        savedRouteState.passengerType || selectedJourney.passengerType
+      );
+      setPrice(savedRouteState.price || selectedJourney.price);
+    } else {
+      navigate("/");
+    }
+  }, []);
 
   const onConfirmClicked = () => {
     navigate("/revise");
@@ -36,9 +71,7 @@ const RouteInfoBlock = ({ DarkMode }) => {
             MENOMATKA:
           </Typography>
           <Box id={DarkMode ? "route-inside-box-dark" : "route-inside-box"}>
-            <Typography variant="mediumBoldFont">
-              {selectedJourney.date}
-            </Typography>
+            <Typography variant="mediumBoldFont">{date}</Typography>
             <Grid id="departure-arrival-text-grid" alignItems="center">
               <Grid item xs={4}>
                 <Typography variant="mediumBoldFont">Lähtö:</Typography>
@@ -50,22 +83,16 @@ const RouteInfoBlock = ({ DarkMode }) => {
             </Grid>
             <Grid id="times-grid" alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="smallBoldFont">
-                  {selectedJourney.departure}
-                </Typography>
+                <Typography variant="smallBoldFont">{departure}</Typography>
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4}>
-                <Typography variant="smallBoldFont">
-                  {selectedJourney.arrival}
-                </Typography>
+                <Typography variant="smallBoldFont">{arrival}</Typography>
               </Grid>
             </Grid>
             <Grid id="from-to-grid" alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="largeBoldFont">
-                  {selectedJourney.from}
-                </Typography>
+                <Typography variant="largeBoldFont">{from}</Typography>
               </Grid>
               <Grid
                 item
@@ -74,35 +101,25 @@ const RouteInfoBlock = ({ DarkMode }) => {
                 alignContent={"center"}
               ></Grid>
               <Grid item xs={4}>
-                <Typography variant="largeBoldFont">
-                  {selectedJourney.to}
-                </Typography>
+                <Typography variant="largeBoldFont">{to}</Typography>
               </Grid>
             </Grid>
             <Grid id="from-to-grid" alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="mediumFont">
-                  {selectedJourney.train}
-                </Typography>
+                <Typography variant="mediumFont">{train}</Typography>
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4} textAlign={"start"}>
-                <Typography variant="mediumFont">
-                  Kesto: {selectedJourney.duration}
-                </Typography>
+                <Typography variant="mediumFont">Kesto: {duration}</Typography>
               </Grid>
             </Grid>
             <Grid id="from-to-grid" alignItems="center">
               <Grid item xs={4}>
-                <Typography variant="mediumFont">
-                  {selectedJourney.passengerType}
-                </Typography>
+                <Typography variant="mediumFont">{passengerType}</Typography>
               </Grid>
               <Grid item xs={4}></Grid>
               <Grid item xs={4} textAlign={"start"}>
-                <Typography variant="largeBoldFont">
-                  {selectedJourney.price} €
-                </Typography>
+                <Typography variant="largeBoldFont">{price} €</Typography>
               </Grid>
             </Grid>
           </Box>
@@ -119,9 +136,7 @@ const RouteInfoBlock = ({ DarkMode }) => {
             >
               <Typography variant="smallFont">Vahvista matka</Typography>
               <Typography>&nbsp;</Typography>
-              <Typography variant="mediumBoldFont">
-                ({selectedJourney.price} €)
-              </Typography>
+              <Typography variant="mediumBoldFont">({price} €)</Typography>
             </Button>
           </Grid>
         </Grid>

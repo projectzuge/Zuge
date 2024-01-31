@@ -19,6 +19,7 @@ import Profile from "./Pages/Profile.jsx";
 import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
 import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
 import Payment from "./Pages/Payment.jsx";
+import SuccessfulPayment from "./Pages/SuccessfulPayment.jsx";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -101,6 +102,10 @@ function App() {
                     <Route
                       path="/payment"
                       element={<Payment DarkMode={DarkMode} />}
+                    />
+                    <Route
+                      path="/purchaseDone"
+                      element={<SuccessfulPayment DarkMode={DarkMode} />}
                     />
                   </Routes>
                 </div>

@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import { useJourney } from "../Contexts/SelectedRouteContext";
 import { TextField } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import plusSign from "./../assets/plus-sign.png";
 import plusSignWhite from "./../assets/plus-sign-white.png";
 import { useNavigate } from "react-router-dom";
@@ -15,9 +15,37 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
     { value: "", isValid: false },
   ]);
 
+  const [date, setDate] = useState("");
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+  const [train, setTrain] = useState("");
+  const [duration, setDuration] = useState("");
+  const [passengerType, setPassengerType] = useState("");
+  const [price, setPrice] = useState("");
+
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
   const selectedJourney = useJourney().selectedJourney;
+
+  useEffect(() => {
+    const savedRouteState = JSON.parse(
+      sessionStorage.getItem("routeDataState")
+    );
+
+    if (savedRouteState || selectedJourney) {
+      setDate(savedRouteState.date || selectedJourney.date);
+      setFrom(savedRouteState.from || selectedJourney.from);
+      setTo(savedRouteState.to || selectedJourney.to);
+      setTrain(savedRouteState.train || selectedJourney.train);
+      setDuration(savedRouteState.duration || selectedJourney.duration);
+      setPassengerType(
+        savedRouteState.passengerType || selectedJourney.passengerType
+      );
+      setPrice(savedRouteState.price || selectedJourney.price);
+    } else {
+      navigate("/");
+    }
+  }, []);
 
   const onEmailChange = (index, value) => {
     if (
@@ -55,13 +83,18 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
     const validUniqueEmails = emailFields.reduce((result, field) => {
       if (field.isValid && !uniqueEmails.has(field.value)) {
         uniqueEmails.set(field.value, true);
-        result.push(field);
+        result.push(field.value);
       }
       return result;
     }, []);
 
     if (validUniqueEmails.length > 0) {
-      navigate("/payment", { state: { emails: validUniqueEmails } });
+      sessionStorage.setItem(
+        "emailsForTickets",
+        JSON.stringify(validUniqueEmails)
+      );
+
+      navigate("/payment");
     } else {
       window.alert("Lisää ainakin yksi sähköpostiosoite");
     }
@@ -102,9 +135,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 textAlign={"start"}
                 justifyContent={"center"}
               >
-                <Typography variant="mediumBoldFont">
-                  {selectedJourney.date}
-                </Typography>
+                <Typography variant="mediumBoldFont">{date}</Typography>
               </Grid>
               <Grid
                 item
@@ -115,9 +146,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 textAlign={"start"}
                 justifyContent={"center"}
               >
-                <Typography variant="mediumFont">
-                  {selectedJourney.train}
-                </Typography>
+                <Typography variant="mediumFont">{train}</Typography>
               </Grid>
               <Grid
                 item
@@ -128,9 +157,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 textAlign={"start"}
                 justifyContent={"center"}
               >
-                <Typography variant="mediumFont">
-                  Kesto: {selectedJourney.duration}
-                </Typography>
+                <Typography variant="mediumFont">Kesto: {duration}</Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={3} xl={3}></Grid>
             </Grid>
@@ -145,9 +172,9 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="largeBoldFont" style={{ lineHeight: 1.5 }}>
-                  {selectedJourney.from}
+                  {from}
                   {" - "}
-                  {selectedJourney.to}
+                  {to}
                 </Typography>
               </Grid>
               <Grid
@@ -173,12 +200,12 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 justifyContent={"center"}
               >
                 <Typography variant="mediumFont" style={{ lineHeight: 2.0 }}>
-                  {selectedJourney.passengerType}
+                  {passengerType}
                 </Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={3} xl={3} textAlign={"end"}>
                 <Typography variant="largeBoldFont" style={{ lineHeight: 1.5 }}>
-                  {selectedJourney.price} €
+                  {price} €
                 </Typography>
               </Grid>
             </Grid>
@@ -197,6 +224,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
             >
               <Grid item xs={11} md={11} lg={5} xl={5}>
                 <TextField
+                  autoComplete="off"
                   variant="outlined"
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   sx={{
