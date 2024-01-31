@@ -192,30 +192,36 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
       // const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
       // axios.post("account/login?" + cookieSetting + "=true", { email, password })
           
-        if (isEmailValid === "initial" || isPasswordValid === "initial") {
-          if (isEmailValid === "initial") {
-            setIsEmailValid(false);
-          }
-          if (isPasswordValid === "initial") {
-            setIsPasswordValid(false);
-          }
-        
-          setIsLoginValid(false);
-          return;
-    }
-    if (isEmailValid && isPasswordValid) {
-        axios.post("account/login?useSessionCookies=true", { email, password })
-        .then(response => {
-          if (response.status === 200) {
-            console.log("Logged in");
-            handleItemClick();
-            setSignedIn(true);
-            navigate("/user");
-          } else {
-            console.log(response.error);
-            setIsLoginValid(false);
-          }
-        });
+      if (isEmailValid === "initial" || isPasswordValid === "initial") {
+        if (isEmailValid === "initial") {
+          setIsEmailValid(false);
+        }
+        if (isPasswordValid === "initial") {
+          setIsPasswordValid(false);
+        }
+      
+        setIsLoginValid(false);
+        return;
+      }
+      if (isEmailValid && isPasswordValid) {
+          axios.post("account/login?useSessionCookies=true", { email, password })
+          .then(response => {
+            if (response.status === 200) {
+              console.log("Logged in");
+              handleItemClick();
+              setSignedIn(true);
+              navigate("/user");
+              setIsLoginValid(true);
+            }
+            else {
+              setIsLoginValid(false);
+            }
+            })
+            .catch((error) => {
+              console.log(error);
+              setIsLoginValid(false);
+              console.log("ERRONEOUS LOGIN!!!");
+            });
       }
       else {
         setIsLoginValid(false);

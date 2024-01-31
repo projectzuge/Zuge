@@ -8,9 +8,10 @@ import { useNavigate } from "react-router-dom";
 LoggedInForm.propTypes = {
     setSignedIn: PropTypes.func,
     DarkMode: PropTypes.bool,
+    handleItemClick: PropTypes.func,
 };
 
-function LoggedInForm({ setSignedIn, DarkMode }) {
+function LoggedInForm({ handleItemClick, setSignedIn, DarkMode }) {
   const navigate = useNavigate();
 
     const profileButtonStyle = {
@@ -18,6 +19,10 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
         color: '#262626',
         border: '1px solid #262626',
         marginBottom: '20px',
+        width: "200px",
+        '&:hover': {
+          borderWidth: '1px',
+        },
     };
 
     const profileButtonStyleDark = {
@@ -25,6 +30,10 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
         color: '#eeeeee',
         border: '1px solid #eeeeee',
         marginBottom: '20px',
+        width: "200px",
+        '&:hover': {
+          borderWidth: '1px',
+        },
     };
       
     const logoutButtonStyle = {
@@ -33,6 +42,10 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
         border: '1px solid #262626',
         marginTop: '20px',
         marginBottom: '20px',
+        width: "200px",
+        '&:hover': {
+          borderWidth: '1px',
+        },
     };
 
     const logoutButtonStyleDark = {
@@ -41,6 +54,10 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
         border: '1px solid #eeeeee',
         marginTop: '20px',
         marginBottom: '20px',
+        width: "200px",
+        '&:hover': {
+          borderWidth: '1px',
+        },
     };
       
     const formContainerStyle = {
@@ -62,10 +79,18 @@ function LoggedInForm({ setSignedIn, DarkMode }) {
   return (
     <>
       <Container style={formContainerStyle}>
-      <Button onClick={handleProfileClick} style={DarkMode? profileButtonStyleDark : profileButtonStyle} variant="contained">
+      <Button onClick={() => {
+        handleProfileClick();
+        handleItemClick();
+      }} 
+        style={DarkMode? profileButtonStyleDark : profileButtonStyle} variant="contained">
         Profiili
       </Button>
-      <Button onClick={handleLogOut} style={DarkMode? logoutButtonStyleDark : logoutButtonStyle} variant="contained">
+      <Button onClick={() => {
+        handleLogOut();
+        handleItemClick();
+        }} 
+        style={DarkMode? logoutButtonStyleDark : logoutButtonStyle} variant="contained">
       <LogoutLink ><Typography sx={{textDecoration: 'none',}}>Kirjaudu ulos</Typography></LogoutLink>
       </Button>
     </Container>

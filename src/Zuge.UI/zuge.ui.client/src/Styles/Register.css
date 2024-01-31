@@ -28,27 +28,27 @@
 }
 
 .registerTextField .MuiInputBase-root {  
-    border: solid;
-    border-width: 1px;
+    outline: solid;
+    outline-width: 1px;
     border-radius: 5px;
-    border-color: #262626;
+    outline-color: #262626;
     color: #262626;
 }
 
 .darkRegisterTextField .MuiInputBase-root {  
-    border: solid;
-    border-width: 1px;
+    outline: solid;
+    outline-width: 1px;
     border-radius: 5px;
-    border-color: #eeeeee;
+    outline-color: #eeeeee;
     color: #eeeeee;
 }
 
 .registerTextField .MuiInputBase-root:hover {  
-    border: none;
+    outline: none;
 }
 
 .darkRegisterTextField .MuiInputBase-root:hover {  
-    border: none;
+    outline: none;
 }
 
 @media screen and (max-width: 570px) {

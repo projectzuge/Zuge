@@ -16,7 +16,6 @@ const Profile = ({ DarkMode }) => {
   return (
     <>
       <AuthorizeView>
-        <span><LogoutLink>Logout <AuthorizedUser value="email" /></LogoutLink></span>
         <Box id="profile-box">
           <ProfileButtons
             onButtonClick={handleButtonClick}
