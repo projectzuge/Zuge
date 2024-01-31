@@ -1,9 +1,9 @@
 import PurchaseDone from "../Components/PurchaseDone";
 
-const SuccessfulPayment = () => {
+const SuccessfulPayment = ({DarkMode}) => {
   return (
     <>
-      <PurchaseDone />
+      <PurchaseDone DarkMode={DarkMode}/>
     </>
   );
 };

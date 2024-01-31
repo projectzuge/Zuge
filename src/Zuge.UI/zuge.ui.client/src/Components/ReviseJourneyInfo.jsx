@@ -83,13 +83,19 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
     const validUniqueEmails = emailFields.reduce((result, field) => {
       if (field.isValid && !uniqueEmails.has(field.value)) {
         uniqueEmails.set(field.value, true);
-        result.push(field);
+        result.push(field.value);
       }
       return result;
     }, []);
+    console.log("validUniqueEmails type:", typeof validUniqueEmails);
 
     if (validUniqueEmails.length > 0) {
-      navigate("/payment", { state: { emails: validUniqueEmails } });
+      sessionStorage.setItem(
+        "emailsForTickets",
+        JSON.stringify(validUniqueEmails)
+      );
+
+      navigate("/payment");
     } else {
       window.alert("Lisää ainakin yksi sähköpostiosoite");
     }
@@ -130,9 +136,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 textAlign={"start"}
                 justifyContent={"center"}
               >
-                <Typography variant="mediumBoldFont">
-                  {date}
-                </Typography>
+                <Typography variant="mediumBoldFont">{date}</Typography>
               </Grid>
               <Grid
                 item
@@ -143,9 +147,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 textAlign={"start"}
                 justifyContent={"center"}
               >
-                <Typography variant="mediumFont">
-                  {train}
-                </Typography>
+                <Typography variant="mediumFont">{train}</Typography>
               </Grid>
               <Grid
                 item
@@ -156,9 +158,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
                 textAlign={"start"}
                 justifyContent={"center"}
               >
-                <Typography variant="mediumFont">
-                  Kesto: {duration}
-                </Typography>
+                <Typography variant="mediumFont">Kesto: {duration}</Typography>
               </Grid>
               <Grid item xs={12} md={6} lg={3} xl={3}></Grid>
             </Grid>
@@ -225,6 +225,7 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
             >
               <Grid item xs={11} md={11} lg={5} xl={5}>
                 <TextField
+                  autoComplete="off"
                   variant="outlined"
                   InputProps={{ sx: { borderRadius: "10px" } }}
                   sx={{

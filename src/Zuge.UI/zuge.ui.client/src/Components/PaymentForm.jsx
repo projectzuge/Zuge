@@ -79,6 +79,7 @@ const PaymentForm = ({ DarkMode }) => {
     ) {
       console.log(window.alert("Tarkista kortin tiedot ja yritä uudelleen."));
     } else {
+      // needs to check here if the payment really goes through even though the card info was correct
       navigate("/purchaseDone");
     }
   };
