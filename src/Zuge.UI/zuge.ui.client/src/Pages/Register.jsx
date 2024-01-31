@@ -295,8 +295,7 @@ function Register({ DarkMode }) {
                         .then(response => console.log(response));
                 }
             })
-            .then(function (res) {
-                console.log("VALID RESPONSE: " + res);
+            .then(() => {
                 setIsValidRegistration(true);
                 setInputs({
                 email: "", 
@@ -307,7 +306,7 @@ function Register({ DarkMode }) {
                 phoneNum: ""});
                 navigate('/successfulRegister');
             })
-            .catch(function (error) {
+            .catch((error) => {
                 console.log("ERROR MESSAGE: " + error);
                 setIsValidRegistration(false);
             });
