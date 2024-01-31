@@ -77,7 +77,7 @@ const PaymentForm = ({ DarkMode }) => {
       cvc.length === 0 ||
       expiryDate === 0
     ) {
-      console.log(window.alert("Tarkista kortin tiedot ja yritä uudelleen."));
+      window.alert("Tarkista kortin tiedot ja yritä uudelleen.");
     } else {
       // needs to check here if the payment really goes through even though the card info was correct
       navigate("/purchaseDone");

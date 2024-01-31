@@ -87,7 +87,6 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
       }
       return result;
     }, []);
-    console.log("validUniqueEmails type:", typeof validUniqueEmails);
 
     if (validUniqueEmails.length > 0) {
       sessionStorage.setItem(
