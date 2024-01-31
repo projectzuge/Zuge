@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
 import { TextField, Typography } from "@mui/material";
 import "../Styles/Payment.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import { useCreditCardValidator } from "react-creditcard-validator";
 import InputMask from "react-input-mask";
@@ -12,9 +12,24 @@ const PaymentForm = ({ DarkMode }) => {
   const [cardNumber, setCardNumber] = useState("");
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
+  const [price, setPrice] = useState("");
 
   const navigate = useNavigate();
-  const selectedJourney = useJourney().selectedJourney;
+  const [selectedJourney, setSelectedJourney] = useState(
+    useJourney().selectedJourney
+  );
+
+  useEffect(() => {
+    const savedRouteState = JSON.parse(
+      sessionStorage.getItem("routeDataState")
+    );
+
+    if (savedRouteState || selectedJourney) {
+      setPrice(savedRouteState.price || selectedJourney.price);
+    } else {
+      navigate("/");
+    }
+  }, []);
 
   const {
     getCardNumberProps,
@@ -62,9 +77,10 @@ const PaymentForm = ({ DarkMode }) => {
       cvc.length === 0 ||
       expiryDate === 0
     ) {
-      console.log(window.alert("Tarkista kortin tiedot ja yritä uudelleen."));
+      window.alert("Tarkista kortin tiedot ja yritä uudelleen.");
     } else {
-      window.alert("Kortin tiedot kunnossa!");
+      // needs to check here if the payment really goes through even though the card info was correct
+      navigate("/purchaseDone");
     }
   };
 
@@ -76,7 +92,7 @@ const PaymentForm = ({ DarkMode }) => {
           id={DarkMode ? "payment-container-dark" : "payment-container"}
         >
           <Typography variant="largeBoldFont" marginBottom="40px">
-            {selectedJourney.price}€
+            {price}€
           </Typography>
           <Grid item xs={12} marginBottom={"20px"}>
             <Grid container direction={"column"} textAlign={"start"}>

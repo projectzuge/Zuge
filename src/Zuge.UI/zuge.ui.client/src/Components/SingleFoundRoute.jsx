@@ -41,11 +41,18 @@ const SingleFoundRoute = (props) => {
       price: price,
     };
     setJourney(data);
+    sessionStorage.setItem("routeDataState", JSON.stringify(data));
     navigate("/route");
   };
 
   return (
-    <Box id={props.DarkMode? "single-route-container-dark" : "single-route-container"}>
+    <Box
+      id={
+        props.DarkMode
+          ? "single-route-container-dark"
+          : "single-route-container"
+      }
+    >
       <Button
         color={"primary"}
         id="single-route-button"
@@ -55,7 +62,11 @@ const SingleFoundRoute = (props) => {
           <Grid item xs={12} md={4} xl={4} textAlign="left">
             <Typography id="departure-arrival-container">
               {departure}{" "}
-              <img src={props.DarkMode? rightArrowDark : rightArrow} alt="Array Icon" id="right-arrow-icon" />
+              <img
+                src={props.DarkMode ? rightArrowDark : rightArrow}
+                alt="Array Icon"
+                id="right-arrow-icon"
+              />
               {arrival}
             </Typography>
           </Grid>
