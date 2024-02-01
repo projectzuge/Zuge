@@ -88,6 +88,7 @@ const DarkTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
+          padding: "15px",
           borderRadius: "10px",
           color: "#eeeeee",
           "&:hover": {

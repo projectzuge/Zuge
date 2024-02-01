@@ -9,12 +9,12 @@
     padding-top: 10px;
     max-width: 600px;
     height: fit-content;
-    background-color: rgba(238, 238, 238, 0.8);
+    background-color: rgba(222, 222, 222, 0.95);
 }
 
 .darkBackground {
     color: #eeeeee;
-    background-color: rgba(38, 38, 33, 0.8);
+    background-color: rgba(51, 51, 51, 0.98);
 }
 
 .light {
@@ -27,7 +27,7 @@
     background-color: rgb(38, 38, 38);
 }
 
-.registerTextField .MuiInputBase-root {  
+.registerTextField .MuiInputBase-root {
     outline: solid;
     outline-width: 1px;
     border-radius: 5px;
@@ -35,7 +35,7 @@
     color: #262626;
 }
 
-.darkRegisterTextField .MuiInputBase-root {  
+.darkRegisterTextField .MuiInputBase-root {
     outline: solid;
     outline-width: 1px;
     border-radius: 5px;
@@ -43,11 +43,11 @@
     color: #eeeeee;
 }
 
-.registerTextField .MuiInputBase-root:hover {  
+.registerTextField .MuiInputBase-root:hover {
     outline: none;
 }
 
-.darkRegisterTextField .MuiInputBase-root:hover {  
+.darkRegisterTextField .MuiInputBase-root:hover {
     outline: none;
 }
 
