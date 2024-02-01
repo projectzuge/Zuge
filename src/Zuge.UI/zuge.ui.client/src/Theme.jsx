@@ -55,6 +55,7 @@ const theme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: ({ ownerState }) => ({
+          padding: "15px",
           borderRadius: "10px",
           color: "#262626",
           "&:hover": {
