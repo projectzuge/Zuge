@@ -6,6 +6,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {
     FormControl,
+    FormControlLabel,
+    Checkbox,
     FormLabel,
     TextField,
     Button,
@@ -29,6 +31,7 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
     const [isEmailValid, setIsEmailValid] = useState("initial");
     const [isPasswordValid, setIsPasswordValid] = useState("initial");
     const [isLoginValid, setIsLoginValid] = useState(true);
+    const [rememberMe, setRememberMe] = useState(false);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
     const navigate = useNavigate();
 
@@ -184,6 +187,10 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
         event.target.value = sanitizedValue;
     }
 
+    const handleRememberMeChecked = () => {
+      setRememberMe(!rememberMe);
+    }
+
     const handleSignInClicked = () => {
       // Kirjautumisvaihtoehdot:
       // useSessionCookies=true -- muistaa kirjautumisen kunnes selain suljetaan
@@ -204,7 +211,8 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
         return;
       }
       if (isEmailValid && isPasswordValid) {
-          axios.post("account/login?useSessionCookies=true", { email, password })
+          const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
+          axios.post("account/login?" + cookieSetting + "=true", { email, password })
           .then(response => {
             if (response.status === 200) {
               console.log("Logged in");
@@ -293,6 +301,19 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
                 }} style={DarkMode? buttonStyleDark : buttonStyle}>
                   Peruuta
                 </Button>
+              </div>
+              <div>
+                <FormControlLabel control={
+                <Checkbox 
+                onClick={handleRememberMeChecked} 
+                checked={rememberMe}
+                sx={{
+                  '& .MuiSvgIcon-root': {
+                    color: DarkMode ? '#eeeeee' : '#262626',
+                  },
+                }}
+                />
+                } label="Muista minut" />
               </div>
               <div>
                 <Typography
