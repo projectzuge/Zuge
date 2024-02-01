@@ -9,11 +9,11 @@ UserMenu.propTypes = {
   anchorEl: PropTypes.any,
   open: PropTypes.any,
   handleClose: PropTypes.func,
-  DarkMode: PropTypes.bool
+  DarkMode: PropTypes.bool,
 };
 
 function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
-  const [signedIn, setSignedIn] = useState(false);
+  const [signedIn, setSignedIn] = useState(sessionStorage.getItem("userID") !== null);
 
   const menuStyle = {
     position: 'absolute',

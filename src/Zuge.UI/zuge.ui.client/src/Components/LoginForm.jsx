@@ -220,6 +220,9 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
               setSignedIn(true);
               navigate("/user");
               setIsLoginValid(true);
+
+              // Varastoidaan kirjautumistiedot evästeestä:
+              sessionStorage.setItem('userID', JSON.parse(response.config.data).email);
             }
             else {
               setIsLoginValid(false);
@@ -228,7 +231,6 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
             .catch((error) => {
               console.log(error);
               setIsLoginValid(false);
-              console.log("ERRONEOUS LOGIN!!!");
             });
       }
       else {

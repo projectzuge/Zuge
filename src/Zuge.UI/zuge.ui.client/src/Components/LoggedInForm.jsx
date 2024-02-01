@@ -72,6 +72,7 @@ function LoggedInForm({ handleItemClick, setSignedIn, DarkMode }) {
     }
 
     const handleLogOut = () => {
+        sessionStorage.removeItem("userID");
         setSignedIn(false);
     }
       
