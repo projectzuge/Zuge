@@ -18,9 +18,11 @@ import PropTypes from 'prop-types';
 MenuBar.propTypes = {
   DarkMode: PropTypes.bool,
   setDarkMode: PropTypes.func,
+  cookies: PropTypes.any,
+  setCookie: PropTypes.func,
 };
 
-function MenuBar({ DarkMode, setDarkMode }) {
+function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
@@ -44,6 +46,8 @@ function MenuBar({ DarkMode, setDarkMode }) {
       setAnchorElUser(event.currentTarget);
     }
     setUserClicked(true);
+    // TESTAUKSEEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    console.log("USERID: " + cookies.userID + ", DARKMODE: " + cookies.DarkMode);
   };
 
   const handleClose = () => {
@@ -64,7 +68,16 @@ function MenuBar({ DarkMode, setDarkMode }) {
   };
 
   const switchLightDark = () => {
-    setDarkMode(!DarkMode);
+    if (DarkMode) {
+      setCookie("DarkMode", false, { path: "/" });
+      setDarkMode(false);
+    }
+    else {
+      setCookie("DarkMode", true, { path: "/" });
+      setDarkMode(true);
+    }
+    // TESTAUKSEEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    console.log("USERID: " + cookies.userID + ", DARKMODE: " + cookies.DarkMode);
   };
 
   return (
@@ -82,7 +95,7 @@ function MenuBar({ DarkMode, setDarkMode }) {
           </div>
           <div className="MenuLink">
             <Link to="/contact">
-              <Typography variant={variant}>Yhteystiedot ja palaute</Typography>
+              <Typography variant={variant}>Yhteystiedot</Typography>
             </Link>
           </div>
           <div className="MenuLink">
@@ -135,7 +148,10 @@ function MenuBar({ DarkMode, setDarkMode }) {
               open={openUser} 
               handleClose={handleCloseUser}
               handleItemClick={handleItemClick}
-              DarkMode={DarkMode}/>
+              DarkMode={DarkMode}
+              cookies={cookies}
+              setCookie={setCookie}
+              />
           </div>
         </div>
         <div>
@@ -147,7 +163,8 @@ function MenuBar({ DarkMode, setDarkMode }) {
               handleClickUser={handleClickUser}
               handleItemClick={handleItemClick}
               switchLightDark={switchLightDark}
-              DarkMode={DarkMode}/>
+              DarkMode={DarkMode}
+              />
           </div>
       </div>
     </>

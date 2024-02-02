@@ -22,9 +22,10 @@ LoginForm.propTypes = {
   DarkMode: PropTypes.bool,
   handleItemClick: PropTypes.func,
   setSignedIn: PropTypes.func,
+  setCookie: PropTypes.func,
 };
 
-function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
+function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
     const [showPasswordUser, setShowPasswordUser] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -222,7 +223,11 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn }) {
               setIsLoginValid(true);
 
               // Varastoidaan kirjautumistiedot evästeestä:
-              sessionStorage.setItem('userID', JSON.parse(response.config.data).email);
+
+              setCookie("userID", JSON.parse(response.config.data).email, 
+              { path: "/", expires: new Date(Date.now() + 60*60*1000) });
+              // poistetaan tunnin kuluttua (millisekunteina)
+              
             }
             else {
               setIsLoginValid(false);

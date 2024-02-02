@@ -20,11 +20,13 @@ import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
 import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
 import Payment from "./Pages/Payment.jsx";
 import SuccessfulPayment from "./Pages/SuccessfulPayment.jsx";
+import { useCookies } from 'react-cookie';
 
 function App() {
   const [journeys, setJourneys] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [DarkMode, setDarkMode] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(["userID", "DarkMode"]);
+  const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
 
   useEffect(() => {
     axios
@@ -57,6 +59,8 @@ function App() {
                   id="menu-bar"
                   DarkMode={DarkMode}
                   setDarkMode={setDarkMode}
+                  cookies={cookies}
+                  setCookie={setCookie}
                 />
                 <div id="page-contents-container">
                   <Routes>

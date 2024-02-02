@@ -2,7 +2,7 @@ import './../Styles/UserMenu.css';
 import Menu from '@mui/material/Menu';
 import LoginForm from "./LoginForm.jsx";
 import LoggedInForm from "./LoggedInForm.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 
 UserMenu.propTypes = {
@@ -10,10 +10,12 @@ UserMenu.propTypes = {
   open: PropTypes.any,
   handleClose: PropTypes.func,
   DarkMode: PropTypes.bool,
+  cookies: PropTypes.any,
+  setCookie: PropTypes.func,
 };
 
-function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
-  const [signedIn, setSignedIn] = useState(sessionStorage.getItem("userID") !== null);
+function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode, cookies, setCookie }) {
+  const [signedIn, setSignedIn] = useState(cookies.userID !== null);
 
   const menuStyle = {
     position: 'absolute',
@@ -23,6 +25,12 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
     backgroundColor: "#eeeeee",
     overflow: "auto",
   };
+
+  useEffect(() => {
+    console.log("SIGNED IN VALUE: " + signedIn); 
+    // SIGNED IN SAA TRUE VAIKKA PITÄISI OLLA FALSE, KUN ULOSKIRJAUTUNUT!!! WHATS THE DEEAALL!!!!???
+    // OKEI NULL TOIMI PAREMMIN COOKIEN ARVONA KUIN UNDEFINED, MUTTA SAATTOI KORJAANTUA. JATKUU ENS VIIKOLLA...
+  }, [DarkMode]);
 
   return (
     <>
@@ -40,7 +48,18 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
             style: menuStyle,
           }}
         >
-          {signedIn? <LoggedInForm handleItemClick={handleItemClick} setSignedIn={setSignedIn} DarkMode={DarkMode} /> : <LoginForm handleItemClick={handleItemClick} setSignedIn={setSignedIn} DarkMode={DarkMode} />}
+          {signedIn? <LoggedInForm 
+          handleItemClick={handleItemClick} 
+          setSignedIn={setSignedIn} 
+          DarkMode={DarkMode}
+          setCookie={setCookie}
+           /> : 
+          <LoginForm 
+          handleItemClick={handleItemClick} 
+          setSignedIn={setSignedIn} 
+          DarkMode={DarkMode} 
+          setCookie={setCookie}
+          />}
         </Menu>        
       </div>
     </>
