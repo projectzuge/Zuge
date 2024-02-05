@@ -46,8 +46,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
       setAnchorElUser(event.currentTarget);
     }
     setUserClicked(true);
-    // TESTAUKSEEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    console.log("USERID: " + cookies.userID + ", DARKMODE: " + cookies.DarkMode);
+  
   };
 
   const handleClose = () => {
@@ -76,8 +75,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
       setCookie("DarkMode", true, { path: "/" });
       setDarkMode(true);
     }
-    // TESTAUKSEEN!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    console.log("USERID: " + cookies.userID + ", DARKMODE: " + cookies.DarkMode);
+  
   };
 
   return (

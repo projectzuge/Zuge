@@ -26,12 +26,6 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode, cook
     overflow: "auto",
   };
 
-  // TESTI: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-  useEffect(() => {
-    console.log("SIGNED IN VALUE: " + signedIn); 
-  }, [DarkMode]);
-  // TESTI LOPPU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
   return (
     <>
       <div className="UserMenuBody">
