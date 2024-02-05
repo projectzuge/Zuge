@@ -15,7 +15,7 @@ UserMenu.propTypes = {
 };
 
 function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode, cookies, setCookie }) {
-  const [signedIn, setSignedIn] = useState(cookies.userID !== null);
+  const [signedIn, setSignedIn] = useState(cookies.userID !== null && cookies.userID !== undefined);
 
   const menuStyle = {
     position: 'absolute',
@@ -26,11 +26,11 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode, cook
     overflow: "auto",
   };
 
+  // TESTI: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   useEffect(() => {
     console.log("SIGNED IN VALUE: " + signedIn); 
-    // SIGNED IN SAA TRUE VAIKKA PITÄISI OLLA FALSE, KUN ULOSKIRJAUTUNUT!!! WHATS THE DEEAALL!!!!???
-    // OKEI NULL TOIMI PAREMMIN COOKIEN ARVONA KUIN UNDEFINED, MUTTA SAATTOI KORJAANTUA. JATKUU ENS VIIKOLLA...
   }, [DarkMode]);
+  // TESTI LOPPU !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
   return (
     <>
