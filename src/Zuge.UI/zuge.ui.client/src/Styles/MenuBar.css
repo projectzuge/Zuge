@@ -93,12 +93,13 @@
   justify-content: end;
   padding-right: 8px;
   height: 40px;
-  margin: 10px;
-  background-color: #eeeeee;
+  margin: 0px;
+  background-color: transparent;
 }
 
 .DropDownMenuButtonBody > :hover.MuiButtonBase-root {
   outline: 0px;
+  background-color: transparent;
 }
 
 .DropDownMenuButton {

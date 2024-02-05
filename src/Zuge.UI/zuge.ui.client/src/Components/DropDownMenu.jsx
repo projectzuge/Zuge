@@ -15,7 +15,8 @@ DropDownMenu.propTypes = {
 };
 
 
-function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick, switchLightDark, DarkMode }) {
+function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick, 
+  switchLightDark, DarkMode }) {
 
   return (
     <>
@@ -42,7 +43,7 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
               <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} to="/SingleNews">Uutiset</Link></p>
           </MenuItem>
           <MenuItem onClick={handleItemClick}>
-              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} to="/contact">Yhteystiedot ja palaute</Link></p>
+              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} to="/contact">Yhteystiedot</Link></p>
           </MenuItem>
           <MenuItem onClick={(event) => {
             handleItemClick();

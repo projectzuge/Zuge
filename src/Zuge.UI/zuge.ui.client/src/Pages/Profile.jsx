@@ -4,8 +4,7 @@ import "./../Styles/Profile.css";
 import ProfileComponent from "../Components/ProfileComponent";
 import ProfileBoughtTickets from "../Components/ProfileBoughtTickets";
 import { useState } from "react";
-import AuthorizeView, { AuthorizedUser } from "../Components/AuthorizeView";
-import LogoutLink from "../Components/LogoutLink";
+import AuthorizeView from "../Components/AuthorizeView";
 
 const Profile = ({ DarkMode }) => {
   const [selectedButton, setSelectedButton] = useState("Lippusi");
