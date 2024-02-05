@@ -222,12 +222,10 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
               navigate("/user");
               setIsLoginValid(true);
 
-              // Varastoidaan kirjautumistiedot evästeestä:
-
               setCookie("userID", JSON.parse(response.config.data).email, 
               { path: "/", expires: new Date(Date.now() + 60*60*1000) });
               // poistetaan tunnin kuluttua (millisekunteina)
-              
+              window.location.reload();
             }
             else {
               setIsLoginValid(false);

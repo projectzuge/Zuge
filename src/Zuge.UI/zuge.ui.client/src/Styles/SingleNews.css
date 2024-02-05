@@ -1,10 +1,16 @@
-#takaisin-button {
+#manage-button {
   margin-top: 10px;
   margin-bottom: 30px;
   height: 40px;
   width: 10%;
   display: flex;
   justify-content: center;
+  
+
+}
+
+#manage-button-hidden {
+  display: none;
   
 
 }

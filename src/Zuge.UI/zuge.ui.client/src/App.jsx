@@ -84,7 +84,7 @@ function App() {
                     />
                     <Route
                       path="/SingleNews"
-                      element={<SingleNews DarkMode={DarkMode} />}
+                      element={<SingleNews DarkMode={DarkMode} cookies={cookies} />}
                     />
                     <Route
                       path="/register"
