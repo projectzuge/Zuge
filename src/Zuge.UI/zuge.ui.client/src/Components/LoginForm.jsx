@@ -6,6 +6,8 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {
   FormControl,
+  FormControlLabel,
+  Checkbox,
   FormLabel,
   TextField,
   Button,
@@ -20,22 +22,32 @@ LoginForm.propTypes = {
   DarkMode: PropTypes.bool,
   handleItemClick: PropTypes.func,
   setSignedIn: PropTypes.func,
+  setCookie: PropTypes.func,
   signedIn: PropTypes.bool,
 };
 
-function LoginForm({ DarkMode, handleItemClick, setSignedIn, signedIn }) {
+function LoginForm({
+  DarkMode,
+  handleItemClick,
+  setSignedIn,
+  setCookie,
+  signedIn,
+}) {
   const [showPasswordUser, setShowPasswordUser] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isEmailValid, setIsEmailValid] = useState("initial");
   const [isPasswordValid, setIsPasswordValid] = useState("initial");
-  const [isLoginValid, setIsLoginValid] = useState(false);
+  const [isLoginValid, setIsLoginValid] = useState(true);
+  const [rememberMe, setRememberMe] = useState(false);
   const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (signedIn) {
     getUserInfo();
-  }, []);
+    }
+  }, [signedIn]);
 
   const customCursorStyle = {
     cursor: "default",
@@ -191,7 +203,11 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, signedIn }) {
     event.target.value = sanitizedValue;
   };
 
-  const handleSignInClicked = async () => {
+  const handleRememberMeChecked = () => {
+    setRememberMe(!rememberMe);
+  };
+
+  const handleSignInClicked = () => {
     // Kirjautumisvaihtoehdot:
     // useSessionCookies=true -- muistaa kirjautumisen kunnes selain suljetaan
     // useCookies=true -- muistaa vaikka sulkisi selaimen
@@ -211,8 +227,9 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, signedIn }) {
       return;
     }
     if (isEmailValid && isPasswordValid) {
-      await axios
-        .post("account/login?useSessionCookies=true", { email, password })
+      const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
+      axios
+        .post("account/login?" + cookieSetting + "=true", { email, password })
         .then((response) => {
           if (response.status === 200) {
             console.log("Logged in");
@@ -220,6 +237,13 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, signedIn }) {
             setSignedIn(true);
             navigate("/user");
             setIsLoginValid(true);
+
+            setCookie("userID", JSON.parse(response.config.data).email, {
+              path: "/",
+              expires: new Date(Date.now() + 60 * 60 * 1000),
+            });
+            // poistetaan tunnin kuluttua (millisekunteina)
+            window.location.reload();
           } else {
             setIsLoginValid(false);
           }
@@ -227,7 +251,6 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, signedIn }) {
         .catch((error) => {
           console.log(error);
           setIsLoginValid(false);
-          console.log("ERRONEOUS LOGIN!!!");
         });
     } else {
       setIsLoginValid(false);
@@ -327,6 +350,22 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, signedIn }) {
             >
               Peruuta
             </Button>
+          </div>
+          <div>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  onClick={handleRememberMeChecked}
+                  checked={rememberMe}
+                  sx={{
+                    "& .MuiSvgIcon-root": {
+                      color: DarkMode ? "#eeeeee" : "#262626",
+                    },
+                  }}
+                />
+              }
+              label="Muista minut"
+            />
           </div>
           <div>
             <Typography

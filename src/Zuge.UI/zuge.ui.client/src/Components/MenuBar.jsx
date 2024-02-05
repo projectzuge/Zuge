@@ -18,9 +18,11 @@ import PropTypes from "prop-types";
 MenuBar.propTypes = {
   DarkMode: PropTypes.bool,
   setDarkMode: PropTypes.func,
+  cookies: PropTypes.any,
+  setCookie: PropTypes.func,
 };
 
-function MenuBar({ DarkMode, setDarkMode }) {
+function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
@@ -43,6 +45,7 @@ function MenuBar({ DarkMode, setDarkMode }) {
       setAnchorElUser(event.currentTarget);
     }
     setUserClicked(true);
+
   };
 
   const handleClose = () => {
@@ -63,110 +66,103 @@ function MenuBar({ DarkMode, setDarkMode }) {
   };
 
   const switchLightDark = () => {
-    setDarkMode(!DarkMode);
+    if (DarkMode) {
+      setCookie("DarkMode", false, { path: "/" });
+      setDarkMode(false);
+    }
+    else {
+      setCookie("DarkMode", true, { path: "/" });
+      setDarkMode(true);
+    }
+
   };
 
   return (
     <>
-      <div className={DarkMode ? "Bar dark" : "Bar light"}>
-        <div className={DarkMode ? "HomePageButtonDark" : "HomePageButton"}>
-          <Link to="/">
-            <img
-              className="LogoImage"
-              src={DarkMode ? trainLogoDark : trainLogo}
-              alt="Train logo"
-            ></img>
-          </Link>
-        </div>
-        <div className="MenuLink">
-          <Link to="/SingleNews">
-            <Typography variant={variant}>Uutiset</Typography>
-          </Link>
-        </div>
-        <div className="MenuLink">
-          <Link to="/contact">
-            <Typography variant={variant}>Yhteystiedot ja palaute</Typography>
-          </Link>
-        </div>
-        <div className="MenuLink">
-          <Link id="UserLink" onClick={handleClickUser}>
-            <Typography variant={variant}>Käyttäjä</Typography>
-          </Link>
-        </div>
-        <div className="toggleContainerMenu">
-          <Typography variant={variant} className="DarkThemeTextMenu">
-            Tumma tila
-          </Typography>
-          <div className="switchContainer">
-            <input
-              type="checkbox"
-              id="switchMenu"
-              className="checkboxMenu"
-              checked={DarkMode}
-              onClick={switchLightDark}
-            />
-            <label htmlFor="switchMenu" className="toggleMenu"></label>
+        <div className={DarkMode? "Bar dark" : "Bar light"}>
+          <div className={DarkMode? "HomePageButtonDark" : "HomePageButton"}>
+            <Link to="/">
+              <img className="LogoImage" src={DarkMode? trainLogoDark : trainLogo} alt="Train logo"></img>
+            </Link>
+          </div>
+          <div className="MenuLink">
+            <Link to="/SingleNews">
+              <Typography variant={variant}>Uutiset</Typography>
+            </Link>
+          </div>
+          <div className="MenuLink">
+            <Link to="/contact">
+              <Typography variant={variant}>Yhteystiedot</Typography>
+            </Link>
+          </div>
+          <div className="MenuLink">
+            <Link id="UserLink"
+              onClick={handleClickUser}>
+                <Typography variant={variant}>Käyttäjä</Typography>
+            </Link>
+          </div>
+          <div className="toggleContainerMenu">
+            <Typography variant={variant} className="DarkThemeTextMenu">
+              Tumma tila
+            </Typography>
+            <div className="switchContainer">
+              <input type="checkbox"
+                    id="switchMenu"
+                    className="checkboxMenu"
+                    checked={DarkMode}
+                    onClick={switchLightDark} />
+              <label htmlFor="switchMenu"
+                    className="toggleMenu">
+              </label>
+            </div>
+          </div>
+          <div className={DarkMode? "DropDownMenuButtonBody dark" : "DropDownMenuButtonBody light"}>
+            <Button
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+              >
+                <Link>
+                  <img className=
+                  {dropDownClicked?"DropDownMenuImageInvisible":"DropDownMenuImageVisible"}
+                  src={DarkMode? dropDownMenuLogoDark : dropDownMenuLogo}
+                  alt="Dropdown menu logo">
+                  </img>
+                  <img className=
+                  {dropDownClicked?"ExitDropDownMenuImageVisible":"ExitDropDownMenuImageInvisible"}
+                  src={DarkMode? exitDropDownMenuLogoDark : exitDropDownMenuLogo}
+                  alt="Exit dropdown menu logo">
+                  </img>
+                </Link>
+            </Button>
           </div>
         </div>
-        <div
-          className={
-            DarkMode
-              ? "DropDownMenuButtonBody dark"
-              : "DropDownMenuButtonBody light"
-          }
-        >
-          <Button
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <Link style={{ fontSize: 0 }}>
-              <img
-                className={
-                  dropDownClicked
-                    ? "DropDownMenuImageInvisible"
-                    : "DropDownMenuImageVisible"
-                }
-                src={DarkMode ? dropDownMenuLogoDark : dropDownMenuLogo}
-                alt="Dropdown menu logo"
-              ></img>
-              <img
-                className={
-                  dropDownClicked
-                    ? "ExitDropDownMenuImageVisible"
-                    : "ExitDropDownMenuImageInvisible"
-                }
-                src={DarkMode ? exitDropDownMenuLogoDark : exitDropDownMenuLogo}
-                alt="Exit dropdown menu logo"
-              ></img>
-            </Link>
-          </Button>
+        <div>
+          <div className="UserMenuBody">
+            <UserMenu
+              anchorEl={anchorElUser}
+              open={openUser}
+              handleClose={handleCloseUser}
+              handleItemClick={handleItemClick}
+              DarkMode={DarkMode}
+              cookies={cookies}
+              setCookie={setCookie}
+              />
+          </div>
         </div>
-      </div>
-      <div>
-        <div className="UserMenuBody">
-          <UserMenu
-            anchorEl={anchorElUser}
-            open={openUser}
-            handleClose={handleCloseUser}
-            handleItemClick={handleItemClick}
-            DarkMode={DarkMode}
-          />
-        </div>
-      </div>
-      <div>
-        <div className="DropDownMenuBody">
-          <DropDownMenu
-            anchorEl={anchorEl}
-            open={open}
-            handleClose={handleClose}
-            handleClickUser={handleClickUser}
-            handleItemClick={handleItemClick}
-            switchLightDark={switchLightDark}
-            DarkMode={DarkMode}
-          />
-        </div>
+        <div>
+          <div className="DropDownMenuBody">
+            <DropDownMenu
+              anchorEl={anchorEl}
+              open={open}
+              handleClose={handleClose}
+              handleClickUser={handleClickUser}
+              handleItemClick={handleItemClick}
+              switchLightDark={switchLightDark}
+              DarkMode={DarkMode}
+              />
+          </div>
       </div>
     </>
   );

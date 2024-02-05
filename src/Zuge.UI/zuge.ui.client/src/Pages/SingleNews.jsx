@@ -9,7 +9,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import news from  "./../assets/news.json";
 
-const SingleNews = ({ DarkMode }) => {
+const SingleNews = ({ DarkMode, cookies }) => {
   // const[news, setNews] = useState([]);
 
   // useEffect(() => {
@@ -23,12 +23,12 @@ const SingleNews = ({ DarkMode }) => {
     <Box>
       <Link to="/NewsPage">
       <Button
-          id="takaisin-button"
+          id={cookies.userID? "manage-button" : "manage-button-hidden"}
           color="primary"
           variant="contained"
           
       >
-        Takaisin
+        Hallinnoi
       </Button>
       </Link>
       <Box id={DarkMode? "single-news-container-dark" : "single-news-container"}>
