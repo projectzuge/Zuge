@@ -28,23 +28,36 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode }) {
     <>
       <div className="UserMenuBody">
         <Menu
-          id={DarkMode? "userMenuDark" : "userMenu"}
+          id={DarkMode ? "userMenuDark" : "userMenu"}
           disableScrollLock={true}
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
           MenuListProps={{
-            'aria-labelledby': 'basic-button',
+            "aria-labelledby": "basic-button",
           }}
           PaperProps={{
             style: menuStyle,
           }}
         >
-          {signedIn? <LoggedInForm handleItemClick={handleItemClick} setSignedIn={setSignedIn} DarkMode={DarkMode} /> : <LoginForm handleItemClick={handleItemClick} setSignedIn={setSignedIn} DarkMode={DarkMode} />}
-        </Menu>        
+          {signedIn ? (
+            <LoggedInForm
+              handleItemClick={handleItemClick}
+              setSignedIn={setSignedIn}
+              DarkMode={DarkMode}
+            />
+          ) : (
+            <LoginForm
+              handleItemClick={handleItemClick}
+              setSignedIn={setSignedIn}
+              DarkMode={DarkMode}
+              signedIn={signedIn}
+            />
+          )}
+        </Menu>
       </div>
     </>
-  )
+  );
 }
 
 export default UserMenu;

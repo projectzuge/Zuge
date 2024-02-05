@@ -90,6 +90,7 @@
 
 .DropDownMenuButtonBody {
   display: grid;
+  align-content: center;
   justify-content: end;
   padding-right: 8px;
   height: 40px;

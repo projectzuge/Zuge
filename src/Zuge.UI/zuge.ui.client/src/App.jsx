@@ -20,6 +20,8 @@ import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
 import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
 import Payment from "./Pages/Payment.jsx";
 import SuccessfulPayment from "./Pages/SuccessfulPayment.jsx";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
@@ -102,9 +104,10 @@ function App() {
                       path="/payment"
                       element={<Payment DarkMode={DarkMode} />}
                     />
-                    <Route 
-                    path="/successfulRegister" 
-                    element={<RegisterSuccess DarkMode={DarkMode} />} />
+                    <Route
+                      path="/successfulRegister"
+                      element={<RegisterSuccess DarkMode={DarkMode} />}
+                    />
                     <Route
                       path="/purchaseDone"
                       element={<SuccessfulPayment DarkMode={DarkMode} />}
@@ -113,6 +116,7 @@ function App() {
                 </div>
               </div>
             </Router>
+            <ToastContainer />
           </JourneyProvider>
         </RouteContext.Provider>
       </ThemeProvider>

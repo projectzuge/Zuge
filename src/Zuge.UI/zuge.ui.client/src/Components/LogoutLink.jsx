@@ -1,29 +1,32 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LogoutLink({children}) {
-
+function LogoutLink({ children }) {
   const navigate = useNavigate();
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    axios.post("account/logout", {})
-    .then((data) => {
-      if (data.status === 200) {
-        console.log("Logged out");
-        navigate("/");
-      }
-      else {
-        console.log("idk");
-      }
-      
-    })
-    .catch((error) => {
-      console.error(error);
-    })
+    await axios
+      .post("account/logout", {})
+      .then((data) => {
+        console.log("data in log out: ", data);
+        if (data.status === 200) {
+          console.log("Logged out");
+          navigate("/");
+          sessionStorage.removeItem("userData");
+        } else {
+          console.log("idk");
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <>
-      <a href="" onClick={handleSubmit}>{children}</a>
+      <a href="" onClick={handleSubmit}>
+        {children}
+      </a>
     </>
   );
 }
