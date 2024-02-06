@@ -20,9 +20,10 @@ MenuBar.propTypes = {
   setDarkMode: PropTypes.func,
   cookies: PropTypes.any,
   setCookie: PropTypes.func,
+  removeCookie: PropTypes.func,
 };
 
-function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
+function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
   const variant = isSmallScreen ? "smallBoldFont" : "mediumBoldFont";
@@ -46,7 +47,6 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
       setAnchorElUser(event.currentTarget);
     }
     setUserClicked(true);
-  
   };
 
   const handleClose = () => {
@@ -149,6 +149,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie }) {
               DarkMode={DarkMode}
               cookies={cookies}
               setCookie={setCookie}
+              removeCookie={removeCookie}
               />
           </div>
         </div>
