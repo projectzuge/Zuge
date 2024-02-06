@@ -21,12 +21,11 @@ const SingleNews = ({ DarkMode, cookies }) => {
   // }, []);
   return (
     <Box>
-      <Link to="/NewsPage">
+      <Link to="/NewsPage" style={{textDecoration: "none"}}>
       <Button
-          id={cookies.userID? "manage-button" : "manage-button-hidden"}
+          id={(cookies.roles !== undefined && cookies.roles.includes("Employee")) ? "manage-button" : "manage-button-hidden"}
           color="primary"
           variant="contained"
-          
       >
         Hallinnoi
       </Button>
