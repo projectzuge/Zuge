@@ -129,7 +129,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
           >
-            <Link>
+            <Link style={{ fontSize: 0 }}>
               <img
                 className={
                   dropDownClicked
