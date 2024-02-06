@@ -9,13 +9,11 @@ function LogoutLink({ children }) {
     await axios
       .post("account/logout", {})
       .then((data) => {
-        console.log("data in log out: ", data);
         if (data.status === 200) {
           console.log("Logged out");
           navigate("/");
-          sessionStorage.removeItem("userData");
         } else {
-          console.log("idk");
+          console.log("Something went wrong with logout");
         }
       })
       .catch((error) => {

@@ -9,8 +9,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const ProfileComponent = ({ DarkMode }) => {
-  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
+  const userInfo = cookies.userData;
 
   const [firstName, setFirstName] = useState(userInfo?.firstName || "");
   const [lastName, setLastName] = useState(userInfo?.lastName || "");
@@ -83,12 +83,19 @@ const ProfileComponent = ({ DarkMode }) => {
     e.preventDefault();
 
     if (firstName !== "" && lastName !== "" && !phoneNumberNotValid) {
-      console.log("new data to send:", firstName, lastName, phoneNumber);
       await axios
         .put("account/manage/info", { firstName, lastName, phoneNumber })
         .then((response) => {
           if (response.status === 200) {
             setShowSaveButton(false);
+            setCookie(
+              "userData",
+              { firstName, lastName, email, phoneNumber },
+              {
+                path: "/",
+                expires: new Date(Date.now() + 60 * 60 * 1000),
+              }
+            );
             toast.success("Tallennettu!");
           } else {
             toast.error("Jotain meni pieleen. Yritä pian uudelleen");
@@ -107,7 +114,7 @@ const ProfileComponent = ({ DarkMode }) => {
       // axios.post("account/manage/info", {newEmail, newPassword, oldPassword})
       // axios.put("account/manage/info", {firstName, lastName, phoneNumber})
     } else {
-      window.alert("Virheelliset tai puuttuvat tiedot.");
+      toast.error("Virheelliset tai puuttuvat tiedot.");
     }
   };
   return (

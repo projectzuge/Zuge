@@ -23,16 +23,9 @@ LoginForm.propTypes = {
   handleItemClick: PropTypes.func,
   setSignedIn: PropTypes.func,
   setCookie: PropTypes.func,
-  signedIn: PropTypes.bool,
 };
 
-function LoginForm({
-  DarkMode,
-  handleItemClick,
-  setSignedIn,
-  setCookie,
-  signedIn,
-}) {
+function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
   const [showPasswordUser, setShowPasswordUser] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,12 +35,6 @@ function LoginForm({
   const [rememberMe, setRememberMe] = useState(false);
   const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (signedIn) {
-    getUserInfo();
-    }
-  }, [signedIn]);
 
   const customCursorStyle = {
     cursor: "default",
@@ -207,14 +194,7 @@ function LoginForm({
     setRememberMe(!rememberMe);
   };
 
-  const handleSignInClicked = () => {
-    // Kirjautumisvaihtoehdot:
-    // useSessionCookies=true -- muistaa kirjautumisen kunnes selain suljetaan
-    // useCookies=true -- muistaa vaikka sulkisi selaimen
-    // Login valikkoon joku "muista minut" checkboxi
-    // const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
-    // axios.post("account/login?" + cookieSetting + "=true", { email, password })
-
+  const handleSignInClicked = async () => {
     if (isEmailValid === "initial" || isPasswordValid === "initial") {
       if (isEmailValid === "initial") {
         setIsEmailValid(false);
@@ -228,22 +208,20 @@ function LoginForm({
     }
     if (isEmailValid && isPasswordValid) {
       const cookieSetting = rememberMe ? "useCookies" : "useSessionCookies";
-      axios
+      await axios
         .post("account/login?" + cookieSetting + "=true", { email, password })
         .then((response) => {
           if (response.status === 200) {
             console.log("Logged in");
             handleItemClick();
             setSignedIn(true);
-            navigate("/user");
             setIsLoginValid(true);
-
+            getUserInfo();
             setCookie("userID", JSON.parse(response.config.data).email, {
               path: "/",
               expires: new Date(Date.now() + 60 * 60 * 1000),
             });
             // poistetaan tunnin kuluttua (millisekunteina)
-            window.location.reload();
           } else {
             setIsLoginValid(false);
           }
@@ -261,14 +239,20 @@ function LoginForm({
   };
 
   const getUserInfo = async () => {
-    axios
+    await axios
       .get("account")
       .then((response) => {
         console.log("account data: ", response.data);
-        sessionStorage.setItem("userData", JSON.stringify(response.data));
+        setCookie("userData", response.data, {
+          path: "/",
+          expires: new Date(Date.now() + 60 * 60 * 1000),
+        });
+        // sessionStorage.setItem("userData", JSON.stringify(response.data));
+        navigate("/user");
       })
       .catch((error) => {
         console.log("Something went wrong with getting user data: ", error);
+        navigate("/");
       });
   };
 
