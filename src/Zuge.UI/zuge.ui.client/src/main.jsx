@@ -5,7 +5,7 @@ import { CookiesProvider } from 'react-cookie';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <CookiesProvider>
+    <CookiesProvider defaultSetOptions={{path: "/", maxAge: 3600 * 24}}>
       <App />
     </CookiesProvider>
   </React.StrictMode>
