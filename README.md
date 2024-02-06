@@ -54,3 +54,17 @@ Scaffold DbContext
 ```
 "C:\Program Files\dotnet\dotnet.exe" ef dbcontext scaffold --project src\Zuge.Infrastructure\Zuge.Infrastructure.csproj --startup-project src\Zuge.UI\Zuge.UI.Server\Zuge.UI.Server.csproj --configuration Debug Database=Data;Host=db;Password=postgres;Username=postgres Npgsql.EntityFrameworkCore.PostgreSQL --context ZugeDbContext --context-dir Context --force --output-dir Persistence/Migrations
 ```
+
+# Frontend
+
+### Tools, frameworks and libraries:
+
+- vite (^5.0.8)
+- react (^18.2.0)
+- materialUI
+- axios (^1.6.3)
+- dayJS (^1.11.10)
+- moment (^2.29.4)
+- react-input-mask (^2.0.4)
+- react-router-dom (^6.21.1)
+- react-toastify (^10.0.4)
