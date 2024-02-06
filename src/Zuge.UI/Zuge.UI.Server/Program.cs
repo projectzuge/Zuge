@@ -17,7 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 _ = builder.Services
     .AddDbContext<IDomainUnitOfWork, DomainContext>(options => options.UseInMemoryDatabase("Domain"))
-    .AddDbContext<IAuthUnitOfWork, AuthenticationContext>(options => options.UseInMemoryDatabase("AuthDev"))
     .AddSingleton<IEmailSender, NoneSender>()
     .AddSingleton<IPaymentGateway, NoneGateway>();
 
@@ -73,23 +72,17 @@ _ = app.MapPost("/account/logout", async (SignInManager<ApplicationUser> signInM
     }).RequireAuthorization();
 _ = app.MapGet("/account/pingauth/", (ClaimsPrincipal user) =>
     {
-        var email = user.FindFirstValue(ClaimTypes.Email);
-        bool isInRole = user.IsInRole("User");
-        return Results.Json(new { Email = email, IsInRole = isInRole });
+        return Results.Ok();
     }).RequireAuthorization("User");
 
 _ = app.MapGet("/account/pingauth/employee", (ClaimsPrincipal user) =>
 {
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("Employee");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
+    return Results.Ok();
 }).RequireAuthorization("Employee");
 
 _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 {
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("Employee");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
+    return Results.Ok();
 }).RequireAuthorization("Admin");
 #endregion
 

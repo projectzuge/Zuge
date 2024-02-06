@@ -25,12 +25,22 @@ namespace Zuge.UI.Server.Controllers
         public async Task<IActionResult> OnGetAsync()
         {
             var appUser = await _userManager.GetUserAsync(User);
+            if (appUser == null) return NotFound("This should not happen");
+            var roles = await _userManager.GetRolesAsync(appUser);
 
-            if (appUser == null) return NotFound("User not found? but why");
-
-            return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber });
+            return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles });
         }
-
+        [HttpGet]
+        [Route("authorize")]
+        [Authorize(Policy = "User")]
+        public async Task<IActionResult> OnGetAuthAsync()
+        {
+            var appUser = await _userManager.GetUserAsync(User);
+            if (appUser == null) return NotFound("This should not happen");
+            var roles = await _userManager.GetRolesAsync(appUser);
+            var userId = await _userManager.GetUserIdAsync(appUser);
+            return Ok(new { roles, userId });
+        }
 
         [HttpPost]
         [Route("manage/register")]

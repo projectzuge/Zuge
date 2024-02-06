@@ -58,6 +58,10 @@ export default defineConfig({
                 target,
                 secure: false
             },
+            '^/account/authorize': {
+                target,
+                secure: false
+            },
             '^/account/register': {
                 target,
                 secure: false
