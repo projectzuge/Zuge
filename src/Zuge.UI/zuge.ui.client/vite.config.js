@@ -96,5 +96,8 @@ export default defineConfig({
             key: fs.readFileSync(keyFilePath),
             cert: fs.readFileSync(certFilePath),
         }
+    },
+    test: {
+        environment: 'jsdom'
     }
 })
