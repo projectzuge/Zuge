@@ -10,10 +10,11 @@ import plusSignWhite from "./../assets/plus-sign-white.png";
 import { useNavigate } from "react-router-dom";
 
 const ReviseJourneyInfo = ({ DarkMode }) => {
+  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
   const navigate = useNavigate();
-  const [emailFields, setEmailFields] = useState([
-    { value: "", isValid: false },
-  ]);
+  const [emailFields, setEmailFields] = useState(
+    [{ value: userInfo.email, isValid: true }] || [{ value: "", isValid: false }]
+  );
 
   const [date, setDate] = useState("");
   const [from, setFrom] = useState("");

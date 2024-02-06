@@ -14,11 +14,22 @@ UserMenu.propTypes = {
   setCookie: PropTypes.func,
 };
 
-function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode, cookies, setCookie }) {
-  const [signedIn, setSignedIn] = useState(cookies.userID !== null && cookies.userID !== undefined);
+function UserMenu({
+  anchorEl,
+  open,
+  handleClose,
+  handleItemClick,
+  DarkMode,
+  cookies,
+  setCookie,
+  removeCookie,
+}) {
+  const [signedIn, setSignedIn] = useState(
+    cookies.userID !== null && cookies.userID !== undefined
+  );
 
   const menuStyle = {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     right: 0,
     width: "400px",
@@ -30,34 +41,38 @@ function UserMenu({ anchorEl, open, handleClose, handleItemClick, DarkMode, cook
     <>
       <div className="UserMenuBody">
         <Menu
-          id={DarkMode? "userMenuDark" : "userMenu"}
+          id={DarkMode ? "userMenuDark" : "userMenu"}
           disableScrollLock={true}
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
           MenuListProps={{
-            'aria-labelledby': 'basic-button',
+            "aria-labelledby": "basic-button",
           }}
           PaperProps={{
             style: menuStyle,
           }}
         >
-          {signedIn? <LoggedInForm 
-          handleItemClick={handleItemClick} 
-          setSignedIn={setSignedIn} 
-          DarkMode={DarkMode}
-          setCookie={setCookie}
-           /> : 
-          <LoginForm 
-          handleItemClick={handleItemClick} 
-          setSignedIn={setSignedIn} 
-          DarkMode={DarkMode} 
-          setCookie={setCookie}
-          />}
-        </Menu>        
+          {signedIn ? (
+            <LoggedInForm
+              handleItemClick={handleItemClick}
+              setSignedIn={setSignedIn}
+              DarkMode={DarkMode}
+              setCookie={setCookie}
+              removeCookie={removeCookie}
+            />
+          ) : (
+            <LoginForm
+              handleItemClick={handleItemClick}
+              setSignedIn={setSignedIn}
+              DarkMode={DarkMode}
+              setCookie={setCookie}
+            />
+          )}
+        </Menu>
       </div>
     </>
-  )
+  );
 }
 
 export default UserMenu;

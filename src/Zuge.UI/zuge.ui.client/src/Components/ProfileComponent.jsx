@@ -6,24 +6,30 @@ import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const ProfileComponent = ({ DarkMode }) => {
-  // these will be users own information when such info is available!!!
-  const [firstName, setFirstName] = useState("Enni");
-  const [lastName, setLastName] = useState("Esimerkki");
-  const [email, setEmail] = useState("enni.esimerkki@emaili.com");
-  const [phoneNumber, setPhoneNumber] = useState("+358411231231");
+const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
+  const userInfo = cookies.userData;
+
+  const [firstName, setFirstName] = useState(userInfo?.firstName || "");
+  const [lastName, setLastName] = useState(userInfo?.lastName || "");
+  const [email, setEmail] = useState(userInfo?.email || "");
+  const [phoneNumber, setPhoneNumber] = useState(userInfo?.phoneNumber || "");
   const [emailNotValid, setEmailNotValid] = useState(false);
   const [phoneNumberNotValid, setPhoneNumberNotValid] = useState(false);
   const [isEmptyFirstName, setIsEmptyFirstName] = useState(false);
   const [isEmptyLastName, setIsEmptyLastName] = useState(false);
   const [showSaveButton, setShowSaveButton] = useState(false);
-  
+
   useEffect(() => {
-    axios.get("account").then(response => {
-      console.log(response.data);
-    });
-  },[]);
+    if (userInfo) {
+      setFirstName(userInfo.firstName || "");
+      setLastName(userInfo.lastName || "");
+      setPhoneNumber(userInfo.phoneNumber || "");
+      setEmail(userInfo.email || "");
+    }
+  }, [userInfo]);
 
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
 
@@ -73,30 +79,47 @@ const ProfileComponent = ({ DarkMode }) => {
     }
   };
 
-  const onSaveClicked = (e) => {
+  const onSaveClicked = async (e) => {
     e.preventDefault();
 
-    if (
-      firstName !== "" &&
-      lastName !== "" &&
-      !emailNotValid &&
-      !phoneNumberNotValid
-    ) {
+    if (firstName !== "" && lastName !== "" && !phoneNumberNotValid) {
+      await axios
+        .put("account/manage/info", { firstName, lastName, phoneNumber })
+        .then((response) => {
+          if (response.status === 200) {
+            setShowSaveButton(false);
+            setCookie(
+              "userData",
+              { firstName, lastName, email, phoneNumber },
+              {
+                path: "/",
+                expires: new Date(Date.now() + 60 * 60 * 1000),
+              }
+            );
+            toast.success("Tallennettu!");
+          } else {
+            toast.error("Jotain meni pieleen. Yritä pian uudelleen");
+            setShowSaveButton(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Something went wrong:", error);
+          setShowSaveButton(true);
+          toast.error("Jotain meni pieleen. Yritä pian uudelleen");
+        });
       // PUT REQUEST FOR BACKEND
       // sähköpostin vaihto (newEmail) ei toimi ennen kuin toteutetaan email confirmation,
       // mutta tekisi testaamisesta vaikeaa/ärsyttävää
       // salasanan vaihto kuitenkin onnistuu
       // axios.post("account/manage/info", {newEmail, newPassword, oldPassword})
       // axios.put("account/manage/info", {firstName, lastName, phoneNumber})
-      window.alert("Saved");
-      setShowSaveButton(false);
     } else {
-      window.alert("Invalid or missing inputs");
+      toast.error("Virheelliset tai puuttuvat tiedot.");
     }
   };
   return (
     <>
-      <Box id={DarkMode? "personal-info-box-dark" : "personal-info-box"}>
+      <Box id={DarkMode ? "personal-info-box-dark" : "personal-info-box"}>
         <form onSubmit={onSaveClicked}>
           <Grid container id="textfield-grid" spacing="20px">
             <Grid item xs={12}>
@@ -106,7 +129,7 @@ const ProfileComponent = ({ DarkMode }) => {
               <TextField
                 variant="outlined"
                 InputProps={{ sx: { borderRadius: "10px" } }}
-                id="profile-text-field"
+                id="profile-first-name-field"
                 fullWidth
                 defaultValue={firstName}
                 onChange={onFirstNameChange}
@@ -119,7 +142,7 @@ const ProfileComponent = ({ DarkMode }) => {
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
                 InputProps={{ sx: { borderRadius: "10px" } }}
-                id="profile-text-field"
+                id="profile-last-name-field"
                 fullWidth
                 defaultValue={lastName}
                 onChange={onLastNameChange}
@@ -131,9 +154,9 @@ const ProfileComponent = ({ DarkMode }) => {
             </Grid>
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
-                InputProps={{ sx: { borderRadius: "10px" } }}
+                InputProps={{ sx: { borderRadius: "10px" }, readOnly: true }}
                 type="email"
-                id="profile-text-field"
+                id="profile-email-field"
                 fullWidth
                 defaultValue={email}
                 onChange={onEmailChange}
@@ -146,7 +169,7 @@ const ProfileComponent = ({ DarkMode }) => {
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
                 InputProps={{ sx: { borderRadius: "10px" } }}
-                id="profile-text-field"
+                id="profile-phone-number-field"
                 fullWidth
                 defaultValue={phoneNumber}
                 onChange={onPhoneNumberChange}

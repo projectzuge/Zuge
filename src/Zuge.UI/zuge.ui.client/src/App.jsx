@@ -20,12 +20,18 @@ import ReviseAndPay from "./Pages/ReviseAndPay.jsx";
 import { JourneyProvider } from "./Contexts/SelectedRouteContext.jsx";
 import Payment from "./Pages/Payment.jsx";
 import SuccessfulPayment from "./Pages/SuccessfulPayment.jsx";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [journeys, setJourneys] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [cookies, setCookie, removeCookie] = useCookies(["userID", "DarkMode"]);
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "userID",
+    "DarkMode",
+    "userData",
+  ]);
   const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
 
   useEffect(() => {
@@ -61,6 +67,7 @@ function App() {
                   setDarkMode={setDarkMode}
                   cookies={cookies}
                   setCookie={setCookie}
+                  removeCookie={removeCookie}
                 />
                 <div id="page-contents-container">
                   <Routes>
@@ -84,7 +91,9 @@ function App() {
                     />
                     <Route
                       path="/SingleNews"
-                      element={<SingleNews DarkMode={DarkMode} cookies={cookies} />}
+                      element={
+                        <SingleNews DarkMode={DarkMode} cookies={cookies} />
+                      }
                     />
                     <Route
                       path="/register"
@@ -92,7 +101,9 @@ function App() {
                     />
                     <Route
                       path="/user"
-                      element={<Profile DarkMode={DarkMode} />}
+                      element={
+                        <Profile DarkMode={DarkMode} cookies={cookies} setCookie={setCookie}/>
+                      }
                     />
                     <Route
                       path="/route"
@@ -106,9 +117,10 @@ function App() {
                       path="/payment"
                       element={<Payment DarkMode={DarkMode} />}
                     />
-                    <Route 
-                    path="/successfulRegister" 
-                    element={<RegisterSuccess DarkMode={DarkMode} />} />
+                    <Route
+                      path="/successfulRegister"
+                      element={<RegisterSuccess DarkMode={DarkMode} />}
+                    />
                     <Route
                       path="/purchaseDone"
                       element={<SuccessfulPayment DarkMode={DarkMode} />}
@@ -117,6 +129,7 @@ function App() {
                 </div>
               </div>
             </Router>
+            <ToastContainer />
           </JourneyProvider>
         </RouteContext.Provider>
       </ThemeProvider>
