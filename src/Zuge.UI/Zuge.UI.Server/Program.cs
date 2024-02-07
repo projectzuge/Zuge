@@ -1,24 +1,15 @@
-using System.Security.Claims;
-using System.Text.Json;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Zuge.Domain.Abstractions;
-using Zuge.Domain.Types;
-using Zuge.Domain.Types.Authentication;
-using Zuge.Infrastructure.Auth;
-using Zuge.Infrastructure.Auth.Entities;
-using Zuge.Infrastructure.Communication;
-using Zuge.Infrastructure.Payment;
-using Zuge.Infrastructure.Persistence;
+using System.Security.Claims;
+using Zuge.Domain;
+using Zuge.Infrastructure;
+
+Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
-
-_ = builder.Services
-    .AddDbContext<IDomainUnitOfWork, DomainContext>(options => options.UseInMemoryDatabase("Domain"))
-    .AddSingleton<IEmailSender, NoneSender>()
-    .AddSingleton<IPaymentGateway, NoneGateway>();
+_ = builder.Services.AddDbContext<IUnitOfWork, UnitOfWork>(options => options.UseInMemoryDatabase("Data"));
 
 _ = builder.Services
     .AddDbContext<AuthenticationDbContext>(options => options.UseInMemoryDatabase("IdentityAuth"))
@@ -35,33 +26,25 @@ _ = builder.Services
     .AddEntityFrameworkStores<AuthenticationDbContext>();
 
 _ = builder.Services.AddControllers();
-
-_ = builder.Services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen();
+_ = builder.Services.AddEndpointsApiExplorer();
+_ = builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
-
-_ = app
-    .UseDefaultFiles()
-    .UseStaticFiles();
-
-if (app.Environment.IsDevelopment())
-    _ = app
-        .UseSwagger()
-        .UseSwaggerUI();
-
-_ = app
-    .UseHttpsRedirection()
-    .UseAuthorization();
-
+_ = app.UseDefaultFiles();
+_ = app.UseStaticFiles();
+_ = app.UseSwagger();
+_ = app.UseSwaggerUI();
+_ = app.UseHttpsRedirection();
+_ = app.UseAuthorization();
 _ = app.MapControllers();
-    
+_ = app.MapPost("purchase", Domain.PurchaseAsync);
+_ = app.MapPost("search", Domain.SearchAsync);
+
 #region map auth endpoints
 _ = app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
 
 _ = app.MapPost("/account/logout", async (SignInManager<ApplicationUser> signInManager,
-    [FromBody] object empty) =>
+    [FromBody] object? empty) =>
     {
         if (empty != null)
         {
@@ -88,12 +71,9 @@ _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 
 _ = app.MapFallbackToFile("/index.html");
 
-await using var scope = app.Services.CreateAsyncScope();
-var domain = scope.ServiceProvider.GetRequiredService<IDomainUnitOfWork>();
-var json = await File.ReadAllTextAsync("journeys.json");
-var journeys = JsonSerializer.Deserialize<IEnumerable<Journey>>(json) ?? [];
-domain.Repository<Journey>().AddRange(journeys);
-await domain.CommitAsync();
+using var scope = app.Services.CreateScope();
+var unitOfWork = scope.ServiceProvider.GetRequiredService<UnitOfWork>();
+_ = unitOfWork.Database.EnsureCreated();
 
 #region create test users for in-memory db
 var userManager = scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();

@@ -6,7 +6,7 @@ import ProfileBoughtTickets from "../Components/ProfileBoughtTickets";
 import { useState } from "react";
 import AuthorizeView from "../Components/AuthorizeView";
 
-const Profile = ({ DarkMode }) => {
+const Profile = ({ DarkMode, cookies, setCookie }) => {
   const [selectedButton, setSelectedButton] = useState("Lippusi");
 
   const handleButtonClick = (buttonName) => {
@@ -21,7 +21,7 @@ const Profile = ({ DarkMode }) => {
             selectedButton={selectedButton}
           />
           {selectedButton === "Omat tiedot" ? (
-            <ProfileComponent DarkMode={DarkMode}/>
+            <ProfileComponent DarkMode={DarkMode} cookies={cookies} setCookie={setCookie}/>
           ) : (
             <ProfileBoughtTickets DarkMode={DarkMode}/>
           )}
