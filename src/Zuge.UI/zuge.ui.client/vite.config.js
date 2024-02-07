@@ -50,7 +50,11 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/Journey': {
+            '^/purchase': {
+                target,
+                secure: false
+            },
+            '^/search': {
                 target,
                 secure: false
             },

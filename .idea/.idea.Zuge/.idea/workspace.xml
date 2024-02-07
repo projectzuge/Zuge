@@ -10,59 +10,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Data.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Identity.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Zuge.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Zuge.sln" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/IAuthRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/IAuthUnitOfWork.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/IDomainRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/IDomainUnitOfWork.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/IEmailSender.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/IPaymentGateway.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Abstractions/ISpecification.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Specifications/SearchJourneySpecification.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Specifications/WhereEmailAccountSpecification.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Specifications/WhereIdJourneySpecification.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Specifications/WhereIdLoginDataSpecification.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Authentication/LoginDetails.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Authentication/RegistrationInformation.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Authentication/UserAccount.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Authentication/UserLoginData.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Journey.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Stop.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Ticket.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types/Train.cs" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Infrastructure.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Auth/ApplicationUserManager.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Auth/AuthenticationContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Auth/AuthenticationDbContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Auth/DbSetAuthRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Auth/Entities/ApplicationUser.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Communication/NoneSender.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Payment/NoneGateway.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Persistence/DbSetDomainRepository.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Persistence/DomainContext.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/JourneyController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/LoginController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/PaymentController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/RoleController.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Data.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/journeys.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/user_accounts.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.Domain.UnitTests/Zuge.Domain.UnitTests.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.Infrastructure.UnitTests/Zuge.Infrastructure.UnitTests.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.UI.Server.IntegrationTests/JourneySearchEndpointTest.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.UI.Server.IntegrationTests/Zuge.UI.Server.IntegrationTests.csproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.UI.Server.UnitTests/Zuge.UI.Server.UnitTests.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/vite.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,13 +45,14 @@
     ".NET Project.Zuge.UI.Server.executor": "Run",
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "jani-purchase-endpoint",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -181,6 +139,8 @@
       <updated>1707222902402</updated>
       <workItem from="1707222905518" duration="87000" />
       <workItem from="1707223282288" duration="986000" />
+      <workItem from="1707322741025" duration="217000" />
+      <workItem from="1707322985748" duration="8624000" />
     </task>
     <servers />
   </component>

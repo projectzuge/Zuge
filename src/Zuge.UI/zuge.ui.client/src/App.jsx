@@ -36,12 +36,11 @@ function App() {
 
   useEffect(() => {
     axios
-      .get("Journey", {
-        params: {
-          departure: "2023-12-29",
+      .post("search", {
+        
+          date: "2024-02-07",
           from: "Tampere",
           to: "Keuruu",
-        },
       })
       .then((response) => {
         setJourneys(response.data);
