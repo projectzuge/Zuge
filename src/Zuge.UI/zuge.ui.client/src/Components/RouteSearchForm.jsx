@@ -12,12 +12,14 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
-
+import axios from "axios";
 // Note to devs: empty "formState" from sessionStorage when ticket is bought
 
 const RouteSearchForm = (props) => {
   const cities = props.cities;
   const passengerTypes = ["Aikuinen", "Opiskelija", "Lapsi", "Eläkeläinen"];
+  const [loading, setLoading] = useState(true);
+  const [journeys, setJourneys] = useState([]);
   const [fromCity, setFromCity] = useState("Mistä");
   const [toCity, setToCity] = useState("Minne");
   const [selectedDate, setSelectedDate] = useState(dayjs(Date.now()));
@@ -26,7 +28,7 @@ const RouteSearchForm = (props) => {
 
   useEffect(() => {
     const savedFormState = JSON.parse(sessionStorage.getItem("formState"));
-
+    console.log("gets from session storage:", savedFormState);
     if (savedFormState) {
       // Set states using the retrieved form state
       setFromCity(savedFormState.fromCity || cities[0]);
@@ -34,6 +36,8 @@ const RouteSearchForm = (props) => {
       setSelectedDate(dayjs(savedFormState.selectedDate) || dayjs(Date.now()));
       setPassengerType(savedFormState.passengerType || passengerTypes[0]);
       setShowFoundRoutesList(savedFormState.showFoundRoutesList || false);
+      setJourneys(savedFormState.journeys);
+      setLoading(false);
     }
   }, []);
 
@@ -49,17 +53,41 @@ const RouteSearchForm = (props) => {
 
   const handleSearchRoutesClick = async () => {
     if (fromCity !== toCity && fromCity !== "Mistä" && toCity !== "Minne") {
-      setShowFoundRoutesList(true);
+      await axios
+        .get("Journey", {
+          params: {
+            departure: "2023-12-29",
+            from: fromCity,
+            to: toCity,
+          },
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("getting journeys response:", response.data);
+            setJourneys(response.data);
+            setLoading(false);
+            setShowFoundRoutesList(true);
 
-      const formState = {
-        fromCity,
-        toCity,
-        selectedDate,
-        passengerType,
-        showFoundRoutesList: true,
-      };
-
-      sessionStorage.setItem("formState", JSON.stringify(formState));
+            const formState = {
+              fromCity,
+              toCity,
+              selectedDate,
+              passengerType,
+              showFoundRoutesList: true,
+              journeys: response.data,
+            };
+            console.log("form state:", formState);
+            sessionStorage.setItem("formState", JSON.stringify(formState));
+          } else {
+            console.error("Something went wrong");
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+          console.log("Error details:", error.response);
+          setLoading(false);
+        });
     }
   };
 
@@ -74,18 +102,25 @@ const RouteSearchForm = (props) => {
   };
 
   return (
-    <Box id={props.DarkMode? "search-form-container-dark" : "search-form-container"} marginTop="40px">
+    <Box
+      id={
+        props.DarkMode ? "search-form-container-dark" : "search-form-container"
+      }
+      marginTop="40px"
+    >
       <FormControl fullWidth className="route-search-form" variant="outlined">
         <div id="single-select-div">
           <Select
             sx={{
               "&:hover": {
                 "&& fieldset": {
-                  border: props.DarkMode? "1px solid rgba(238, 238, 238, 0.5)" : "1px solid rgba(38, 38, 38, 0.5)",
+                  border: props.DarkMode
+                    ? "1px solid rgba(238, 238, 238, 0.5)"
+                    : "1px solid rgba(38, 38, 38, 0.5)",
                 },
               },
             }}
-            id={props.DarkMode? "from-cities-dark" : "from-cities"}
+            id={props.DarkMode ? "from-cities-dark" : "from-cities"}
             required
             value={fromCity}
             onChange={handleFromCityChange}
@@ -114,11 +149,13 @@ const RouteSearchForm = (props) => {
             sx={{
               "&:hover": {
                 "&& fieldset": {
-                  border: props.DarkMode? "1px solid rgba(238, 238, 238, 0.5)" : "1px solid rgba(38, 38, 38, 0.5)",
+                  border: props.DarkMode
+                    ? "1px solid rgba(238, 238, 238, 0.5)"
+                    : "1px solid rgba(38, 38, 38, 0.5)",
                 },
               },
             }}
-            id={props.DarkMode? "to-cities-dark" : "to-cities"}
+            id={props.DarkMode ? "to-cities-dark" : "to-cities"}
             required
             value={toCity}
             onChange={handleToCityChange}
@@ -127,7 +164,7 @@ const RouteSearchForm = (props) => {
               disableScrollLock: true,
               PaperProps: {
                 style: {
-                  backgroundColor: props.DarkMode? "262626" : "#eeeeee",
+                  backgroundColor: props.DarkMode ? "262626" : "#eeeeee",
                 },
               },
             }}
@@ -146,7 +183,7 @@ const RouteSearchForm = (props) => {
         <div id="date-picker">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              className={props.DarkMode? "DatePickerDark" : "DatePicker"}
+              className={props.DarkMode ? "DatePickerDark" : "DatePicker"}
               sx={{
                 "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                   outline: "0px transparent",
@@ -191,11 +228,13 @@ const RouteSearchForm = (props) => {
             sx={{
               "&:hover": {
                 "&& fieldset": {
-                  border: props.DarkMode? "1px solid rgba(238, 238, 238, 0.5)" : "1px solid rgba(38, 38, 38, 0.5)",
+                  border: props.DarkMode
+                    ? "1px solid rgba(238, 238, 238, 0.5)"
+                    : "1px solid rgba(38, 38, 38, 0.5)",
                 },
               },
             }}
-            id={props.DarkMode? "passenger-type-dark" : "passenger-type"}
+            id={props.DarkMode ? "passenger-type-dark" : "passenger-type"}
             required
             value={passengerType}
             onChange={handlePassengerTypeChange}
@@ -204,13 +243,17 @@ const RouteSearchForm = (props) => {
               disableScrollLock: true,
               PaperProps: {
                 style: {
-                  backgroundColor: props.DarkMode? "#262626" : "#eeeeee",
+                  backgroundColor: props.DarkMode ? "#262626" : "#eeeeee",
                 },
               },
             }}
           >
             {passengerTypes.map((pass) => (
-              <MenuItem className={props.DarkMode? "MenuItemDark" : "MenuItem"} key={pass} value={pass}>
+              <MenuItem
+                className={props.DarkMode ? "MenuItemDark" : "MenuItem"}
+                key={pass}
+                value={pass}
+              >
                 {pass}
               </MenuItem>
             ))}
@@ -227,16 +270,19 @@ const RouteSearchForm = (props) => {
       </Button>
 
       {showFoundRoutesList &&
-        ReactDOM.createPortal(
-          <FoundRoutesList
-            from={fromCity}
-            to={toCity}
-            date={selectedDate}
-            passenger={passengerType}
-            DarkMode={props.DarkMode}
-          />,
-          document.getElementById("route-list-grid")
-        )}
+        (loading
+          ? null
+          : ReactDOM.createPortal(
+              <FoundRoutesList
+                journeys={journeys}
+                passengerType={passengerType}
+                from={fromCity}
+                to={toCity}
+                date={selectedDate}
+                DarkMode={props.DarkMode}
+              />,
+              document.getElementById("route-list-grid")
+            ))}
     </Box>
   );
 };

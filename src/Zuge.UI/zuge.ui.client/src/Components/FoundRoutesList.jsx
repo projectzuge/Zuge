@@ -3,18 +3,17 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import "../Styles/FoundRoutesList.css";
-import { useContext, useEffect, useState } from "react";
-import { RouteContext } from "../Contexts/RouteContext";
+import { useEffect, useState } from "react";
 import moment from "moment";
 
 const FoundRoutesList = (props) => {
-  const journeys = useContext(RouteContext);
+  const journeys = props.journeys;
   const [filteredJourneys, setFilteredJourneys] = useState([]);
   const [formattedDate, setFormattedDate] = useState("");
 
   const fromCity = props.from;
   const toCity = props.to;
-  const passengerType = props.passenger;
+  const passengerType = props.passengerType;
 
   useEffect(() => {
     setFormattedDate(moment(props.date.$d).format("DD.MM.YYYY"));
@@ -24,7 +23,6 @@ const FoundRoutesList = (props) => {
     const foundJourneysArray = journeys.filter((route) => {
       // check that date matches
       const isMatchingDate = route.date === formattedDate;
-
       // check that stops match
       const hasStops =
         route.stops.some((obj) => obj.station === fromCity) &&

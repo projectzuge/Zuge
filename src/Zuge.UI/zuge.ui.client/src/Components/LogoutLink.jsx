@@ -22,7 +22,7 @@ function LogoutLink({ children }) {
   };
   return (
     <>
-      <a href="" onClick={handleSubmit}>
+      <a href="" onClick={handleSubmit} style={{ textDecoration: "none" }}>
         {children}
       </a>
     </>

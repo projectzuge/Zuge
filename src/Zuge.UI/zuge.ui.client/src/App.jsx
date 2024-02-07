@@ -7,7 +7,6 @@ import MenuBar from "./Components/MenuBar.jsx";
 import { useState, useEffect } from "react";
 import RouteInfo from "./Pages/RouteInfo.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import axios from "axios";
 import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
@@ -23,10 +22,10 @@ import SuccessfulPayment from "./Pages/SuccessfulPayment.jsx";
 import { useCookies } from "react-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import cityArray from "./cities.json";
 
 function App() {
-  const [journeys, setJourneys] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const cities = cityArray;
   const [cookies, setCookie, removeCookie] = useCookies([
     "userID",
     "DarkMode",
@@ -34,30 +33,10 @@ function App() {
   ]);
   const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
 
-  useEffect(() => {
-    axios
-      .get("Journey", {
-        params: {
-          departure: "2023-12-29",
-          from: "Tampere",
-          to: "Keuruu",
-        },
-      })
-      .then((response) => {
-        setJourneys(response.data);
-        setLoading(false);
-      })
-      .then(console.log)
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        console.log("Error details:", error.response);
-      });
-  }, []);
-
   return (
     <>
       <ThemeProvider theme={DarkMode ? darkTheme : theme}>
-        <RouteContext.Provider value={journeys}>
+        <RouteContext.Provider value={cities}>
           <JourneyProvider>
             <Router>
               <div id={DarkMode ? "body-dark" : "body-light"}>
@@ -73,13 +52,7 @@ function App() {
                   <Routes>
                     <Route
                       path="/"
-                      element={
-                        loading ? (
-                          <LoadingSpinner />
-                        ) : (
-                          <FrontPage DarkMode={DarkMode} />
-                        )
-                      }
+                      element={<FrontPage DarkMode={DarkMode} />}
                     />
                     <Route
                       path="/contact"
@@ -102,7 +75,11 @@ function App() {
                     <Route
                       path="/user"
                       element={
-                        <Profile DarkMode={DarkMode} cookies={cookies} setCookie={setCookie}/>
+                        <Profile
+                          DarkMode={DarkMode}
+                          cookies={cookies}
+                          setCookie={setCookie}
+                        />
                       }
                     />
                     <Route
@@ -111,7 +88,7 @@ function App() {
                     />
                     <Route
                       path="/revise"
-                      element={<ReviseAndPay DarkMode={DarkMode} />}
+                      element={<ReviseAndPay DarkMode={DarkMode} cookies={cookies} />}
                     />
                     <Route
                       path="/payment"
