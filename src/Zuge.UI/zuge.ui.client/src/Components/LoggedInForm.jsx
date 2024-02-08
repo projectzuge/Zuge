@@ -74,7 +74,6 @@ function LoggedInForm({ handleItemClick, setSignedIn, DarkMode, setCookie, remov
   };
 
   const handleLogOut = () => {
-    setCookie("userID", null);
     setSignedIn(false);
     removeCookie("userData");
   };
