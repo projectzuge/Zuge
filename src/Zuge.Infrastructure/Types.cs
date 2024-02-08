@@ -2,35 +2,62 @@
 
 using Domain;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 
-class Repository<T>(DbSet<T> source) : IRepository<T> where T : class
+class JourneyRepository(DbSet<Journey> source) : IJourneyRepository
 {
-    public void AddRange(IEnumerable<T> entities) =>
-        source.AddRange(entities);
-
-    public Task<T?> FirstOrDefaultAsync(
-        Expression<Func<T, bool>> predicate,
+    public Task<Journey?> FirstOrDefaultAsync(
+        int id,
         CancellationToken cancellationToken = default) =>
-        source.Where(predicate).FirstOrDefaultAsync(cancellationToken);
+        source
+            .Where(journey => journey.Id == id)
+            .FirstOrDefaultAsync(cancellationToken);
 
-    public Task<List<T>> ToListAsync(
-        Expression<Func<T, bool>> predicate,
+    public Task<List<Journey>> ToListAsync(
+        SearchQuery searchQuery,
         CancellationToken cancellationToken = default) =>
-        source.Where(predicate).ToListAsync(cancellationToken);
+        source
+            .Where(journey =>
+                journey.Stops.Any(stop =>
+                    DateOnly.FromDateTime(stop.DepartsAt.Date) ==
+                    searchQuery.Date &&
+                    stop.DepartsFrom == searchQuery.From) &&
+                journey.Stops.Any(stop => stop.DepartsFrom == searchQuery.To) &&
+                journey.Stops.First(stop =>
+                    DateOnly.FromDateTime(stop.DepartsAt.Date) ==
+                    searchQuery.Date &&
+                    stop.DepartsFrom == searchQuery.From).Ordinal <
+                journey.Stops.First(stop => stop.DepartsFrom == searchQuery.To)
+                    .Ordinal)
+            .ToListAsync(cancellationToken);
+}
+
+class StopRepository(DbSet<Stop> source) : IStopRepository
+{
+    public Task<List<Stop>> ToListAsync(
+        int journeyId,
+        CancellationToken cancellationToken = default) =>
+        source
+            .Where(stop => stop.JourneyId == journeyId)
+            .ToListAsync(cancellationToken);
+}
+
+class TicketRepository(DbSet<Ticket> source) : ITicketRepository
+{
+    public void AddRange(IEnumerable<Ticket> tickets) =>
+        source.AddRange(tickets);
 }
 
 class UnitOfWork(DbContextOptions<UnitOfWork> options)
     : DbContext(options), IUnitOfWork
 {
-    public IRepository<Journey> Journeys =>
-        new Repository<Journey>(Set<Journey>());
+    public IJourneyRepository Journeys =>
+        new JourneyRepository(Set<Journey>());
 
-    public IRepository<Stop> Stops =>
-        new Repository<Stop>(Set<Stop>());
+    public IStopRepository Stops =>
+        new StopRepository(Set<Stop>());
 
-    public IRepository<Ticket> Tickets =>
-        new Repository<Ticket>(Set<Ticket>());
+    public ITicketRepository Tickets =>
+        new TicketRepository(Set<Ticket>());
 
     public Task CommitAsync(CancellationToken cancellationToken) =>
         SaveChangesAsync(cancellationToken);

@@ -64,7 +64,7 @@ public static class Domain
             return new(validationResult.ToDictionary(), false);
 
         var journey = await unitOfWork.Journeys.FirstOrDefaultAsync(
-            journey => journey.Id == purchaseCommand.JourneyId,
+            purchaseCommand.JourneyId,
             cancellationToken);
 
         if (journey is null) return new(null, false);
@@ -91,18 +91,9 @@ public static class Domain
         if (!validationResult.IsValid)
             return new(validationResult.ToDictionary(), false);
 
-        var journeys = await unitOfWork.Journeys.ToListAsync(journey =>
-            journey.Stops.Any(stop =>
-                DateOnly.FromDateTime(stop.DepartsAt.Date) ==
-                searchQuery.Date &&
-                stop.DepartsFrom == searchQuery.From) &&
-            journey.Stops.Any(stop => stop.DepartsFrom == searchQuery.To) &&
-            journey.Stops.First(stop =>
-                DateOnly.FromDateTime(stop.DepartsAt.Date) ==
-                searchQuery.Date &&
-                stop.DepartsFrom == searchQuery.From).Ordinal <
-            journey.Stops.First(stop => stop.DepartsFrom == searchQuery.To)
-                .Ordinal, cancellationToken);
+        var journeys = await unitOfWork.Journeys.ToListAsync(
+            searchQuery,
+            cancellationToken);
 
         return new(journeys, true);
     }

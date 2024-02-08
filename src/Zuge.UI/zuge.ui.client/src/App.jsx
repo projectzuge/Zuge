@@ -35,14 +35,22 @@ function App() {
   const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
 
   useEffect(() => {
-    axios
-      .post("search", {
-        
-          date: "2024-02-07",
-          from: "Tampere",
-          to: "Keuruu",
-      })
+    axios.post(
+        'search',
+        {
+          'date': '2024-02-08',
+          'from': 'Tampere',
+          'to': 'Keuruu'
+        },
+        {
+          headers: {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        }
+    )
       .then((response) => {
+        console.log(response.data);
         setJourneys(response.data);
         setLoading(false);
       })

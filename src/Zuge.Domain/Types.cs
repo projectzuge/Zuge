@@ -1,7 +1,5 @@
 ﻿namespace Zuge.Domain;
 
-using System.Linq.Expressions;
-
 public record Stop(
     DateTimeOffset ArrivesAt,
     string ArrivesFrom,
@@ -34,24 +32,34 @@ public record Journey(
         default!) { }
 }
 
-public interface IRepository<T>
+public interface IJourneyRepository
 {
-    void AddRange(IEnumerable<T> entities);
-    
-    Task<T?> FirstOrDefaultAsync(
-        Expression<Func<T, bool>> predicate,
+    Task<Journey?> FirstOrDefaultAsync(
+        int id,
         CancellationToken cancellationToken = default);
     
-    Task<List<T>> ToListAsync(
-        Expression<Func<T, bool>> predicate,
+    Task<List<Journey>> ToListAsync(
+        SearchQuery searchQuery,
         CancellationToken cancellationToken = default);
+}
+
+public interface IStopRepository
+{
+    Task<List<Stop>> ToListAsync(
+        int journeyId,
+        CancellationToken cancellationToken = default);
+}
+
+public interface ITicketRepository
+{
+    void AddRange(IEnumerable<Ticket> tickets);
 }
 
 public interface IUnitOfWork
 {
-    IRepository<Journey> Journeys { get; }
-    IRepository<Stop> Stops { get; }
-    IRepository<Ticket> Tickets { get; }
+    IJourneyRepository Journeys { get; }
+    IStopRepository Stops { get; }
+    ITicketRepository Tickets { get; }
     
     Task CommitAsync(CancellationToken cancellationToken = default);
 }
