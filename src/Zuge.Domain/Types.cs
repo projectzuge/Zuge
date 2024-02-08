@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Zuge.Domain;
+﻿namespace Zuge.Domain;
 
 public record Stop(
     DateTimeOffset ArrivesAt,
@@ -12,39 +10,73 @@ public record Stop(
     int JourneyId,
     int Ordinal);
 
-public record Journey(
-    TimeSpan Duration,
-    int Id,
-    decimal Price,
-    List<Stop> Stops,
-    List<Ticket> Tickets,
-    string Train)
-{
-    Journey() : this(default!, default!, default!, default!, default!, default!) { }
-}
-
 public record Ticket(
     string EmailAddress,
     int Id,
     int JourneyId);
 
-public interface IRepository<T>
+public record Journey(
+    TimeSpan Duration,
+    int Id,
+    decimal Price,
+    IEnumerable<Stop> Stops,
+    IEnumerable<Ticket> Tickets,
+    string Train)
 {
-    void AddRange(IEnumerable<T> entities);
-    Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
-    Task<List<T>> ToListAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default);
+    Journey() : this(
+        default!,
+        default!,
+        default!,
+        default!,
+        default!,
+        default!) { }
+}
+
+public interface IJourneyRepository
+{
+    Task<Journey?> FirstOrDefaultAsync(
+        int id,
+        CancellationToken cancellationToken = default);
+    
+    Task<List<Journey>> ToListAsync(
+        SearchQuery searchQuery,
+        CancellationToken cancellationToken = default);
+}
+
+public interface IStopRepository
+{
+    Task<List<Stop>> ToListAsync(
+        int journeyId,
+        CancellationToken cancellationToken = default);
+}
+
+public interface ITicketRepository
+{
+    void AddRange(IEnumerable<Ticket> tickets);
 }
 
 public interface IUnitOfWork
 {
-    IRepository<Journey> Journeys { get; }
-    IRepository<Stop> Stops { get; }
-    IRepository<Ticket> Tickets { get; }
+    IJourneyRepository Journeys { get; }
+    IStopRepository Stops { get; }
+    ITicketRepository Tickets { get; }
+    
     Task CommitAsync(CancellationToken cancellationToken = default);
 }
 
-public record Result(object? Data, bool Success);
+public record Result(
+    object? Data,
+    bool Success);
 
-public record PurchaseCommand(string CardCvc, DateOnly CardDate, string CardHolder, string CardNumber, string EmailAddress, int JourneyId);
+public record PurchaseCommand(
+    string CardCvc,
+    DateOnly CardDate,
+    string CardHolder,
+    string CardNumber,
+    string EmailAddress,
+    int JourneyId);
 
-public record SearchQuery(DateOnly Date, string From, string To);
+public record SearchQuery(
+    DateOnly Date,
+    string From,
+    string To);
