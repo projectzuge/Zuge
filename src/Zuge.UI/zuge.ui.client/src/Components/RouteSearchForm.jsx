@@ -54,34 +54,33 @@ const RouteSearchForm = (props) => {
   const handleSearchRoutesClick = async () => {
     if (fromCity !== toCity && fromCity !== "Mistä" && toCity !== "Minne") {
       await axios
-        .get("Journey", {
-          params: {
-            departure: "2023-12-29",
-            from: fromCity,
-            to: toCity,
-          },
+        .post("search", {
+          date: "2024-02-07",
+          from: "Tampere",
+          to: "Keuruu",
         })
         .then((response) => {
-          if (response.status === 200) {
-            console.log("getting journeys response:", response.data);
-            setJourneys(response.data);
-            setLoading(false);
-            setShowFoundRoutesList(true);
+          // if (response.success) {
+          //   console.log("getting journeys response:", response.data);
+          //   setJourneys(response.data);
+          //   setLoading(false);
+          //   setShowFoundRoutesList(true);
 
-            const formState = {
-              fromCity,
-              toCity,
-              selectedDate,
-              passengerType,
-              showFoundRoutesList: true,
-              journeys: response.data,
-            };
-            console.log("form state:", formState);
-            sessionStorage.setItem("formState", JSON.stringify(formState));
-          } else {
-            console.error("Something went wrong");
-            setLoading(false);
-          }
+          //   const formState = {
+          //     fromCity,
+          //     toCity,
+          //     selectedDate,
+          //     passengerType,
+          //     showFoundRoutesList: true,
+          //     journeys: response.data,
+          //   };
+          //   console.log("form state:", formState);
+          //   sessionStorage.setItem("formState", JSON.stringify(formState));
+          // } else {
+          //   console.error("Something went wrong");
+          //   setLoading(false);
+          // }
+          console.log("get journeys response:", response);
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
