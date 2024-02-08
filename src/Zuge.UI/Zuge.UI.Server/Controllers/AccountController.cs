@@ -28,18 +28,6 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
         return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });
     }
 
-    [HttpGet]
-    [Route("authorize")]
-    [Authorize(Policy = "User")]
-    public async Task<IActionResult> OnGetAuthAsync()
-    {
-        var appUser = await userManager.GetUserAsync(User);
-        if (appUser == null) return NotFound("This should not happen");
-        var roles = await userManager.GetRolesAsync(appUser);
-        var userId = await userManager.GetUserIdAsync(appUser);
-        return Ok(new { roles, userId });
-    }
-
     [HttpPost]
     [Route("manage/register")]
     public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
