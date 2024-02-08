@@ -13,6 +13,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import TextField from "@mui/material/TextField";
 import dayjs from "dayjs";
 import axios from "axios";
+import moment from "moment";
+
 // Note to devs: empty "formState" from sessionStorage when ticket is bought
 
 const RouteSearchForm = (props) => {
@@ -25,10 +27,12 @@ const RouteSearchForm = (props) => {
   const [selectedDate, setSelectedDate] = useState(dayjs(Date.now()));
   const [passengerType, setPassengerType] = useState(passengerTypes[0]);
   const [showFoundRoutesList, setShowFoundRoutesList] = useState(false);
+  const [formattedDate, setFormattedDate] = useState(
+    moment(dayjs(Date.now())).format("YYYY-MM-DD")
+  );
 
   useEffect(() => {
     const savedFormState = JSON.parse(sessionStorage.getItem("formState"));
-    console.log("gets from session storage:", savedFormState);
     if (savedFormState) {
       // Set states using the retrieved form state
       setFromCity(savedFormState.fromCity || cities[0]);
@@ -53,39 +57,41 @@ const RouteSearchForm = (props) => {
 
   const handleSearchRoutesClick = async () => {
     if (fromCity !== toCity && fromCity !== "Mistä" && toCity !== "Minne") {
-      await axios
-        .post("search", {
-          date: "2024-02-07",
-          from: "Tampere",
-          to: "Keuruu",
-        })
+      axios
+        .post(
+          "search",
+          {
+            date: formattedDate,
+            from: fromCity,
+            to: toCity,
+          },
+          {
+            headers: {
+              accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        )
         .then((response) => {
-          // if (response.success) {
-          //   console.log("getting journeys response:", response.data);
-          //   setJourneys(response.data);
-          //   setLoading(false);
-          //   setShowFoundRoutesList(true);
-
-          //   const formState = {
-          //     fromCity,
-          //     toCity,
-          //     selectedDate,
-          //     passengerType,
-          //     showFoundRoutesList: true,
-          //     journeys: response.data,
-          //   };
-          //   console.log("form state:", formState);
-          //   sessionStorage.setItem("formState", JSON.stringify(formState));
-          // } else {
-          //   console.error("Something went wrong");
-          //   setLoading(false);
-          // }
-          console.log("get journeys response:", response);
+          if (response.data.success) {
+            setJourneys(response.data.data);
+            const formState = {
+              fromCity,
+              toCity,
+              selectedDate,
+              passengerType,
+              showFoundRoutesList: true,
+              journeys: response.data.data,
+            };
+            console.log("form state saves this:", formState);
+            sessionStorage.setItem("formState", JSON.stringify(formState));
+            setShowFoundRoutesList(true);
+            setLoading(false);
+          } else console.log("NO JOURNEYS BITCHHHH");
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
           console.log("Error details:", error.response);
-          setLoading(false);
         });
     }
   };
@@ -96,6 +102,7 @@ const RouteSearchForm = (props) => {
   };
 
   const handleDateChange = async (date) => {
+    setFormattedDate(moment(date.$d).format("YYYY-MM-DD"));
     setSelectedDate(date);
     setShowFoundRoutesList(false);
   };

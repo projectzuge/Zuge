@@ -1,33 +1,65 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
-using Zuge.Domain;
+﻿namespace Zuge.Infrastructure;
 
-namespace Zuge.Infrastructure;
+using Domain;
+using Microsoft.EntityFrameworkCore;
 
-public class Repository<T>(DbSet<T> source) : IRepository<T> where T : class
+class JourneyRepository(DbSet<Journey> source) : IJourneyRepository
 {
-    public void AddRange(IEnumerable<T> entities) =>
-        source.AddRange(entities);
+    public Task<Journey?> FirstOrDefaultAsync(
+        int id,
+        CancellationToken cancellationToken = default) =>
+        source
+            .Where(journey => journey.Id == id)
+            .FirstOrDefaultAsync(cancellationToken);
 
-    public Task<T?> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) =>
-        source.Where(predicate).FirstOrDefaultAsync(cancellationToken);
-    
-    public Task<List<T>> ToListAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken = default) =>
-        source.Where(predicate).ToListAsync(cancellationToken);
+    public Task<List<Journey>> ToListAsync(
+        SearchQuery searchQuery,
+        CancellationToken cancellationToken = default) =>
+        source
+            .Where(journey =>
+                journey.Stops.Any(stop =>
+                    DateOnly.FromDateTime(stop.DepartsAt.Date) ==
+                    searchQuery.Date &&
+                    stop.DepartsFrom == searchQuery.From) &&
+                journey.Stops.Any(stop => stop.DepartsFrom == searchQuery.To) &&
+                journey.Stops.First(stop =>
+                    DateOnly.FromDateTime(stop.DepartsAt.Date) ==
+                    searchQuery.Date &&
+                    stop.DepartsFrom == searchQuery.From).Ordinal <
+                journey.Stops.First(stop => stop.DepartsFrom == searchQuery.To)
+                    .Ordinal)
+            .ToListAsync(cancellationToken);
 }
 
-public class UnitOfWork(DbContextOptions<UnitOfWork> options) : DbContext(options), IUnitOfWork
+class StopRepository(DbSet<Stop> source) : IStopRepository
 {
-    public IRepository<Journey> Journeys =>
-        new Repository<Journey>(Set<Journey>());
+    public Task<List<Stop>> ToListAsync(
+        int journeyId,
+        CancellationToken cancellationToken = default) =>
+        source
+            .Where(stop => stop.JourneyId == journeyId)
+            .ToListAsync(cancellationToken);
+}
 
-    public IRepository<Stop> Stops =>
-        new Repository<Stop>(Set<Stop>());
+class TicketRepository(DbSet<Ticket> source) : ITicketRepository
+{
+    public void AddRange(IEnumerable<Ticket> tickets) =>
+        source.AddRange(tickets);
+}
 
-    public IRepository<Ticket> Tickets =>
-        new Repository<Ticket>(Set<Ticket>());
+class UnitOfWork(DbContextOptions<UnitOfWork> options)
+    : DbContext(options), IUnitOfWork
+{
+    public IJourneyRepository Journeys =>
+        new JourneyRepository(Set<Journey>());
 
-    public Task CommitAsync(CancellationToken cancellationToken = default) =>
+    public IStopRepository Stops =>
+        new StopRepository(Set<Stop>());
+
+    public ITicketRepository Tickets =>
+        new TicketRepository(Set<Ticket>());
+
+    public Task CommitAsync(CancellationToken cancellationToken) =>
         SaveChangesAsync(cancellationToken);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -36,12 +68,12 @@ public class UnitOfWork(DbContextOptions<UnitOfWork> options) : DbContext(option
             .Entity<Journey>()
             .Navigation(journey => journey.Stops)
             .AutoInclude();
-        
+
         _ = modelBuilder
             .Entity<Journey>()
             .Navigation(journey => journey.Tickets)
             .AutoInclude();
-        
+
         _ = modelBuilder
             .Entity<Journey>()
             .HasData
@@ -65,7 +97,7 @@ public class UnitOfWork(DbContextOptions<UnitOfWork> options) : DbContext(option
         var now = DateTimeOffset.UtcNow;
         var date = DateOnly.FromDateTime(now.Date);
         var offset = now.Offset;
-        
+
         _ = modelBuilder
             .Entity<Stop>()
             .HasData
@@ -247,9 +279,5 @@ public class UnitOfWork(DbContextOptions<UnitOfWork> options) : DbContext(option
                     Ordinal = 8
                 }
             ]);
-        
-        _ = modelBuilder
-            .Entity<Ticket>()
-            .HasData([]);
     }
 }

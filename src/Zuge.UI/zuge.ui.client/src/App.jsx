@@ -7,7 +7,6 @@ import MenuBar from "./Components/MenuBar.jsx";
 import { useState, useEffect } from "react";
 import RouteInfo from "./Pages/RouteInfo.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
@@ -23,6 +22,7 @@ import { useCookies } from "react-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import cityArray from "./cities.json";
+import axios from "axios";
 
 function App() {
   const cities = cityArray;
