@@ -25,6 +25,14 @@ _ = builder.Services
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<AuthenticationDbContext>();
 
+_ = builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = "ZugeAuth";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+});
+
 _ = builder.Services.AddControllers();
 _ = builder.Services.AddEndpointsApiExplorer();
 _ = builder.Services.AddSwaggerGen();
@@ -35,6 +43,7 @@ _ = app.UseStaticFiles();
 _ = app.UseSwagger();
 _ = app.UseSwaggerUI();
 _ = app.UseHttpsRedirection();
+_ = app.UseAuthentication();
 _ = app.UseAuthorization();
 _ = app.MapControllers();
 _ = app.MapPost("purchase", Domain.PurchaseAsync);
