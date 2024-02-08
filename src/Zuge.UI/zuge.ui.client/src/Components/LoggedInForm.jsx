@@ -91,20 +91,19 @@ function LoggedInForm({ handleItemClick, setSignedIn, DarkMode, setCookie, remov
         >
           Profiili
         </Button>
-        <Button
-          onClick={() => {
-            handleLogOut();
-            handleItemClick();
-          }}
-          style={DarkMode ? logoutButtonStyleDark : logoutButtonStyle}
-          variant="contained"
-        >
-          <LogoutLink>
+        <LogoutLink handleLogout={handleLogOut}>
+          <Button
+            onClick={() => {
+              handleItemClick();
+            }}
+            style={DarkMode ? logoutButtonStyleDark : logoutButtonStyle}
+            variant="contained"
+          >
             <Typography sx={{ textDecoration: "none" }}>
               Kirjaudu ulos
             </Typography>
-          </LogoutLink>
-        </Button>
+          </Button>
+        </LogoutLink>
       </Container>
     </>
   );
