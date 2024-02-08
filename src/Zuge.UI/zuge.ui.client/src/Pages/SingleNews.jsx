@@ -23,7 +23,7 @@ const SingleNews = ({ DarkMode, cookies }) => {
     <Box>
       <Link to="/NewsPage" style={{textDecoration: "none"}}>
       <Button
-          id={(cookies.roles !== undefined && cookies.roles.includes("Employee")) ? "manage-button" : "manage-button-hidden"}
+          id={(cookies.userData !== undefined && cookies.userData.roles.includes("Employee")) ? "manage-button" : "manage-button-hidden"}
           color="primary"
           variant="contained"
       >
