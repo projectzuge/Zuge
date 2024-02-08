@@ -26,7 +26,7 @@ function UserMenu({
   removeCookie,
 }) {
   const [signedIn, setSignedIn] = useState(
-    cookies.userID !== null && cookies.userID !== undefined
+    cookies.userData !== null && cookies.userData !== undefined
   );
 
   const menuStyle = {
@@ -38,8 +38,8 @@ function UserMenu({
     overflow: "auto",
   };
   useEffect(() => {
-    setSignedIn(cookies.userID !== null && cookies.userID !== undefined);
-  },[cookies.userID]);
+    setSignedIn(cookies.userData !== null && cookies.userData !== undefined);
+  },[cookies.userData]);
   
   return (
     <>
@@ -70,6 +70,7 @@ function UserMenu({
               handleItemClick={handleItemClick}
               setSignedIn={setSignedIn}
               DarkMode={DarkMode}
+              cookies={cookies}
               setCookie={setCookie}
             />
           )}
