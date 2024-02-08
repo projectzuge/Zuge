@@ -112,7 +112,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
               id="switchMenu"
               className="checkboxMenu"
               checked={DarkMode}
-              onClick={switchLightDark}
+              onChange={switchLightDark}
             />
             <label htmlFor="switchMenu" className="toggleMenu"></label>
           </div>
