@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Zuge.UI.Server": {
+      "commandName": "Project",
+      "launchBrowser": false,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:65067;http://localhost:65068"
+    }
+  }
+}

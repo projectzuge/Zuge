@@ -7,7 +7,7 @@ import AuthorizeView from "../Components/AuthorizeView";
 function NewsPage({ DarkMode }) {
   return (
     <>
-      <AuthorizeView requiredRole={"admin"}>
+      <AuthorizeView requiredRole={"employee"}>
         <NewsAddForm DarkMode={DarkMode}/>
       </AuthorizeView>
     </>
