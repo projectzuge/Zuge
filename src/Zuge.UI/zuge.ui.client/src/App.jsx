@@ -7,8 +7,6 @@ import MenuBar from "./Components/MenuBar.jsx";
 import { useState, useEffect } from "react";
 import RouteInfo from "./Pages/RouteInfo.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import axios from "axios";
-import LoadingSpinner from "./Components/LoadingSpinner.jsx";
 import { RouteContext } from "./Contexts/RouteContext.js";
 import SingleNews from "./Pages/SingleNews.jsx";
 import Contact from "./Pages/Contact.jsx";
@@ -23,48 +21,23 @@ import SuccessfulPayment from "./Pages/SuccessfulPayment.jsx";
 import { useCookies } from "react-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import cityArray from "./cities.json";
 import Authorize from "./Components/Authorize.jsx";
 
 function App() {
-  const [journeys, setJourneys] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const cities = cityArray;
   const [cookies, setCookie, removeCookie] = useCookies([
     "DarkMode",
     "userData"
   ]);
   const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
 
-  useEffect(() => {
-    axios.post(
-        'search',
-        {
-          'date': '2024-02-08',
-          'from': 'Tampere',
-          'to': 'Keuruu'
-        },
-        {
-          headers: {
-            'accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        }
-    )
-      .then((response) => {
-        console.log(response.data);
-        setJourneys(response.data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        console.log("Error details:", error.response);
-      });
-  }, []);
 
   return (
     <>
       <Authorize setCookie={setCookie}>
         <ThemeProvider theme={DarkMode ? darkTheme : theme}>
-          <RouteContext.Provider value={journeys}>
+          <RouteContext.Provider value={cities}>
             <JourneyProvider>
               <Router>
                 <div id={DarkMode ? "body-dark" : "body-light"}>
@@ -75,63 +48,63 @@ function App() {
                     cookies={cookies}
                     setCookie={setCookie}
                     removeCookie={removeCookie}
-                    />
+                  />
                   <div id="page-contents-container">
                     <Routes>
                       <Route
                         path="/"
-                        element={
-                          loading ? (
-                            <LoadingSpinner />
-                            ) : (
-                              <FrontPage DarkMode={DarkMode} />
-                              )
-                            }
-                            />
+                        element={<FrontPage DarkMode={DarkMode} />}
+                      />
                       <Route
                         path="/contact"
                         element={<Contact DarkMode={DarkMode} />}
-                        />
+                      />
                       <Route
                         path="/NewsPage"
                         element={<NewsPage DarkMode={DarkMode} />}
-                        />
+                      />
                       <Route
                         path="/SingleNews"
                         element={
                           <SingleNews DarkMode={DarkMode} cookies={cookies} />
                         }
-                        />
+                      />
                       <Route
                         path="/register"
                         element={<Register DarkMode={DarkMode} />}
-                        />
+                      />
                       <Route
                         path="/user"
                         element={
-                          <Profile DarkMode={DarkMode} cookies={cookies} setCookie={setCookie}/>
+                          <Profile
+                            DarkMode={DarkMode}
+                            cookies={cookies}
+                            setCookie={setCookie}
+                          />
                         }
-                        />
+                      />
                       <Route
                         path="/route"
                         element={<RouteInfo DarkMode={DarkMode} />}
-                        />
+                      />
                       <Route
                         path="/revise"
-                        element={<ReviseAndPay DarkMode={DarkMode} />}
+                        element={
+                          <ReviseAndPay DarkMode={DarkMode} cookies={cookies} />
+                        }
                       />
                       <Route
                         path="/payment"
                         element={<Payment DarkMode={DarkMode} />}
-                        />
+                      />
                       <Route
                         path="/successfulRegister"
                         element={<RegisterSuccess DarkMode={DarkMode} />}
-                        />
+                      />
                       <Route
                         path="/purchaseDone"
                         element={<SuccessfulPayment DarkMode={DarkMode} />}
-                        />
+                      />
                     </Routes>
                   </div>
                 </div>
