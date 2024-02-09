@@ -1,20 +1,25 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
-using Zuge.Domain;
-using Zuge.Infrastructure;
 
 Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
     "Development");
 
 Environment.SetEnvironmentVariable(
-    "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
-    "Microsoft.AspNetCore.SpaProxy");
+     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+     "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
-_ = builder.Services.AddInfrastructure();
+
+_ = builder.Services.AddDbContext<DomainContext>(options =>
+    _ = options.UseInMemoryDatabase("Domain"));
+
+_ = builder.Services.AddScoped<PurchaseAsync>(provider =>
+    provider.GetRequiredService<DomainContext>().PurchaseAsync);
+
+_ = builder.Services.AddScoped<SearchAsync>(provider =>
+    provider.GetRequiredService<DomainContext>().SearchAsync);
 
 _ = builder.Services
     .AddDbContext<AuthenticationDbContext>(options =>
@@ -31,14 +36,6 @@ _ = builder.Services
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<AuthenticationDbContext>();
 
-_ = builder.Services.ConfigureApplicationCookie(options =>
-{
-    options.Cookie.Name = "ZugeAuth";
-    options.Cookie.HttpOnly = true;
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-    options.SlidingExpiration = true;
-});
-
 _ = builder.Services.AddControllers();
 _ = builder.Services.AddEndpointsApiExplorer();
 _ = builder.Services.AddSwaggerGen();
@@ -48,12 +45,23 @@ _ = app.UseDefaultFiles();
 _ = app.UseStaticFiles();
 _ = app.UseSwagger();
 _ = app.UseSwaggerUI();
-_ = app.UseAuthentication();
-//_ = app.UseHttpsRedirection();
+_ = app.UseHttpsRedirection();
 _ = app.UseAuthorization();
 _ = app.MapControllers();
-_ = app.MapPost("purchase", Domain.PurchaseAsync);
-_ = app.MapPost("search", Domain.SearchAsync);
+
+_ = app
+    .MapPost("purchase", (
+            Purchase purchase,
+            PurchaseAsync purchaseAsync,
+            CancellationToken cancellationToken) =>
+        purchaseAsync(purchase, cancellationToken));
+
+_ = app
+    .MapPost("search", (
+            Search search,
+            SearchAsync searchAsync,
+            CancellationToken cancellationToken) =>
+        searchAsync(search, cancellationToken));
 
 #region map auth endpoints
 
@@ -72,18 +80,24 @@ _ = app.MapPost("/account/logout", async (
     return Results.Unauthorized();
 }).RequireAuthorization();
 _ = app.MapGet("/account/pingauth/", (ClaimsPrincipal user) =>
-    {
-        return Results.Ok();
-    }).RequireAuthorization("User");
+{
+    var email = user.FindFirstValue(ClaimTypes.Email);
+    bool isInRole = user.IsInRole("User");
+    return Results.Json(new { Email = email, IsInRole = isInRole });
+}).RequireAuthorization("User");
 
 _ = app.MapGet("/account/pingauth/employee", (ClaimsPrincipal user) =>
 {
-    return Results.Ok();
+    var email = user.FindFirstValue(ClaimTypes.Email);
+    bool isInRole = user.IsInRole("Employee");
+    return Results.Json(new { Email = email, IsInRole = isInRole });
 }).RequireAuthorization("Employee");
 
 _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 {
-    return Results.Ok();
+    var email = user.FindFirstValue(ClaimTypes.Email);
+    bool isInRole = user.IsInRole("Employee");
+    return Results.Json(new { Email = email, IsInRole = isInRole });
 }).RequireAuthorization("Admin");
 
 #endregion
@@ -91,8 +105,8 @@ _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 _ = app.MapFallbackToFile("/index.html");
 
 using var scope = app.Services.CreateScope();
-var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-await unitOfWork.SeedAsync();
+var domainContext = scope.ServiceProvider.GetRequiredService<DomainContext>();
+_ = domainContext.Database.EnsureCreated();
 
 #region create test users for in-memory db
 
