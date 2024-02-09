@@ -1,78 +1,98 @@
 ﻿namespace Zuge.Infrastructure;
 
-using Domain;
-using Microsoft.EntityFrameworkCore;
-
-class JourneyRepository(DbSet<Journey> source) : IJourneyRepository
+public class DomainContext(DbContextOptions<DomainContext> options)
+    : DbContext(options)
 {
-    public Task<Journey?> FirstOrDefaultAsync(
-        int id,
-        CancellationToken cancellationToken = default) =>
-        source
-            .Where(journey => journey.Id == id)
-            .FirstOrDefaultAsync(cancellationToken);
+    public async Task<Result> PurchaseAsync(
+        Purchase purchase,
+        CancellationToken cancellationToken = default)
+    {
+        var errors = await purchase.ValidateAsync(cancellationToken);
+        if (errors.Count > 0) return new(errors, false);
 
-    public Task<List<Journey>> ToListAsync(
-        SearchQuery searchQuery,
-        CancellationToken cancellationToken = default) =>
-        source
+        var (_, _, _, cardNumber, emailAddress, journeyId) = purchase;
+
+        var journey = await Set<Journey>().FirstOrDefaultAsync(
+            journey => journey.Id == journeyId,
+            cancellationToken);
+
+        if (journey is null) return new(null, false);
+        if (cardNumber != "4242424242424242") return new(null, false);
+
+        Ticket ticket = new(emailAddress, 0, journeyId);
+        _ = Add(ticket);
+        _ = await SaveChangesAsync(cancellationToken);
+
+        var data = new
+        {
+            ticket.EmailAddress,
+            ticket.Id,
+            Journey = new
+            {
+                journey.Duration,
+                journey.Id,
+                Stops = await Set<Stop>()
+                    .Where(stop => stop.JourneyId == journey.Id)
+                    .OrderBy(stop => stop.Ordinal)
+                    .ToListAsync(cancellationToken),
+                journey.Train
+            }
+        };
+
+        return new(data, true);
+    }
+
+    public async Task<Result> SearchAsync(
+        Search search,
+        CancellationToken cancellationToken = default)
+    {
+        var errors = await search.ValidateAsync(cancellationToken);
+        if (errors.Count > 0) return new(errors, false);
+
+        var (date, from, to) = search;
+
+        var journeys = await Set<Journey>()
             .Where(journey =>
-                journey.Stops.Any(stop =>
+                Set<Stop>().Any(stop =>
+                    stop.JourneyId == journey.Id &&
                     DateOnly.FromDateTime(stop.DepartsAt.Date) ==
-                    searchQuery.Date &&
-                    stop.DepartsFrom == searchQuery.From) &&
-                journey.Stops.Any(stop => stop.DepartsFrom == searchQuery.To) &&
-                journey.Stops.First(stop =>
+                    date &&
+                    stop.DepartsFrom == from) &&
+                Set<Stop>().Any(stop =>
+                    stop.JourneyId == journey.Id &&
+                    stop.DepartsFrom == to) &&
+                Set<Stop>().First(stop =>
+                    stop.JourneyId == journey.Id &&
                     DateOnly.FromDateTime(stop.DepartsAt.Date) ==
-                    searchQuery.Date &&
-                    stop.DepartsFrom == searchQuery.From).Ordinal <
-                journey.Stops.First(stop => stop.DepartsFrom == searchQuery.To)
-                    .Ordinal)
+                    date &&
+                    stop.DepartsFrom == from).Ordinal <
+                Set<Stop>().First(stop =>
+                    stop.JourneyId == journey.Id &&
+                    stop.DepartsFrom == to).Ordinal)
             .ToListAsync(cancellationToken);
-}
 
-class StopRepository(DbSet<Stop> source) : IStopRepository
-{
-    public Task<List<Stop>> ToListAsync(
-        int journeyId,
-        CancellationToken cancellationToken = default) =>
-        source
-            .Where(stop => stop.JourneyId == journeyId)
-            .ToListAsync(cancellationToken);
-}
+        List<object> data = [];
 
-class TicketRepository(DbSet<Ticket> source) : ITicketRepository
-{
-    public void AddRange(IEnumerable<Ticket> tickets) =>
-        source.AddRange(tickets);
-}
+        foreach (var journey in journeys)
+            data.Add(new
+            {
+                journey.Duration,
+                journey.Id,
+                Price = 10M,
+                Stops = await Set<Stop>()
+                    .Where(stop => stop.JourneyId == journey.Id)
+                    .OrderBy(stop => stop.Ordinal)
+                    .ToListAsync(cancellationToken),
+                journey.Train
+            });
 
-class UnitOfWork(DbContextOptions<UnitOfWork> options)
-    : DbContext(options), IUnitOfWork
-{
-    public IJourneyRepository Journeys =>
-        new JourneyRepository(Set<Journey>());
-
-    public IStopRepository Stops =>
-        new StopRepository(Set<Stop>());
-
-    public ITicketRepository Tickets =>
-        new TicketRepository(Set<Ticket>());
-
-    public Task CommitAsync(CancellationToken cancellationToken) =>
-        SaveChangesAsync(cancellationToken);
+        return new(data, true);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        _ = modelBuilder
-            .Entity<Journey>()
-            .Navigation(journey => journey.Stops)
-            .AutoInclude();
-
-        _ = modelBuilder
-            .Entity<Journey>()
-            .Navigation(journey => journey.Tickets)
-            .AutoInclude();
+        var date = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date);
+        var offset = TimeSpan.Zero;
 
         _ = modelBuilder
             .Entity<Journey>()
@@ -82,21 +102,15 @@ class UnitOfWork(DbContextOptions<UnitOfWork> options)
                 {
                     Duration = new TimeSpan(1, 43, 0),
                     Id = 1,
-                    Price = 10M,
                     Train = "Juna 1"
                 },
                 new
                 {
                     Duration = new TimeSpan(1, 41, 0),
                     Id = 2,
-                    Price = 10M,
                     Train = "Juna 1"
                 }
             ]);
-
-        var now = DateTimeOffset.UtcNow;
-        var date = DateOnly.FromDateTime(now.Date);
-        var offset = now.Offset;
 
         _ = modelBuilder
             .Entity<Stop>()
@@ -273,11 +287,15 @@ class UnitOfWork(DbContextOptions<UnitOfWork> options)
                     ArrivesFrom = "Kolho",
                     DepartsAt = new DateTimeOffset(date, new(9, 47), offset),
                     DepartsFrom = "Keuruu",
-                    Duration = TimeSpan.Zero,
+                    Duration = new TimeSpan(0, 14, 0),
                     Id = 16,
                     JourneyId = 2,
                     Ordinal = 8
                 }
             ]);
+
+        _ = modelBuilder
+            .Entity<Ticket>()
+            .HasData([]);
     }
 }
