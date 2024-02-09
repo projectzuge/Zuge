@@ -270,6 +270,7 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
               <FormControl style={inputFieldStyle} variant="outlined">
                 <FormLabel style={DarkMode? labelStyleDark : labelStyle}>Salasana</FormLabel>
                 <TextField 
+                data-testid="passwordId"
                 aria-label="passwordLabel"
                 className={DarkMode? "LoginTextFieldDark" : "LoginTextField"}
                 value={password}

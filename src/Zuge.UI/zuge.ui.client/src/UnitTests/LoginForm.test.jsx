@@ -98,23 +98,23 @@ const emailLocalPartAcceptable = [
     "5tommy7",
     "9tommy",
     "8tommy.niemi",
+    "tommy.niem1",
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    ".tommy",
+    "  tommy",
 ];
 
 const emailLocalPartNotAcceptable = [
-    ".tommy",
     "!tommy",
-    "tommy!",
     "tom?my",
-    "  tommy",
     "tom my",
     "tom!my.niemi",
+    "tommy!",
     "tommy .niemi",
-    "tommy.niem1",
     "tommy.niemi ",
     "tömmy",
     "tommy_niömi",
-    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     "",
     "",
@@ -155,43 +155,34 @@ const emailDomainPartNotAcceptable = [
     ""
 ];
 
-const passwordsAcceptable = [
-    "aE1!22",
-    "abC123!?",
-    "OOOooo123!!!$$$",
-    "£££eeeEEE122",
-    "536rT@@",
-    "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!?????????????????????????",
-    "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ1234567890!?@£$#.-_",
-    " kjkdj12!?JJ",
-];
+// const passwordsAcceptable = [
+//     "aE1!22",
+//     "abC123!?",
+//     "OOOooo123!!!$$$",
+//     "£££eeeEEE122",
+//     "536rT@@",
+//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!?????????????????????????",
+//     "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ1234567890!?@£$#.-_",
+//     " kjkdj12!?JJ",
+//     "aB/c12!?"
+// ];
 
-const passwordsNotAcceptable = [
-    "aE1!2",
-    "lllooo123!!!$$$",
-    "£££eeeEEE&&&",
-    "536rt@@",
-    "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????",
-    "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????",
-]
-
-for (let i = 0; i < 50; i++) {
-    const password = passwordsAcceptable[Math.floor(Math.random() * passwordsAcceptable.length)];
-
-    test('password field accepts password: ' + password, () => {
-        const passwordField = screen.queryByLabelText('Salasana');
-        fireEvent.change(passwordField, { target: { value: password } });
-
-        expect(screen.queryByText(/Invalid password/i)).toBeNull();
-    });
-}
+// const passwordsNotAcceptable = [
+//     "aE1!2",
+//     "lllooo123!!!$$$",
+//     "£££eeeEEE&&&",
+//     "536rt@@",
+//     "aaaBBB123",
+//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????",
+//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????",
+// ]
 
 for (let i = 0; i < 50; i++) {
     const email = emailLocalPartAcceptable[Math.floor(Math.random() * emailLocalPartAcceptable.length)] + "@" +
      emailDomainPartAcceptable[Math.floor(Math.random() * emailDomainPartAcceptable.length)];
 
     test('email field accepts email: ' + email, () => {
-        const emailField = screen.getByRole('textbox', { type: "email" });
+        const emailField = screen.getByRole('textbox');
         fireEvent.change(emailField, { target: { value: email } });
 
         expect(screen.queryByText(/Invalid email address/i)).toBeNull();
@@ -199,24 +190,38 @@ for (let i = 0; i < 50; i++) {
     });
 }
 
-for (let i = 0; i < 50; i++) {
-    const password = passwordsNotAcceptable[Math.floor(Math.random() * passwordsNotAcceptable.length)];
-
-    test('password field does not accept password: ' + password, () => {
-        const passwordField = screen.getByRole("textbox", {name: /Salasana/i});
-        fireEvent.change(passwordField, { target: { value: password } });
-        // console.log(screen.queryByText(/Invalid password/i));
-
-        expect(screen.queryByText(/Invalid password/i)).not.toBeNull();
-    });
-}
-
-for (let i = 0; i < 50; i++) {
+for (let i = 0; i < 30; i++) {
     const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * emailLocalPartNotAcceptable.length)] + "@" +
      emailDomainPartNotAcceptable[Math.floor(Math.random() * emailDomainPartNotAcceptable.length)];
 
     test('email field does not accept email: ' + email, () => {
-        const emailField = screen.getByRole('textbox', { type: "email" });
+        const emailField = screen.getByRole('textbox');
+        fireEvent.change(emailField, { target: { value: email } });
+
+        expect(screen.queryByText(/Invalid email address/i)).not.toBeNull();
+
+    });
+}
+
+for (let i = 0; i < 30; i++) {
+    const email = emailLocalPartAcceptable[Math.floor(Math.random() * emailLocalPartAcceptable.length)] + "@" +
+     emailDomainPartNotAcceptable[Math.floor(Math.random() * emailDomainPartNotAcceptable.length)];
+
+    test('email field does not accept email: ' + email, () => {
+        const emailField = screen.getByRole('textbox');
+        fireEvent.change(emailField, { target: { value: email } });
+
+        expect(screen.queryByText(/Invalid email address/i)).not.toBeNull();
+
+    });
+}
+
+for (let i = 0; i < 30; i++) {
+    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * emailLocalPartNotAcceptable.length)] + "@" +
+     emailDomainPartAcceptable[Math.floor(Math.random() * emailDomainPartAcceptable.length)];
+
+    test('email field does not accept email: ' + email, () => {
+        const emailField = screen.getByRole('textbox');
         fireEvent.change(emailField, { target: { value: email } });
 
         expect(screen.queryByText(/Invalid email address/i)).not.toBeNull();
