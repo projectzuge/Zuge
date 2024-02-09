@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Data;
 using Zuge.Infrastructure;
 
 namespace Zuge.UI.Server.Controllers;
@@ -19,12 +21,12 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     public async Task<IActionResult> OnGetAsync()
     {
         var appUser = await userManager.GetUserAsync(User);
+        if (appUser == null) return NotFound("This should not happen");
+        var roles = await userManager.GetRolesAsync(appUser);
+        var userId = await userManager.GetUserIdAsync(appUser);
 
-        if (appUser == null) return NotFound("User not found? but why");
-
-        return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber });
+        return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });
     }
-
 
     [HttpPost]
     [Route("manage/register")]
@@ -62,7 +64,9 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
         user.LastName = info.LastName;
         user.PhoneNumber = info.PhoneNumber;
         await userManager.UpdateAsync(user);
+        var roles = await userManager.GetRolesAsync(user);
+        var userId = await userManager.GetUserIdAsync(user);
 
-        return Ok();
+        return Ok(new { user.Email, user.FirstName, user.LastName, user.PhoneNumber, roles, userId });
     }
 }

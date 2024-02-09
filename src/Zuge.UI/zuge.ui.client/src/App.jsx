@@ -22,94 +22,98 @@ import { useCookies } from "react-cookie";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import cityArray from "./cities.json";
-import axios from "axios";
+import Authorize from "./Components/Authorize.jsx";
 
 function App() {
   const cities = cityArray;
   const [cookies, setCookie, removeCookie] = useCookies([
-    "userID",
     "DarkMode",
-    "userData",
+    "userData"
   ]);
   const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
 
+
   return (
     <>
-      <ThemeProvider theme={DarkMode ? darkTheme : theme}>
-        <RouteContext.Provider value={cities}>
-          <JourneyProvider>
-            <Router>
-              <div id={DarkMode ? "body-dark" : "body-light"}>
-                <MenuBar
-                  id="menu-bar"
-                  DarkMode={DarkMode}
-                  setDarkMode={setDarkMode}
-                  cookies={cookies}
-                  setCookie={setCookie}
-                  removeCookie={removeCookie}
-                />
-                <div id="page-contents-container">
-                  <Routes>
-                    <Route
-                      path="/"
-                      element={<FrontPage DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/contact"
-                      element={<Contact DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/NewsPage"
-                      element={<NewsPage DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/SingleNews"
-                      element={
-                        <SingleNews DarkMode={DarkMode} cookies={cookies} />
-                      }
-                    />
-                    <Route
-                      path="/register"
-                      element={<Register DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/user"
-                      element={
-                        <Profile
-                          DarkMode={DarkMode}
-                          cookies={cookies}
-                          setCookie={setCookie}
-                        />
-                      }
-                    />
-                    <Route
-                      path="/route"
-                      element={<RouteInfo DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/revise"
-                      element={<ReviseAndPay DarkMode={DarkMode} cookies={cookies} />}
-                    />
-                    <Route
-                      path="/payment"
-                      element={<Payment DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/successfulRegister"
-                      element={<RegisterSuccess DarkMode={DarkMode} />}
-                    />
-                    <Route
-                      path="/purchaseDone"
-                      element={<SuccessfulPayment DarkMode={DarkMode} />}
-                    />
-                  </Routes>
+      <Authorize setCookie={setCookie}>
+        <ThemeProvider theme={DarkMode ? darkTheme : theme}>
+          <RouteContext.Provider value={cities}>
+            <JourneyProvider>
+              <Router>
+                <div id={DarkMode ? "body-dark" : "body-light"}>
+                  <MenuBar
+                    id="menu-bar"
+                    DarkMode={DarkMode}
+                    setDarkMode={setDarkMode}
+                    cookies={cookies}
+                    setCookie={setCookie}
+                    removeCookie={removeCookie}
+                  />
+                  <div id="page-contents-container">
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<FrontPage DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/contact"
+                        element={<Contact DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/NewsPage"
+                        element={<NewsPage DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/SingleNews"
+                        element={
+                          <SingleNews DarkMode={DarkMode} cookies={cookies} />
+                        }
+                      />
+                      <Route
+                        path="/register"
+                        element={<Register DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/user"
+                        element={
+                          <Profile
+                            DarkMode={DarkMode}
+                            cookies={cookies}
+                            setCookie={setCookie}
+                          />
+                        }
+                      />
+                      <Route
+                        path="/route"
+                        element={<RouteInfo DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/revise"
+                        element={
+                          <ReviseAndPay DarkMode={DarkMode} cookies={cookies} />
+                        }
+                      />
+                      <Route
+                        path="/payment"
+                        element={<Payment DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/successfulRegister"
+                        element={<RegisterSuccess DarkMode={DarkMode} />}
+                      />
+                      <Route
+                        path="/purchaseDone"
+                        element={<SuccessfulPayment DarkMode={DarkMode} />}
+                      />
+                    </Routes>
+                  </div>
                 </div>
-              </div>
-            </Router>
-            <ToastContainer />
-          </JourneyProvider>
-        </RouteContext.Provider>
-      </ThemeProvider>
+              </Router>
+              <ToastContainer />
+            </JourneyProvider>
+          </RouteContext.Provider>
+        </ThemeProvider>
+      </Authorize>
     </>
   );
 }

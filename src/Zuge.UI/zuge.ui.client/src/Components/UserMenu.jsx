@@ -12,6 +12,7 @@ UserMenu.propTypes = {
   DarkMode: PropTypes.bool,
   cookies: PropTypes.any,
   setCookie: PropTypes.func,
+  removeCookie: PropTypes.func
 };
 
 function UserMenu({
@@ -25,7 +26,7 @@ function UserMenu({
   removeCookie,
 }) {
   const [signedIn, setSignedIn] = useState(
-    cookies.userID !== null && cookies.userID !== undefined
+    cookies.userData !== null && cookies.userData !== undefined
   );
 
   const menuStyle = {
@@ -36,7 +37,10 @@ function UserMenu({
     backgroundColor: "#eeeeee",
     overflow: "auto",
   };
-
+  useEffect(() => {
+    setSignedIn(cookies.userData !== null && cookies.userData !== undefined);
+  },[cookies.userData]);
+  
   return (
     <>
       <div className="UserMenuBody">
@@ -66,6 +70,7 @@ function UserMenu({
               handleItemClick={handleItemClick}
               setSignedIn={setSignedIn}
               DarkMode={DarkMode}
+              cookies={cookies}
               setCookie={setCookie}
             />
           )}

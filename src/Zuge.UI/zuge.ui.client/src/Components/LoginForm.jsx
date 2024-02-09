@@ -22,10 +22,11 @@ LoginForm.propTypes = {
   DarkMode: PropTypes.bool,
   handleItemClick: PropTypes.func,
   setSignedIn: PropTypes.func,
+  cookies: PropTypes.any,
   setCookie: PropTypes.func,
 };
 
-function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
+function LoginForm({ DarkMode, handleItemClick, setSignedIn, cookies, setCookie }) {
   const [showPasswordUser, setShowPasswordUser] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -211,17 +212,13 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
       await axios
         .post("account/login?" + cookieSetting + "=true", { email, password })
         .then((response) => {
+          console.log(response);
           if (response.status === 200) {
             console.log("Logged in");
             handleItemClick();
             setSignedIn(true);
             setIsLoginValid(true);
             getUserInfo();
-            setCookie("userID", JSON.parse(response.config.data).email, {
-              path: "/",
-              expires: new Date(Date.now() + 60 * 60 * 1000),
-            });
-            // poistetaan tunnin kuluttua (millisekunteina)
           } else {
             setIsLoginValid(false);
           }
@@ -243,12 +240,7 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
       .get("account")
       .then((response) => {
         console.log("account data: ", response.data);
-        setCookie("userData", response.data, {
-          path: "/",
-          expires: new Date(Date.now() + 60 * 60 * 1000),
-        });
-        // sessionStorage.setItem("userData", JSON.stringify(response.data));
-        navigate("/user");
+        setCookie("userData", response.data);
       })
       .catch((error) => {
         console.log("Something went wrong with getting user data: ", error);

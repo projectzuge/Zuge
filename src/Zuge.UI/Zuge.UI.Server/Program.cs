@@ -31,6 +31,14 @@ _ = builder.Services
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<AuthenticationDbContext>();
 
+_ = builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = "ZugeAuth";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+});
+
 _ = builder.Services.AddControllers();
 _ = builder.Services.AddEndpointsApiExplorer();
 _ = builder.Services.AddSwaggerGen();
@@ -40,6 +48,7 @@ _ = app.UseDefaultFiles();
 _ = app.UseStaticFiles();
 _ = app.UseSwagger();
 _ = app.UseSwaggerUI();
+_ = app.UseAuthentication();
 //_ = app.UseHttpsRedirection();
 _ = app.UseAuthorization();
 _ = app.MapControllers();
@@ -63,24 +72,18 @@ _ = app.MapPost("/account/logout", async (
     return Results.Unauthorized();
 }).RequireAuthorization();
 _ = app.MapGet("/account/pingauth/", (ClaimsPrincipal user) =>
-{
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("User");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
-}).RequireAuthorization("User");
+    {
+        return Results.Ok();
+    }).RequireAuthorization("User");
 
 _ = app.MapGet("/account/pingauth/employee", (ClaimsPrincipal user) =>
 {
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("Employee");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
+    return Results.Ok();
 }).RequireAuthorization("Employee");
 
 _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 {
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("Employee");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
+    return Results.Ok();
 }).RequireAuthorization("Admin");
 
 #endregion

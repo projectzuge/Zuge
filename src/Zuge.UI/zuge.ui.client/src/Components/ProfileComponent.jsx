@@ -88,14 +88,7 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
         .then((response) => {
           if (response.status === 200) {
             setShowSaveButton(false);
-            setCookie(
-              "userData",
-              { firstName, lastName, email, phoneNumber },
-              {
-                path: "/",
-                expires: new Date(Date.now() + 60 * 60 * 1000),
-              }
-            );
+            setCookie("userData", response.data);
             toast.success("Tallennettu!");
           } else {
             toast.error("Jotain meni pieleen. Yritä pian uudelleen");

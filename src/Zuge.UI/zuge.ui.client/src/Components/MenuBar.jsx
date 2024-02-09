@@ -20,6 +20,7 @@ MenuBar.propTypes = {
   setDarkMode: PropTypes.func,
   cookies: PropTypes.any,
   setCookie: PropTypes.func,
+  removeCookie: PropTypes.func,
 };
 
 function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
@@ -66,10 +67,10 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
 
   const switchLightDark = () => {
     if (DarkMode) {
-      setCookie("DarkMode", false, { path: "/" });
+      setCookie("DarkMode", false, { maxAge: 3600 * 24 });
       setDarkMode(false);
     } else {
-      setCookie("DarkMode", true, { path: "/" });
+      setCookie("DarkMode", true, { maxAge: 3600 * 24 });
       setDarkMode(true);
     }
   };
@@ -111,7 +112,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
               id="switchMenu"
               className="checkboxMenu"
               checked={DarkMode}
-              onClick={switchLightDark}
+              onChange={switchLightDark}
             />
             <label htmlFor="switchMenu" className="toggleMenu"></label>
           </div>

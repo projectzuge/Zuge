@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LogoutLink({ children }) {
+function LogoutLink({handleLogout, children }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -11,6 +11,7 @@ function LogoutLink({ children }) {
       .then((data) => {
         if (data.status === 200) {
           console.log("Logged out");
+          handleLogout();
           navigate("/");
         } else {
           console.log("Something went wrong with logout");
@@ -22,7 +23,7 @@ function LogoutLink({ children }) {
   };
   return (
     <>
-      <a href="" onClick={handleSubmit} style={{ textDecoration: "none" }}>
+      <a onClick={handleSubmit} style={{ textDecoration: "none" }}>
         {children}
       </a>
     </>
