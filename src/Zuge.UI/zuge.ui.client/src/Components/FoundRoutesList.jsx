@@ -8,8 +8,6 @@ import moment from "moment";
 
 const FoundRoutesList = (props) => {
   const journeys = props.journeys;
-  console.log("list gets journeys:", journeys, typeof journeys);
-  console.log("first journey insides:", journeys[0].stops[0].arrivesAt);
   const [formattedDate, setFormattedDate] = useState("");
 
   const fromCity = props.from;
@@ -19,22 +17,6 @@ const FoundRoutesList = (props) => {
   useEffect(() => {
     setFormattedDate(moment(props.date.$d).format("DD.MM.YYYY"));
   }, []);
-
-  const getDeparture = (route) => {
-    const stationInfo = route.stops.filter((stop) => stop.station === fromCity);
-    const departureTime =
-      stationInfo.length > 0 ? stationInfo[0].departure : null;
-    return departureTime;
-  };
-
-  const getArrival = (route) => {
-    const stationInfo = route.stops.filter((stop) => stop.station === toCity);
-
-    const arrivalTime =
-      stationInfo.length > 0 ? stationInfo[0].departure : null;
-
-    return arrivalTime;
-  };
 
   return (
     <Box
@@ -62,8 +44,10 @@ const FoundRoutesList = (props) => {
         journeys.map((route, index) => (
           <SingleFoundRoute
             key={index}
-            departure={route.stops[0].departsAt}
-            arrival={route.stops[route.length - 1].arrivesAt}
+            departure={moment(route.stops[0].departsAt).format("HH:mm")}
+            arrival={moment(
+              route.stops[route.stops.length - 1].arrivesAt
+            ).format("HH:mm")}
             duration={route.duration}
             price={route.price}
             date={formattedDate}

@@ -38,7 +38,6 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
     const savedRouteState = JSON.parse(
       sessionStorage.getItem("routeDataState")
     );
-    console.log("saved route state:", savedRouteState);
     if (savedRouteState || selectedJourney) {
       setDate(savedRouteState.date || selectedJourney.date);
       setFrom(savedRouteState.from || selectedJourney.from);

@@ -74,25 +74,74 @@ const RouteSearchForm = (props) => {
         )
         .then((response) => {
           if (response.data.success) {
-            setJourneys(response.data.data);
+            const cleanJourneys = cleanJourneysList(response.data.data);
+            setJourneys(cleanJourneys);
+
             const formState = {
               fromCity,
               toCity,
               selectedDate,
               passengerType,
               showFoundRoutesList: true,
-              journeys: response.data.data,
+              journeys: cleanJourneys,
             };
-            console.log("form state saves this:", formState);
             sessionStorage.setItem("formState", JSON.stringify(formState));
             setShowFoundRoutesList(true);
             setLoading(false);
-          } else console.log("NO JOURNEYS BITCHHHH");
+          }
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
           console.log("Error details:", error.response);
         });
+    }
+  };
+
+  const cleanJourneysList = (journeysList) => {
+    if (journeysList.length > 0) {
+      const startIndex = journeysList[0].stops.findIndex(
+        (elem) => elem.departsFrom === fromCity
+      );
+      const endIndex = journeysList[0].stops.findIndex(
+        (elem) => elem.departsFrom === toCity
+      );
+
+      // Handle cases where start or end index is not found
+      if (startIndex === -1 || endIndex === -1) {
+        console.error("Start or end index not found");
+        return [];
+      }
+
+      const newArray = journeysList.map((route) => {
+        const newStops = route.stops.slice(startIndex, endIndex + 1);
+
+        // timestamps of the first and last stops
+        const firstDeparture = moment(newStops[0].departsAt);
+        const lastArrival = moment(newStops[newStops.length - 1].arrivesAt);
+
+        // time difference in minutes
+        const diffInMinutes = lastArrival.diff(firstDeparture, "minutes");
+
+        let formattedDifference;
+
+        if (diffInMinutes < 60) {
+          formattedDifference = `${diffInMinutes} MIN`;
+        } else {
+          const hours = Math.floor(diffInMinutes / 60);
+          const minutes = diffInMinutes % 60;
+          formattedDifference = `${hours} H ${minutes} MIN`;
+        }
+
+        // Update the duration in the route object
+        return {
+          ...route,
+          stops: newStops,
+          duration: formattedDifference,
+        };
+      });
+      return newArray;
+    } else {
+      return [];
     }
   };
 
@@ -222,9 +271,7 @@ const RouteSearchForm = (props) => {
                   }}
                 />
               )}
-              minDate={dayjs("2023-12-29")}
-              // change minDate back to this when possible!!! :
-              // minDate={dayjs(Date.now())} // current date
+              minDate={dayjs(Date.now())} // current date
               maxDate={dayjs().add(1, "year")} // one year ahead
             />
           </LocalizationProvider>

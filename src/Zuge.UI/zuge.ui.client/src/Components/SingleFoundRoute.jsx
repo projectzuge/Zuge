@@ -40,7 +40,6 @@ const SingleFoundRoute = (props) => {
       passengerType: passengerType,
       price: price,
     };
-    console.log("data:", data);
     setJourney(data);
     sessionStorage.setItem("routeDataState", JSON.stringify(data));
     navigate("/route");
