@@ -15,7 +15,7 @@ DropDownMenu.propTypes = {
 };
 
 
-function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick, 
+function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick,
   switchLightDark, DarkMode }) {
 
   return (

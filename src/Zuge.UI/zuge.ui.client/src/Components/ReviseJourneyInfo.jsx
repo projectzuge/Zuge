@@ -9,12 +9,10 @@ import plusSign from "./../assets/plus-sign.png";
 import plusSignWhite from "./../assets/plus-sign-white.png";
 import { useNavigate } from "react-router-dom";
 
-const ReviseJourneyInfo = ({ DarkMode }) => {
-  const userInfo = JSON.parse(sessionStorage.getItem("userData"));
+const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
+  const userInfo = cookies.userData;
   const navigate = useNavigate();
-  const [emailFields, setEmailFields] = useState(
-    [{ value: userInfo.email, isValid: true }] || [{ value: "", isValid: false }]
-  );
+  const [emailFields, setEmailFields] = useState([]);
 
   const [date, setDate] = useState("");
   const [from, setFrom] = useState("");
@@ -29,10 +27,17 @@ const ReviseJourneyInfo = ({ DarkMode }) => {
   const selectedJourney = useJourney().selectedJourney;
 
   useEffect(() => {
+    if (userInfo && userInfo.email) {
+      setEmailFields([{ value: userInfo.email, isValid: true }]);
+    } else {
+      setEmailFields([{ value: "", isValid: false }]);
+    }
+  }, [userInfo]);
+
+  useEffect(() => {
     const savedRouteState = JSON.parse(
       sessionStorage.getItem("routeDataState")
     );
-
     if (savedRouteState || selectedJourney) {
       setDate(savedRouteState.date || selectedJourney.date);
       setFrom(savedRouteState.from || selectedJourney.from);

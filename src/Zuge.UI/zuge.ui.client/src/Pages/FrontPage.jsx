@@ -19,13 +19,8 @@ function FrontPage({DarkMode}) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const spacing = isSmallScreen ? 0 : 20;
 
-  const journeys = useContext(RouteContext);
-  const [arrayOfCities, setArrayOfCities] = useState([]);
+  const [arrayOfCities, setArrayOfCities] = useState(useContext(RouteContext));
 
-  useEffect(() => {
-    const cities = extractUniqueStations(journeys);
-    setArrayOfCities(cities);
-  }, []);
 
   return (
     <>

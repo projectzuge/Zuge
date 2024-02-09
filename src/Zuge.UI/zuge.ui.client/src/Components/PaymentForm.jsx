@@ -7,6 +7,7 @@ import { useCreditCardValidator } from "react-creditcard-validator";
 import InputMask from "react-input-mask";
 import { useJourney } from "../Contexts/SelectedRouteContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const PaymentForm = ({ DarkMode }) => {
   const [cardNumber, setCardNumber] = useState("");
@@ -18,6 +19,8 @@ const PaymentForm = ({ DarkMode }) => {
   const [selectedJourney, setSelectedJourney] = useState(
     useJourney().selectedJourney
   );
+  const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+  const email = JSON.parse(sessionStorage.getItem("emailsForTickets"));
 
   useEffect(() => {
     const savedRouteState = JSON.parse(
@@ -78,9 +81,28 @@ const PaymentForm = ({ DarkMode }) => {
       expiryDate === 0
     ) {
       window.alert("Tarkista kortin tiedot ja yritä uudelleen.");
+    } else if (!email.match(isValidEmail)) {
+      window.alert("Tarkista sähköpostiosoite");
+      navigate(-1);
     } else {
+      await axios
+        .post("purchase", {
+          cardCvc: { cvc },
+          cardDate: "2025-01-01",
+          cardHolder: "John Doe",
+          cardNumber: { cardNumber },
+          emailAddress: "john.doe@zuge.fi",
+          journeyId: 1,
+        })
+        .then((response) => {
+          console.log("purchase response:", response);
+          navigate("/purchaseDone");
+        })
+        .catch((error) => {
+          console.error("Something went wrong with purchase:", error);
+        });
+
       // needs to check here if the payment really goes through even though the card info was correct
-      navigate("/purchaseDone");
     }
   };
 
