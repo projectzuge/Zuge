@@ -11,20 +11,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Dtos.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Entities.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/UseCases.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Validation.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Dtos.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Entities.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/UseCases.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Validation.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Identity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Identity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Infrastructure.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Properties/launchSettings.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -35,12 +35,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;JaniMeronen&quot;
+  }
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+  ]
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/projectzuge/Zuge.git&quot;,
+    &quot;accountId&quot;: &quot;e982d0d4-1e2a-45fc-94e6-3ca3f72c2e44&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContextOptionsBuilder.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8bb416a5d4877933636ae22013c47cc636987118e78a2cf94d52c71eeaa577/ValidationResult.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Buutti/source/repos/Zuge/src/Zuge.UI/Zuge.UI.Server/Program.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/Buutti/source/repos/Zuge/src/Zuge.UI/Zuge.UI.Server/Program.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -61,8 +75,10 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
@@ -173,13 +189,20 @@
       <workItem from="1707389447917" duration="10429000" />
       <workItem from="1707415210656" duration="9235000" />
       <workItem from="1707462051385" duration="12378000" />
-      <workItem from="1707475773505" duration="52000" />
+      <workItem from="1707475773505" duration="160000" />
+      <workItem from="1707476067796" duration="2625000" />
+      <workItem from="1707489604092" duration="8057000" />
+      <workItem from="1707501851662" duration="7706000" />
+      <workItem from="1707562254112" duration="140000" />
+      <workItem from="1707573645852" duration="10261000" />
+      <workItem from="1707660397558" duration="21128000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />

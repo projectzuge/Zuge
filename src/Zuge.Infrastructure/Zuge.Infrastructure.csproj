@@ -21,5 +21,6 @@
         <ProjectReference Include="..\Zuge.Domain\Zuge.Domain.csproj"/>
         <Using Include="Microsoft.EntityFrameworkCore"/>
         <Using Include="Zuge.Domain"/>
+        <Using Include="System.Linq.Expressions"/>
     </ItemGroup>
 </Project>
