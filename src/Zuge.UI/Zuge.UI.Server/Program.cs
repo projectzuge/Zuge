@@ -6,20 +6,14 @@ Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
     "Development");
 
-Environment.SetEnvironmentVariable(
-     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
-     "Microsoft.AspNetCore.SpaProxy");
+// Environment.SetEnvironmentVariable(
+//      "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+//      "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
 
-_ = builder.Services.AddDbContext<DomainContext>(options =>
+_ = builder.Services.AddDbContext<IUnitOfWork, UnitOfWork>(options =>
     _ = options.UseInMemoryDatabase("Domain"));
-
-_ = builder.Services.AddScoped<PurchaseAsync>(provider =>
-    provider.GetRequiredService<DomainContext>().PurchaseAsync);
-
-_ = builder.Services.AddScoped<SearchAsync>(provider =>
-    provider.GetRequiredService<DomainContext>().SearchAsync);
 
 _ = builder.Services
     .AddDbContext<AuthenticationDbContext>(options =>
@@ -48,20 +42,8 @@ _ = app.UseSwaggerUI();
 _ = app.UseHttpsRedirection();
 _ = app.UseAuthorization();
 _ = app.MapControllers();
-
-_ = app
-    .MapPost("purchase", (
-            Purchase purchase,
-            PurchaseAsync purchaseAsync,
-            CancellationToken cancellationToken) =>
-        purchaseAsync(purchase, cancellationToken));
-
-_ = app
-    .MapPost("search", (
-            Search search,
-            SearchAsync searchAsync,
-            CancellationToken cancellationToken) =>
-        searchAsync(search, cancellationToken));
+_ = app.MapPost("purchase", Domain.PurchaseTicketAsync);
+_ = app.MapPost("search", Domain.SearchJourneysAsync);
 
 #region map auth endpoints
 
@@ -105,8 +87,8 @@ _ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
 _ = app.MapFallbackToFile("/index.html");
 
 using var scope = app.Services.CreateScope();
-var domainContext = scope.ServiceProvider.GetRequiredService<DomainContext>();
-_ = domainContext.Database.EnsureCreated();
+var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+await unitOfWork.SeedAsync(CancellationToken.None);
 
 #region create test users for in-memory db
 

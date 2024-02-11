@@ -19,5 +19,8 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <ProjectReference Include="..\..\src\Zuge.UI\Zuge.UI.Server\Zuge.UI.Server.csproj"/>
+        <using Include="Microsoft.AspNetCore.Mvc.Testing"/>
+        <using Include="System.Net.Http.Json"/>
+        <using Include="Xunit"/>
     </ItemGroup>
 </Project>
