@@ -8,19 +8,22 @@ import { extractUniqueStations } from "../dataUtils";
 import { RouteContext } from "../Contexts/RouteContext";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 
 FrontPage.propTypes = {
   DarkMode: PropTypes.bool,
 };
 
-function FrontPage({DarkMode}) {
+function FrontPage({ DarkMode }) {
+  toast.dismiss();
+  sessionStorage.removeItem("emailsForTickets");
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const spacing = isSmallScreen ? 0 : 20;
 
   const [arrayOfCities, setArrayOfCities] = useState(useContext(RouteContext));
-
 
   return (
     <>

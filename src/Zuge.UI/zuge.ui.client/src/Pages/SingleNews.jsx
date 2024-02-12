@@ -1,24 +1,16 @@
 import Grid from "@mui/system/Unstable_Grid";
 import Box from "@mui/system/Box";
 import Button from "@mui/material/Button";
-// import { useEffect, useState} from "react";
-// import ServiceNews from "../Components/ServiceNews";
 import { Typography } from "@mui/material";
 import "../Styles/SingleNews.css";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import news from  "./../assets/news.json";
+import { toast } from "react-toastify";
 
 const SingleNews = ({ DarkMode, cookies }) => {
-  // const[news, setNews] = useState([]);
+  toast.dismiss();
 
-  // useEffect(() => {
-  //   ServiceNews
-  //     .getAllNews()
-  //      .then(initialNews => {
-  //       setNews(initialNews)
-  //     })
-  // }, []);
   return (
     <Box>
       <Link to="/NewsPage" style={{textDecoration: "none"}}>
@@ -45,7 +37,7 @@ const SingleNews = ({ DarkMode, cookies }) => {
               <Typography paragraph={true} align="left">{item.teksti}</Typography>
             </Grid>
           ))}
-        </Grid>    
+        </Grid>
       </Box>
     </Box>
   );

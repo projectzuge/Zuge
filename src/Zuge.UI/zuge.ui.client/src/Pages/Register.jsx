@@ -5,28 +5,30 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import { toast } from "react-toastify";
 
 Register.propTypes = {
     DarkMode: PropTypes.bool,
 };
 
 function Register({ DarkMode }) {
+    toast.dismiss();
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
     const [inputs, setInputs] = useState({
-        email: "", 
-        password: "", 
-        rePassword: "", 
-        firstName: "", 
-        lastName: "", 
+        email: "",
+        password: "",
+        rePassword: "",
+        firstName: "",
+        lastName: "",
         phoneNum: ""});
     const [inputValidities, setInputValidities] = useState({
-        isPasswordsEqual: true, 
-        isEmailValid: "initial", 
-        isPasswordValid: "initial", 
-        isRePasswordValid: "initial", 
-        isFirstNameValid: "initial", 
-        isLastNameValid: "initial", 
+        isPasswordsEqual: true,
+        isEmailValid: "initial",
+        isPasswordValid: "initial",
+        isRePasswordValid: "initial",
+        isFirstNameValid: "initial",
+        isLastNameValid: "initial",
         isPhoneNumValid: "initial"});
     const [isValidRegistration, setIsValidRegistration] = useState(true);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -90,7 +92,7 @@ function Register({ DarkMode }) {
         const acceptedSpecialChars = "!?-_#@£$";
         const isChars = {isSmallLetters: 0, isCapitalLetters: 0, isNumbers: 0, isSpecialChars: 0};
         const passwordInput = e.target.value;
-    
+
         for (const char of passwordInput) {
           if (acceptedSmallLetters.includes(char)) {
             isChars.isSmallLetters = 1;
@@ -107,7 +109,7 @@ function Register({ DarkMode }) {
         }
 
         let obj = {...inputValidities};
-    
+
         if (passwordInput.length < 6 || passwordInput.length > 100) {
             obj[passwordValidity] = false;
         }
@@ -119,7 +121,7 @@ function Register({ DarkMode }) {
         }
         setInputValidities(obj);
     }
-    
+
     const checkEmail = (e) => {
         if (e.target?.value && e.target.value.match(validEmail)) {
             setInputValidities({...inputValidities, isEmailValid: true});
@@ -144,15 +146,15 @@ function Register({ DarkMode }) {
 
         if (nameInput.length < 1 || nameInput.length > 100) {
             obj[nameValidity] = false;
-            
+
         }
         else if (validCharCount !== nameInput.length) {
             obj[nameValidity] = false;
-            
+
         }
         else {
             obj[nameValidity] = true;
-            
+
         }
         setInputValidities(obj);
     }
@@ -169,7 +171,7 @@ function Register({ DarkMode }) {
         checkEmail(e);
         setInputs({...inputs, email: e.target.value});
       }
-    
+
     const onPasswordChange = (e) => {
         checkPassword(e, "isPasswordValid");
         setInputs({...inputs, password: e.target.value});
@@ -217,7 +219,7 @@ function Register({ DarkMode }) {
         const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9!?#@\-_%£$äöåÄÖÅ]/g, '');
         event.target.value = sanitizedValue;
         };
-    
+
         const handleEmailInput = (event) => {
         const sanitizedValue = event.target.value.replace(/[^A-Za-z0-9.@_]/g, '');
         event.target.value = sanitizedValue;
@@ -246,7 +248,7 @@ function Register({ DarkMode }) {
             return buttonStyleLight;
         }
     }
-    
+
 
     const handleRegisterClicked = () => {
 
@@ -258,32 +260,32 @@ function Register({ DarkMode }) {
                 });
             }
             if (inputValidities.isPasswordValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isPasswordValid: false}});
             }
             if (inputValidities.isRePasswordValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isRePasswordValid: false}});
             }
             if (inputValidities.isFirstNameValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isFirstNameValid: false}});
             }
             if (inputValidities.isLastNameValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isLastNameValid: false}});
             }
             if (inputValidities.isPhoneNumValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isPhoneNumValid: false}});
             }
 
             setIsValidRegistration(false);
             return;
         }
-        
-        if (inputValidities.isEmailValid && inputValidities.isPasswordValid && inputValidities.isRePasswordValid 
-            && inputValidities.isFirstNameValid && inputValidities.isLastNameValid && inputValidities.isPhoneNumValid 
+
+        if (inputValidities.isEmailValid && inputValidities.isPasswordValid && inputValidities.isRePasswordValid
+            && inputValidities.isFirstNameValid && inputValidities.isLastNameValid && inputValidities.isPhoneNumValid
             && inputValidities.isPasswordsEqual) {
             // axios.post("Account", {FirstName: inputs.firstName
             // , LastName: inputs.lastName, Email: inputs.email, Password: inputs.password, PhoneNumber: inputs.phoneNum})
@@ -298,11 +300,11 @@ function Register({ DarkMode }) {
             .then(() => {
                 setIsValidRegistration(true);
                 setInputs({
-                email: "", 
-                password: "", 
-                rePassword: "", 
-                firstName: "", 
-                lastName: "", 
+                email: "",
+                password: "",
+                rePassword: "",
+                firstName: "",
+                lastName: "",
                 phoneNum: ""});
                 navigate('/successfulRegister');
             })
@@ -323,37 +325,37 @@ function Register({ DarkMode }) {
             <Container className={DarkMode? "RegisterBody dark" : "RegisterBody light"} maxWidth="sm">
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>
-                        <InputLabel 
+                        <InputLabel
                         sx={{
                             inputResponsiveness
-                          }} 
+                          }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}
                         >Sähköposti</InputLabel>
                         <TextField
-                        value={inputs.email} 
+                        value={inputs.email}
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
-                        variant="outlined" 
+                        variant="outlined"
                         onInput={handleEmailInput}
                         onChange={onEmailChange}
                         error={!inputValidities.isEmailValid}
                         helperText={!inputValidities.isEmailValid ? "Invalid email address." : ""}
-                        type="email" 
+                        type="email"
                         fullWidth
                         required />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <InputLabel 
+                        <InputLabel
                         sx={{
                             inputResponsiveness
-                          }} 
+                          }}
                           style={DarkMode? labelDarkStyle : labelLightStyle}>Salasana</InputLabel>
-                        <TextField 
-                        value={inputs.password} 
+                        <TextField
+                        value={inputs.password}
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         name="password"
-                        variant="outlined" 
-                        type={showPassword ? 'text' : 'password'} 
-                        fullWidth 
+                        variant="outlined"
+                        type={showPassword ? 'text' : 'password'}
+                        fullWidth
                         error={() => {
                             if (!inputValidities.isPasswordValid || !inputValidities.isPasswordsEqual) {
                                 return true;
@@ -369,8 +371,8 @@ function Register({ DarkMode }) {
                             endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton onClick={handlePasswordVisibility} style={DarkMode? iconDark : iconLight} edge="end">
-                                {showPassword ? <VisibilityOff 
-                                className="registerVisibilityIcon" /> : <Visibility  
+                                {showPassword ? <VisibilityOff
+                                className="registerVisibilityIcon" /> : <Visibility
                                 className="registerVisibilityIcon"/>}
                                 </IconButton>
                             </InputAdornment>
@@ -379,18 +381,18 @@ function Register({ DarkMode }) {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <InputLabel 
+                        <InputLabel
                         sx={{
                             inputResponsiveness
-                          }} 
+                          }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Vahvista salasana</InputLabel>
                         <TextField
-                        value={inputs.rePassword}   
+                        value={inputs.rePassword}
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         name="password"
-                        variant="outlined" 
-                        type={showRePassword ? 'text' : 'password'}  
-                        fullWidth 
+                        variant="outlined"
+                        type={showRePassword ? 'text' : 'password'}
+                        fullWidth
                         error={!inputValidities.isRePasswordValid}
                         helperText={!inputValidities.isRePasswordValid ? "Invalid password. Password needs to be 6 to 100 characters long and have at least one small letter, one capital letter, one number and atleast one of these characters: '!', '?', '@', '#', '£', '$', '-' or '_'." : ""}
                         required
@@ -400,8 +402,8 @@ function Register({ DarkMode }) {
                             endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton onClick={handleRePasswordVisibility} style={DarkMode? iconDark : iconLight} edge="end">
-                                {showRePassword ? <VisibilityOff  
-                                className="registerVisibilityIcon"/> : <Visibility  
+                                {showRePassword ? <VisibilityOff
+                                className="registerVisibilityIcon"/> : <Visibility
                                 className="registerVisibilityIcon"/>}
                                 </IconButton>
                             </InputAdornment>
@@ -410,61 +412,61 @@ function Register({ DarkMode }) {
                         />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <InputLabel 
+                        <InputLabel
                         sx={{
                             inputResponsiveness
-                          }} 
+                          }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Etunimi</InputLabel>
                         <TextField
-                        value={inputs.firstName} 
+                        value={inputs.firstName}
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onFirstNameChange}
                         error={!inputValidities.isFirstNameValid}
-                        helperText={!inputValidities.isFirstNameValid ? 
+                        helperText={!inputValidities.isFirstNameValid ?
                             "Invalid name. Name must be 1 to 100 letters long and can only have letters from a to z and A to Z and å, ä, ö, Å, Ä and Ö. Space is not allowed." : ""}
                         required
-                        variant="outlined" 
+                        variant="outlined"
                         fullWidth />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <InputLabel 
+                        <InputLabel
                         sx={{
                             inputResponsiveness
-                        }} 
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Sukunimi</InputLabel>
                         <TextField
-                        value={inputs.lastName} 
+                        value={inputs.lastName}
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onLastNameChange}
                         error={!inputValidities.isLastNameValid}
-                        helperText={!inputValidities.isLastNameValid ? 
+                        helperText={!inputValidities.isLastNameValid ?
                             "Invalid name. Name must be 1 to 100 letters long and can only have letters from a to z and A to Z and å, ä, ö, Å, Ä and Ö. Space is not allowed." : ""}
                         required
-                        variant="outlined" 
+                        variant="outlined"
                         fullWidth />
                     </Grid>
                     <Grid item xs={12}>
-                        <InputLabel 
+                        <InputLabel
                         sx={{
                             inputResponsiveness
-                        }}  
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>Puhelinnumero</InputLabel>
-                        <TextField 
-                        value={inputs.phoneNum} 
+                        <TextField
+                        value={inputs.phoneNum}
                         className={DarkMode? "darkRegisterTextField" : "registerTextField"}
                         onChange={onPhoneNumChange}
                         error={!inputValidities.isPhoneNumValid}
                         helperText={!inputValidities.isPhoneNumValid ? "Invalid phone number. Phone number needs to be 10 to 15 characters long and can only have numbers. Don't use the country code." : ""}
                         required
-                        variant="outlined" 
+                        variant="outlined"
                         fullWidth />
                     </Grid>
                     <Grid item xs={6}>
-                        <Button 
+                        <Button
                         style={RegisterButtonClick()}
                         onClick={handleRegisterClicked}
-                        variant="contained" 
-                        color="primary" 
+                        variant="contained"
+                        color="primary"
                         fullWidth
                         sx={{
                             "@media screen and (max-width: 570px)": {
@@ -480,10 +482,10 @@ function Register({ DarkMode }) {
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
-                        <Button 
-                        style={DarkMode? buttonStyleDark : buttonStyleLight} 
-                        variant="contained" 
-                        color="primary" 
+                        <Button
+                        style={DarkMode? buttonStyleDark : buttonStyleLight}
+                        variant="contained"
+                        color="primary"
                         fullWidth
                         sx={{
                             "@media screen and (max-width: 570px)": {
@@ -511,9 +513,9 @@ function Register({ DarkMode }) {
                                 fontSize: '70%',
                             },
                         }}
-                        style={isValidRegistration ? {display: "none"} : 
+                        style={isValidRegistration ? {display: "none"} :
                         {display: "inline"}}
-                        > 
+                        >
                           Rekisteröinti epäonnistui.
                         </Typography>
                     </Grid>

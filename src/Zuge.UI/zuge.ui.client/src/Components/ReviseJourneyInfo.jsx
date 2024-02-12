@@ -5,9 +5,11 @@ import Button from "@mui/material/Button";
 import { useJourney } from "../Contexts/SelectedRouteContext";
 import { TextField } from "@mui/material";
 import { useState, useEffect } from "react";
-import plusSign from "./../assets/plus-sign.png";
-import plusSignWhite from "./../assets/plus-sign-white.png";
+// import plusSign from "./../assets/plus-sign.png";
+// import plusSignWhite from "./../assets/plus-sign-white.png";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
   const userInfo = cookies.userData;
@@ -76,12 +78,13 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
     }
   };
 
-  const handleAddEmailFields = () => {
-    // allow max 5 fields and only add field if previous ones are valid
-    if (emailFields.length < 5 && emailFields.every((field) => field.isValid)) {
-      setEmailFields([...emailFields, ""]);
-    }
-  };
+  // Commented out for now, if the feature of adding more emails is created:
+  // const handleAddEmailFields = () => {
+  //   // allow max 5 fields and only add field if previous ones are valid
+  //   if (emailFields.length < 5 && emailFields.every((field) => field.isValid)) {
+  //     setEmailFields([...emailFields, ""]);
+  //   }
+  // };
 
   const handlePaymentCardClick = async () => {
     // check that only one email is recognized in case of multiple same emails, and that they are valid
@@ -102,7 +105,12 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
 
       navigate("/payment");
     } else {
-      window.alert("Lisää ainakin yksi sähköpostiosoite");
+      toast.warning("Lisää tai tarkista sähköpostiosoite.", {
+        position: "top-center",
+        closeOnClick: false,
+        closeButton: true,
+        autoClose: 15000,
+      });
     }
   };
 
@@ -247,7 +255,9 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
                   required
                 />
               </Grid>
-              <Grid item xs={1}>
+
+              {/* Commented out for now, if the feature of adding more emails is created */}
+              {/* <Grid item xs={1}>
                 {index === emailFields.length - 1 && (
                   <Button
                     style={{ minWidth: 0 }}
@@ -264,7 +274,7 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
                     />
                   </Button>
                 )}
-              </Grid>
+              </Grid> */}
             </Grid>
           ))}
         </Grid>

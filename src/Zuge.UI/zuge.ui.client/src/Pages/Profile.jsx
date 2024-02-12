@@ -5,6 +5,7 @@ import ProfileComponent from "../Components/ProfileComponent";
 import ProfileBoughtTickets from "../Components/ProfileBoughtTickets";
 import { useState } from "react";
 import AuthorizeView from "../Components/AuthorizeView";
+import { toast } from "react-toastify";
 
 const Profile = ({ DarkMode, cookies, setCookie }) => {
   const [selectedButton, setSelectedButton] = useState("Lippusi");
@@ -12,6 +13,7 @@ const Profile = ({ DarkMode, cookies, setCookie }) => {
   const handleButtonClick = (buttonName) => {
     setSelectedButton(buttonName);
   };
+  toast.dismiss();
   return (
     <>
       <AuthorizeView>
