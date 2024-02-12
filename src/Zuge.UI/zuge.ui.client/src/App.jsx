@@ -4,7 +4,7 @@ import theme from "./Theme.jsx";
 import darkTheme from "./DarkTheme.jsx";
 import FrontPage from "./Pages/FrontPage.jsx";
 import MenuBar from "./Components/MenuBar.jsx";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import RouteInfo from "./Pages/RouteInfo.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { RouteContext } from "./Contexts/RouteContext.js";
