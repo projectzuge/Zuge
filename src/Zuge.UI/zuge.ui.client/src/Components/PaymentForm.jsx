@@ -20,7 +20,7 @@ const PaymentForm = ({ DarkMode }) => {
     useJourney().selectedJourney
   );
   const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
-  const email = JSON.parse(sessionStorage.getItem("emailsForTickets"));
+  const emails = JSON.parse(sessionStorage.getItem("emailsForTickets"));
 
   useEffect(() => {
     const savedRouteState = JSON.parse(
@@ -70,8 +70,24 @@ const PaymentForm = ({ DarkMode }) => {
     return nSum % 10 == 0;
   };
 
+  const checkAreEmailsValid = (emails) => {
+    emails.forEach((email) => {
+      if (!email.match(isValidEmail)) {
+        return false;
+      }
+    });
+    return true;
+  };
+
+  const convertDate = (date) => {
+    const [month, year] = date.split("/");
+    const newYearString = `20${year}-${month}-01`;
+    return newYearString;
+  };
+
   const handlePayment = async (e) => {
     e.preventDefault();
+    const formattedExpiryDate = convertDate(expiryDate);
     if (
       !checkLuhn(cardNumber) ||
       erroredInputs.cvc ||
@@ -81,17 +97,17 @@ const PaymentForm = ({ DarkMode }) => {
       expiryDate === 0
     ) {
       window.alert("Tarkista kortin tiedot ja yritä uudelleen.");
-    } else if (!email.match(isValidEmail)) {
+    } else if (!checkAreEmailsValid(emails)) {
       window.alert("Tarkista sähköpostiosoite");
       navigate(-1);
     } else {
       await axios
         .post("purchase", {
-          cardCvc: { cvc },
-          cardDate: "2025-01-01",
+          cardCvc: cvc,
+          cardDate: formattedExpiryDate,
           cardHolder: "John Doe",
-          cardNumber: { cardNumber },
-          emailAddress: "john.doe@zuge.fi",
+          cardNumber: cardNumber,
+          emailAddress: emails[0],
           journeyId: 1,
         })
         .then((response) => {
@@ -101,8 +117,6 @@ const PaymentForm = ({ DarkMode }) => {
         .catch((error) => {
           console.error("Something went wrong with purchase:", error);
         });
-
-      // needs to check here if the payment really goes through even though the card info was correct
     }
   };
 
