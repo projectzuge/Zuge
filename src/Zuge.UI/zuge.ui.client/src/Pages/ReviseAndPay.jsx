@@ -1,9 +1,9 @@
 import ReviseJourneyInfo from "../Components/ReviseJourneyInfo";
 
-const ReviseAndPay = ({DarkMode}) => {
+const ReviseAndPay = ({DarkMode, cookies}) => {
   return (
     <>
-      <ReviseJourneyInfo DarkMode={DarkMode}/>
+      <ReviseJourneyInfo DarkMode={DarkMode} cookies={cookies}/>
     </>
   );
 };
