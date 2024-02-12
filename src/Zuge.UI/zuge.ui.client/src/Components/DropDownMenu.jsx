@@ -12,11 +12,12 @@ DropDownMenu.propTypes = {
   handleItemClick: PropTypes.func,
   switchLightDark: PropTypes.func,
   DarkMode: PropTypes.bool,
+  cookies: PropTypes.any
 };
 
 
 function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick,
-  switchLightDark, DarkMode }) {
+  switchLightDark, DarkMode, cookies }) {
 
   return (
     <>
@@ -49,7 +50,9 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
             handleItemClick();
             handleClickUser(event);
           }}>
-              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"}>Käyttäjä</Link></p>
+              <p><Link className={DarkMode? "MenuItemLink dark" : 
+              "MenuItemLink"}>{cookies.userData? 
+              cookies.userData.firstName : "Käyttäjä"}</Link></p>
           </MenuItem>
           <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
           </MenuItem>
