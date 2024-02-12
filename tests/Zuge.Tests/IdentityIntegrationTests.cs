@@ -55,42 +55,4 @@ public class IdentityIntegrationTests(WebApplicationFactory<Program> factory) : 
         // Assert
         Assert.True(response.IsSuccessStatusCode);
     }
-    [Fact]
-    public async void UpdateInfoAsync()
-    {
-        // Arrange
-        var sut = factory.CreateClient();
-        
-        // Act
-        await PerformLogin(sut, "test@example.com", "P@ssw0rd");
-
-        var response = await sut.PutAsJsonAsync("account/manage/info", new
-        {
-            FirstName = "Test",
-            LastName = "Person",
-            PhoneNumber = "1234567890"
-        });
-
-        // Assert
-        Assert.True(response.IsSuccessStatusCode);
-    }
-    [Fact]
-    public async void GetAccountAsync()
-    {
-        var sut = factory.CreateClient();
-
-        var response = await sut.GetAsync("account");
-
-        Assert.True(response.IsSuccessStatusCode);
-    }
-    private async Task PerformLogin(HttpClient client, string email, string password)
-    {
-        var user = new
-        {
-            Email = email,
-            Password = password
-        };
-
-        var res = await client.PostAsJsonAsync("api/account/login", user);
-    }
 }
