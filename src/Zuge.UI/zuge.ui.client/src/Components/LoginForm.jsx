@@ -1,5 +1,21 @@
 import "./../Styles/LoginForm.css";
-import { useEffect, useState } from "react";
+import {
+  customCursorStyle,
+  containerStyle,
+  containerStyleDark,
+  labelStyle,
+  labelStyleDark,
+  inputFieldStyle,
+  buttonsContainerStyle,
+  buttonStyle,
+  buttonStyleDark,
+  buttonRegisterStyle,
+  buttonRegisterStyleDark,
+  registerTextStyle,
+  iconDark,
+  iconLight
+} from "./../Styles/LoginFormStyles.jsx";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MenuItem from "@mui/material/MenuItem";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -26,7 +42,7 @@ LoginForm.propTypes = {
   setCookie: PropTypes.func,
 };
 
-function LoginForm({ DarkMode, handleItemClick, setSignedIn, cookies, setCookie }) {
+function LoginForm({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
   const [showPasswordUser, setShowPasswordUser] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -36,91 +52,6 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, cookies, setCookie 
   const [rememberMe, setRememberMe] = useState(false);
   const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
   const navigate = useNavigate();
-
-  const customCursorStyle = {
-    cursor: "default",
-    backgroundColor: "transparent",
-  };
-
-  const containerStyle = {
-    backgroundColor: "#eeeeee",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "300px",
-    margin: "auto",
-    marginTop: "20px",
-  };
-
-  const containerStyleDark = {
-    backgroundColor: "#262626",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    width: "300px",
-    margin: "auto",
-    marginTop: "20px",
-  };
-
-  const labelStyle = {
-    ontWeight: "bold",
-  };
-
-  const labelStyleDark = {
-    fontWeight: "bold",
-    color: "#eeeeee",
-  };
-
-  const inputFieldStyle = {
-    width: "100%",
-    marginBottom: "16px",
-  };
-
-  const buttonsContainerStyle = {
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-  };
-
-  const buttonStyle = {
-    color: "#262626",
-    border: "solid",
-    borderWidth: "1px",
-  };
-
-  const buttonStyleDark = {
-    color: "#eeeeee",
-    borderColor: "#eeeeee",
-    border: "solid",
-    borderWidth: "1px",
-  };
-
-  const buttonRegisterStyle = {
-    color: "#262626",
-    border: "solid",
-    borderWidth: "1px",
-    padding: "0px",
-  };
-
-  const buttonRegisterStyleDark = {
-    color: "#eeeeee",
-    border: "solid",
-    borderWidth: "1px",
-    padding: "0px",
-  };
-
-  const registerTextStyle = {
-    marginTop: "20px",
-    textAlign: "center",
-  };
-
-  const iconDark = {
-    color: "#b7b7b7",
-  };
-
-  const iconLight = {
-    color: "#707070",
-  };
 
   const checkPassword = (e) => {
     const acceptedSmallLetters = "abcdefghijklmnopqrstuvwxyzåäö";

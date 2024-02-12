@@ -93,14 +93,18 @@ const emailLocalPartAcceptable = [
     "tommy-nie-mi",
     "abcdefghijklmnopqrstuvwxyz",
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789." +
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     "_tommy",
     "5tommy7",
     "9tommy",
     "8tommy.niemi",
     "tommy.niem1",
-    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
-    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789." +
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789." +
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789." +
+    "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
     ".tommy",
     "  tommy",
 ];
@@ -161,8 +165,10 @@ const emailDomainPartNotAcceptable = [
 //     "OOOooo123!!!$$$",
 //     "£££eeeEEE122",
 //     "536rT@@",
-//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!?????????????????????????",
-//     "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ1234567890!?@£$#.-_",
+//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC" +
+//     "123456789!?????????????????????????",
+//     "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ" +
+//     "1234567890!?@£$#.-_",
 //     " kjkdj12!?JJ",
 //     "aB/c12!?"
 // ];
@@ -173,13 +179,19 @@ const emailDomainPartNotAcceptable = [
 //     "£££eeeEEE&&&",
 //     "536rt@@",
 //     "aaaBBB123",
-//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????",
-//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789!???????????????????????????",
+//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC" +
+//     "123456789!???????????????????????????",
+//     "aaaaaaaaaaaaaaabbbbbbbbbbbbeeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC" +
+//     "123456789!???????????????????????????aaaaaaaaaaaaaaabbbbbbbbbbbb" +
+//     "eeeeeeeeeeeeeeeeeCCCCCCCCCCCCCCCCCCCC123456789" +
+//     "!???????????????????????????",
 // ]
 
 for (let i = 0; i < 50; i++) {
-    const email = emailLocalPartAcceptable[Math.floor(Math.random() * emailLocalPartAcceptable.length)] + "@" +
-     emailDomainPartAcceptable[Math.floor(Math.random() * emailDomainPartAcceptable.length)];
+    const email = emailLocalPartAcceptable[Math.floor(Math.random() * 
+        emailLocalPartAcceptable.length)] + "@" + 
+        emailDomainPartAcceptable[Math.floor(Math.random() * 
+            emailDomainPartAcceptable.length)];
 
     test('email field accepts email: ' + email, () => {
         const emailField = screen.getByRole('textbox');
@@ -191,8 +203,10 @@ for (let i = 0; i < 50; i++) {
 }
 
 for (let i = 0; i < 30; i++) {
-    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * emailLocalPartNotAcceptable.length)] + "@" +
-     emailDomainPartNotAcceptable[Math.floor(Math.random() * emailDomainPartNotAcceptable.length)];
+    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * 
+        emailLocalPartNotAcceptable.length)] + "@" +
+     emailDomainPartNotAcceptable[Math.floor(Math.random() * 
+        emailDomainPartNotAcceptable.length)];
 
     test('email field does not accept email: ' + email, () => {
         const emailField = screen.getByRole('textbox');
@@ -204,8 +218,10 @@ for (let i = 0; i < 30; i++) {
 }
 
 for (let i = 0; i < 30; i++) {
-    const email = emailLocalPartAcceptable[Math.floor(Math.random() * emailLocalPartAcceptable.length)] + "@" +
-     emailDomainPartNotAcceptable[Math.floor(Math.random() * emailDomainPartNotAcceptable.length)];
+    const email = emailLocalPartAcceptable[Math.floor(Math.random() * 
+        emailLocalPartAcceptable.length)] + "@" +
+     emailDomainPartNotAcceptable[Math.floor(Math.random() * 
+        emailDomainPartNotAcceptable.length)];
 
     test('email field does not accept email: ' + email, () => {
         const emailField = screen.getByRole('textbox');
@@ -217,8 +233,10 @@ for (let i = 0; i < 30; i++) {
 }
 
 for (let i = 0; i < 30; i++) {
-    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * emailLocalPartNotAcceptable.length)] + "@" +
-     emailDomainPartAcceptable[Math.floor(Math.random() * emailDomainPartAcceptable.length)];
+    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * 
+        emailLocalPartNotAcceptable.length)] + "@" +
+     emailDomainPartAcceptable[Math.floor(Math.random() * 
+        emailDomainPartAcceptable.length)];
 
     test('email field does not accept email: ' + email, () => {
         const emailField = screen.getByRole('textbox');

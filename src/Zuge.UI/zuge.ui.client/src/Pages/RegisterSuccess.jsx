@@ -9,7 +9,8 @@ RegisterSuccess.propTypes = {
 function RegisterSuccess({DarkMode}) {
     return (
       <>
-        <div className={DarkMode? "RegisterSuccessBodyDark" : "RegisterSuccessBodyLight"}>
+        <div className={DarkMode? "RegisterSuccessBodyDark" : 
+        "RegisterSuccessBodyLight"}>
           <Typography>
             Registration successful!!!
           </Typography>
