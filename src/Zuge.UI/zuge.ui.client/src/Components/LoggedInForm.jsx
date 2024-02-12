@@ -13,7 +13,8 @@ LoggedInForm.propTypes = {
   removeCookie: PropTypes.func,
 };
 
-function LoggedInForm({ handleItemClick, setSignedIn, DarkMode, setCookie, removeCookie }) {
+function LoggedInForm({ handleItemClick, setSignedIn, DarkMode, 
+  removeCookie }) {
   const navigate = useNavigate();
 
   const profileButtonStyle = {
