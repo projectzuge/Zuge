@@ -71,7 +71,7 @@ Scaffold DbContext
 
 ### To test:
 
-Working cities:
+#### Working cities:
 
 - Keuruu
 - Haapamäki
@@ -81,3 +81,15 @@ Working cities:
 - Orivesi Keskusta
 - Orivesi
 - Tampere
+
+#### Working credit card num:
+
+- 4242424242424242
+
+### ! Use any email - there is no functionality to send the ticket to user !
+
+### ToDo in the future:
+
+- Send ticket to email
+- Make routes for all cities
+- Confirmation email to user email
