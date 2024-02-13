@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 
 Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
