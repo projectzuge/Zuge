@@ -12,8 +12,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,7 +59,7 @@
     ".NET Project.Zuge.UI.Server.executor": "Run",
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "jani-azure-deployment",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.stylelint": "true",
@@ -187,6 +185,7 @@
       <workItem from="1707660397558" duration="21128000" />
       <workItem from="1707819259640" duration="29000" />
       <workItem from="1707819375812" duration="1198000" />
+      <workItem from="1707820834615" duration="1043000" />
     </task>
     <servers />
   </component>
