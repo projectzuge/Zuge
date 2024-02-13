@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
-using System.Net.Http.Json;
-using Xunit;
+﻿namespace Zuge.Tests;
 
-namespace Zuge.Tests;
-
-public class DomainIntegrationTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+public class DomainIntegrationTests(WebApplicationFactory<Program> factory) :
+    IClassFixture<WebApplicationFactory<Program>>
 {
     [Fact]
-    public async void PurchaseAsync()
+    async void PurchaseTicketAsync()
     {
         // Arrange
         var sut = factory.CreateClient();
@@ -28,7 +25,7 @@ public class DomainIntegrationTests(WebApplicationFactory<Program> factory) : IC
     }
 
     [Fact]
-    public async void SearchAsync()
+    async void SearchJourneysAsync()
     {
         // Arrange
         var sut = factory.CreateClient();

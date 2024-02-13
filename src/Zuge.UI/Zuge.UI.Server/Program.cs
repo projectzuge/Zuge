@@ -1,20 +1,17 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using Zuge.Domain;
-using Zuge.Infrastructure;
 
 Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
     "Development");
 
 Environment.SetEnvironmentVariable(
-    "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
-    "Microsoft.AspNetCore.SpaProxy");
+     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+     "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
-_ = builder.Services.AddInfrastructure();
+
+_ = builder.Services.AddDbContext<IUnitOfWork, UnitOfWork>(options =>
+    _ = options.UseInMemoryDatabase("Domain"));
 
 _ = builder.Services
     .AddDbContext<AuthenticationDbContext>(options =>
@@ -48,51 +45,18 @@ _ = app.UseDefaultFiles();
 _ = app.UseStaticFiles();
 _ = app.UseSwagger();
 _ = app.UseSwaggerUI();
-_ = app.UseAuthentication();
-//_ = app.UseHttpsRedirection();
+_ = app.UseHttpsRedirection();
 _ = app.UseAuthorization();
 _ = app.MapControllers();
-_ = app.MapPost("purchase", Domain.PurchaseAsync);
-_ = app.MapPost("search", Domain.SearchAsync);
-
-#region map auth endpoints
-
+_ = app.MapPost("purchase", Domain.PurchaseTicketAsync);
+_ = app.MapPost("search", Domain.SearchJourneysAsync);
 _ = app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
-
-_ = app.MapPost("/account/logout", async (
-    SignInManager<ApplicationUser> signInManager,
-    [FromBody] object? empty) =>
-{
-    if (empty != null)
-    {
-        await signInManager.SignOutAsync();
-        return Results.Ok();
-    }
-
-    return Results.Unauthorized();
-}).RequireAuthorization();
-_ = app.MapGet("/account/pingauth/", (ClaimsPrincipal user) =>
-    {
-        return Results.Ok();
-    }).RequireAuthorization("User");
-
-_ = app.MapGet("/account/pingauth/employee", (ClaimsPrincipal user) =>
-{
-    return Results.Ok();
-}).RequireAuthorization("Employee");
-
-_ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
-{
-    return Results.Ok();
-}).RequireAuthorization("Admin");
-
-#endregion
 
 _ = app.MapFallbackToFile("/index.html");
 
 using var scope = app.Services.CreateScope();
 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-await unitOfWork.SeedAsync();
+await unitOfWork.SeedAsync(CancellationToken.None);
 
 #region create test users for in-memory db
 

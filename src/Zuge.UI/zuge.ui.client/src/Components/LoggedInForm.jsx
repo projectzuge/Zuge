@@ -1,4 +1,10 @@
-import "./../Styles/LoggedInForm.css";
+import {
+  profileButtonStyle,
+  profileButtonStyleDark,
+  logoutButtonStyle,
+  logoutButtonStyleDark,
+  formContainerStyle
+} from "./../Styles/LoggedInFormStyles.jsx";
 import Button from "@mui/material/Button";
 import { Container, Typography } from "@mui/material";
 import PropTypes from "prop-types";
@@ -13,61 +19,9 @@ LoggedInForm.propTypes = {
   removeCookie: PropTypes.func,
 };
 
-function LoggedInForm({ handleItemClick, setSignedIn, DarkMode, setCookie, removeCookie }) {
+function LoggedInForm({ handleItemClick, setSignedIn, DarkMode,
+  removeCookie }) {
   const navigate = useNavigate();
-
-  const profileButtonStyle = {
-    backgroundColor: "#eeeeee",
-    color: "#262626",
-    border: "1px solid #262626",
-    marginBottom: "20px",
-    width: "200px",
-    "&:hover": {
-      borderWidth: "1px",
-    },
-  };
-
-  const profileButtonStyleDark = {
-    backgroundColor: "#262626",
-    color: "#eeeeee",
-    border: "1px solid #eeeeee",
-    marginBottom: "20px",
-    width: "200px",
-    "&:hover": {
-      borderWidth: "1px",
-    },
-  };
-
-  const logoutButtonStyle = {
-    backgroundColor: "#eeeeee",
-    color: "#262626",
-    border: "1px solid #262626",
-    marginTop: "20px",
-    marginBottom: "20px",
-    width: "200px",
-    "&:hover": {
-      borderWidth: "1px",
-    },
-  };
-
-  const logoutButtonStyleDark = {
-    backgroundColor: "#262626",
-    color: "#eeeeee",
-    border: "1px solid #eeeeee",
-    marginTop: "20px",
-    marginBottom: "20px",
-    width: "200px",
-    "&:hover": {
-      borderWidth: "1px",
-    },
-  };
-
-  const formContainerStyle = {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginTop: "50px",
-  };
 
   const handleProfileClick = () => {
     navigate("/user");
