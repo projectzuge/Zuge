@@ -55,6 +55,7 @@ const FoundRoutesList = (props) => {
             to={toCity}
             train={route.train}
             passengerType={passengerType}
+            id={route.id}
             DarkMode={props.DarkMode}
           />
         ))

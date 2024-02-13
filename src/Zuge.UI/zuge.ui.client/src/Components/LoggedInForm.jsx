@@ -19,7 +19,7 @@ LoggedInForm.propTypes = {
   removeCookie: PropTypes.func,
 };
 
-function LoggedInForm({ handleItemClick, setSignedIn, DarkMode, 
+function LoggedInForm({ handleItemClick, setSignedIn, DarkMode,
   removeCookie }) {
   const navigate = useNavigate();
 

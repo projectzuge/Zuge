@@ -25,6 +25,7 @@ const SingleFoundRoute = (props) => {
   const to = props.to;
   const train = props.train;
   const passengerType = props.passengerType;
+  const id = props.id;
 
   const navigate = useNavigate();
 
@@ -39,8 +40,10 @@ const SingleFoundRoute = (props) => {
       duration: duration,
       passengerType: passengerType,
       price: price,
+      id: id,
     };
     setJourney(data);
+    console.log("data:", data);
     sessionStorage.setItem("routeDataState", JSON.stringify(data));
     navigate("/route");
   };

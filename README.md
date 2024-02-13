@@ -68,3 +68,16 @@ Scaffold DbContext
 - react-input-mask (^2.0.4)
 - react-router-dom (^6.21.1)
 - react-toastify (^10.0.4)
+
+### To test:
+
+Working cities:
+
+- Keuruu
+- Haapamäki
+- Kolho
+- Vilppula
+- Juupajoki
+- Orivesi Keskusta
+- Orivesi
+- Tampere

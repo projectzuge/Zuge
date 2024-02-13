@@ -7,11 +7,11 @@ import { useNavigate } from "react-router-dom";
 const PurchaseDone = ({ DarkMode }) => {
   const navigate = useNavigate();
   const emails = JSON.parse(sessionStorage.getItem("emailsForTickets"));
+  sessionStorage.removeItem("routeDataState");
+  sessionStorage.removeItem("formState");
 
   const onBackToFrontPageClick = async () => {
-    sessionStorage.removeItem("emailsForTicket");
-    sessionStorage.removeItem("routeDataState");
-    sessionStorage.removeItem("formState");
+    sessionStorage.removeItem("emailsForTickets");
     navigate("/");
   };
 

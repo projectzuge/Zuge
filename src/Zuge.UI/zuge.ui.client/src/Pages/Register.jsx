@@ -1,33 +1,35 @@
 import RegisterForm from './../Components/RegisterForm.jsx';
-import { buttonStyleLight, 
+import { buttonStyleLight,
 buttonStyleDark } from './../Styles/RegisterStyles.jsx';
 import { inValidInputButtonStyle } from './../Styles/RegisterStyles.jsx';
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import PropTypes from 'prop-types';
+import { toast } from "react-toastify";
 
 Register.propTypes = {
     DarkMode: PropTypes.bool,
 };
 
 function Register({ DarkMode }) {
+    toast.dismiss();
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
     const [inputs, setInputs] = useState({
-        email: "", 
-        password: "", 
-        rePassword: "", 
-        firstName: "", 
-        lastName: "", 
+        email: "",
+        password: "",
+        rePassword: "",
+        firstName: "",
+        lastName: "",
         phoneNum: ""});
     const [inputValidities, setInputValidities] = useState({
-        isPasswordsEqual: true, 
-        isEmailValid: "initial", 
-        isPasswordValid: "initial", 
-        isRePasswordValid: "initial", 
-        isFirstNameValid: "initial", 
-        isLastNameValid: "initial", 
+        isPasswordsEqual: true,
+        isEmailValid: "initial",
+        isPasswordValid: "initial",
+        isRePasswordValid: "initial",
+        isFirstNameValid: "initial",
+        isLastNameValid: "initial",
         isPhoneNumValid: "initial"});
     const [isValidRegistration, setIsValidRegistration] = useState(true);
     const validEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
@@ -40,7 +42,7 @@ function Register({ DarkMode }) {
         else {
             setInputValidities({...inputValidities, isPasswordsEqual: false});
         }
-    }, [inputs.password, inputs.rePassword, inputValidities, 
+    }, [inputs.password, inputs.rePassword, inputValidities,
         inputValidities.isPasswordsEqual]);
 
     const checkPassword = (e, passwordValidity) => {
@@ -48,10 +50,10 @@ function Register({ DarkMode }) {
         const acceptedCapitalLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
         const acceptedNumbers = "1234567890";
         const acceptedSpecialChars = "!?-_#@£$";
-        const isChars = {isSmallLetters: 0, isCapitalLetters: 0, isNumbers: 0, 
+        const isChars = {isSmallLetters: 0, isCapitalLetters: 0, isNumbers: 0,
             isSpecialChars: 0};
         const passwordInput = e.target.value;
-    
+
         for (const char of passwordInput) {
           if (acceptedSmallLetters.includes(char)) {
             isChars.isSmallLetters = 1;
@@ -68,7 +70,7 @@ function Register({ DarkMode }) {
         }
 
         let obj = {...inputValidities};
-    
+
         if (passwordInput.length < 6 || passwordInput.length > 100) {
             obj[passwordValidity] = false;
         }
@@ -80,7 +82,7 @@ function Register({ DarkMode }) {
         }
         setInputValidities(obj);
     }
-    
+
     const checkEmail = (e) => {
         if (e.target?.value && e.target.value.match(validEmail)) {
             setInputValidities({...inputValidities, isEmailValid: true});
@@ -91,7 +93,7 @@ function Register({ DarkMode }) {
     }
 
     const checkName = (e, nameValidity) => {
-        const acceptedLetters = 
+        const acceptedLetters =
         "abcdefghijklmnopqrstuvwxyzåäöABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
         const nameInput = e.target.value;
 
@@ -106,15 +108,15 @@ function Register({ DarkMode }) {
 
         if (nameInput.length < 1 || nameInput.length > 100) {
             obj[nameValidity] = false;
-            
+
         }
         else if (validCharCount !== nameInput.length) {
             obj[nameValidity] = false;
-            
+
         }
         else {
             obj[nameValidity] = true;
-            
+
         }
         setInputValidities(obj);
     }
@@ -131,7 +133,7 @@ function Register({ DarkMode }) {
         checkEmail(e);
         setInputs({...inputs, email: e.target.value});
       }
-    
+
     const onPasswordChange = (e) => {
         checkPassword(e, "isPasswordValid");
         setInputs({...inputs, password: e.target.value});
@@ -176,13 +178,13 @@ function Register({ DarkMode }) {
     };
 
     const handlePasswordInput = (event) => {
-        const sanitizedValue = 
+        const sanitizedValue =
         event.target.value.replace(/[^A-Za-z0-9!?#@\-_%£$äöåÄÖÅ]/g, '');
         event.target.value = sanitizedValue;
         };
-    
+
     const handleEmailInput = (event) => {
-        const sanitizedValue = 
+        const sanitizedValue =
         event.target.value.replace(/[^A-Za-z0-9.@_]/g, '');
         event.target.value = sanitizedValue;
     };
@@ -213,7 +215,7 @@ function Register({ DarkMode }) {
             return buttonStyleLight;
         }
     }
-    
+
 
     const handleRegisterClicked = () => {
 
@@ -225,46 +227,46 @@ function Register({ DarkMode }) {
                 });
             }
             if (inputValidities.isPasswordValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isPasswordValid: false}});
             }
             if (inputValidities.isRePasswordValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isRePasswordValid: false}});
             }
             if (inputValidities.isFirstNameValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isFirstNameValid: false}});
             }
             if (inputValidities.isLastNameValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isLastNameValid: false}});
             }
             if (inputValidities.isPhoneNumValid === "initial") {
-                setInputValidities((prev) => { 
+                setInputValidities((prev) => {
                     return {...prev, isPhoneNumValid: false}});
             }
 
             setIsValidRegistration(false);
             return;
         }
-        
-        if (inputValidities.isEmailValid && inputValidities.isPasswordValid 
-            && inputValidities.isRePasswordValid 
-            && inputValidities.isFirstNameValid && 
-            inputValidities.isLastNameValid && inputValidities.isPhoneNumValid 
+
+        if (inputValidities.isEmailValid && inputValidities.isPasswordValid
+            && inputValidities.isRePasswordValid
+            && inputValidities.isFirstNameValid &&
+            inputValidities.isLastNameValid && inputValidities.isPhoneNumValid
             && inputValidities.isPasswordsEqual) {
             // axios.post("Account", {FirstName: inputs.firstName
-            // , LastName: inputs.lastName, Email: inputs.email, 
+            // , LastName: inputs.lastName, Email: inputs.email,
             // Password: inputs.password, PhoneNumber: inputs.phoneNum})
-            axios.post("account/register", { Email: inputs.email, Password: 
+            axios.post("account/register", { Email: inputs.email, Password:
                 inputs.password })
             .then(response => {
                 if (response.status === 200) {
-                     // add missing info since Identity only registers with 
+                     // add missing info since Identity only registers with
                      // email/password
-                    axios.post("account/manage/register?email=" + inputs.email, 
-                    { FirstName: inputs.firstName, LastName: inputs.lastName, 
+                    axios.post("account/manage/register?email=" + inputs.email,
+                    { FirstName: inputs.firstName, LastName: inputs.lastName,
                         PhoneNumber: inputs.phoneNum })
                         .then(response => console.log(response));
                 }
@@ -272,11 +274,11 @@ function Register({ DarkMode }) {
             .then(() => {
                 setIsValidRegistration(true);
                 setInputs({
-                email: "", 
-                password: "", 
-                rePassword: "", 
-                firstName: "", 
-                lastName: "", 
+                email: "",
+                password: "",
+                rePassword: "",
+                firstName: "",
+                lastName: "",
                 phoneNum: ""});
                 navigate('/successfulRegister');
             })
@@ -292,7 +294,7 @@ function Register({ DarkMode }) {
 
   return (
     <>
-        <RegisterForm 
+        <RegisterForm
         DarkMode={DarkMode}
         inputs={inputs}
         inputValidities={inputValidities}
