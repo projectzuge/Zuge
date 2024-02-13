@@ -51,8 +51,10 @@ body {
 
 body #body-light {
   min-height: 1000px;
+  height: fit-content;
   margin: 0px;
   padding: 0px;
+  padding-bottom: 60px;
   background-image: url("https://images.unsplash.com/photo-1561313658-4a6bb2933e43?q=80&w=1972&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
   background-position: center;
   background-repeat: no-repeat;
@@ -63,8 +65,10 @@ body #body-light {
 
 body #body-dark {
   min-height: 1000px;
+  height: fit-content;
   margin: 0px;
   padding: 0px;
+  padding-bottom: 60px;
   background-image: url("../assets/dark-background.jpg");
   background-position: top;
   background-repeat: repeat;
