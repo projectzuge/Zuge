@@ -5,9 +5,9 @@ Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
     "Development");
 
-//Environment.SetEnvironmentVariable(
-//     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
-//     "Microsoft.AspNetCore.SpaProxy");
+Environment.SetEnvironmentVariable(
+     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+     "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
 
