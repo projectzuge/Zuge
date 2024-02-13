@@ -1,13 +1,13 @@
 #dropDownMenu > .MuiPaper-root {
     width: 300px;
-    height: 450px;
+    height: 370px;
     padding-left: 30px;
     background-color: #eeeeee;
 }
 
 #dropDownMenuDark > .MuiPaper-root {
     width: 300px;
-    height: 450px;
+    height: 370px;
     padding-left: 30px;
     background-color: #262626;
 }
@@ -22,7 +22,7 @@
 }
 
 .emptyItem {
-    height: 160px;
+    height: 80px;
 }
 
 .DarkThemeBody {

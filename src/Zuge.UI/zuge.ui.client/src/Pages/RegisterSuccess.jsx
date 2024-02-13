@@ -11,7 +11,8 @@ function RegisterSuccess({DarkMode}) {
   toast.dismiss();
     return (
       <>
-        <div className={DarkMode? "RegisterSuccessBodyDark" : "RegisterSuccessBodyLight"}>
+        <div className={DarkMode? "RegisterSuccessBodyDark" : 
+        "RegisterSuccessBodyLight"}>
           <Typography>
             Registration successful!!!
           </Typography>

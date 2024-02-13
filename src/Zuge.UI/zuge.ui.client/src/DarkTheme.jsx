@@ -99,7 +99,8 @@ const DarkTheme = createTheme({
         containedSecondary: {
           height: "56px",
           "&:hover": {
-            backgroundColor: "#88ed74", // Set the desired hover color for secondary buttons
+            backgroundColor: "#88ed74", // Set the desired hover color 
+                                        // for secondary buttons
             outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         },
