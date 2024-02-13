@@ -1,21 +1,28 @@
 using Microsoft.AspNetCore.Identity;
 
-Environment.SetEnvironmentVariable(
-    "ASPNETCORE_ENVIRONMENT",
-    "Development");
+// Environment.SetEnvironmentVariable(
+//     "ASPNETCORE_ENVIRONMENT",
+//     "Development");
 
 Environment.SetEnvironmentVariable(
-     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
-     "Microsoft.AspNetCore.SpaProxy");
+    "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+    "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
 
 _ = builder.Services.AddDbContext<IUnitOfWork, UnitOfWork>(options =>
-    _ = options.UseInMemoryDatabase("Domain"));
+    _ = builder.Environment.IsProduction()
+        ? options.UseNpgsql(
+            Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DOMAIN"))
+        : options.UseInMemoryDatabase("Domain"));
 
 _ = builder.Services
     .AddDbContext<AuthenticationDbContext>(options =>
-        options.UseInMemoryDatabase("IdentityAuth"))
+        _ = builder.Environment.IsProduction()
+            ? options.UseNpgsql(
+                Environment.GetEnvironmentVariable(
+                    "POSTGRESQLCONNSTR_IDENTITY"))
+            : options.UseInMemoryDatabase("Identity"))
     .AddAuthorization(options =>
     {
         options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
@@ -56,7 +63,7 @@ _ = app.MapFallbackToFile("/index.html");
 
 using var scope = app.Services.CreateScope();
 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-await unitOfWork.SeedAsync(CancellationToken.None);
+await unitOfWork.MigrateAsync(CancellationToken.None);
 
 #region create test users for in-memory db
 

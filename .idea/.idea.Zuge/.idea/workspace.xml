@@ -11,21 +11,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Dtos.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Entities.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/UseCases.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Validation.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Properties/launchSettings.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,31 +56,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;.NET Project.Zuge.UI.Server.executor&quot;: &quot;Run&quot;,
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    ".NET Project.Zuge.UI.Server.executor": "Run",
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "jani-azure-deployment",
+    "ignore.virus.scanning.warn.message": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.stylelint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.stylelint": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\Buutti\\AppData\\Local\\Symbols\\src&quot;
+  "keyToStringList": {
+    "rider.external.source.directories": [
+      "C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\Buutti\\AppData\\Local\\Symbols\\src"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected=".NET Project.Zuge.UI.Server">
     <configuration name="Zuge.UI.Server" type="DotNetProject" factoryName=".NET Project" temporary="true">
       <option name="EXE_PATH" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/bin/Debug/net8.0/Zuge.UI.Server.exe" />
@@ -196,6 +185,8 @@
       <workItem from="1707562254112" duration="140000" />
       <workItem from="1707573645852" duration="10261000" />
       <workItem from="1707660397558" duration="21128000" />
+      <workItem from="1707819259640" duration="29000" />
+      <workItem from="1707819375812" duration="1198000" />
     </task>
     <servers />
   </component>

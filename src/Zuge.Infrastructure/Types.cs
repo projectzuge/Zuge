@@ -32,10 +32,10 @@ public class UnitOfWork(DbContextOptions<UnitOfWork> options) :
     public Task CommitAsync(CancellationToken cancellationToken = default) =>
         SaveChangesAsync(cancellationToken);
 
-    public Task SeedAsync(CancellationToken cancellationToken = default) =>
-        Database.IsInMemory()
-            ? Database.EnsureCreatedAsync(cancellationToken)
-            : Task.CompletedTask;
+    public Task MigrateAsync(CancellationToken cancellationToken = default) =>
+        Database.IsRelational()
+            ? Database.MigrateAsync(cancellationToken)
+            : Database.EnsureCreatedAsync(cancellationToken);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
