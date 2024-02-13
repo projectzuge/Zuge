@@ -36,7 +36,7 @@ LoginForm.propTypes = {
   isLoginValid: PropTypes.bool,
   isEmailValid: PropTypes.bool,
   email: PropTypes.bool,
-  isPasswordValid: PropTypes.func,
+  isPasswordValid: PropTypes.bool,
   password: PropTypes.bool,
   showPasswordUser: PropTypes.bool,
   handleItemClick: PropTypes.func,
