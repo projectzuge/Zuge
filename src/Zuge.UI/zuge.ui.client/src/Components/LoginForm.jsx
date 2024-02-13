@@ -180,10 +180,8 @@ function LoginForm({ DarkMode, handleItemClick, setSignedIn, cookies, setCookie 
 
   const handlePasswordInput = (event) => {
     const sanitizedValue = event.target.value.replace(
-      /[^A-Za-z0-9!?#@\-_£$äöåÄÖÅ]/g,
-      ""
-    );
-    event.target.value = sanitizedValue;
+      /[^A-Za-z0-9!?#@\-_£$äöåÄÖÅ]/g, "");
+      event.target.value = sanitizedValue;
   };
 
   const handleEmailInput = (event) => {

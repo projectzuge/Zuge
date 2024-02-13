@@ -99,7 +99,8 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
         </div>
         <div className="MenuLink">
           <Link id="UserLink" onClick={handleClickUser}>
-            <Typography variant={variant}>Käyttäjä</Typography>
+            <Typography variant={variant}>{cookies.userData? 
+            cookies.userData.firstName : "Käyttäjä"}</Typography>
           </Link>
         </div>
         <div className="toggleContainerMenu">
@@ -177,6 +178,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
             handleItemClick={handleItemClick}
             switchLightDark={switchLightDark}
             DarkMode={DarkMode}
+            cookies={cookies}
           />
         </div>
       </div>
