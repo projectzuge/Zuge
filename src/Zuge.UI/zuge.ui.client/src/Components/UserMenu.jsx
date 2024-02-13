@@ -1,6 +1,6 @@
 import './../Styles/UserMenu.css';
 import Menu from '@mui/material/Menu';
-import LoginForm from "./LoginForm.jsx";
+import Login from "./Login.jsx";
 import LoggedInForm from "./LoggedInForm.jsx";
 import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
@@ -66,7 +66,7 @@ function UserMenu({
               removeCookie={removeCookie}
             />
           ) : (
-            <LoginForm
+            <Login
               handleItemClick={handleItemClick}
               setSignedIn={setSignedIn}
               DarkMode={DarkMode}

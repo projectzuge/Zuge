@@ -16,8 +16,8 @@ DropDownMenu.propTypes = {
 };
 
 
-function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItemClick,
-  switchLightDark, DarkMode, cookies }) {
+function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, 
+  handleItemClick, switchLightDark, DarkMode, cookies }) {
 
   return (
     <>
@@ -41,10 +41,12 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
           }}
         >
           <MenuItem onClick={handleItemClick}>
-              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} to="/SingleNews">Uutiset</Link></p>
+              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} 
+              to="/SingleNews">Uutiset</Link></p>
           </MenuItem>
           <MenuItem onClick={handleItemClick}>
-              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} to="/contact">Yhteystiedot</Link></p>
+              <p><Link className={DarkMode? "MenuItemLink dark" : "MenuItemLink"} 
+              to="/contact">Yhteystiedot</Link></p>
           </MenuItem>
           <MenuItem onClick={(event) => {
             handleItemClick();
@@ -54,11 +56,14 @@ function DropDownMenu({ anchorEl, open, handleClose, handleClickUser, handleItem
               "MenuItemLink"}>{cookies.userData? 
               cookies.userData.firstName : "Käyttäjä"}</Link></p>
           </MenuItem>
-          <MenuItem className="emptyItem" disableRipple style={{ backgroundColor: 'transparent' }}>
+          <MenuItem className="emptyItem" disableRipple style=
+          {{ backgroundColor: 'transparent' }}>
           </MenuItem>
-          <MenuItem id="DarkThemeItem" disableRipple style={{ backgroundColor: 'transparent' }}>
+          <MenuItem id="DarkThemeItem" disableRipple style=
+          {{ backgroundColor: 'transparent' }}>
             <div className="DarkThemeBody">
-            <p className={DarkMode? "DarkThemeText dark" : "DarkThemeText"}>Tumma tila</p>
+            <p className={DarkMode? "DarkThemeText dark" : 
+            "DarkThemeText"}>Tumma tila</p>
             <div className="toggleContainer">
               <input type="checkbox"
                     id="switch"
