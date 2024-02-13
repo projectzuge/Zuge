@@ -76,7 +76,7 @@ function LoginForm({
                 e.stopPropagation();
               }}
               error={!isEmailValid}
-              helperText={!isEmailValid ? "Invalid email address" : ""}
+              helperText={!isEmailValid ? "Virheellinen sähköposti" : ""}
               value={email}
               type="email"
               name="email"
@@ -97,7 +97,7 @@ function LoginForm({
               type={showPasswordUser ? "text" : "password"}
               fullWidth
               error={!isPasswordValid}
-              helperText={!isPasswordValid ? "Invalid password" : ""}
+              helperText={!isPasswordValid ? "Virheellinen salasana" : ""}
               required
               InputProps={{
                 endAdornment: (
@@ -159,7 +159,7 @@ function LoginForm({
               sx={{
                 fontSize: "90%",
                 display: "inline",
-                color: "#ff3c3c",
+                color: "#ff3c3c !important",
               }}
               style={isLoginValid ? { display: "none" } : { display: "inline" }}
             >
