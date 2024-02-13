@@ -1,5 +1,11 @@
 ﻿namespace Zuge.Domain;
 
+public record Journey(
+    TimeSpan Duration,
+    int Id,
+    decimal Price,
+    string Train);
+
 public record Stop(
     DateTimeOffset ArrivesAt,
     string ArrivesFrom,
@@ -15,60 +21,34 @@ public record Ticket(
     int Id,
     int JourneyId);
 
-public record Journey(
-    TimeSpan Duration,
-    int Id,
-    decimal Price,
-    IEnumerable<Stop> Stops,
-    IEnumerable<Ticket> Tickets,
-    string Train)
+public interface IRepository<T>
 {
-    Journey() : this(
-        default!,
-        default!,
-        default!,
-        default!,
-        default!,
-        default!) { }
-}
+    void AddRange(IEnumerable<T> entities);
 
-public interface IJourneyRepository
-{
-    Task<Journey?> FirstOrDefaultAsync(
-        int id,
+    Task<List<T>> ToListAsync(
+        Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default);
     
-    Task<List<Journey>> ToListAsync(
-        SearchQuery searchQuery,
+    Task<T?> FirstOrDefaultAsync(
+        Expression<Func<T, bool>> predicate,
         CancellationToken cancellationToken = default);
-}
-
-public interface IStopRepository
-{
-    Task<List<Stop>> ToListAsync(
-        int journeyId,
-        CancellationToken cancellationToken = default);
-}
-
-public interface ITicketRepository
-{
-    void AddRange(IEnumerable<Ticket> tickets);
 }
 
 public interface IUnitOfWork
 {
-    IJourneyRepository Journeys { get; }
-    IStopRepository Stops { get; }
-    ITicketRepository Tickets { get; }
-    
+    IRepository<Journey> Journeys { get; }
+    IRepository<Stop> Stops { get; }
+    IRepository<Ticket> Tickets { get; }
+
     Task CommitAsync(CancellationToken cancellationToken = default);
+    Task SeedAsync(CancellationToken cancellationToken = default);
 }
 
 public record Result(
     object? Data,
     bool Success);
 
-public record PurchaseCommand(
+public record PurchaseTicketArgs(
     string CardCvc,
     DateOnly CardDate,
     string CardHolder,
@@ -76,7 +56,17 @@ public record PurchaseCommand(
     string EmailAddress,
     int JourneyId);
 
-public record SearchQuery(
+public delegate Task<Result> PurchaseTicketHandler(
+    IUnitOfWork unitOfWork,
+    PurchaseTicketArgs args,
+    CancellationToken cancellationToken = default);
+
+public record SearchJourneysArgs(
     DateOnly Date,
     string From,
     string To);
+    
+public delegate Task<Result> SearchJourneysHandler(
+    IUnitOfWork unitOfWork,
+    SearchJourneysArgs args,
+    CancellationToken cancellationToken = default);

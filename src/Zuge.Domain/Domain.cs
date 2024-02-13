@@ -1,100 +1,120 @@
 ﻿namespace Zuge.Domain;
 
-using FluentValidation;
-
 public static class Domain
 {
-    static InlineValidator<PurchaseCommand> PurchaseCommandValidator => new()
-    {
-        rules => rules
-            .RuleFor(model => model.CardCvc)
-            .Matches(@"^\d{3,4}$"),
+    public static PurchaseTicketHandler PurchaseTicketAsync =>
+        async (unitOfWork, args, cancellationToken) =>
+        {
+            var result = await new InlineValidator<PurchaseTicketArgs>
+            {
+                rules => rules
+                    .RuleFor(purchaseTicket => purchaseTicket.CardCvc)
+                    .Matches(@"^\d{3,4}$"),
 
-        rules => rules
-            .RuleFor(model => model.CardDate)
-            .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)),
+                rules => rules
+                    .RuleFor(purchaseTicket => purchaseTicket.CardDate)
+                    .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)),
 
-        rules => rules
-            .RuleFor(model => model.CardHolder)
-            .NotEmpty(),
+                rules => rules
+                    .RuleFor(purchaseTicket => purchaseTicket.CardHolder)
+                    .NotEmpty(),
 
-        rules => rules
-            .RuleFor(model => model.CardNumber)
-            .CreditCard(),
+                rules => rules
+                    .RuleFor(purchaseTicket => purchaseTicket.CardNumber)
+                    .CreditCard(),
 
-        rules => rules
-            .RuleFor(model => model.EmailAddress)
-            .EmailAddress(),
+                rules => rules
+                    .RuleFor(purchaseTicket => purchaseTicket.EmailAddress)
+                    .EmailAddress(),
 
-        rules => rules
-            .RuleFor(model => model.JourneyId)
-            .GreaterThan(0)
-    };
+                rules => rules
+                    .RuleFor(purchaseTicket => purchaseTicket.JourneyId)
+                    .GreaterThan(0)
+            }.ValidateAsync(args, cancellationToken);
 
-    static InlineValidator<SearchQuery> SearchQueryValidator => new()
-    {
-        rules => rules
-            .RuleFor(model => model.Date)
-            .GreaterThanOrEqualTo(
-                DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)),
+            if (result.ToDictionary() is { Count: > 0 } errors)
+                return new(errors, false);
 
-        rules => rules
-            .RuleFor(model => model.From)
-            .NotEmpty(),
+            var (_, _, _, cardNumber, emailAddress, journeyId) = args;
 
-        rules => rules
-            .RuleFor(model => model.To)
-            .NotEmpty(),
+            var journey = await unitOfWork.Journeys.FirstOrDefaultAsync(
+                journey => journey.Id == journeyId,
+                cancellationToken);
 
-        rules => rules
-            .RuleFor(model => model.From)
-            .NotEqual(model => model.To)
-    };
+            if (journey is null)
+                return new(null, false);
 
-    public static async Task<Result> PurchaseAsync(
-        this IUnitOfWork unitOfWork,
-        PurchaseCommand purchaseCommand,
-        CancellationToken cancellationToken = default)
-    {
-        var validationResult = await PurchaseCommandValidator.ValidateAsync(
-            purchaseCommand,
-            cancellationToken);
+            if (cardNumber != "4242424242424242")
+                return new(null, false);
 
-        if (!validationResult.IsValid)
-            return new(validationResult.ToDictionary(), false);
+            Ticket ticket = new(emailAddress, 0, journeyId);
+            unitOfWork.Tickets.AddRange([ticket]);
+            await unitOfWork.CommitAsync(cancellationToken);
 
-        var journey = await unitOfWork.Journeys.FirstOrDefaultAsync(
-            purchaseCommand.JourneyId,
-            cancellationToken);
+            return new(null, true);
+        };
 
-        if (journey is null) return new(null, false);
+    public static SearchJourneysHandler SearchJourneysAsync =>
+        async (unitOfWork, args, cancellationToken) =>
+        {
+            var result = await new InlineValidator<SearchJourneysArgs>
+            {
+                rules => rules
+                    .RuleFor(searchJourneys => searchJourneys.Date)
+                    .GreaterThanOrEqualTo(
+                        DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)),
 
-        if (purchaseCommand.CardNumber != "4242424242424242")
-            return new(null, false);
+                rules => rules
+                    .RuleFor(searchJourneys => searchJourneys.From)
+                    .NotEmpty(),
 
-        Ticket ticket = new(purchaseCommand.EmailAddress, 0, journey.Id);
-        unitOfWork.Tickets.AddRange([ticket]);
-        await unitOfWork.CommitAsync(cancellationToken);
+                rules => rules
+                    .RuleFor(searchJourneys => searchJourneys.To)
+                    .NotEmpty(),
 
-        return new(ticket, true);
-    }
+                rules => rules
+                    .RuleFor(searchJourneys => searchJourneys.From)
+                    .NotEqual(searchJourneys => searchJourneys.To)
+            }.ValidateAsync(args, cancellationToken);
 
-    public static async Task<Result> SearchAsync(
-        this IUnitOfWork unitOfWork,
-        SearchQuery searchQuery,
-        CancellationToken cancellationToken = default)
-    {
-        var validationResult = await SearchQueryValidator.ValidateAsync(
-            searchQuery,
-            cancellationToken);
+            if (result.ToDictionary() is { Count: > 0 } errors)
+                return new(errors, false);
 
-        if (!validationResult.IsValid)
-            return new(validationResult.ToDictionary(), false);
+            var (date, from, to) = args;
 
-        var journeys = await unitOfWork.Journeys.ToListAsync(
-            searchQuery,
-            cancellationToken);
+            var froms = await unitOfWork.Stops.ToListAsync(stop =>
+                    DateOnly.FromDateTime(stop.DepartsAt.Date) <= date &&
+                    stop.DepartsFrom == from,
+                cancellationToken);
 
-        return new(journeys, true);
-    }
+            var tos = await unitOfWork.Stops.ToListAsync(stop =>
+                    DateOnly.FromDateTime(stop.DepartsAt.Date) >= date &&
+                    stop.DepartsFrom == to,
+                cancellationToken);
+
+            var ids = froms
+                .Zip(tos)
+                .Where(pair =>
+                    pair.First.JourneyId == pair.Second.JourneyId &&
+                    pair.First.Ordinal < pair.Second.Ordinal)
+                .Select(pair => pair.First.JourneyId);
+
+            var journeys = await unitOfWork.Journeys.ToListAsync(
+                journey => ids.Contains(journey.Id),
+                cancellationToken);
+
+            var data = await Task.WhenAll(
+                journeys.Select(async journey => new
+                {
+                    journey.Duration,
+                    journey.Id,
+                    journey.Price,
+                    Stops = await unitOfWork.Stops.ToListAsync(
+                        stop => stop.JourneyId == journey.Id,
+                        cancellationToken),
+                    journey.Train
+                }));
+
+            return new(data, true);
+        };
 }
