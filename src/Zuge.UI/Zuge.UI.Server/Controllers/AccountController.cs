@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Data;
-using Zuge.Infrastructure;
 
 namespace Zuge.UI.Server.Controllers;
 
@@ -21,13 +19,33 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     public async Task<IActionResult> OnGetAsync()
     {
         var appUser = await userManager.GetUserAsync(User);
-        if (appUser == null) return NotFound("This should not happen");
+        if (appUser is null) return NotFound("This should not happen");
         var roles = await userManager.GetRolesAsync(appUser);
         var userId = await userManager.GetUserIdAsync(appUser);
 
         return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });
     }
-
+    [HttpGet]
+    [Authorize(Policy = "Admin")]
+    [Route("pingauth/admin")]
+    public IActionResult OnGetPingAuthAdmin()
+    {
+        return Ok();
+    }
+    [HttpGet]
+    [Authorize(Policy = "Employee")]
+    [Route("pingauth/employee")]
+    public IActionResult OnGetPingAuthEmployee()
+    {
+        return Ok();
+    }
+    [HttpGet]
+    [Authorize(Policy = "User")]
+    [Route("pingauth")]
+    public IActionResult OnGetPingAuthUser()
+    {
+        return Ok();
+    }
     [HttpPost]
     [Route("manage/register")]
     public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
@@ -68,5 +86,18 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
         var userId = await userManager.GetUserIdAsync(user);
 
         return Ok(new { user.Email, user.FirstName, user.LastName, user.PhoneNumber, roles, userId });
+    }
+    [HttpPost]
+    [Authorize(Policy = "User")]
+    [Route("logout")]
+    public async Task<IActionResult> OnPostLogoutAsync([FromServices] SignInManager<ApplicationUser> signInManager, [FromBody] object? empty)
+    {
+        if (empty != null)
+        {
+            await signInManager.SignOutAsync();
+            return Ok();
+        }
+
+        return Unauthorized();
     }
 }

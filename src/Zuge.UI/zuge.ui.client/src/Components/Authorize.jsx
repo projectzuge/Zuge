@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-function Authorize({setCookie, children}) {
+function Authorize({setCookie, removeCookie, children}) {
   useEffect(() => {
     getUserInfo();
   },[]);
@@ -15,7 +15,10 @@ function Authorize({setCookie, children}) {
         }
       })
       .catch((error) => {
-        console.log("No login found");
+        if (error.status === 401) {
+          removeCookie("userData");
+          console.log("No login found");
+        } 
       });
   };
   return (

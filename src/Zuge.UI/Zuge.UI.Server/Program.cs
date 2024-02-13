@@ -1,6 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
@@ -30,6 +28,14 @@ _ = builder.Services
     .AddRoleManager<RoleManager<IdentityRole>>()
     .AddEntityFrameworkStores<AuthenticationDbContext>();
 
+_ = builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.Name = "ZugeAuth";
+    options.Cookie.HttpOnly = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+    options.SlidingExpiration = true;
+});
+
 _ = builder.Services.AddControllers();
 _ = builder.Services.AddEndpointsApiExplorer();
 _ = builder.Services.AddSwaggerGen();
@@ -44,45 +50,7 @@ _ = app.UseAuthorization();
 _ = app.MapControllers();
 _ = app.MapPost("purchase", Domain.PurchaseTicketAsync);
 _ = app.MapPost("search", Domain.SearchJourneysAsync);
-
-#region map auth endpoints
-
 _ = app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
-
-_ = app.MapPost("/account/logout", async (
-    SignInManager<ApplicationUser> signInManager,
-    [FromBody] object? empty) =>
-{
-    if (empty != null)
-    {
-        await signInManager.SignOutAsync();
-        return Results.Ok();
-    }
-
-    return Results.Unauthorized();
-}).RequireAuthorization();
-_ = app.MapGet("/account/pingauth/", (ClaimsPrincipal user) =>
-{
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("User");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
-}).RequireAuthorization("User");
-
-_ = app.MapGet("/account/pingauth/employee", (ClaimsPrincipal user) =>
-{
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("Employee");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
-}).RequireAuthorization("Employee");
-
-_ = app.MapGet("/account/pingauth/admin", (ClaimsPrincipal user) =>
-{
-    var email = user.FindFirstValue(ClaimTypes.Email);
-    bool isInRole = user.IsInRole("Employee");
-    return Results.Json(new { Email = email, IsInRole = isInRole });
-}).RequireAuthorization("Admin");
-
-#endregion
 
 _ = app.MapFallbackToFile("/index.html");
 
