@@ -65,6 +65,15 @@ using var scope = app.Services.CreateScope();
 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 await unitOfWork.MigrateAsync(CancellationToken.None);
 
+var authenticationContext =
+    scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
+
+await authenticationContext.Database.EnsureDeletedAsync(CancellationToken.None);
+await (authenticationContext.Database.IsRelational()
+    ? authenticationContext.Database.MigrateAsync(CancellationToken.None)
+    : authenticationContext.Database.EnsureCreatedAsync(
+        CancellationToken.None));
+
 #region create test users for in-memory db
 
 var userManager =
