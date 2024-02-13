@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Zuge.Infrastructure;
@@ -88,5 +89,18 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
         var userId = await userManager.GetUserIdAsync(user);
 
         return Ok(new { user.Email, user.FirstName, user.LastName, user.PhoneNumber, roles, userId });
+    }
+    [HttpPost]
+    [Authorize(Policy = "User")]
+    [Route("logout")]
+    public async Task<IActionResult> OnPostLogoutAsync([FromServices] SignInManager<ApplicationUser> signInManager, [FromBody] object? empty)
+    {
+        if (empty != null)
+        {
+            await signInManager.SignOutAsync();
+            return Ok();
+        }
+
+        return Unauthorized();
     }
 }

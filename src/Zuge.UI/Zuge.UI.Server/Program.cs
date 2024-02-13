@@ -5,9 +5,9 @@ Environment.SetEnvironmentVariable(
     "ASPNETCORE_ENVIRONMENT",
     "Development");
 
-Environment.SetEnvironmentVariable(
-     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
-     "Microsoft.AspNetCore.SpaProxy");
+//Environment.SetEnvironmentVariable(
+//     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+//     "Microsoft.AspNetCore.SpaProxy");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,21 +51,7 @@ _ = app.UseAuthorization();
 _ = app.MapControllers();
 _ = app.MapPost("purchase", Domain.PurchaseTicketAsync);
 _ = app.MapPost("search", Domain.SearchJourneysAsync);
-
 _ = app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
-
-_ = app.MapPost("/account/logout", async (
-    SignInManager<ApplicationUser> signInManager,
-    [FromBody] object? empty) =>
-{
-    if (empty != null)
-    {
-        await signInManager.SignOutAsync();
-        return Results.Ok();
-    }
-
-    return Results.Unauthorized();
-}).RequireAuthorization();
 
 _ = app.MapFallbackToFile("/index.html");
 
