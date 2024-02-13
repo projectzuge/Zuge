@@ -21,13 +21,33 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     public async Task<IActionResult> OnGetAsync()
     {
         var appUser = await userManager.GetUserAsync(User);
-        if (appUser == null) return NotFound("This should not happen");
+        if (appUser is null) return NotFound("This should not happen");
         var roles = await userManager.GetRolesAsync(appUser);
         var userId = await userManager.GetUserIdAsync(appUser);
 
         return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });
     }
-
+    [HttpGet]
+    [Authorize(Policy = "Admin")]
+    [Route("pingauth/admin")]
+    public IActionResult OnGetPingAuthAdmin()
+    {
+        return Ok();
+    }
+    [HttpGet]
+    [Authorize(Policy = "Employee")]
+    [Route("pingauth/employee")]
+    public IActionResult OnGetPingAuthEmployee()
+    {
+        return Ok();
+    }
+    [HttpGet]
+    [Authorize(Policy = "User")]
+    [Route("pingauth")]
+    public IActionResult OnGetPingAuthUser()
+    {
+        return Ok();
+    }
     [HttpPost]
     [Route("manage/register")]
     public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
