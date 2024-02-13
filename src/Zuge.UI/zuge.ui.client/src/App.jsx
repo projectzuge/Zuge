@@ -35,7 +35,7 @@ function App() {
 
   return (
     <>
-      <Authorize setCookie={setCookie}>
+      <Authorize setCookie={setCookie} removeCookie={removeCookie}>
         <ThemeProvider theme={DarkMode ? darkTheme : theme}>
           <RouteContext.Provider value={cities}>
             <JourneyProvider>
