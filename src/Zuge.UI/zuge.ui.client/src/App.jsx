@@ -28,10 +28,9 @@ function App() {
   const cities = cityArray;
   const [cookies, setCookie, removeCookie] = useCookies([
     "DarkMode",
-    "userData"
+    "userData",
   ]);
   const [DarkMode, setDarkMode] = useState(cookies.DarkMode);
-
 
   return (
     <>
