@@ -15,7 +15,7 @@ function Authorize({setCookie, removeCookie, children}) {
         }
       })
       .catch((error) => {
-        if (error.status === 401){
+        if (error.status === 401) {
           removeCookie("userData");
           console.log("No login found");
         } 
