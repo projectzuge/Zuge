@@ -1,10 +1,13 @@
 import PurchaseDone from "../Components/PurchaseDone";
 import { toast } from "react-toastify";
 import "../Styles/PurchaseDone.css";
+import { useEffect } from "react";
 
 const SuccessfulPayment = ({ DarkMode }) => {
-  window.scrollTo(0, 0);
-  toast.dismiss();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.dismiss();
+  }, []);
   return (
     <>
       <div id="purchase-done-div">

@@ -9,14 +9,17 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import PropTypes from "prop-types";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
 
 FrontPage.propTypes = {
   DarkMode: PropTypes.bool,
 };
 
 function FrontPage({ DarkMode }) {
-  window.scrollTo(0, 0);
-  toast.dismiss();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.dismiss();
+  }, []);
   sessionStorage.removeItem("emailsForTickets");
 
   const theme = useTheme();

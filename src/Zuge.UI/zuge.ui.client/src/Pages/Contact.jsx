@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "./../Styles/Contact.css";
 import contacts from "./../assets/ContactsTest.json";
 import PropTypes from "prop-types";
@@ -8,8 +9,10 @@ Contact.propTypes = {
 };
 
 function Contact({ DarkMode }) {
-  window.scrollTo(0, 0);
-  toast.dismiss();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.dismiss();
+  }, []);
 
   return (
     <>

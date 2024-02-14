@@ -10,8 +10,10 @@ RegisterSuccess.propTypes = {
 };
 
 function RegisterSuccess({DarkMode}) {
-  window.scrollTo(0, 0);
-  toast.dismiss();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.dismiss();
+  }, []);
   const navigate = useNavigate();
   const targetElementRef = useRef(null);
 

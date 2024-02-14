@@ -5,9 +5,12 @@ import ProfileComponent from "../Components/ProfileComponent";
 import ProfileBoughtTickets from "../Components/ProfileBoughtTickets";
 import { useState } from "react";
 import AuthorizeView from "../Components/AuthorizeView";
+import { useEffect } from "react";
 
 const Profile = ({ DarkMode, cookies, setCookie }) => {
-  window.scrollTo(0, 0);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const [selectedButton, setSelectedButton] = useState("Omat tiedot");
 
   const handleButtonClick = (buttonName) => {
