@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 
-// Environment.SetEnvironmentVariable(
-//     "ASPNETCORE_ENVIRONMENT",
-//     "Development");
+//Environment.SetEnvironmentVariable(
+//    "ASPNETCORE_ENVIRONMENT",
+//    "Development");
 
 Environment.SetEnvironmentVariable(
     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
@@ -57,7 +57,7 @@ _ = app.UseAuthorization();
 _ = app.MapControllers();
 _ = app.MapPost("purchase", Domain.PurchaseTicketAsync);
 _ = app.MapPost("search", Domain.SearchJourneysAsync);
-_ = app.MapGroup("/account").MapIdentityApi<ApplicationUser>();
+_ = app.MapGroup("account").MapIdentityApi<ApplicationUser>();
 
 _ = app.MapFallbackToFile("/index.html");
 
@@ -67,55 +67,51 @@ await unitOfWork.MigrateAsync(CancellationToken.None);
 
 var authenticationContext =
     scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
+await authenticationContext.Database.MigrateAsync(CancellationToken.None);
 
-await authenticationContext.Database.EnsureDeletedAsync(CancellationToken.None);
-await (authenticationContext.Database.IsRelational()
-    ? authenticationContext.Database.MigrateAsync(CancellationToken.None)
-    : authenticationContext.Database.EnsureCreatedAsync(
-        CancellationToken.None));
-
+if (app.Environment.IsDevelopment())
+{
 #region create test users for in-memory db
+    var userManager =
+       scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();
+    var userStore = scope.ServiceProvider
+        .GetRequiredService<IUserStore<ApplicationUser>>();
+    var roleManager =
+        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var emailStore = (IUserEmailStore<ApplicationUser>)userStore;
 
-var userManager =
-    scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();
-var userStore = scope.ServiceProvider
-    .GetRequiredService<IUserStore<ApplicationUser>>();
-var roleManager =
-    scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-var emailStore = (IUserEmailStore<ApplicationUser>)userStore;
+    string adminEmail = "admin@zuge.fi";
+    string empEmail = "employee@zuge.fi";
+    string userEmail = "user@zuge.fi";
+    string password = "P@ssw0rd";
 
-string adminEmail = "admin@zuge.fi";
-string empEmail = "employee@zuge.fi";
-string userEmail = "user@zuge.fi";
-string password = "P@ssw0rd";
-
-var admin = new ApplicationUser
+    var admin = new ApplicationUser
     { FirstName = "Test", LastName = "Admin", PhoneNumber = "1234567890" };
-var employee = new ApplicationUser
+    var employee = new ApplicationUser
     { FirstName = "Test", LastName = "Employee", PhoneNumber = "1234567890" };
-var user = new ApplicationUser
+    var user = new ApplicationUser
     { FirstName = "Test", LastName = "User", PhoneNumber = "1234567890" };
 
-await roleManager.CreateAsync(new IdentityRole("Admin"));
-await roleManager.CreateAsync(new IdentityRole("Employee"));
-await roleManager.CreateAsync(new IdentityRole("User"));
+    await roleManager.CreateAsync(new IdentityRole("Admin"));
+    await roleManager.CreateAsync(new IdentityRole("Employee"));
+    await roleManager.CreateAsync(new IdentityRole("User"));
 
-await userStore.SetUserNameAsync(admin, adminEmail, CancellationToken.None);
-await emailStore.SetEmailAsync(admin, adminEmail, CancellationToken.None);
-await userManager.CreateAsync(admin, password);
-await userManager.AddToRolesAsync(admin, ["Admin", "Employee", "User"]);
+    await userStore.SetUserNameAsync(admin, adminEmail, CancellationToken.None);
+    await emailStore.SetEmailAsync(admin, adminEmail, CancellationToken.None);
+    await userManager.CreateAsync(admin, password);
+    await userManager.AddToRolesAsync(admin, ["Admin", "Employee", "User"]);
 
-await userStore.SetUserNameAsync(employee, empEmail, CancellationToken.None);
-await emailStore.SetEmailAsync(employee, empEmail, CancellationToken.None);
-await userManager.CreateAsync(employee, password);
-await userManager.AddToRolesAsync(employee, ["Employee", "User"]);
+    await userStore.SetUserNameAsync(employee, empEmail, CancellationToken.None);
+    await emailStore.SetEmailAsync(employee, empEmail, CancellationToken.None);
+    await userManager.CreateAsync(employee, password);
+    await userManager.AddToRolesAsync(employee, ["Employee", "User"]);
 
-await userStore.SetUserNameAsync(user, userEmail, CancellationToken.None);
-await emailStore.SetEmailAsync(user, userEmail, CancellationToken.None);
-await userManager.CreateAsync(user, password);
-await userManager.AddToRoleAsync(user, "User");
-
+    await userStore.SetUserNameAsync(user, userEmail, CancellationToken.None);
+    await emailStore.SetEmailAsync(user, userEmail, CancellationToken.None);
+    await userManager.CreateAsync(user, password);
+    await userManager.AddToRoleAsync(user, "User");
 #endregion
+}
 
 app.Run();
 
