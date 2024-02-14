@@ -1,15 +1,29 @@
 .RegisterSuccessBodyDark {
-    padding: 40px;
+    padding: 40px 80px;
+    margin: auto;
     margin-top: 40px;
+    width: fit-content;
     background-color: #262626;
     color: #eeeeee;
     border-radius: 10px;
 }
 
 .RegisterSuccessBodyLight {
-    padding: 40px;
+    padding: 40px 80px;
+    margin: auto;
     margin-top: 40px;
+    width: fit-content;
     background-color: #eeeeee;
     color: #262626;
     border-radius: 10px;
+}
+
+.RegisterSuccessBodyDark .MuiTypography-root {
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.RegisterSuccessBodyLight .MuiTypography-root {
+    font-size: larger;
+    font-weight: bolder;
 }

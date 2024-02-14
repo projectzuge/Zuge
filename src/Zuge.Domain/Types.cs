@@ -41,7 +41,7 @@ public interface IUnitOfWork
     IRepository<Ticket> Tickets { get; }
 
     Task CommitAsync(CancellationToken cancellationToken = default);
-    Task SeedAsync(CancellationToken cancellationToken = default);
+    Task MigrateAsync(CancellationToken cancellationToken = default);
 }
 
 public record Result(
