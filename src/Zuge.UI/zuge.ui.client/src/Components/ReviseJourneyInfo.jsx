@@ -236,7 +236,7 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
               key={index}
               marginBottom={"10px"}
             >
-              <Grid item xs={11} md={11} lg={5} xl={5}>
+              <Grid item xs={12} md={12} lg={6} xl={5}>
                 <TextField
                   autoComplete="off"
                   variant="outlined"

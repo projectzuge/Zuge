@@ -37,13 +37,13 @@ const FoundRoutesList = (props) => {
       marginTop="40px"
     >
       <Grid container id="info-row" alignItems="left">
-        <Grid item id="trip" tabIndex={-1} ref={componentRef}>
+        <Grid item id="trip">
           <Typography variant={variant}>Meno: {formattedDate}</Typography>
         </Grid>
         <Grid item id="passenger" textAlign="center">
           <Typography variant={variant}>{passengerType}</Typography>
         </Grid>
-        <Grid item id="from-to">
+        <Grid item id="from-to" tabIndex={-1} ref={componentRef}>
           <Typography variant={variant}>
             {fromCity} - {toCity}
           </Typography>

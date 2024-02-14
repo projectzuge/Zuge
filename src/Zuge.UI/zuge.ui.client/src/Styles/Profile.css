@@ -1,9 +1,19 @@
 #profile-box {
   width: 60%;
-  padding: 40px;
   align-items: center;
 }
 
 #profile-button-group-container {
   margin-bottom: 30px;
+}
+
+#profile-div {
+  display: flex;
+  justify-content: center;
+}
+
+@media screen and (max-width: 1200px) {
+  #profile-box {
+    width: 100%;
+  }
 }

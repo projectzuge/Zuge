@@ -45,7 +45,7 @@ const DarkTheme = createTheme({
   palette: {
     primary: { main: "#262626", contrastText: "#eeeeee" },
     secondary: {
-      main: "#52eb34",
+      main: "#205c14",
       contrastText: "#eeeeee",
       borderRadius: "10px",
       height: "60px",
@@ -107,7 +107,7 @@ const DarkTheme = createTheme({
         containedSecondary: {
           height: "56px",
           "&:hover": {
-            backgroundColor: "#88ed74", // Set the desired hover color
+            backgroundColor: "#58994b", // Set the desired hover color
             // for secondary buttons
             outline: "1px solid rgba(238, 238, 238, 0.5)",
           },

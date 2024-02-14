@@ -13,7 +13,6 @@ Register.propTypes = {
 };
 
 function Register({ DarkMode }) {
-    window.scrollTo(0, 0);
     toast.dismiss();
     const [showPassword, setShowPassword] = useState(false);
     const [showRePassword, setShowRePassword] = useState(false);
