@@ -26,11 +26,11 @@ function RegisterSuccess({DarkMode}) {
       <div ref={targetElementRef} className={DarkMode? "RegisterSuccessBodyDark" : 
       "RegisterSuccessBodyLight"}>
         <Typography>
-          Rekisteröityminen onnistui!!!
+          Rekisteröityminen onnistui!
         </Typography>
         <Button 
         sx={{
-          padding: "5px",
+          padding: "10px",
           margin: "20px",
           borderStyle: "solid",
           borderWidth: "1px",

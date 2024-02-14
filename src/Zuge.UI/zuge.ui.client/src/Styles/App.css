@@ -55,7 +55,7 @@ body #body-light {
   margin: 0px;
   padding: 0px;
   padding-bottom: 60px;
-  background-image: url("../assets/light-background-lowres.jpg");
+  background-image: url("../assets/light-background.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -69,7 +69,7 @@ body #body-dark {
   margin: 0px;
   padding: 0px;
   padding-bottom: 60px;
-  background-image: url("../assets/dark-background-lowres.jpg");
+  background-image: url("../assets/dark-background.jpg");
   background-position: top;
   background-repeat: repeat;
   background-size: cover;
