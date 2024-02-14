@@ -38,6 +38,7 @@ Register.propTypes = {
     onPhoneNumChange: PropTypes.func,
     handlePasswordInput: PropTypes.func,
     handleEmailInput: PropTypes.func,
+    passwordErrorAlert: PropTypes.func,
     getHelperText: PropTypes.func,
     RegisterButtonClick: PropTypes.func,
     handleRegisterClicked: PropTypes.func,
@@ -48,7 +49,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
     showRePassword, handlePasswordVisibility, handleRePasswordVisibility,
     onEmailChange, onPasswordChange, onRePasswordChange, onFirstNameChange,
     onLastNameChange, onPhoneNumChange, handlePasswordInput, handleEmailInput,
-    getHelperText, RegisterButtonClick, handleRegisterClicked, 
+    passwordErrorAlert, getHelperText, RegisterButtonClick, handleRegisterClicked, 
     isValidRegistration }) {
 
   return (
@@ -75,7 +76,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onChange={onEmailChange}
                         error={!inputValidities.isEmailValid}
                         helperText={!inputValidities.isEmailValid ? 
-                            "Invalid email address." : ""}
+                            "Virheellinen sähköposti." : ""}
                         type="email" 
                         fullWidth
                         required />
@@ -95,14 +96,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         variant="outlined" 
                         type={showPassword ? 'text' : 'password'} 
                         fullWidth 
-                        error={() => {
-                            if (!inputValidities.isPasswordValid || 
-                                !inputValidities.isPasswordsEqual) {
-                                return true;
-                            }
-                            return false;
-                        }
-                            }
+                        error={passwordErrorAlert()}
                         helperText={getHelperText()}
                         required
                         onInput={handlePasswordInput}
@@ -140,11 +134,11 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         fullWidth 
                         error={!inputValidities.isRePasswordValid}
                         helperText={!inputValidities.isRePasswordValid ? 
-                            "Invalid password. Password needs to be 6 to 100" +
-                            " characters long and have at least one small" +
-                            " letter, one capital letter, one number and " +
-                            "atleast one of these characters: '!', '?', '@'," +
-                            " '#', '£', '$', '-' or '_'." : ""}
+                            "Virheellinen salasana. Salasanan täytyy olla " +
+                            "6 - 100 merkkiä pitkä ja sen täytyy sisältää " +
+                            " vähintään yksi pieni kirjain, yksi iso kirjain," +
+                            " yksi numero ja yksi näistä erikoismerkeistä: " +
+                            "'!', '?', '@', '#', '£', '$', '-' tai '_'." : ""}
                         required
                         onInput={handlePasswordInput}
                         onChange={onRePasswordChange}
@@ -178,9 +172,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onChange={onFirstNameChange}
                         error={!inputValidities.isFirstNameValid}
                         helperText={!inputValidities.isFirstNameValid ? 
-                            "Invalid name. Name must be 1 to 100 letters long" +
-                            " and can only have letters from a to z and A to Z " +
-                            "and å, ä, ö, Å, Ä and Ö. Space is not allowed." : ""}
+                            "Virheellinen nimi. Nimessä täytyy olla 1 - 100 " +
+                            "kirjainta ja voi sisältää ainoastaan kirjaimia " +
+                            "a:sta ö:hön ja A:sta Ö:hön. Välilyönti ei ole " + 
+                            "sallittu." : ""}
                         required
                         variant="outlined" 
                         fullWidth />
@@ -199,10 +194,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onChange={onLastNameChange}
                         error={!inputValidities.isLastNameValid}
                         helperText={!inputValidities.isLastNameValid ? 
-                            "Invalid name. Name must be 1 to 100 letters long" +
-                            " and can only have letters from a to z and A to Z" +
-                            " and å, ä, ö, Å, Ä and Ö. Space is not allowed." :
-                            ""}
+                            "Virheellinen nimi. Nimessä täytyy olla 1 - 100 " +
+                            "kirjainta ja voi sisältää ainoastaan kirjaimia " +
+                            "a:sta ö:hön ja A:sta Ö:hön. Välilyönti ei ole " + 
+                            "sallittu." : ""}
                         required
                         variant="outlined" 
                         fullWidth />
@@ -221,9 +216,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onChange={onPhoneNumChange}
                         error={!inputValidities.isPhoneNumValid}
                         helperText={!inputValidities.isPhoneNumValid ? 
-                            "Invalid phone number. Phone number needs to be " +
-                            "10 to 15 characters long and can only have " + 
-                            "numbers. Don't use the country code." : ""}
+                            "Virheellinen puhelinnumero. Puhelinnumeron on " +
+                            "oltava 10:stä 15:een merkkiä pitkä ja voi " + 
+                            "ainoastaan sisältää numeroita. Älä käytä " + 
+                            "maakoodia." : ""}
                         required
                         variant="outlined" 
                         fullWidth />
@@ -273,7 +269,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         sx={{
                             fontSize: "90%",
                             display: "inline",
-                            color: "#ff3c3c",
+                            color: "#ff3c3c !important",
                             "@media screen and (max-width: 570px)": {
                                 fontSize: '80%',
                             },

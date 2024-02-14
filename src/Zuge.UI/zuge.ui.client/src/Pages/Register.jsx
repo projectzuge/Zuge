@@ -189,15 +189,25 @@ function Register({ DarkMode }) {
         event.target.value = sanitizedValue;
     };
 
+    const passwordErrorAlert = () => {
+        if (!inputValidities.isPasswordValid || 
+            !inputValidities.isPasswordsEqual) {
+            return true;
+        }
+        
+        return false;
+    }
+
     const getHelperText = () => {
         if (!inputValidities.isPasswordValid) {
-            return "Invalid password. Password needs to be 6 to 100 characters" +
-            " long and have at least one small letter, one capital letter, one" +
-            " number and atleast one of these characters: '!', '?', '@', '#', " +
-            "'£', '$', '-' or '_'.";
+            return "Virheellinen salasana. Salasanan täytyy olla " +
+            "6 - 100 merkkiä pitkä ja sen täytyy sisältää " +
+            " vähintään yksi pieni kirjain, yksi iso kirjain," +
+            " yksi numero ja yksi näistä erikoismerkeistä: " +
+            "'!', '?', '@', '#', '£', '$', '-' tai '_'."
         }
         else if (!inputValidities.isPasswordsEqual) {
-            return "The passwords doesn't match.";
+            return "Salasanat eivät täsmää.";
         }
         else {
             "";
@@ -310,6 +320,7 @@ function Register({ DarkMode }) {
         onPhoneNumChange={onPhoneNumChange}
         handlePasswordInput={handlePasswordInput}
         handleEmailInput={handleEmailInput}
+        passwordErrorAlert={passwordErrorAlert}
         getHelperText={getHelperText}
         RegisterButtonClick={RegisterButtonClick}
         handleRegisterClicked={handleRegisterClicked}
