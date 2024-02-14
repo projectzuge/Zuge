@@ -217,7 +217,7 @@ const ReviseJourneyInfo = ({ DarkMode, cookies }) => {
                   {passengerType}
                 </Typography>
               </Grid>
-              <Grid item xs={12} md={6} lg={3} xl={3} textAlign={"end"}>
+              <Grid item xs={12} md={6} lg={3} xl={3} id="price-grid-item">
                 <Typography variant="largeBoldFont" style={{ lineHeight: 1.5 }}>
                   {price} €
                 </Typography>

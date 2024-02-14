@@ -15,17 +15,16 @@
 }
 
 #single-route-grid-container {
-  direction: column;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 15px;
+  align-items: center;
+  justify-content: center;
 }
 
 #right-arrow-icon {
   height: 1em;
   margin: 0 0.5em;
-}
-
-#departure-arrival-container {
-  display: flex;
-  align-items: center;
 }
 
 #single-route-button {
@@ -36,8 +35,22 @@
   border: transparent;
 }
 
-@media screen and (max-width: 514px) {
+#from-to-typography {
+  text-align: left;
+}
+
+#price-typography {
+  text-align: right;
+}
+
+@media screen and (max-width: 480px) {
   #single-route-grid-container {
-    direction: column;
+    grid-template-columns: 1fr;
+  }
+  #from-to-typography {
+    text-align: center;
+  }
+  #price-typography {
+    text-align: center;
   }
 }

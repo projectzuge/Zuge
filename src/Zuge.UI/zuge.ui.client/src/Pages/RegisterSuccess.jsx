@@ -8,10 +8,11 @@ RegisterSuccess.propTypes = {
 };
 
 function RegisterSuccess({DarkMode}) {
+  window.scrollTo(0, 0);
   toast.dismiss();
     return (
       <>
-        <div className={DarkMode? "RegisterSuccessBodyDark" : 
+        <div className={DarkMode? "RegisterSuccessBodyDark" :
         "RegisterSuccessBodyLight"}>
           <Typography>
             Registration successful!!!

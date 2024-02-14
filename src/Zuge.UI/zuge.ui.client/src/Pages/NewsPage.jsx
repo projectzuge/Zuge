@@ -5,6 +5,7 @@ import './../Styles/FrontPage.css';
 import AuthorizeView from "../Components/AuthorizeView";
 
 function NewsPage({ DarkMode }) {
+  window.scrollTo(0, 0);
   toast.dismiss();
   return (
     <>

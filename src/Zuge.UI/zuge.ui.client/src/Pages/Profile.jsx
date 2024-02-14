@@ -8,6 +8,7 @@ import AuthorizeView from "../Components/AuthorizeView";
 import { toast } from "react-toastify";
 
 const Profile = ({ DarkMode, cookies, setCookie }) => {
+  window.scrollTo(0, 0);
   const [selectedButton, setSelectedButton] = useState("Lippusi");
 
   const handleButtonClick = (buttonName) => {

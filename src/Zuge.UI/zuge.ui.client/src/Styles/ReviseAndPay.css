@@ -19,7 +19,7 @@
 }
 
 #selected-journey {
-display: flex;
+  display: flex;
   flex-direction: column;
   padding: 40px;
   width: 100%;
@@ -57,4 +57,21 @@ display: flex;
 #add-email-button:hover #plus-icon {
   max-width: 40px;
   max-height: 40px;
+}
+
+#price-grid-item {
+  text-align: end;
+}
+
+@media screen and (max-width: 480px) {
+  #revise-sub-grid,
+  #revise-sub-grid-dark {
+    padding: 20px;
+  }
+}
+
+@media screen and (max-width: 380px) {
+  #price-grid-item {
+    text-align: center;
+  }
 }
