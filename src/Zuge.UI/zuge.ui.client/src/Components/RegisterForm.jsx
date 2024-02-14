@@ -6,7 +6,6 @@ import {
     buttonStyleDark,
     iconDark,
     iconLight,
-    inputResponsiveness
 } from './../Styles/RegisterStyles.jsx';
 import { 
     Container, 
@@ -57,14 +56,19 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
         <div className={DarkMode? "RegisterBackground darkBackground" : 
         "RegisterBackground"}>
         <h3 className="RegisterTitle">REKISTERÖIDY</h3>
-            <Container className={DarkMode? "RegisterBody dark" : 
-            "RegisterBody light"} maxWidth="sm">
+            <Container className={DarkMode? "RegisterBodyDark" : 
+            "RegisterBodyLight"} maxWidth="sm">
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                          }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}
                         >Sähköposti</InputLabel>
                         <TextField
@@ -82,11 +86,16 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         required />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <InputLabel 
+                        <InputLabel  
                         sx={{
-                            inputResponsiveness
-                          }} 
-                          style={DarkMode? labelDarkStyle : labelLightStyle}>
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Salasana</InputLabel>
                         <TextField 
                         value={inputs.password} 
@@ -120,8 +129,13 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                          }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Vahvista salasana</InputLabel>
                         <TextField
@@ -161,8 +175,13 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                          }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Etunimi</InputLabel>
                         <TextField
@@ -183,8 +202,13 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                        }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Sukunimi</InputLabel>
                         <TextField
@@ -205,8 +229,13 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                        }}  
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Puhelinnumero</InputLabel>
                         <TextField 
@@ -232,13 +261,14 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         color="primary" 
                         fullWidth
                         sx={{
+                            marginTop: "10px",
                             "@media screen and (max-width: 570px)": {
-                                fontSize: '80%',
-                                height: "80%",
+                                fontSize: '95%',
+                                height: "95%",
                             },
                             "@media screen and (max-width: 480px)": {
-                                fontSize: '70%',
-                                height: "70%",
+                                fontSize: '90%',
+                                height: "90%",
                             },
                           }} >
                             Rekisteröidy
@@ -251,13 +281,14 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         color="primary" 
                         fullWidth
                         sx={{
+                            marginTop: "10px",
                             "@media screen and (max-width: 570px)": {
-                                fontSize: '80%',
-                                height: "80%",
+                                fontSize: '95%',
+                                height: "95%",
                             },
                             "@media screen and (max-width: 480px)": {
-                                fontSize: '70%',
-                                height: "70%",
+                                fontSize: '90%',
+                                height: "90%",
                             },
                           }} >
                             <p className="backLink"><Link className=
@@ -267,14 +298,13 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={6}>
                         <Typography
                         sx={{
-                            fontSize: "90%",
                             display: "inline",
-                            color: "#ff3c3c !important",
+                            color: "#d32f2f !important",
                             "@media screen and (max-width: 570px)": {
-                                fontSize: '80%',
+                                fontSize: '95%',
                             },
                             "@media screen and (max-width: 480px)": {
-                                fontSize: '70%',
+                                fontSize: '90%',
                             },
                         }}
                         style={isValidRegistration ? {display: "none"} : 

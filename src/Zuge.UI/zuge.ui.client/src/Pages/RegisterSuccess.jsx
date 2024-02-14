@@ -17,14 +17,15 @@ function RegisterSuccess({DarkMode}) {
   useEffect(() => {
     console.log(targetElementRef);
     if (targetElementRef.current) {
-      targetElementRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      targetElementRef.current.scrollIntoView({ behavior: 'smooth', 
+      block: 'center' });
     }
   }, [targetElementRef]);
 
   return (
     <>
-      <div ref={targetElementRef} className={DarkMode? "RegisterSuccessBodyDark" : 
-      "RegisterSuccessBodyLight"}>
+      <div ref={targetElementRef} className={DarkMode? 
+      "RegisterSuccessBodyDark" : "RegisterSuccessBodyLight"}>
         <Typography>
           Rekisteröityminen onnistui!
         </Typography>

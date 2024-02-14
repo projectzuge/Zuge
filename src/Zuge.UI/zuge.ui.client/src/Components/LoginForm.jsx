@@ -68,7 +68,7 @@ function LoginForm({
               Sähköposti
             </FormLabel>
             <TextField
-              className={DarkMode ? "LoginTextFieldDark" : "LoginTextField"}
+              className={DarkMode? "darkLoginTextField" : "LoginTextField"}
               onInput={handleEmailInput}
               onChange={onEmailChange}
               onKeyDown={(e) => {
@@ -90,7 +90,7 @@ function LoginForm({
               Salasana
             </FormLabel>
             <TextField
-              className={DarkMode ? "LoginTextFieldDark" : "LoginTextField"}
+              className={DarkMode ? "darkLoginTextField" : "LoginTextField"}
               value={password}
               name="password"
               variant="outlined"
@@ -138,7 +138,7 @@ function LoginForm({
               Peruuta
             </Button>
           </div>
-          <div>
+          <div className="rememberMeCheck">
             <FormControlLabel
               control={
                 <Checkbox
@@ -159,7 +159,7 @@ function LoginForm({
               sx={{
                 fontSize: "90%",
                 display: "inline",
-                color: "#ff3c3c !important",
+                color: "#d32f2f !important",
               }}
               style={isLoginValid ? { display: "none" } : { display: "inline" }}
             >

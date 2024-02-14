@@ -1,3 +1,37 @@
+.LoginTextField .MuiInputBase-root {
+    outline: none !important;
+    border: none !important;
+    outline-width: 1px;
+    border-radius: 5px;
+    outline-color: #262626;
+}
+
+.darkLoginTextField .MuiInputBase-root {
+    outline: none !important;
+    border: none !important;
+}
+
+.LoginTextField .MuiInputBase-root:target {
+    /* outline-color: #262626 !important;
+    border-color: #262626 !important; */
+    outline: none !important;
+    border: none !important;
+}
+
+.darkLoginTextField .MuiInputBase-root:target {
+    /* outline-color: #eeeeee !important;
+    border-color: #eeeeee !important; */
+    outline: none !important;
+    border: none !important;
+}
+
+.darkLoginTextField .MuiInputBase-root:active {
+    /* outline-color: #eeeeee !important;
+    border-color: #eeeeee !important; */
+    outline: none !important;
+    border: none !important;
+}
+
 .registerLink {
     all: inherit;
     border: none;
@@ -11,6 +45,10 @@
 
 .registerButton {
     padding: 0px;
+}
+
+.rememberMeCheck {
+    margin-top: 10px;
 }
 
 .LoginTextField .MuiInputBase-root {  
