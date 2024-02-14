@@ -23,7 +23,7 @@ const SingleBoughtTicket = (props) => {
         onClick={handleRouteClick}
       >
         <Grid container alignItems="center" id="single-route-grid-container">
-          <Grid item xs={12} md={4} xl={4} textAlign="left">
+          <Grid item id="from-to-item">
             <Typography
               variant="mediumBoldFont"
               id="departure-arrival-container"
@@ -33,10 +33,10 @@ const SingleBoughtTicket = (props) => {
               {to}
             </Typography>
           </Grid>
-          <Grid item xs={4} md={4} xl={4} textAlign="center">
+          <Grid item textAlign="center">
             <Typography>{date}</Typography>
           </Grid>
-          <Grid item xs={12} md={4} xl={4} textAlign="right">
+          <Grid item id="times-item">
             <Typography id="departure-arrival-container">
               {departure}
               {" - "}

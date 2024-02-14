@@ -62,7 +62,7 @@ const SingleFoundRoute = (props) => {
         onClick={handleRouteClick}
       >
         <Grid container alignItems="center" id="single-route-grid-container">
-          <Grid item xs={12} md={4} xl={4} textAlign="left">
+          <Grid item id="from-to-typography">
             <Typography id="departure-arrival-container">
               {departure}{" "}
               <img
@@ -73,12 +73,10 @@ const SingleFoundRoute = (props) => {
               {arrival}
             </Typography>
           </Grid>
-          {showDuration ? (
-            <Grid item xs={4} md={4} xl={4} textAlign="center">
-              <Typography>{duration}</Typography>
-            </Grid>
-          ) : null}
-          <Grid item xs={12} md={4} xl={4} textAlign="right">
+          <Grid item textAlign="center">
+            <Typography>{duration}</Typography>
+          </Grid>
+          <Grid item id="price-typography">
             <Typography variant="h6" fontWeight="bold">
               {price} €
             </Typography>

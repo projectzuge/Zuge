@@ -23,3 +23,10 @@
 #textfield-grid {
   text-align: left;
 }
+
+@media screen and (max-width: 480px) {
+  #personal-info-box-dark,
+  #personal-info-box {
+    padding: 20px;
+  }
+}

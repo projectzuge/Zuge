@@ -3,9 +3,13 @@ import NewsAddForm from "../Components/NewsAddForm";"../Components/NewsAddForm";
 import { toast } from "react-toastify";
 import './../Styles/FrontPage.css';
 import AuthorizeView from "../Components/AuthorizeView";
+import { useEffect } from "react";
 
 function NewsPage({ DarkMode }) {
-  toast.dismiss();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    toast.dismiss();
+  }, []);
   return (
     <>
       <AuthorizeView requiredRole={"employee"}>
