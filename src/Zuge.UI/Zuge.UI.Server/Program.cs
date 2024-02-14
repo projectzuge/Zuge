@@ -67,7 +67,11 @@ await unitOfWork.MigrateAsync(CancellationToken.None);
 
 var authenticationContext =
     scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
-await authenticationContext.Database.MigrateAsync(CancellationToken.None);
+
+await (authenticationContext.Database.IsRelational()
+    ? authenticationContext.Database.MigrateAsync(CancellationToken.None)
+    : authenticationContext.Database.EnsureCreatedAsync(
+        CancellationToken.None));
 
 if (app.Environment.IsDevelopment())
 {
