@@ -6,8 +6,9 @@
   background: rgba(222, 222, 222, 0.95);
   border-radius: 10px;
   margin-bottom: 20px;
-  text-align: start;
+  text-align: center;
   justify-content: center;
+  align-items: center;
 }
 
 #purchase-ok-grid-dark {
@@ -18,14 +19,20 @@
   background: rgba(51, 51, 51, 0.98);
   border-radius: 10px;
   margin-bottom: 20px;
-  text-align: start;
+  text-align: center;
   justify-content: center;
+  align-items: center;
 }
 
 #back-to-front-page-button {
   padding: 15px;
   margin-top: 30px;
   width: 60%;
+}
+
+#purchase-done-div {
+  display: flex;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1200px) {

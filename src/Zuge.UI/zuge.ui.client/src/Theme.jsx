@@ -4,16 +4,24 @@ const theme = createTheme({
   // default font family:
   typography: {
     fontFamily: "Inria Sans, sans-serif",
+    xsFont: {
+      fontSize: 11,
+    },
+    // Variant 2: Small font sizes
     smallFont: {
       fontSize: 14,
     },
-    // Variant 2: Medium font sizes
+    // Variant 3: Medium font sizes
     mediumFont: {
       fontSize: 18,
     },
-    // Variant 3: Large font sizes
+    // Variant 4: Large font sizes
     largeFont: {
       fontSize: 22,
+    },
+    xsBoldFont: {
+      fontSize: 11,
+      fontWeight: "bolder",
     },
     smallBoldFont: {
       fontSize: 14,
