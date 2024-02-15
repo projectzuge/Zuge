@@ -18,7 +18,7 @@ import {
     Typography 
 } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 Register.propTypes = {
@@ -50,6 +50,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
     onLastNameChange, onPhoneNumChange, handlePasswordInput, handleEmailInput,
     passwordErrorAlert, getHelperText, RegisterButtonClick, handleRegisterClicked, 
     isValidRegistration }) {
+    const navigate = useNavigate();
 
   return (
     <>
@@ -280,6 +281,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         variant="contained" 
                         color="primary" 
                         fullWidth
+                        onClick={() => {navigate("/")}}
                         sx={{
                             marginTop: "10px",
                             "@media screen and (max-width: 570px)": {
@@ -291,8 +293,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                                 height: "90%",
                             },
                           }} >
-                            <p className="backLink"><Link className=
-                            "MenuItemLink" to="/">Takaisin</Link></p>
+                            <p className="backLink">Takaisin</p>
                         </Button>
                     </Grid>
                     <Grid item xs={6}>

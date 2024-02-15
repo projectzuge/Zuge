@@ -34,10 +34,10 @@ import PropTypes from "prop-types";
 LoginForm.propTypes = {
   DarkMode: PropTypes.bool,
   isLoginValid: PropTypes.bool,
-  isEmailValid: PropTypes.bool,
-  email: PropTypes.bool,
-  isPasswordValid: PropTypes.bool,
-  password: PropTypes.bool,
+  isEmailValid: PropTypes.any,
+  email: PropTypes.string,
+  isPasswordValid: PropTypes.any,
+  password:  PropTypes.string,
   showPasswordUser: PropTypes.bool,
   handleItemClick: PropTypes.func,
   setEmail: PropTypes.func,
@@ -68,6 +68,10 @@ function LoginForm({
               Sähköposti
             </FormLabel>
             <TextField
+            sx={{
+              outlineStyle: "none",
+              borderStyle: "none",
+            }}
               className={DarkMode? "darkLoginTextField" : "LoginTextField"}
               onInput={handleEmailInput}
               onChange={onEmailChange}

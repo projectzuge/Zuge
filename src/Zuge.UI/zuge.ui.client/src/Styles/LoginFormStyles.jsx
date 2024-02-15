@@ -46,27 +46,31 @@ export const buttonStyle = {
     color: "#262626",
     backgroundColor: "#eeeeee",
     marginTop: "10px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 };
 
 export const buttonStyleDark = {
     color: "#eeeeee",
     backgroundColor: "#262626",
     marginTop: "10px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 
 };
 
 export const buttonRegisterStyle = {
     color: "#262626",
     backgroundColor: "#eeeeee",
-    margin: "8px",
-    padding: "8px",
+    margin: "15px",
+    padding: "0px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 };
 
 export const buttonRegisterStyleDark = {
     color: "#eeeeee",
     backgroundColor: "#262626",
-    margin: "10px",
-    padding: "8px",
+    margin: "15px",
+    padding: "0px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 };
 
 export const registerTextStyle = {

@@ -1,42 +1,30 @@
 .LoginTextField .MuiInputBase-root {
-    outline: none !important;
-    border: none !important;
-    outline-width: 1px;
-    border-radius: 5px;
-    outline-color: #262626;
+    outline-style: none;
+    border-style: none;
 }
 
 .darkLoginTextField .MuiInputBase-root {
-    outline: none !important;
-    border: none !important;
+    outline-style: none;
+    border-style: none;
 }
 
-.LoginTextField .MuiInputBase-root:target {
-    /* outline-color: #262626 !important;
-    border-color: #262626 !important; */
-    outline: none !important;
-    border: none !important;
+.LoginTextField .MuiInputBase-root:hover {
+    outline-style: none;
+    border-style: none;
 }
 
-.darkLoginTextField .MuiInputBase-root:target {
-    /* outline-color: #eeeeee !important;
-    border-color: #eeeeee !important; */
-    outline: none !important;
-    border: none !important;
-}
-
-.darkLoginTextField .MuiInputBase-root:active {
-    /* outline-color: #eeeeee !important;
-    border-color: #eeeeee !important; */
-    outline: none !important;
-    border: none !important;
+.darkLoginTextField .MuiInputBase-root:hover {
+    outline-style: none;
+    border-style: none;
 }
 
 .registerLink {
     all: inherit;
     border: none;
+    outline: none;
     margin: 0px;
-    padding: 7px;
+    padding: 15px;
+    box-shadow: none;
 }
 
 .registerLink:hover {
