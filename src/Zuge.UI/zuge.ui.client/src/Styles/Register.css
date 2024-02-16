@@ -5,7 +5,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 50px;
-    padding: 40px;
+    padding-top: 40px;
     padding-top: 10px;
     max-width: 600px;
     height: fit-content;
@@ -17,39 +17,14 @@
     background-color: rgba(51, 51, 51, 0.98);
 }
 
-.light {
-    color: #262626;
-    background-color: rgb(238, 238, 238);
-}
-
-.dark {
-    color: #eeeeee;
-    background-color: rgb(38, 38, 38);
-}
-
-.registerTextField .MuiInputBase-root {
-    outline: solid;
-    outline-width: 1px;
-    border-radius: 5px;
-    outline-color: #262626;
+.registerTextField .MuiInputBase-input {
     color: #262626;
 }
 
-.darkRegisterTextField .MuiInputBase-root {
-    outline: solid;
-    outline-width: 1px;
-    border-radius: 5px;
-    outline-color: #eeeeee;
+.darkRegisterTextField .MuiInputBase-input {
     color: #eeeeee;
 }
 
-.registerTextField .MuiInputBase-root:hover {
-    outline: none;
-}
-
-.darkRegisterTextField .MuiInputBase-root:hover {
-    outline: none;
-}
 
 @media screen and (max-width: 570px) {
     .RegisterBackground {
@@ -58,16 +33,16 @@
     }
 
     .RegisterTitle {
-        font-size: 80%;
+        font-size: 95%;
     }
 
     .registerTextField > .MuiInputBase-input {
-        height: 80%;
-        font-size: 80%;
+        height: 95%;
+        font-size: 95%;
     }
     .registerVisibilityIcon > .MuiSvgIcon {
-        width: 80%;
-        font-size: 80%;
+        width: 95%;
+        font-size: 95%;
     }
 }
 
@@ -78,16 +53,16 @@
     }
 
     .RegisterTitle {
-        font-size: 70%;
+        font-size: 90%;
     }
 
     .registerTextField > .MuiInputBase-root {
-        height: 70%;
-        font-size: 70%;
+        height: 90%;
+        font-size: 90%;
     }
     .registerVisibilityIcon > .MuiSvgIcon {
-        width: 70%;
-        font-size: 70%;
+        width: 90%;
+        font-size: 90%;
     }
 }
 
@@ -98,11 +73,20 @@
     justify-content: start;
 }
 
-.RegisterBody {
+.RegisterBodyLight {
     padding: 20px;
     padding-bottom: 40px;
     border-radius: 10px;
     overflow: auto;
+    color: #262626;
+}
+
+.RegisterBodyDark {
+    padding: 20px;
+    padding-bottom: 40px;
+    border-radius: 10px;
+    overflow: auto;
+    color: #eeeeee;
 }
 
 .backLink {
@@ -114,18 +98,18 @@
 }
 
 .invalidRegistrationButton {
-    color: #ff3c3c;
+    color: #d32f2f;
 }
 
 @media screen and (max-width: 570px) {
     .registerTextField .MuiFormHelperText-root {
-        font-size: 70%;
+        font-size: 95%;
     }
 }
 
 @media screen and (max-width: 480px) {
-    .registerTextField .MuiFormHelperText-root {
-        font-size: 60%;
+    .registerTextField > .MuiFormHelperText-root {
+        font-size: 90%;
     }
 }
 

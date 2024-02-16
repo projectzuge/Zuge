@@ -6,7 +6,6 @@ import {
     buttonStyleDark,
     iconDark,
     iconLight,
-    inputResponsiveness
 } from './../Styles/RegisterStyles.jsx';
 import { 
     Container, 
@@ -19,7 +18,7 @@ import {
     Typography 
 } from '@mui/material';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 Register.propTypes = {
@@ -51,23 +50,35 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
     onLastNameChange, onPhoneNumChange, handlePasswordInput, handleEmailInput,
     passwordErrorAlert, getHelperText, RegisterButtonClick, handleRegisterClicked, 
     isValidRegistration }) {
+    const navigate = useNavigate();
 
   return (
     <>
         <div className={DarkMode? "RegisterBackground darkBackground" : 
         "RegisterBackground"}>
         <h3 className="RegisterTitle">REKISTERÖIDY</h3>
-            <Container className={DarkMode? "RegisterBody dark" : 
-            "RegisterBody light"} maxWidth="sm">
+            <Container className={DarkMode? "RegisterBodyDark" : 
+            "RegisterBodyLight"} maxWidth="sm">
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                          }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}
                         >Sähköposti</InputLabel>
                         <TextField
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isEmailValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.email} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -82,11 +93,16 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         required />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                        <InputLabel 
+                        <InputLabel  
                         sx={{
-                            inputResponsiveness
-                          }} 
-                          style={DarkMode? labelDarkStyle : labelLightStyle}>
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
+                        style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Salasana</InputLabel>
                         <TextField 
                         value={inputs.password} 
@@ -102,6 +118,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onInput={handlePasswordInput}
                         onChange={onPasswordChange}
                         InputProps={{
+                            sx: {
+                                border: !inputValidities.isPasswordValid ? 
+                                "1px solid red" : "none",
+                            },
                             endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton onClick={handlePasswordVisibility}
@@ -120,8 +140,13 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                          }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Vahvista salasana</InputLabel>
                         <TextField
@@ -143,6 +168,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onInput={handlePasswordInput}
                         onChange={onRePasswordChange}
                         InputProps={{
+                            sx: {
+                                border: !inputValidities.isRePasswordValid ? 
+                                "1px solid red" : "none",
+                            },
                             endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton onClick={handleRePasswordVisibility} 
@@ -161,11 +190,22 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                          }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Etunimi</InputLabel>
                         <TextField
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isFirstNameValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.firstName} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -183,11 +223,22 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12} sm={6}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                        }} 
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Sukunimi</InputLabel>
                         <TextField
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isLastNameValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.lastName} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -205,11 +256,22 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                     <Grid item xs={12}>
                         <InputLabel 
                         sx={{
-                            inputResponsiveness
-                        }}  
+                            "@media screen and (max-width: 570px)": {
+                                fontSize: '95%',
+                            },
+                            "@media screen and (max-width: 480px)": {
+                                fontSize: '90%',
+                            },
+                        }}
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Puhelinnumero</InputLabel>
                         <TextField 
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isPhoneNumValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.phoneNum} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -232,13 +294,14 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         color="primary" 
                         fullWidth
                         sx={{
+                            marginTop: "10px",
                             "@media screen and (max-width: 570px)": {
-                                fontSize: '80%',
-                                height: "80%",
+                                fontSize: '95%',
+                                height: "95%",
                             },
                             "@media screen and (max-width: 480px)": {
-                                fontSize: '70%',
-                                height: "70%",
+                                fontSize: '90%',
+                                height: "90%",
                             },
                           }} >
                             Rekisteröidy
@@ -250,31 +313,31 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         variant="contained" 
                         color="primary" 
                         fullWidth
+                        onClick={() => {navigate("/")}}
                         sx={{
+                            marginTop: "10px",
                             "@media screen and (max-width: 570px)": {
-                                fontSize: '80%',
-                                height: "80%",
+                                fontSize: '95%',
+                                height: "95%",
                             },
                             "@media screen and (max-width: 480px)": {
-                                fontSize: '70%',
-                                height: "70%",
+                                fontSize: '90%',
+                                height: "90%",
                             },
                           }} >
-                            <p className="backLink"><Link className=
-                            "MenuItemLink" to="/">Takaisin</Link></p>
+                            <p className="backLink">Etusivulle</p>
                         </Button>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography
                         sx={{
-                            fontSize: "90%",
                             display: "inline",
-                            color: "#ff3c3c !important",
+                            color: "#d32f2f !important",
                             "@media screen and (max-width: 570px)": {
-                                fontSize: '80%',
+                                fontSize: '95%',
                             },
                             "@media screen and (max-width: 480px)": {
-                                fontSize: '70%',
+                                fontSize: '90%',
                             },
                         }}
                         style={isValidRegistration ? {display: "none"} : 
