@@ -34,6 +34,8 @@ function LoggedInForm({
   const handleLogOut = () => {
     setSignedIn(false);
     removeCookie("userData");
+    sessionStorage.removeItem("routeDataState");
+    sessionStorage.removeItem("formState");
   };
 
   return (

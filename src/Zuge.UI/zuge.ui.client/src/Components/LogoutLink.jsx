@@ -10,7 +10,6 @@ function LogoutLink({ handleLogout, removeCookie, children }) {
       .post("account/logout", {})
       .then((data) => {
         if (data.status === 200) {
-          console.log("Logged out");
           handleLogout();
           navigate("/");
         } else {
