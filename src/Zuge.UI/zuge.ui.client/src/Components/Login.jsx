@@ -148,7 +148,7 @@ function Login({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
 
   return (
     <>
-      <LoginForm 
+      <LoginForm
       DarkMode={DarkMode}
       isLoginValid={isLoginValid}
       isEmailValid={isEmailValid}

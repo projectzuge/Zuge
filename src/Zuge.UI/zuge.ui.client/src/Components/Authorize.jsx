@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-function Authorize({setCookie, removeCookie, children}) {
+function Authorize({ setCookie, removeCookie, children }) {
   useEffect(() => {
     getUserInfo();
-  },[]);
+  }, []);
 
   const getUserInfo = async () => {
     await axios
@@ -18,12 +18,10 @@ function Authorize({setCookie, removeCookie, children}) {
         if (error.status === 401) {
           removeCookie("userData");
           console.log("No login found");
-        } 
+        }
       });
   };
-  return (
-    <>{children}</>
-  );
+  return <>{children}</>;
 }
 
 export default Authorize;

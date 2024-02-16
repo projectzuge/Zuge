@@ -153,6 +153,8 @@ const DarkTheme = createTheme({
           "&:hover": {
             outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
+          "&.Mui-error": { outline: "1px solid red" },
+          "&.Mui-error:hover": { outline: "none", border: "none" },
         },
       },
     },

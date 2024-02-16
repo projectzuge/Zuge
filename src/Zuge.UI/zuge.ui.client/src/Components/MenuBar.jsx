@@ -99,14 +99,17 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
         </div>
         <div className="MenuLink">
           <Link id="UserLink" onClick={handleClickUser}>
-            <Typography variant={variant}>{cookies.userData? 
-            cookies.userData.firstName : "Käyttäjä"}</Typography>
+            <Typography variant={variant}>
+              {cookies.userData ? cookies.userData.firstName : "Käyttäjä"}
+            </Typography>
           </Link>
         </div>
         <div className="toggleContainerMenu">
-          <Typography variant={variant} className="DarkThemeTextMenu">
-            Tumma tila
-          </Typography>
+          <div className="typographyDiv">
+            <Typography variant={variant} className="DarkThemeTextMenu">
+              Tumma tila
+            </Typography>
+          </div>
           <div className="switchContainer">
             <input
               type="checkbox"

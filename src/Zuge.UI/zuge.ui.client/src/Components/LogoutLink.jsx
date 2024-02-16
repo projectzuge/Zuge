@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LogoutLink({handleLogout, children }) {
+function LogoutLink({ handleLogout, removeCookie, children }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -19,6 +19,8 @@ function LogoutLink({handleLogout, children }) {
       })
       .catch((error) => {
         console.error(error);
+            removeCookie("userData");
+
       });
   };
   return (
