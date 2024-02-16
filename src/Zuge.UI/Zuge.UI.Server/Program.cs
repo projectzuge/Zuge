@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 
-//Environment.SetEnvironmentVariable(
-//    "ASPNETCORE_ENVIRONMENT",
-//    "Development");
+// Environment.SetEnvironmentVariable(
+//     "ASPNETCORE_ENVIRONMENT",
+//     "Development");
 
 Environment.SetEnvironmentVariable(
     "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",

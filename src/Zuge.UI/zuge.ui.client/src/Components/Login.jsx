@@ -80,8 +80,10 @@ function Login({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
 
   const handlePasswordInput = (event) => {
     const sanitizedValue = event.target.value.replace(
-      /[^A-Za-z0-9!?#@\-_£$äöåÄÖÅ]/g, "");
-      event.target.value = sanitizedValue;
+      /[^A-Za-z0-9!?#@\-_£$äöåÄÖÅ]/g,
+      ""
+    );
+    event.target.value = sanitizedValue;
   };
 
   const handleEmailInput = (event) => {
@@ -110,9 +112,7 @@ function Login({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
       await axios
         .post("account/login?" + cookieSetting + "=true", { email, password })
         .then((response) => {
-          console.log(response);
           if (response.status === 200) {
-            console.log("Logged in");
             handleItemClick();
             setSignedIn(true);
             setIsLoginValid(true);
@@ -137,7 +137,6 @@ function Login({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
     await axios
       .get("account")
       .then((response) => {
-        console.log("account data: ", response.data);
         setCookie("userData", response.data);
       })
       .catch((error) => {
@@ -148,25 +147,25 @@ function Login({ DarkMode, handleItemClick, setSignedIn, setCookie }) {
 
   return (
     <>
-      <LoginForm 
-      DarkMode={DarkMode}
-      isLoginValid={isLoginValid}
-      isEmailValid={isEmailValid}
-      email={email}
-      isPasswordValid={isPasswordValid}
-      password={password}
-      showPasswordUser={showPasswordUser}
-      handleItemClick={handleItemClick}
-      setEmail={setEmail}
-      setPassword={setPassword}
-      rememberMe={rememberMe}
-      handleUserPasswordVisibility={handleUserPasswordVisibility}
-      onEmailChange={onEmailChange}
-      onPasswordChange={onPasswordChange}
-      handlePasswordInput={handlePasswordInput}
-      handleEmailInput={handleEmailInput}
-      handleRememberMeChecked={handleRememberMeChecked}
-      handleSignInClicked={handleSignInClicked}
+      <LoginForm
+        DarkMode={DarkMode}
+        isLoginValid={isLoginValid}
+        isEmailValid={isEmailValid}
+        email={email}
+        isPasswordValid={isPasswordValid}
+        password={password}
+        showPasswordUser={showPasswordUser}
+        handleItemClick={handleItemClick}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        rememberMe={rememberMe}
+        handleUserPasswordVisibility={handleUserPasswordVisibility}
+        onEmailChange={onEmailChange}
+        onPasswordChange={onPasswordChange}
+        handlePasswordInput={handlePasswordInput}
+        handleEmailInput={handleEmailInput}
+        handleRememberMeChecked={handleRememberMeChecked}
+        handleSignInClicked={handleSignInClicked}
       />
     </>
   );

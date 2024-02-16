@@ -3,7 +3,7 @@ import {
   profileButtonStyleDark,
   logoutButtonStyle,
   logoutButtonStyleDark,
-  formContainerStyle
+  formContainerStyle,
 } from "./../Styles/LoggedInFormStyles.jsx";
 import Button from "@mui/material/Button";
 import { Container, Typography } from "@mui/material";
@@ -19,8 +19,12 @@ LoggedInForm.propTypes = {
   removeCookie: PropTypes.func,
 };
 
-function LoggedInForm({ handleItemClick, setSignedIn, DarkMode,
-  removeCookie }) {
+function LoggedInForm({
+  handleItemClick,
+  setSignedIn,
+  DarkMode,
+  removeCookie,
+}) {
   const navigate = useNavigate();
 
   const handleProfileClick = () => {
@@ -30,6 +34,8 @@ function LoggedInForm({ handleItemClick, setSignedIn, DarkMode,
   const handleLogOut = () => {
     setSignedIn(false);
     removeCookie("userData");
+    sessionStorage.removeItem("routeDataState");
+    sessionStorage.removeItem("formState");
   };
 
   return (
@@ -45,7 +51,7 @@ function LoggedInForm({ handleItemClick, setSignedIn, DarkMode,
         >
           Profiili
         </Button>
-        <LogoutLink handleLogout={handleLogOut}>
+        <LogoutLink handleLogout={handleLogOut} removeCookie={removeCookie}>
           <Button
             onClick={() => {
               handleItemClick();

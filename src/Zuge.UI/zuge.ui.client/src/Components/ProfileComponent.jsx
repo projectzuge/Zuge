@@ -11,7 +11,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
   const userInfo = cookies.userData;
-
+  let borderStyle = "none";
   const [firstName, setFirstName] = useState(userInfo?.firstName || "");
   const [lastName, setLastName] = useState(userInfo?.lastName || "");
   const [email, setEmail] = useState(userInfo?.email || "");
@@ -62,13 +62,12 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
       setEmailNotValid(true);
     }
   };
-
   const onPhoneNumberChange = (e) => {
     e.preventDefault();
     if (
       e.target.value &&
-      e.target.value.length > 6 &&
-      e.target.value.length < 14 &&
+      e.target.value.length > 9 &&
+      e.target.value.length < 21 &&
       /^[\d,+]+$/.test(e.target.value)
     ) {
       setPhoneNumber(e.target.value);
@@ -121,26 +120,42 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
                 variant="outlined"
-                InputProps={{ sx: { borderRadius: "10px" } }}
+                InputProps={{
+                  sx: {
+                    borderRadius: "10px",
+                    border: isEmptyFirstName ? "1px solid red" : "none",
+                  },
+                }}
                 id="profile-first-name-field"
                 fullWidth
                 defaultValue={firstName}
                 onChange={onFirstNameChange}
                 required
                 error={isEmptyFirstName}
+                helperText={
+                  isEmptyFirstName ? "Etunimi ei voi olla tyhjä." : ""
+                }
               >
                 {firstName}
               </TextField>
             </Grid>
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
-                InputProps={{ sx: { borderRadius: "10px" } }}
+                InputProps={{
+                  sx: {
+                    borderRadius: "10px",
+                    border: isEmptyLastName ? "1px solid red" : "none",
+                  },
+                }}
                 id="profile-last-name-field"
                 fullWidth
                 defaultValue={lastName}
                 onChange={onLastNameChange}
                 required
                 error={isEmptyLastName}
+                helperText={
+                  isEmptyLastName ? "Sukunimi ei voi olla tyhjä." : ""
+                }
               >
                 {lastName}
               </TextField>
@@ -161,13 +176,21 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
             </Grid>
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
-                InputProps={{ sx: { borderRadius: "10px" } }}
+                InputProps={{
+                  sx: {
+                    borderRadius: "10px",
+                    border: phoneNumberNotValid ? "1px solid red" : "none",
+                  },
+                }}
                 id="profile-phone-number-field"
                 fullWidth
                 defaultValue={phoneNumber}
                 onChange={onPhoneNumberChange}
                 required
                 error={phoneNumberNotValid}
+                helperText={
+                  phoneNumberNotValid ? "Tarkista puhelinnumero." : ""
+                }
               >
                 {phoneNumber}
               </TextField>

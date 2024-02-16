@@ -161,9 +161,8 @@ const RouteSearchForm = (props) => {
       id={
         props.DarkMode ? "search-form-container-dark" : "search-form-container"
       }
-      marginTop="40px"
     >
-      <FormControl fullWidth className="route-search-form" variant="outlined">
+      <form className="route-search-form">
         <div id="single-select-div">
           <Select
             sx={{
@@ -312,7 +311,7 @@ const RouteSearchForm = (props) => {
             ))}
           </Select>
         </div>
-      </FormControl>
+      </form>
       <Button
         color={"primary"}
         id="fetch-routes-button"
