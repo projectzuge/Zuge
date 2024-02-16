@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function LogoutLink({handleLogout, children }) {
+function LogoutLink({ handleLogout, removeCookie, children }) {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -10,7 +10,6 @@ function LogoutLink({handleLogout, children }) {
       .post("account/logout", {})
       .then((data) => {
         if (data.status === 200) {
-          console.log("Logged out");
           handleLogout();
           navigate("/");
         } else {
@@ -19,6 +18,8 @@ function LogoutLink({handleLogout, children }) {
       })
       .catch((error) => {
         console.error(error);
+            removeCookie("userData");
+
       });
   };
   return (

@@ -43,7 +43,6 @@ const SingleFoundRoute = (props) => {
       id: id,
     };
     setJourney(data);
-    console.log("data:", data);
     sessionStorage.setItem("routeDataState", JSON.stringify(data));
     navigate("/route");
   };

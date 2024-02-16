@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect } from "react";
 
-function Authorize({setCookie, removeCookie, children}) {
+function Authorize({ setCookie, removeCookie, children }) {
   useEffect(() => {
     getUserInfo();
-  },[]);
+  }, []);
 
   const getUserInfo = async () => {
     await axios
@@ -21,9 +21,7 @@ function Authorize({setCookie, removeCookie, children}) {
         removeCookie("userData");
       });
   };
-  return (
-    <>{children}</>
-  );
+  return <>{children}</>;
 }
 
 export default Authorize;

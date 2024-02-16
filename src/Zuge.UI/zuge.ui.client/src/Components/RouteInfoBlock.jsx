@@ -124,22 +124,19 @@ const RouteInfoBlock = ({ DarkMode }) => {
             </Grid>
           </Box>
         </Box>
-        <Grid container>
-          <Grid item xs={0} md={0} lg={4} xl={4}></Grid>
-          <Grid item xs={12} md={12} lg={4} xl={4}>
-            <Button
-              color={"primary"}
-              id="confirm-journey-button"
-              variant="contained"
-              onClick={onConfirmClicked}
-              fullWidth
-            >
-              <Typography variant="smallFont">Vahvista matka</Typography>
-              <Typography>&nbsp;</Typography>
-              <Typography variant="mediumBoldFont">({price} €)</Typography>
-            </Button>
-          </Grid>
-        </Grid>
+          <div id="confirm-button-div">
+              <Button
+                color={"primary"}
+                id="confirm-journey-button"
+                variant="contained"
+                onClick={onConfirmClicked}
+                fullWidth
+              >
+                <Typography variant="smallFont">Vahvista matka</Typography>
+                <Typography>&nbsp;</Typography>
+                <Typography variant="mediumBoldFont">({price} €)</Typography>
+              </Button>
+          </div>
       </Grid>
     </>
   );

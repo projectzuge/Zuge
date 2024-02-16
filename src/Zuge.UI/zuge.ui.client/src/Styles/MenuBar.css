@@ -53,13 +53,19 @@
 
 .switchContainer {
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   padding-top: 5px;
 }
 
 .DarkThemeTextMenu {
   display: none;
+}
+
+.typographyDiv {
+  display: flex;
+  justify-content: end;
+  margin-right: 20px;
 }
 
 .toggleMenu {
@@ -200,6 +206,6 @@
 
   .toggleContainerMenu > * {
     flex: 1;
-    text-align: center;
   }
 }
+
