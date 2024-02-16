@@ -115,8 +115,9 @@ const theme = createTheme({
               border: "none",
             },
           },
-          "&.Mui-error": { outline: "1px solid red" },
-          "&.Mui-error:hover": { outline: "none", border: "none" },
+          '&.Mui-error': {
+            outline: 'none',
+          },
         },
       },
     },

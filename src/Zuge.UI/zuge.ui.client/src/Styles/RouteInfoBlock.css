@@ -14,6 +14,13 @@
   text-align: left;
 }
 
+#confirm-button-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+}
+
 #route-info-grid {
   direction: column;
   align-items: center;
@@ -66,7 +73,6 @@
   margin-top: 50px;
   margin-bottom: 10px;
   padding: 15px;
-
 }
 
 #back-button-div {
@@ -76,29 +82,45 @@
 }
 
 @media screen and (max-width: 1700px) {
-  #route-info-box, #route-info-box-dark {
+  #route-info-box,
+  #route-info-box-dark {
+    width: 40%;
+  }
+  #confirm-button-div {
     width: 40%;
   }
 }
 
 @media screen and (max-width: 1268px) {
-  #route-info-box, #route-info-box-dark {
+  #route-info-box,
+  #route-info-box-dark {
+    width: 50%;
+  }
+  #confirm-button-div {
     width: 50%;
   }
 }
 
 @media screen and (max-width: 1000px) {
-  #route-info-box, #route-info-box-dark {
+  #route-info-box,
+  #route-info-box-dark {
+    width: 70%;
+  }
+  #confirm-button-div {
     width: 70%;
   }
 }
 
 @media screen and (max-width: 750px) {
-  #route-info-box, #route-info-box-dark {
+  #route-info-box,
+  #route-info-box-dark {
     width: 80%;
     padding: 10%;
   }
   #route-inside-box {
     padding: 10%;
+  }
+  #confirm-button-div {
+    width: 100%;
   }
 }

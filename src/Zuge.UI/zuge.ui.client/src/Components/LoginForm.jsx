@@ -34,10 +34,10 @@ import PropTypes from "prop-types";
 LoginForm.propTypes = {
   DarkMode: PropTypes.bool,
   isLoginValid: PropTypes.bool,
-  isEmailValid: PropTypes.bool,
-  email: PropTypes.bool,
-  isPasswordValid: PropTypes.bool,
-  password: PropTypes.bool,
+  isEmailValid: PropTypes.any,
+  email: PropTypes.string,
+  isPasswordValid: PropTypes.any,
+  password:  PropTypes.string,
   showPasswordUser: PropTypes.bool,
   handleItemClick: PropTypes.func,
   setEmail: PropTypes.func,
@@ -68,7 +68,7 @@ function LoginForm({
               Sähköposti
             </FormLabel>
             <TextField
-              className={DarkMode ? "LoginTextFieldDark" : "LoginTextField"}
+              className={DarkMode? "darkLoginTextField" : "LoginTextField"}
               onInput={handleEmailInput}
               onChange={onEmailChange}
               onKeyDown={(e) => {
@@ -77,6 +77,11 @@ function LoginForm({
               }}
               error={!isEmailValid}
               helperText={!isEmailValid ? "Virheellinen sähköposti" : ""}
+              InputProps={{
+                sx: {
+                  border: !isEmailValid ? "1px solid red" : "none",
+                },
+              }}
               value={email}
               type="email"
               name="email"
@@ -90,7 +95,7 @@ function LoginForm({
               Salasana
             </FormLabel>
             <TextField
-              className={DarkMode ? "LoginTextFieldDark" : "LoginTextField"}
+              className={DarkMode ? "darkLoginTextField" : "LoginTextField"}
               value={password}
               name="password"
               variant="outlined"
@@ -100,6 +105,9 @@ function LoginForm({
               helperText={!isPasswordValid ? "Virheellinen salasana" : ""}
               required
               InputProps={{
+                sx: {
+                  border: !isPasswordValid ? "1px solid red" : "none",
+                },
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
@@ -138,7 +146,7 @@ function LoginForm({
               Peruuta
             </Button>
           </div>
-          <div>
+          <div className="rememberMeCheck">
             <FormControlLabel
               control={
                 <Checkbox
@@ -159,7 +167,7 @@ function LoginForm({
               sx={{
                 fontSize: "90%",
                 display: "inline",
-                color: "#ff3c3c !important",
+                color: "#d32f2f !important",
               }}
               style={isLoginValid ? { display: "none" } : { display: "inline" }}
             >

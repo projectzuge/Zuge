@@ -1,7 +1,15 @@
+#userMenu .MuiList-root {
+    background-color: rgb(222, 222, 222);
+}
+
+#userMenu .MuiButtonBase-root {
+    background-color: rgb(222, 222, 222);
+}
+
 #userMenuDark .MuiList-root {
-    background-color: #262626;
+    background-color: rgb(51, 51, 51);
 }
 
 #userMenuDark .MuiButtonBase-root {
-    background-color: #262626;
+    background-color: rgb(51, 51, 51);
 }

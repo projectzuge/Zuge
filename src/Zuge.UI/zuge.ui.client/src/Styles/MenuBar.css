@@ -11,6 +11,16 @@
   box-sizing: border-box;
 }
 
+.light {
+  color: #262626;
+  background-color: #eeeeee;
+}
+
+.dark {
+  color: #eeeeee;
+  background-color: #262626;
+}
+
 .HomePageButton {
   height: 40px;
   margin: 10px;

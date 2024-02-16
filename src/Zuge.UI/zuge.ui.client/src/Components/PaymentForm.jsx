@@ -113,7 +113,6 @@ const PaymentForm = ({ DarkMode }) => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
-    console.log("clickedi");
     const formattedExpiryDate = convertDate(expiryDate);
     if (
       !checkLuhn(cardNumber) ||
@@ -125,15 +124,12 @@ const PaymentForm = ({ DarkMode }) => {
       firstName.length === 0 ||
       lastName.length === 0
     ) {
-      toast.error(
-        "Tarkista kortin tiedot.",
-        {
-          position: "top-center",
-          closeOnClick: false,
-          closeButton: true,
-          autoClose: 15000,
-        }
-      );
+      toast.error("Tarkista kortin tiedot.", {
+        position: "top-center",
+        closeOnClick: false,
+        closeButton: true,
+        autoClose: 15000,
+      });
     } else if (!checkAreEmailsValid(emails)) {
       window.alert("Tarkista sähköpostiosoite");
       navigate(-1);
@@ -198,7 +194,9 @@ const PaymentForm = ({ DarkMode }) => {
                   const { maxLength, ...otherProps } = getCardNumberProps();
                   return otherProps;
                 })()}
-                sx={{ borderRadius: "10px" }}
+                sx={{
+                  borderRadius: "10px",
+                }}
                 mask="9999 9999 9999 9999"
                 placeholder="#### #### #### ####"
                 fullWidth

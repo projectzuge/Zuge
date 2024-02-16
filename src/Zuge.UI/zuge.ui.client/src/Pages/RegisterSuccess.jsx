@@ -18,33 +18,27 @@ function RegisterSuccess({ DarkMode }) {
   useEffect(() => {
     console.log(targetElementRef);
     if (targetElementRef.current) {
-      targetElementRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
+      targetElementRef.current.scrollIntoView({ behavior: 'smooth', 
+      block: 'center' });
     }
   }, [targetElementRef]);
 
   return (
     <>
-      <div
-        ref={targetElementRef}
-        className={
-          DarkMode ? "RegisterSuccessBodyDark" : "RegisterSuccessBodyLight"
-        }
-      >
-        <Typography>Rekisteröityminen onnistui!</Typography>
-        <Button
-          sx={{
-            padding: "10px",
-            margin: "20px",
-            borderStyle: "solid",
-            borderWidth: "1px",
-            borderColor: DarkMode ? "#eeeeee" : "#262626",
-          }}
-          onClick={() => {
-            navigate("/");
-          }}
+      <div ref={targetElementRef} className={DarkMode? 
+      "RegisterSuccessBodyDark" : "RegisterSuccessBodyLight"}>
+        <Typography>
+          Rekisteröityminen onnistui!
+        </Typography>
+        <Button 
+        sx={{
+          padding: "10px",
+          margin: "20px",
+          borderStyle: "solid",
+          borderWidth: "1px",
+          borderColor: DarkMode? "#eeeeee" : "#262626",
+        }}
+        onClick={() => {navigate("/")}}
         >
           Etusivulle
         </Button>

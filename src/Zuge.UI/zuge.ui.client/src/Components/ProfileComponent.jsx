@@ -120,7 +120,12 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
                 variant="outlined"
-                InputProps={{ sx: { borderRadius: "10px" } }}
+                InputProps={{
+                  sx: {
+                    borderRadius: "10px",
+                    border: isEmptyFirstName ? "1px solid red" : "none",
+                  },
+                }}
                 id="profile-first-name-field"
                 fullWidth
                 defaultValue={firstName}
@@ -136,7 +141,12 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
             </Grid>
             <Grid id="profile-item-grid" item xs={12} md={12} lg={6} xl={6}>
               <TextField
-                InputProps={{ sx: { borderRadius: "10px" } }}
+                InputProps={{
+                  sx: {
+                    borderRadius: "10px",
+                    border: isEmptyLastName ? "1px solid red" : "none",
+                  },
+                }}
                 id="profile-last-name-field"
                 fullWidth
                 defaultValue={lastName}
@@ -169,6 +179,7 @@ const ProfileComponent = ({ DarkMode, cookies, setCookie }) => {
                 InputProps={{
                   sx: {
                     borderRadius: "10px",
+                    border: phoneNumberNotValid ? "1px solid red" : "none",
                   },
                 }}
                 id="profile-phone-number-field"

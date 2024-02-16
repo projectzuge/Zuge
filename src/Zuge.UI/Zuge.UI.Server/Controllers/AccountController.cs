@@ -8,7 +8,7 @@ namespace Zuge.UI.Server.Controllers;
 public record RegistrationInformation(
     [Length(1, 100)] string FirstName, 
     [Length(1, 100)] string LastName, 
-    [Length(10, 20)] string? PhoneNumber);
+    [Phone] string? PhoneNumber);
 
 [ApiController]
 [Route("account")]
@@ -50,7 +50,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     [Route("manage/register")]
     public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
     {
-        var user = authenticationDbContext.Users.FirstOrDefault(user => user.Email == email);
+        var user = await authenticationDbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
         if (user == null) return NotFound();
 
         var trimmedInfo = new RegistrationInformation(
