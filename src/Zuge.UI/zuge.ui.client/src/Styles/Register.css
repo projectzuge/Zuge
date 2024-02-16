@@ -18,14 +18,10 @@
 }
 
 .registerTextField .MuiInputBase-input {
-    border: none;
-    outline: none;
     color: #262626;
 }
 
 .darkRegisterTextField .MuiInputBase-input {
-    border: none;
-    outline: none;
     color: #eeeeee;
 }
 

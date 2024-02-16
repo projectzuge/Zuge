@@ -73,6 +73,12 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         style={DarkMode? labelDarkStyle : labelLightStyle}
                         >Sähköposti</InputLabel>
                         <TextField
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isEmailValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.email} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -112,6 +118,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onInput={handlePasswordInput}
                         onChange={onPasswordChange}
                         InputProps={{
+                            sx: {
+                                border: !inputValidities.isPasswordValid ? 
+                                "1px solid red" : "none",
+                            },
                             endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton onClick={handlePasswordVisibility}
@@ -158,6 +168,10 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         onInput={handlePasswordInput}
                         onChange={onRePasswordChange}
                         InputProps={{
+                            sx: {
+                                border: !inputValidities.isRePasswordValid ? 
+                                "1px solid red" : "none",
+                            },
                             endAdornment: (
                             <InputAdornment position="end">
                                 <IconButton onClick={handleRePasswordVisibility} 
@@ -186,6 +200,12 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Etunimi</InputLabel>
                         <TextField
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isFirstNameValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.firstName} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -213,6 +233,12 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Sukunimi</InputLabel>
                         <TextField
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isLastNameValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.lastName} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -240,6 +266,12 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                         style={DarkMode? labelDarkStyle : labelLightStyle}>
                             Puhelinnumero</InputLabel>
                         <TextField 
+                        InputProps={{
+                            sx: {
+                              border: !inputValidities.isPhoneNumValid ? 
+                              "1px solid red" : "none",
+                            },
+                        }}
                         value={inputs.phoneNum} 
                         className={DarkMode? "darkRegisterTextField" : 
                         "registerTextField"}
@@ -293,7 +325,7 @@ function Register({ DarkMode, inputs, inputValidities, showPassword,
                                 height: "90%",
                             },
                           }} >
-                            <p className="backLink">Takaisin</p>
+                            <p className="backLink">Etusivulle</p>
                         </Button>
                     </Grid>
                     <Grid item xs={6}>

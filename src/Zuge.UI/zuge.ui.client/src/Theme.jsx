@@ -107,6 +107,9 @@ const theme = createTheme({
               border: "none",
             },
           },
+          '&.Mui-error': {
+            outline: 'none',
+          },
         },
       },
     },

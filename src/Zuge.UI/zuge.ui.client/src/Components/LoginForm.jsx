@@ -68,10 +68,6 @@ function LoginForm({
               Sähköposti
             </FormLabel>
             <TextField
-            sx={{
-              outlineStyle: "none",
-              borderStyle: "none",
-            }}
               className={DarkMode? "darkLoginTextField" : "LoginTextField"}
               onInput={handleEmailInput}
               onChange={onEmailChange}
@@ -81,6 +77,11 @@ function LoginForm({
               }}
               error={!isEmailValid}
               helperText={!isEmailValid ? "Virheellinen sähköposti" : ""}
+              InputProps={{
+                sx: {
+                  border: !isEmailValid ? "1px solid red" : "none",
+                },
+              }}
               value={email}
               type="email"
               name="email"
@@ -104,6 +105,9 @@ function LoginForm({
               helperText={!isPasswordValid ? "Virheellinen salasana" : ""}
               required
               InputProps={{
+                sx: {
+                  border: !isPasswordValid ? "1px solid red" : "none",
+                },
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
