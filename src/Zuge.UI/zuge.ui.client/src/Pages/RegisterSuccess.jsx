@@ -16,7 +16,6 @@ function RegisterSuccess({ DarkMode }) {
   const targetElementRef = useRef(null);
 
   useEffect(() => {
-    console.log(targetElementRef);
     if (targetElementRef.current) {
       targetElementRef.current.scrollIntoView({ behavior: 'smooth', 
       block: 'center' });
@@ -34,9 +33,10 @@ function RegisterSuccess({ DarkMode }) {
         sx={{
           padding: "10px",
           margin: "20px",
-          borderStyle: "solid",
-          borderWidth: "1px",
+          borderStyle: "none",
           borderColor: DarkMode? "#eeeeee" : "#262626",
+          backgroundColor: DarkMode? "#262626" : "#eeeeee",
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
         }}
         onClick={() => {navigate("/")}}
         >

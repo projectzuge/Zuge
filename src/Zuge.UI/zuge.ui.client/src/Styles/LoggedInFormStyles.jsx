@@ -1,7 +1,8 @@
 export const profileButtonStyle = {
     backgroundColor: "#eeeeee",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
     color: "#262626",
-    border: "1px solid #262626",
+    border: "none",
     marginBottom: "20px",
     width: "200px",
     "&:hover": {
@@ -11,8 +12,9 @@ export const profileButtonStyle = {
 
 export const profileButtonStyleDark = {
     backgroundColor: "#262626",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
     color: "#eeeeee",
-    border: "1px solid #eeeeee",
+    border: "none",
     marginBottom: "20px",
     width: "200px",
     "&:hover": {
@@ -22,8 +24,9 @@ export const profileButtonStyleDark = {
 
 export const logoutButtonStyle = {
     backgroundColor: "#eeeeee",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
     color: "#262626",
-    border: "1px solid #262626",
+    border: "none",
     marginTop: "20px",
     marginBottom: "20px",
     width: "200px",
@@ -34,8 +37,9 @@ export const logoutButtonStyle = {
 
 export const logoutButtonStyleDark = {
     backgroundColor: "#262626",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
     color: "#eeeeee",
-    border: "1px solid #eeeeee",
+    border: "none",
     marginTop: "20px",
     marginBottom: "20px",
     width: "200px",
