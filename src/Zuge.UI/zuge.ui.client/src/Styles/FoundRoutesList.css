@@ -28,7 +28,32 @@
 }
 
 #info-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 15px;
   padding-left: 10px;
   padding-right: 10px;
   padding-bottom: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+#from-to {
+  text-align: right;
+}
+
+#trip {
+  text-align: left;
+}
+
+@media screen and (max-width: 480px) {
+  #found-routes-list-box, #found-routes-list-box-dark {
+    padding: 20px;
+  }
+  #info-row {
+    grid-template-columns: 1fr;
+  }
+  #from-to, #trip {
+    text-align: center;
+  }
 }

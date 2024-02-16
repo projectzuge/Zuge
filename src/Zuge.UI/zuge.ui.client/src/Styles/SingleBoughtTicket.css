@@ -13,3 +13,29 @@
   margin-bottom: 10px;
   margin-top: 10px;
 }
+
+#single-route-grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Three columns by default */
+  grid-gap: 10px; /* Adjust the gap between grid items as needed */
+  align-items: center; /* Center items vertically */
+  justify-content: center; /* Center items horizontally */
+}
+
+#from-to-item {
+  text-align: left;
+}
+
+#times-item {
+  text-align: right;
+}
+
+@media screen and (max-width: 600px) {
+  #single-route-grid-container {
+    grid-template-columns: 1fr;
+  }
+  #from-to-item,
+  #times-item {
+    text-align: center;
+  }
+}

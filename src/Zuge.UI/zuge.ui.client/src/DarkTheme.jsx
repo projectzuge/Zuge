@@ -4,16 +4,24 @@ const DarkTheme = createTheme({
   // default font family:
   typography: {
     fontFamily: "Inria Sans, sans-serif",
+    xsFont: {
+      fontSize: 11,
+    },
+    // Variant 2: Small font sizes
     smallFont: {
       fontSize: 14,
     },
-    // Variant 2: Medium font sizes
+    // Variant 3: Medium font sizes
     mediumFont: {
       fontSize: 18,
     },
-    // Variant 3: Large font sizes
+    // Variant 4: Large font sizes
     largeFont: {
       fontSize: 22,
+    },
+    xsBoldFont: {
+      fontSize: 11,
+      fontWeight: "bolder",
     },
     smallBoldFont: {
       fontSize: 14,
@@ -37,7 +45,7 @@ const DarkTheme = createTheme({
   palette: {
     primary: { main: "#262626", contrastText: "#eeeeee" },
     secondary: {
-      main: "#52eb34",
+      main: "#205c14",
       contrastText: "#eeeeee",
       borderRadius: "10px",
       height: "60px",
@@ -99,8 +107,8 @@ const DarkTheme = createTheme({
         containedSecondary: {
           height: "56px",
           "&:hover": {
-            backgroundColor: "#88ed74", // Set the desired hover color 
-                                        // for secondary buttons
+            backgroundColor: "#58994b", // Set the desired hover color
+            // for secondary buttons
             outline: "1px solid rgba(238, 238, 238, 0.5)",
           },
         },

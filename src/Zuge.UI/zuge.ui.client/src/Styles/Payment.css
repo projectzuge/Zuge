@@ -23,15 +23,17 @@
 }
 
 @media screen and (max-width: 950px) {
-  #payment-container {
+  #payment-container,
+  #payment-container-dark {
     max-width: 80%;
     padding: 60px;
   }
 }
 
-@media screen and (max-width: 450px) {
-  #payment-container {
+@media screen and (max-width: 480px) {
+  #payment-container,
+  #payment-container-dark {
     max-width: 100%;
-    padding: 10px;
+    padding: 20px;
   }
 }
