@@ -73,9 +73,9 @@ await (authenticationContext.Database.IsRelational()
     : authenticationContext.Database.EnsureCreatedAsync(
         CancellationToken.None));
 
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || !authenticationContext.Users.Any())
 {
-#region create test users for in-memory db
+#region create test accounts
     var userManager =
        scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();
     var userStore = scope.ServiceProvider
