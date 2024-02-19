@@ -69,6 +69,19 @@ Scaffold DbContext
 - react-router-dom (^6.21.1)
 - react-toastify (^10.0.4)
 
+### Frontpage:
+
+Frontpage on the computer:
+![Wide screen](https://github.com/projectzuge/Zuge/assets/153619765/be8b51ad-2270-4005-bedd-361106f90813)
+
+Frontpage on the phone, dropdown menu opened:
+![Phone screen](https://github.com/projectzuge/Zuge/assets/153619765/38c82215-61fa-4aaf-a298-92d1cf408e80)
+
+### Responsiveness:
+
+All the components are responsive from a screen width of 320 pixels upwards.
+
+
 ### Payment page
 
 Payment uses react-creditcard-validator to check errors in CVC and date. Card number is checked with [Luhn's algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm). Input fields use react-input-mask to constrain user inputs, and react-toastify to give toast in case of error:
@@ -81,28 +94,77 @@ Basic view of the payment form:
 Working card number. The image also shows how it handles errors in input (red borders and error text) and in the actual payment (incorrect card info -> react-toastify toast):
 ![image](https://github.com/projectzuge/Zuge/assets/73687931/d805d21b-6608-428d-99ff-c5df12ab4598)
 
+Successful purchase:
+![image](https://github.com/projectzuge/Zuge/assets/73687931/e21e77af-b677-460e-9d05-b2e43b3d8d0c)
 
-### To test:
 
-#### Working cities:
+### To test buying the ticket:
 
-- Keuruu
-- Haapamäki
-- Kolho
-- Vilppula
-- Juupajoki
-- Orivesi Keskusta
-- Orivesi
-- Tampere
+- Select from and to cities from the list (the cities have to be different in order to continue)
+  - Working date is **current date**
+- Click "Hae matkoja"
+- Click journey from the component that appeared on the right or below
+- In /route click "Vahvista matka (price)"
+- In /revise add email to "Lipun toimitus"
+- Click "Maksukortti"
+- In /payment add card number **4242 4242 4242 4242** to test successful purchase, and **5555 5555 5555 4444** to test valid card number in frontend but one that doesn't go through in backend
+  - "Etunimi" and "sukunimi" cannot be empty
+  - "Viimeinen voimassaolopäivä" only has to be in the future
+  - "CVC" has to be three numbers
+- When ready, click "Maksa"
 
-#### Working credit card num:
+#### Note!
 
-- 4242424242424242
+When clicking "Takaisin" the app navigates one page back. Selected routes are saved in sessionStorage and therefore the user doesn't always have to start from the beginning.
+
+SessionStorage is emptied when the purchase is done or after 60 minutes.
 
 ### ! Use any email - there is no functionality to send the ticket to user !
 
-### ToDo in the future:
+
+### Login:
+
+#### Opening the Login:
+Clicking "Käyttäjä" opens the login form.
+
+#### Try any email and password:
+- Login only accepts emails that has "@" in the middle, special characters are not allowed, except "." and "_" and only letters a - z and A - Z are allowed. Email needs to have some characters before and after the "@" character. Domain part needs to have ".fi", ".com" or similar acceptable TLD.
+- Passwords needs to have 6 to 100 characters, atleast one small letter, capital letter, number and a special character.
+- The fields doesn't accept unallowed characters.
+- Clicking "Peruuta" or clicking outside login menu will close the menu and empty the text fields.
+
+#### Clicking "Rekisteröidy":
+Clicking "Rekisteröidy" opens the register form.
+
+
+### Register:
+
+Register can be reached from login form (read Login).
+
+#### Inputs:
+- Email field accepts emails that has "@" in the middle, special characters are not allowed, except "." and "_" and only letters a - z and A - Z are allowed. Email needs to have some characters before and after the "@" character. Domain part needs to have ".fi", ".com" or similar acceptable TLD.
+- Passwords needs to have 6 to 100 characters, atleast one small letter, capital letter, number and a special character.
+- Passwords needs to match.
+- The email and password fields doesn't accept unallowed characters.
+- Name fields has to be 1 to 100 characters long, accepts only small and capital letters from a to ö and A to Ö, spaces and "-", other special characters and numbers are not allowed.
+- Phone number only accepts numbers and needs to be 10 to 15 characters long. Country code or spaces are not allowed.
+- All fields must have an acceptable value to register.
+- Navigating to other pages will empty the text fields.
+
+
+If none of the fields are red and the email is not already in the database, then clicking registration results in a successful registration. The user data is saved to the database and the user sees the registration successful -page. 
+
+Clicking "Etusivulle" navigates to the front page on both registration form and registration successful -page.
+
+
+# ToDo in the future:
 
 - Send ticket to email
 - Make routes for all cities
 - Confirmation email to user email
+- Give the user a carriage and seat numbers
+- Create personnel role and pages to manage routes, users and news
+- Support for different languages (EN, SE)
+- Make it possible for the user to change their password
+
+
