@@ -69,6 +69,15 @@ Scaffold DbContext
 - react-router-dom (^6.21.1)
 - react-toastify (^10.0.4)
 
+### Frontpage:
+
+![Wide screen](https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-wide-screen.jpg)
+Frontpage on the computer
+
+![Phone screen](https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-phone-screen.jpg)
+Frontpage on the phone, dropdown menu opened
+
+
 ### Payment page
 
 Payment uses react-creditcard-validator to check errors in CVC and date. Card number is checked with [Luhn's algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm). Input fields use react-input-mask to constrain user inputs, and react-toastify to give toast in case of error:
@@ -108,6 +117,42 @@ SessionStorage is emptied when the purchase is done or after 60 minutes.
 
 ### ! Use any email - there is no functionality to send the ticket to user !
 
+
+### Login:
+
+#### Opening the Login:
+Clicking "Käyttäjä" opens the login form.
+
+#### Try any email and password:
+- Login only accepts emails that has "@" in the middle, special characters are not allowed, except "." and "_" and only letters a - z and A - Z are allowed. Email needs to have some characters before and after the "@" character. Domain part needs to have ".fi", ".com" or similar acceptable TLD.
+- Passwords needs to have 6 to 100 characters, atleast one small letter, capital letter, number and a special character.
+- The fields doesn't accept unallowed characters.
+- Clicking "Peruuta" or clicking outside login menu will close the menu and empty the text fields.
+
+#### Clicking "Rekisteröidy":
+Clicking "Rekisteröidy" opens the register form.
+
+
+### Register:
+
+Register can be reached from login form (read Login).
+
+#### Inputs:
+- Email field accepts emails that has "@" in the middle, special characters are not allowed, except "." and "_" and only letters a - z and A - Z are allowed. Email needs to have some characters before and after the "@" character. Domain part needs to have ".fi", ".com" or similar acceptable TLD.
+- Passwords needs to have 6 to 100 characters, atleast one small letter, capital letter, number and a special character.
+- Passwords needs to match.
+- The email and password fields doesn't accept unallowed characters.
+- Name fields has to be 1 to 100 characters long, accepts only small and capital letters from a to ö and A to Ö, spaces and "-", other special characters and numbers are not allowed.
+- Phone number only accepts numbers and needs to be 10 to 15 characters long. Country code or spaces are not allowed.
+- All fields must have an acceptable value to register.
+- Navigating to other pages will empty the text fields.
+
+
+If none of the fields are red and the email is not already in the database, then clicking registration results in a successful registration. The user data is saved to the database and the user sees the registration successful -page. 
+
+Clicking "Etusivulle" navigates to the front page on both registration form and registration successful -page.
+
+
 # ToDo in the future:
 
 - Send ticket to email
@@ -117,3 +162,5 @@ SessionStorage is emptied when the purchase is done or after 60 minutes.
 - Create personnel role and pages to manage routes, users and news
 - Support for different languages (EN, SE)
 - Make it possible for the user to change their password
+
+
