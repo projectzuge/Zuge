@@ -69,6 +69,19 @@ Scaffold DbContext
 - react-router-dom (^6.21.1)
 - react-toastify (^10.0.4)
 
+### Payment page
+
+Payment uses react-creditcard-validator to check errors in CVC and date. Card number is checked with [Luhn's algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm). Input fields use react-input-mask to constrain user inputs, and react-toastify to give toast in case of error:
+
+#### Some images:
+
+Basic view of the payment form:
+![image](https://github.com/projectzuge/Zuge/assets/73687931/a352d664-efc8-446c-b25c-9552284ef892)
+
+Working card number. The image also shows how it handles errors in input (red borders and error text) and in the actual payment (incorrect card info -> react-toastify toast):
+![image](https://github.com/projectzuge/Zuge/assets/73687931/d805d21b-6608-428d-99ff-c5df12ab4598)
+
+
 ### To test:
 
 #### Working cities:
