@@ -81,23 +81,30 @@ Basic view of the payment form:
 Working card number. The image also shows how it handles errors in input (red borders and error text) and in the actual payment (incorrect card info -> react-toastify toast):
 ![image](https://github.com/projectzuge/Zuge/assets/73687931/d805d21b-6608-428d-99ff-c5df12ab4598)
 
+Successful purchase:
+![image](https://github.com/projectzuge/Zuge/assets/73687931/e21e77af-b677-460e-9d05-b2e43b3d8d0c)
 
-### To test:
 
-#### Working cities:
+### To test buying the ticket:
 
-- Keuruu
-- Haapamäki
-- Kolho
-- Vilppula
-- Juupajoki
-- Orivesi Keskusta
-- Orivesi
-- Tampere
+- Select from and to cities from the list (the cities have to be different in order to continue)
+  - Working date is **current date**
+- Click "Hae matkoja"
+- Click journey from the component that appeared on the right or below
+- In /route click "Vahvista matka (price)"
+- In /revise add email to "Lipun toimitus"
+- Click "Maksukortti"
+- In /payment add card number **4242 4242 4242 4242** to test successful purchase, and **5555 5555 5555 4444** to test valid card number in frontend but one that doesn't go through in backend
+  - "Etunimi" and "sukunimi" cannot be empty
+  - "Viimeinen voimassaolopäivä" only has to be in the future
+  - "CVC" has to be three numbers
+- When ready, click "Maksa"
 
-#### Working credit card num:
+#### Note!
 
-- 4242424242424242
+When clicking "Takaisin" the app navigates one page back. Selected routes are saved in sessionStorage and therefore the user doesn't always have to start from the beginning.
+
+SessionStorage is emptied when the purchase is done or after 60 minutes.
 
 ### ! Use any email - there is no functionality to send the ticket to user !
 
