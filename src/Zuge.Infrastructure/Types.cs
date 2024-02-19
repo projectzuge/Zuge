@@ -59,7 +59,7 @@ public class DomainContext(DbContextOptions<DomainContext> options) : DbContext(
 
         return null;
     }
-    
+
     async Task<object?> SearchAsync(Query.Search search, CancellationToken cancellationToken)
     {
         var (date, from, to) = search;
@@ -94,10 +94,20 @@ public class DomainContext(DbContextOptions<DomainContext> options) : DbContext(
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        _ = modelBuilder.Entity<Entity.Stop>()
+            .HasOne<Entity.Journey>()
+            .WithMany()
+            .HasForeignKey(stop => stop.JourneyId);
+
+        _ = modelBuilder.Entity<Entity.Ticket>()
+            .HasOne<Entity.Journey>()
+            .WithMany()
+            .HasForeignKey(ticket => ticket.JourneyId);
+
         _ = modelBuilder.Entity<Entity.Journey>().HasData
         ([
-            new(new(1, 43, 0), 1, 0M, "Juna 1"),
-            new(new(1, 41, 0), 2, 0M, "Juna 1")
+            new(new(1, 43, 0), 1, 10M, "Juna 1"),
+            new(new(1, 41, 0), 2, 10M, "Juna 1")
         ]);
 
         var utcNow = DateTimeOffset.UtcNow;
@@ -123,7 +133,5 @@ public class DomainContext(DbContextOptions<DomainContext> options) : DbContext(
             new(new(date, new(9, 25), offset), "Kolho", new(date, new(9, 33), offset), "Haapamäki", new(0, 10, 0), 15, 2, 7),
             new(new(date, new(9, 47), offset), "Haapamäki", new(date, new(9, 47), offset), "Keuruu", new(0, 14, 0), 16, 2, 8)
         ]);
-
-        _ = modelBuilder.Entity<Entity.Ticket>();
     }
 }
