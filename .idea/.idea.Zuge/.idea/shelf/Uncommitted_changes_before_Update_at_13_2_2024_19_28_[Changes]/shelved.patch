@@ -1,0 +1,384 @@
+Index: src/Zuge.Domain/Domain.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Zuge.Domain;\r\n\r\npublic static class Domain\r\n{\r\n    public static PurchaseTicketHandler PurchaseTicketAsync =>\r\n        async (unitOfWork, args, cancellationToken) =>\r\n        {\r\n            var result = await new InlineValidator<PurchaseTicketArgs>\r\n            {\r\n                rules => rules\r\n                    .RuleFor(purchaseTicket => purchaseTicket.CardCvc)\r\n                    .Matches(@\"^\\d{3,4}$\"),\r\n\r\n                rules => rules\r\n                    .RuleFor(purchaseTicket => purchaseTicket.CardDate)\r\n                    .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)),\r\n\r\n                rules => rules\r\n                    .RuleFor(purchaseTicket => purchaseTicket.CardHolder)\r\n                    .NotEmpty(),\r\n\r\n                rules => rules\r\n                    .RuleFor(purchaseTicket => purchaseTicket.CardNumber)\r\n                    .CreditCard(),\r\n\r\n                rules => rules\r\n                    .RuleFor(purchaseTicket => purchaseTicket.EmailAddress)\r\n                    .EmailAddress(),\r\n\r\n                rules => rules\r\n                    .RuleFor(purchaseTicket => purchaseTicket.JourneyId)\r\n                    .GreaterThan(0)\r\n            }.ValidateAsync(args, cancellationToken);\r\n\r\n            if (result.ToDictionary() is { Count: > 0 } errors)\r\n                return new(errors, false);\r\n\r\n            var (_, _, _, cardNumber, emailAddress, journeyId) = args;\r\n\r\n            var journey = await unitOfWork.Journeys.FirstOrDefaultAsync(\r\n                journey => journey.Id == journeyId,\r\n                cancellationToken);\r\n\r\n            if (journey is null)\r\n                return new(null, false);\r\n\r\n            if (cardNumber != \"4242424242424242\")\r\n                return new(null, false);\r\n\r\n            Ticket ticket = new(emailAddress, 0, journeyId);\r\n            unitOfWork.Tickets.AddRange([ticket]);\r\n            await unitOfWork.CommitAsync(cancellationToken);\r\n\r\n            return new(null, true);\r\n        };\r\n\r\n    public static SearchJourneysHandler SearchJourneysAsync =>\r\n        async (unitOfWork, args, cancellationToken) =>\r\n        {\r\n            var result = await new InlineValidator<SearchJourneysArgs>\r\n            {\r\n                rules => rules\r\n                    .RuleFor(searchJourneys => searchJourneys.Date)\r\n                    .GreaterThanOrEqualTo(\r\n                        DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)),\r\n\r\n                rules => rules\r\n                    .RuleFor(searchJourneys => searchJourneys.From)\r\n                    .NotEmpty(),\r\n\r\n                rules => rules\r\n                    .RuleFor(searchJourneys => searchJourneys.To)\r\n                    .NotEmpty(),\r\n\r\n                rules => rules\r\n                    .RuleFor(searchJourneys => searchJourneys.From)\r\n                    .NotEqual(searchJourneys => searchJourneys.To)\r\n            }.ValidateAsync(args, cancellationToken);\r\n\r\n            if (result.ToDictionary() is { Count: > 0 } errors)\r\n                return new(errors, false);\r\n\r\n            var (date, from, to) = args;\r\n\r\n            var froms = await unitOfWork.Stops.ToListAsync(stop =>\r\n                    DateOnly.FromDateTime(stop.DepartsAt.Date) <= date &&\r\n                    stop.DepartsFrom == from,\r\n                cancellationToken);\r\n\r\n            var tos = await unitOfWork.Stops.ToListAsync(stop =>\r\n                    DateOnly.FromDateTime(stop.DepartsAt.Date) >= date &&\r\n                    stop.DepartsFrom == to,\r\n                cancellationToken);\r\n\r\n            var ids = froms\r\n                .Zip(tos)\r\n                .Where(pair =>\r\n                    pair.First.JourneyId == pair.Second.JourneyId &&\r\n                    pair.First.Ordinal < pair.Second.Ordinal)\r\n                .Select(pair => pair.First.JourneyId);\r\n\r\n            var journeys = await unitOfWork.Journeys.ToListAsync(\r\n                journey => ids.Contains(journey.Id),\r\n                cancellationToken);\r\n\r\n            var data = await Task.WhenAll(\r\n                journeys.Select(async journey => new\r\n                {\r\n                    journey.Duration,\r\n                    journey.Id,\r\n                    journey.Price,\r\n                    Stops = await unitOfWork.Stops.ToListAsync(\r\n                        stop => stop.JourneyId == journey.Id,\r\n                        cancellationToken),\r\n                    journey.Train\r\n                }));\r\n\r\n            return new(data, true);\r\n        };\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Domain/Domain.cs b/src/Zuge.Domain/Domain.cs
+--- a/src/Zuge.Domain/Domain.cs	(revision 62805e1c073a1710467dfd6cf3f29c8664d19c59)
++++ b/src/Zuge.Domain/Domain.cs	(date 1707828843394)
+@@ -8,27 +8,27 @@
+             var result = await new InlineValidator<PurchaseTicketArgs>
+             {
+                 rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardCvc)
++                    .RuleFor(args => args.CardCvc)
+                     .Matches(@"^\d{3,4}$"),
+ 
+                 rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardDate)
++                    .RuleFor(args => args.CardDate)
+                     .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)),
+ 
+                 rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardHolder)
++                    .RuleFor(args => args.CardHolder)
+                     .NotEmpty(),
+ 
+                 rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardNumber)
++                    .RuleFor(args => args.CardNumber)
+                     .CreditCard(),
+ 
+                 rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.EmailAddress)
++                    .RuleFor(args => args.EmailAddress)
+                     .EmailAddress(),
+ 
+                 rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.JourneyId)
++                    .RuleFor(args => args.JourneyId)
+                     .GreaterThan(0)
+             }.ValidateAsync(args, cancellationToken);
+ 
+@@ -60,21 +60,21 @@
+             var result = await new InlineValidator<SearchJourneysArgs>
+             {
+                 rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.Date)
++                    .RuleFor(args => args.Date)
+                     .GreaterThanOrEqualTo(
+                         DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)),
+ 
+                 rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.From)
++                    .RuleFor(args => args.From)
+                     .NotEmpty(),
+ 
+                 rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.To)
++                    .RuleFor(args => args.To)
+                     .NotEmpty(),
+ 
+                 rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.From)
+-                    .NotEqual(searchJourneys => searchJourneys.To)
++                    .RuleFor(args => args.From)
++                    .NotEqual(args => args.To)
+             }.ValidateAsync(args, cancellationToken);
+ 
+             if (result.ToDictionary() is { Count: > 0 } errors)
+Index: src/Zuge.Domain/Types.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Zuge.Domain;\r\n\r\npublic record Journey(\r\n    TimeSpan Duration,\r\n    int Id,\r\n    decimal Price,\r\n    string Train);\r\n\r\npublic record Stop(\r\n    DateTimeOffset ArrivesAt,\r\n    string ArrivesFrom,\r\n    DateTimeOffset DepartsAt,\r\n    string DepartsFrom,\r\n    TimeSpan Duration,\r\n    int Id,\r\n    int JourneyId,\r\n    int Ordinal);\r\n\r\npublic record Ticket(\r\n    string EmailAddress,\r\n    int Id,\r\n    int JourneyId);\r\n\r\npublic interface IRepository<T>\r\n{\r\n    void AddRange(IEnumerable<T> entities);\r\n\r\n    Task<List<T>> ToListAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default);\r\n    \r\n    Task<T?> FirstOrDefaultAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default);\r\n}\r\n\r\npublic interface IUnitOfWork\r\n{\r\n    IRepository<Journey> Journeys { get; }\r\n    IRepository<Stop> Stops { get; }\r\n    IRepository<Ticket> Tickets { get; }\r\n\r\n    Task CommitAsync(CancellationToken cancellationToken = default);\r\n    Task MigrateAsync(CancellationToken cancellationToken = default);\r\n}\r\n\r\npublic record Result(\r\n    object? Data,\r\n    bool Success);\r\n\r\npublic record PurchaseTicketArgs(\r\n    string CardCvc,\r\n    DateOnly CardDate,\r\n    string CardHolder,\r\n    string CardNumber,\r\n    string EmailAddress,\r\n    int JourneyId);\r\n\r\npublic delegate Task<Result> PurchaseTicketHandler(\r\n    IUnitOfWork unitOfWork,\r\n    PurchaseTicketArgs args,\r\n    CancellationToken cancellationToken = default);\r\n\r\npublic record SearchJourneysArgs(\r\n    DateOnly Date,\r\n    string From,\r\n    string To);\r\n    \r\npublic delegate Task<Result> SearchJourneysHandler(\r\n    IUnitOfWork unitOfWork,\r\n    SearchJourneysArgs args,\r\n    CancellationToken cancellationToken = default);
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Domain/Types.cs b/src/Zuge.Domain/Types.cs
+--- a/src/Zuge.Domain/Types.cs	(revision 62805e1c073a1710467dfd6cf3f29c8664d19c59)
++++ b/src/Zuge.Domain/Types.cs	(date 1707844947781)
+@@ -21,29 +21,6 @@
+     int Id,
+     int JourneyId);
+ 
+-public interface IRepository<T>
+-{
+-    void AddRange(IEnumerable<T> entities);
+-
+-    Task<List<T>> ToListAsync(
+-        Expression<Func<T, bool>> predicate,
+-        CancellationToken cancellationToken = default);
+-    
+-    Task<T?> FirstOrDefaultAsync(
+-        Expression<Func<T, bool>> predicate,
+-        CancellationToken cancellationToken = default);
+-}
+-
+-public interface IUnitOfWork
+-{
+-    IRepository<Journey> Journeys { get; }
+-    IRepository<Stop> Stops { get; }
+-    IRepository<Ticket> Tickets { get; }
+-
+-    Task CommitAsync(CancellationToken cancellationToken = default);
+-    Task MigrateAsync(CancellationToken cancellationToken = default);
+-}
+-
+ public record Result(
+     object? Data,
+     bool Success);
+@@ -59,7 +36,7 @@
+ public delegate Task<Result> PurchaseTicketHandler(
+     IUnitOfWork unitOfWork,
+     PurchaseTicketArgs args,
+-    CancellationToken cancellationToken = default);
++    CancellationToken cancellationToken);
+ 
+ public record SearchJourneysArgs(
+     DateOnly Date,
+@@ -69,4 +46,4 @@
+ public delegate Task<Result> SearchJourneysHandler(
+     IUnitOfWork unitOfWork,
+     SearchJourneysArgs args,
+-    CancellationToken cancellationToken = default);
+\ No newline at end of file
++    CancellationToken cancellationToken);
+\ No newline at end of file
+Index: src/Zuge.Domain/Seedwork.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Domain/Seedwork.cs b/src/Zuge.Domain/Seedwork.cs
+new file mode 100644
+--- /dev/null	(date 1707845139318)
++++ b/src/Zuge.Domain/Seedwork.cs	(date 1707845139318)
+@@ -0,0 +1,24 @@
++namespace Zuge.Domain;
++
++public interface IRepository<T>
++{
++    void AddRange(IEnumerable<T> entities);
++
++    Task<List<T>> ToListAsync(
++        Expression<Func<T, bool>> predicate,
++        CancellationToken cancellationToken);
++    
++    Task<T?> FirstOrDefaultAsync(
++        Expression<Func<T, bool>> predicate,
++        CancellationToken cancellationToken);
++}
++
++public interface IUnitOfWork
++{
++    IRepository<Journey> Journeys { get; }
++    IRepository<Stop> Stops { get; }
++    IRepository<Ticket> Tickets { get; }
++
++    Task CommitAsync(CancellationToken cancellationToken);
++    Task MigrateAsync(CancellationToken cancellationToken);
++}
+\ No newline at end of file
+Index: .idea/.idea.Zuge/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoGeneratedRunConfigurationManager\">\r\n    <projectFile kind=\"DockerCompose\">docker-compose.dcproj</projectFile>\r\n    <projectFile profileName=\"Zuge.UI.Server\">src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj</projectFile>\r\n    <projectFile profileName=\"https\">src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj</projectFile>\r\n    <projectFile kind=\"EcmaScript\">src/Zuge.UI/zuge.ui.client/zuge.ui.client.esproj</projectFile>\r\n  </component>\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0492abcf-4647-4ece-97fe-1d98a4978261\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;JaniMeronen&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GitHubPullRequestState\">{\r\n  &quot;prStates&quot;: [\r\n  ]\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/projectzuge/Zuge.git&quot;,\r\n    &quot;accountId&quot;: &quot;e982d0d4-1e2a-45fc-94e6-3ca3f72c2e44&quot;\r\n  }\r\n}</component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContext.cs\" root0=\"SKIP_HIGHLIGHTING\" />\r\n    <setting file=\"file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContextOptionsBuilder.cs\" root0=\"SKIP_HIGHLIGHTING\" />\r\n    <setting file=\"file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8bb416a5d4877933636ae22013c47cc636987118e78a2cf94d52c71eeaa577/ValidationResult.cs\" root0=\"SKIP_HIGHLIGHTING\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2bzfbffdfFbByc6XpLM6hIPo1U0\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \".NET Project.Zuge.UI.Server.executor\": \"Run\",\r\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.stylelint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.stylelint\": \"\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"preferences.sourceCode.C#\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  },\r\n  \"keyToStringList\": {\r\n    \"rider.external.source.directories\": [\r\n      \"C:\\\\Users\\\\Buutti\\\\AppData\\\\Roaming\\\\JetBrains\\\\Rider2024.1\\\\resharper-host\\\\DecompilerCache\",\r\n      \"C:\\\\Users\\\\Buutti\\\\AppData\\\\Roaming\\\\JetBrains\\\\Rider2024.1\\\\resharper-host\\\\SourcesCache\",\r\n      \"C:\\\\Users\\\\Buutti\\\\AppData\\\\Local\\\\Symbols\\\\src\"\r\n    ]\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\".NET Project.Zuge.UI.Server\">\r\n    <configuration name=\"Zuge.UI.Server\" type=\"DotNetProject\" factoryName=\".NET Project\" temporary=\"true\">\r\n      <option name=\"EXE_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/bin/Debug/net8.0/Zuge.UI.Server.exe\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server\" />\r\n      <option name=\"PASS_PARENT_ENVS\" value=\"1\" />\r\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\r\n      <option name=\"USE_MONO\" value=\"0\" />\r\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\r\n      <option name=\"PROJECT_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj\" />\r\n      <option name=\"PROJECT_EXE_PATH_TRACKING\" value=\"1\" />\r\n      <option name=\"PROJECT_ARGUMENTS_TRACKING\" value=\"1\" />\r\n      <option name=\"PROJECT_WORKING_DIRECTORY_TRACKING\" value=\"1\" />\r\n      <option name=\"PROJECT_KIND\" value=\"DotNetCore\" />\r\n      <option name=\"PROJECT_TFM\" value=\"net8.0\" />\r\n      <method v=\"2\">\r\n        <option name=\"Build\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Zuge.UI.Server\" type=\"LaunchSettings\" factoryName=\".NET Launch Settings Profile\">\r\n      <option name=\"LAUNCH_PROFILE_PROJECT_FILE_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj\" />\r\n      <option name=\"LAUNCH_PROFILE_TFM\" value=\"net8.0\" />\r\n      <option name=\"LAUNCH_PROFILE_NAME\" value=\"Zuge.UI.Server\" />\r\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\r\n      <option name=\"USE_MONO\" value=\"0\" />\r\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\r\n      <option name=\"GENERATE_APPLICATIONHOST_CONFIG\" value=\"1\" />\r\n      <option name=\"SHOW_IIS_EXPRESS_OUTPUT\" value=\"0\" />\r\n      <option name=\"SEND_DEBUG_REQUEST\" value=\"1\" />\r\n      <option name=\"ADDITIONAL_IIS_EXPRESS_ARGUMENTS\" value=\"\" />\r\n      <method v=\"2\">\r\n        <option name=\"Build\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Zuge.UI.Server: https\" type=\"LaunchSettings\" factoryName=\".NET Launch Settings Profile\">\r\n      <option name=\"LAUNCH_PROFILE_PROJECT_FILE_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj\" />\r\n      <option name=\"LAUNCH_PROFILE_TFM\" value=\"net8.0\" />\r\n      <option name=\"LAUNCH_PROFILE_NAME\" value=\"https\" />\r\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\r\n      <option name=\"USE_MONO\" value=\"0\" />\r\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\r\n      <option name=\"GENERATE_APPLICATIONHOST_CONFIG\" value=\"1\" />\r\n      <option name=\"SHOW_IIS_EXPRESS_OUTPUT\" value=\"0\" />\r\n      <option name=\"SEND_DEBUG_REQUEST\" value=\"1\" />\r\n      <option name=\"ADDITIONAL_IIS_EXPRESS_ARGUMENTS\" value=\"\" />\r\n      <method v=\"2\">\r\n        <option name=\"Build\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings />\r\n      </deployment>\r\n      <EXTENSION ID=\"com.jetbrains.rider.docker.debug\" isFastModeEnabled=\"true\" isSslEnabled=\"false\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"docker-compose.yml: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"sourceFilePath\" value=\"docker-compose.yml\" />\r\n        </settings>\r\n      </deployment>\r\n      <EXTENSION ID=\"com.jetbrains.rider.docker.debug\" isFastModeEnabled=\"true\" isSslEnabled=\"false\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"zuge.ui.client: run\" type=\"js.build_tools.npm\" nameIsGenerated=\"true\">\r\n      <package-json value=\"$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/package.json\" />\r\n      <command value=\"run\" />\r\n      <scripts>\r\n        <script value=\"dev\" />\r\n      </scripts>\r\n      <node-interpreter value=\"project\" />\r\n      <envs />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\".NET Project.Zuge.UI.Server\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0492abcf-4647-4ece-97fe-1d98a4978261\" name=\"Changes\" comment=\"\" />\r\n      <created>1707222902402</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1707222902402</updated>\r\n      <workItem from=\"1707222905518\" duration=\"87000\" />\r\n      <workItem from=\"1707223282288\" duration=\"986000\" />\r\n      <workItem from=\"1707322741025\" duration=\"217000\" />\r\n      <workItem from=\"1707322985748\" duration=\"8624000\" />\r\n      <workItem from=\"1707374846805\" duration=\"3060000\" />\r\n      <workItem from=\"1707389447917\" duration=\"10429000\" />\r\n      <workItem from=\"1707415210656\" duration=\"9235000\" />\r\n      <workItem from=\"1707462051385\" duration=\"12378000\" />\r\n      <workItem from=\"1707475773505\" duration=\"160000\" />\r\n      <workItem from=\"1707476067796\" duration=\"2625000\" />\r\n      <workItem from=\"1707489604092\" duration=\"8057000\" />\r\n      <workItem from=\"1707501851662\" duration=\"7706000\" />\r\n      <workItem from=\"1707562254112\" duration=\"140000\" />\r\n      <workItem from=\"1707573645852\" duration=\"10261000\" />\r\n      <workItem from=\"1707660397558\" duration=\"21128000\" />\r\n      <workItem from=\"1707819259640\" duration=\"29000\" />\r\n      <workItem from=\"1707819375812\" duration=\"1198000\" />\r\n      <workItem from=\"1707820834615\" duration=\"1043000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"UnityProjectConfiguration\" hasMinimizedUI=\"false\" />\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <option name=\"CLEAR_INITIAL_COMMIT_MESSAGE\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.idea.Zuge/.idea/workspace.xml b/.idea/.idea.Zuge/.idea/workspace.xml
+--- a/.idea/.idea.Zuge/.idea/workspace.xml	(revision 62805e1c073a1710467dfd6cf3f29c8664d19c59)
++++ b/.idea/.idea.Zuge/.idea/workspace.xml	(date 1707845165671)
+@@ -11,8 +11,11 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/src/Zuge.Domain/Seedwork.cs" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -54,32 +57,146 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    ".NET Project.Zuge.UI.Server.executor": "Run",
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
+-    "ignore.virus.scanning.warn.message": "true",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.stylelint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.stylelint": "",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;.NET Project.Zuge.UI.Server.executor&quot;: &quot;Run&quot;,
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;Azure - Publish Web App.Publish Zuge.UI.Server to Azure (1).executor&quot;: &quot;Run&quot;,
++    &quot;Azure - Publish Web App.Publish Zuge.UI.Server to Azure (2).executor&quot;: &quot;Run&quot;,
++    &quot;Azure - Publish Web App.Publish Zuge.UI.Server to Azure.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   },
+-  "keyToStringList": {
+-    "rider.external.source.directories": [
+-      "C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+-      "C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+-      "C:\\Users\\Buutti\\AppData\\Local\\Symbols\\src"
++  &quot;keyToStringList&quot;: {
++    &quot;rider.external.source.directories&quot;: [
++      &quot;C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
++      &quot;C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
++      &quot;C:\\Users\\Buutti\\AppData\\Local\\Symbols\\src&quot;
+     ]
+   }
+-}]]></component>
++}</component>
+   <component name="RunManager" selected=".NET Project.Zuge.UI.Server">
++    <configuration name="Publish Zuge.UI.Server to Azure (1)" type="AzureDotNetWebAppPublish" factoryName="Azure Web App">
++      <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
++      <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
++      <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
++      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
++      <option name="AZURE_WEB_APP_ID" value="/subscriptions/8fe94204-854a-40f8-8c97-045aa58e232d/resourceGroups/buutti-js-cloud/providers/Microsoft.Web/sites/zuge-project" />
++      <option name="AZURE_WEB_APP_NAME" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_WEB_APP_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPERATING_SYSTEM" value="WINDOWS" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP_SERVICE_PLAN" value="0" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_ID" value="" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_NAME" value="" />
++      <option name="AZURE_WEB_APP_LOCATION" value="eastus" />
++      <option name="AZURE_WEB_APP_PRICING_TIER" value="" />
++      <option name="AZURE_WEB_APP_NET_FRAMEWORK" value="4.7" />
++      <option name="AZURE_WEB_APP_NET_CORE_RUNTIME" value="DOTNETCORE 8.0" />
++      <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
++      <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
++      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
++      <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
++      <option name="AZURE_SQL_DATABASE_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_SQL_DATABASE_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_SQL_SERVER" value="0" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ADMIN_LOGIN" value="N/A" />
++      <option name="AZURE_SQL_DATABASE_LOCATION" value="eastus" />
++      <option name="AZURE_SQL_DATABASE_COLLATION" value="SQL_Latin1_General_CP1_CI_AS" />
++      <method v="2" />
++    </configuration>
++    <configuration name="Publish Zuge.UI.Server to Azure (2)" type="AzureDotNetWebAppPublish" factoryName="Azure Web App">
++      <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
++      <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
++      <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
++      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
++      <option name="AZURE_WEB_APP_ID" value="/subscriptions/8fe94204-854a-40f8-8c97-045aa58e232d/resourceGroups/buutti-js-cloud/providers/Microsoft.Web/sites/zuge-project" />
++      <option name="AZURE_WEB_APP_NAME" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_WEB_APP_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPERATING_SYSTEM" value="WINDOWS" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP_SERVICE_PLAN" value="0" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_ID" value="" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_NAME" value="" />
++      <option name="AZURE_WEB_APP_LOCATION" value="eastus" />
++      <option name="AZURE_WEB_APP_PRICING_TIER" value="" />
++      <option name="AZURE_WEB_APP_NET_FRAMEWORK" value="4.7" />
++      <option name="AZURE_WEB_APP_NET_CORE_RUNTIME" value="DOTNETCORE 8.0" />
++      <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
++      <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
++      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
++      <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
++      <option name="AZURE_SQL_DATABASE_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_SQL_DATABASE_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_SQL_SERVER" value="0" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ADMIN_LOGIN" value="N/A" />
++      <option name="AZURE_SQL_DATABASE_LOCATION" value="eastus" />
++      <option name="AZURE_SQL_DATABASE_COLLATION" value="SQL_Latin1_General_CP1_CI_AS" />
++      <method v="2" />
++    </configuration>
++    <configuration name="Publish Zuge.UI.Server to Azure" type="AzureDotNetWebAppPublish" factoryName="Azure Web App">
++      <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
++      <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
++      <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
++      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
++      <option name="AZURE_WEB_APP_ID" value="/subscriptions/d8c1a7f0-b9d8-4de7-a7bf-3574198f6616/resourceGroups/Zuge/providers/Microsoft.Web/sites/zuge" />
++      <option name="AZURE_WEB_APP_NAME" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_WEB_APP_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPERATING_SYSTEM" value="WINDOWS" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP_SERVICE_PLAN" value="0" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_ID" value="" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_NAME" value="" />
++      <option name="AZURE_WEB_APP_LOCATION" value="eastus" />
++      <option name="AZURE_WEB_APP_PRICING_TIER" value="" />
++      <option name="AZURE_WEB_APP_NET_FRAMEWORK" value="4.7" />
++      <option name="AZURE_WEB_APP_NET_CORE_RUNTIME" value="DOTNETCORE 8.0" />
++      <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
++      <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
++      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
++      <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
++      <option name="AZURE_SQL_DATABASE_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_SQL_DATABASE_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_SQL_SERVER" value="0" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ADMIN_LOGIN" value="N/A" />
++      <option name="AZURE_SQL_DATABASE_LOCATION" value="eastus" />
++      <option name="AZURE_SQL_DATABASE_COLLATION" value="SQL_Latin1_General_CP1_CI_AS" />
++      <method v="2" />
++    </configuration>
+     <configuration name="Zuge.UI.Server" type="DotNetProject" factoryName=".NET Project" temporary="true">
+       <option name="EXE_PATH" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/bin/Debug/net8.0/Zuge.UI.Server.exe" />
+       <option name="PROGRAM_PARAMETERS" value="" />
+@@ -186,6 +303,9 @@
+       <workItem from="1707819259640" duration="29000" />
+       <workItem from="1707819375812" duration="1198000" />
+       <workItem from="1707820834615" duration="1043000" />
++      <workItem from="1707822067362" duration="2905000" />
++      <workItem from="1707827521584" duration="3594000" />
++      <workItem from="1707844123946" duration="1031000" />
+     </task>
+     <servers />
+   </component>
+Index: src/Zuge.Infrastructure/Types.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Zuge.Infrastructure;\r\n\r\npublic class Repository<T>(DbSet<T> source) : IRepository<T> where T : class\r\n{\r\n    public void AddRange(IEnumerable<T> entities) =>\r\n        source.AddRange(entities);\r\n    \r\n    public Task<T?> FirstOrDefaultAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default) =>\r\n        source.Where(predicate).FirstOrDefaultAsync(cancellationToken);\r\n\r\n    public Task<List<T>> ToListAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default) =>\r\n        source.Where(predicate).ToListAsync(cancellationToken);\r\n}\r\n\r\npublic class UnitOfWork(DbContextOptions<UnitOfWork> options) :\r\n    DbContext(options),\r\n    IUnitOfWork\r\n{\r\n    public IRepository<Journey> Journeys =>\r\n        new Repository<Journey>(Set<Journey>());\r\n\r\n    public IRepository<Stop> Stops =>\r\n        new Repository<Stop>(Set<Stop>());\r\n\r\n    public IRepository<Ticket> Tickets =>\r\n        new Repository<Ticket>(Set<Ticket>());\r\n\r\n    public Task CommitAsync(CancellationToken cancellationToken = default) =>\r\n        SaveChangesAsync(cancellationToken);\r\n\r\n    public Task MigrateAsync(CancellationToken cancellationToken = default) =>\r\n        Database.IsRelational()\r\n            ? Database.MigrateAsync(cancellationToken)\r\n            : Database.EnsureCreatedAsync(cancellationToken);\r\n\r\n    protected override void OnModelCreating(ModelBuilder modelBuilder)\r\n    {\r\n        var date = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date);\r\n        var offset = TimeSpan.Zero;\r\n\r\n        _ = modelBuilder.Entity<Journey>().HasData\r\n        ([\r\n            new\r\n            {\r\n                Duration = new TimeSpan(1, 43, 0),\r\n                Id = 1,\r\n                Price = 10M,\r\n                Train = \"Juna 1\"\r\n            },\r\n            new\r\n            {\r\n                Duration = new TimeSpan(1, 41, 0),\r\n                Id = 2,\r\n                Price = 10M,\r\n                Train = \"Juna 1\"\r\n            }\r\n        ]);\r\n\r\n        _ = modelBuilder.Entity<Stop>().HasData\r\n        ([\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(5, 57), offset),\r\n                ArrivesFrom = \"Keuruu\",\r\n                DepartsAt = new DateTimeOffset(date, new(5, 57), offset),\r\n                DepartsFrom = \"Keuruu\",\r\n                Duration = TimeSpan.Zero,\r\n                Id = 1,\r\n                JourneyId = 1,\r\n                Ordinal = 1\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 11), offset),\r\n                ArrivesFrom = \"Keuruu\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 19), offset),\r\n                DepartsFrom = \"Haapamäki\",\r\n                Duration = new TimeSpan(0, 14, 0),\r\n                Id = 2,\r\n                JourneyId = 1,\r\n                Ordinal = 2\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 28), offset),\r\n                ArrivesFrom = \"Haapamäki\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 29), offset),\r\n                DepartsFrom = \"Kolho\",\r\n                Duration = new TimeSpan(0, 9, 0),\r\n                Id = 3,\r\n                JourneyId = 1,\r\n                Ordinal = 3\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 38), offset),\r\n                ArrivesFrom = \"Kolho\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 40), offset),\r\n                DepartsFrom = \"Vilppula\",\r\n                Duration = new TimeSpan(0, 9, 0),\r\n                Id = 4,\r\n                JourneyId = 1,\r\n                Ordinal = 4\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 58), offset),\r\n                ArrivesFrom = \"Vilppula\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 59), offset),\r\n                DepartsFrom = \"Juupajoki\",\r\n                Duration = new TimeSpan(0, 18, 0),\r\n                Id = 5,\r\n                JourneyId = 1,\r\n                Ordinal = 5,\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(7, 9), offset),\r\n                ArrivesFrom = \"Juupajoki\",\r\n                DepartsAt = new DateTimeOffset(date, new(7, 10), offset),\r\n                DepartsFrom = \"Orivesi Keskusta\",\r\n                Duration = new TimeSpan(0, 10, 0),\r\n                Id = 6,\r\n                JourneyId = 1,\r\n                Ordinal = 6\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(7, 14), offset),\r\n                ArrivesFrom = \"Orivesi Keskusta\",\r\n                DepartsAt = new DateTimeOffset(date, new(7, 15), offset),\r\n                DepartsFrom = \"Orivesi\",\r\n                Duration = new TimeSpan(0, 4, 0),\r\n                Id = 7,\r\n                JourneyId = 1,\r\n                Ordinal = 7\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(7, 40), offset),\r\n                ArrivesFrom = \"Orivesi\",\r\n                DepartsAt = new DateTimeOffset(date, new(7, 40), offset),\r\n                DepartsFrom = \"Tampere\",\r\n                Duration = new TimeSpan(0, 25, 0),\r\n                Id = 8,\r\n                JourneyId = 1,\r\n                Ordinal = 8\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 6), offset),\r\n                ArrivesFrom = \"Tampere\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 6), offset),\r\n                DepartsFrom = \"Tampere\",\r\n                Duration = TimeSpan.Zero,\r\n                Id = 9,\r\n                JourneyId = 2,\r\n                Ordinal = 1\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 31), offset),\r\n                ArrivesFrom = \"Tampere\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 32), offset),\r\n                DepartsFrom = \"Orivesi\",\r\n                Duration = new TimeSpan(0, 25, 0),\r\n                Id = 10,\r\n                JourneyId = 2,\r\n                Ordinal = 2\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 35), offset),\r\n                ArrivesFrom = \"Orivesi\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 36), offset),\r\n                DepartsFrom = \"Orivesi Keskusta\",\r\n                Duration = new TimeSpan(0, 3, 0),\r\n                Id = 11,\r\n                JourneyId = 2,\r\n                Ordinal = 3\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 46), offset),\r\n                ArrivesFrom = \"Orivesi Keskusta\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 47), offset),\r\n                DepartsFrom = \"Juupajoki\",\r\n                Duration = new TimeSpan(0, 10, 0),\r\n                Id = 12,\r\n                JourneyId = 2,\r\n                Ordinal = 4,\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 6), offset),\r\n                ArrivesFrom = \"Juupajoki\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 7), offset),\r\n                DepartsFrom = \"Vilppula\",\r\n                Duration = new TimeSpan(0, 19, 0),\r\n                Id = 13,\r\n                JourneyId = 2,\r\n                Ordinal = 5\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 14), offset),\r\n                ArrivesFrom = \"Vilppula\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 15), offset),\r\n                DepartsFrom = \"Kolho\",\r\n                Duration = new TimeSpan(0, 7, 0),\r\n                Id = 14,\r\n                JourneyId = 2,\r\n                Ordinal = 6,\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 25), offset),\r\n                ArrivesFrom = \"Kolho\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 33), offset),\r\n                DepartsFrom = \"Haapamäki\",\r\n                Duration = new TimeSpan(0, 10, 0),\r\n                Id = 15,\r\n                JourneyId = 2,\r\n                Ordinal = 7\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 47), offset),\r\n                ArrivesFrom = \"Kolho\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 47), offset),\r\n                DepartsFrom = \"Keuruu\",\r\n                Duration = new TimeSpan(0, 14, 0),\r\n                Id = 16,\r\n                JourneyId = 2,\r\n                Ordinal = 8\r\n            }\r\n        ]);\r\n\r\n        _ = modelBuilder.Entity<Ticket>();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Infrastructure/Types.cs b/src/Zuge.Infrastructure/Types.cs
+--- a/src/Zuge.Infrastructure/Types.cs	(revision 62805e1c073a1710467dfd6cf3f29c8664d19c59)
++++ b/src/Zuge.Infrastructure/Types.cs	(date 1707845094946)
+@@ -29,7 +29,7 @@
+     public IRepository<Ticket> Tickets =>
+         new Repository<Ticket>(Set<Ticket>());
+ 
+-    public Task CommitAsync(CancellationToken cancellationToken = default) =>
++    public Task CommitAsync(CancellationToken cancellationToken) =>
+         SaveChangesAsync(cancellationToken);
+ 
+     public Task MigrateAsync(CancellationToken cancellationToken = default) =>

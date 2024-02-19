@@ -12,26 +12,14 @@
         <WarningsAsErrors>Nullable</WarningsAsErrors>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1"/>
-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
-            <Version>8.0.1</Version>
-        </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2"/>
         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
         <ProjectReference Include="..\..\Zuge.Domain\Zuge.Domain.csproj"/>
         <ProjectReference Include="..\..\Zuge.Infrastructure\Zuge.Infrastructure.csproj"/>
-        <ProjectReference Include="..\zuge.ui.client\zuge.ui.client.esproj">
-            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-        </ProjectReference>
-        <Using Include="Microsoft.EntityFrameworkCore"/>
-        <Using Include="Zuge.Domain"/>
-        <Using Include="Zuge.Infrastructure"/>
-    </ItemGroup>
-    <ItemGroup>
-      <None Remove="Properties\launchSettings.json" />
+        <ProjectReference Include="..\zuge.ui.client\zuge.ui.client.esproj" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 </Project>
