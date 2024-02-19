@@ -4,7 +4,6 @@ export const customCursorStyle = {
 };
 
 export const containerStyle = {
-    backgroundColor: "#eeeeee",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -14,7 +13,6 @@ export const containerStyle = {
 };
 
 export const containerStyleDark = {
-    backgroundColor: "#262626",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -24,7 +22,8 @@ export const containerStyleDark = {
 };
 
 export const labelStyle = {
-    ontWeight: "bold",
+    fontWeight: "bold",
+    color: "#262626",
 };
 
 export const labelStyleDark = {
@@ -45,29 +44,33 @@ export const buttonsContainerStyle = {
 
 export const buttonStyle = {
     color: "#262626",
-    border: "solid",
-    borderWidth: "1px",
+    backgroundColor: "#eeeeee",
+    marginTop: "10px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 };
 
 export const buttonStyleDark = {
     color: "#eeeeee",
-    borderColor: "#eeeeee",
-    border: "solid",
-    borderWidth: "1px",
+    backgroundColor: "#262626",
+    marginTop: "10px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+
 };
 
 export const buttonRegisterStyle = {
     color: "#262626",
-    border: "solid",
-    borderWidth: "1px",
+    backgroundColor: "#eeeeee",
+    margin: "15px",
     padding: "0px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 };
 
 export const buttonRegisterStyleDark = {
     color: "#eeeeee",
-    border: "solid",
-    borderWidth: "1px",
+    backgroundColor: "#262626",
+    margin: "15px",
     padding: "0px",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
 };
 
 export const registerTextStyle = {
@@ -77,8 +80,10 @@ export const registerTextStyle = {
 
 export const iconDark = {
     color: "#b7b7b7",
+    backgroundColor: "#262626",
 };
 
 export const iconLight = {
     color: "#707070",
+    backgroundColor: "#eeeeee",
 };
