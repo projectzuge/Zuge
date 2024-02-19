@@ -108,8 +108,12 @@ SessionStorage is emptied when the purchase is done or after 60 minutes.
 
 ### ! Use any email - there is no functionality to send the ticket to user !
 
-### ToDo in the future:
+# ToDo in the future:
 
 - Send ticket to email
 - Make routes for all cities
 - Confirmation email to user email
+- Give the user a carriage and seat numbers
+- Create personnel role and pages to manage routes, users and news
+- Support for different languages (EN, SE)
+- Make it possible for the user to change their password
