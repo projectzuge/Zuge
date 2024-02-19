@@ -82,7 +82,6 @@ const PaymentForm = ({ DarkMode }) => {
   };
 
   const checkAreEmailsValid = (emails) => {
-    console.log("emails:", emails);
     if (emails === null) {
       return false;
     } else {
@@ -240,9 +239,6 @@ const PaymentForm = ({ DarkMode }) => {
                   />
                 )}
               </InputMask>{" "}
-              {/* <Typography variant="smallFont" sx={{ color: "red !important" }}>
-                {!checkLuhn(cardNumber) ? erroredInputs.cardNumber : "\u00a0"}
-              </Typography> */}
             </Grid>
           </Grid>
           <Grid container spacing={3} marginBottom={"20px"}>
@@ -329,16 +325,11 @@ const PaymentForm = ({ DarkMode }) => {
                       }}
                       error={erroredInputs.expiryDate}
                       helperText={
-                        erroredInputs.expiryDate ? erroredInputs.expiryDate : ""
+                        erroredInputs.expiryDate ? "Tarkista päivämäärä" : ""
                       }
                     />
                   )}
                 </InputMask>
-                {/* <Typography variant="smallFont" color="red">
-                  {erroredInputs.expiryDate
-                    ? erroredInputs.expiryDate
-                    : "\u00a0"}
-                </Typography> */}
               </Grid>
             </Grid>
             <Grid item xs={12} md={12} lg={6} xl={6}>
