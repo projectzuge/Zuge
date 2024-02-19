@@ -71,11 +71,15 @@ Scaffold DbContext
 
 ### Frontpage:
 
+Frontpage on the computer:
 ![Wide screen](https://github.com/projectzuge/Zuge/assets/153619765/be8b51ad-2270-4005-bedd-361106f90813)
-Frontpage on the computer
 
+Frontpage on the phone, dropdown menu opened:
 ![Phone screen](https://github.com/projectzuge/Zuge/assets/153619765/38c82215-61fa-4aaf-a298-92d1cf408e80)
-Frontpage on the phone, dropdown menu opened
+
+### Responsiveness:
+
+All the components are responsive from a screen width of 320 pixels upwards.
 
 
 ### Payment page
