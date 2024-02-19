@@ -2,8 +2,8 @@
     padding: 40px 80px;
     margin: auto;
     margin-top: 40px;
-    width: fit-content;
-    background-color: #262626;
+    max-width: fit-content;
+    background-color: rgba(51, 51, 51, 0.98);
     color: #eeeeee;
     border-radius: 10px;
 }
@@ -12,8 +12,8 @@
     padding: 40px 80px;
     margin: auto;
     margin-top: 40px;
-    width: fit-content;
-    background-color: #eeeeee;
+    max-width: fit-content;
+    background-color: rgba(222, 222, 222, 0.95);
     color: #262626;
     border-radius: 10px;
 }
