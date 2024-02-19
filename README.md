@@ -69,42 +69,54 @@ Scaffold DbContext
 - react-router-dom (^6.21.1)
 - react-toastify (^10.0.4)
 
-
 ### Frontpage:
 
-![Wide screen](src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-wide-screen.jpg)
+![Wide screen](https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-wide-screen.jpg)
 Frontpage on the computer
 
-![Phone screen](src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-phone-screen.jpg)
+![Phone screen](https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-phone-screen.jpg)
 Frontpage on the phone, dropdown menu opened
 
 
-### To test:
+### Payment page
 
-### Route search and payment:
+Payment uses react-creditcard-validator to check errors in CVC and date. Card number is checked with [Luhn's algorithm](https://en.wikipedia.org/wiki/Luhn_algorithm). Input fields use react-input-mask to constrain user inputs, and react-toastify to give toast in case of error:
 
-#### Working cities:
+#### Some images:
 
-- Keuruu
-- Haapamäki
-- Kolho
-- Vilppula
-- Juupajoki
-- Orivesi Keskusta
-- Orivesi
-- Tampere
+Basic view of the payment form:
+![image](https://github.com/projectzuge/Zuge/assets/73687931/a352d664-efc8-446c-b25c-9552284ef892)
 
-#### Working credit card num:
+Working card number. The image also shows how it handles errors in input (red borders and error text) and in the actual payment (incorrect card info -> react-toastify toast):
+![image](https://github.com/projectzuge/Zuge/assets/73687931/d805d21b-6608-428d-99ff-c5df12ab4598)
 
-- 4242424242424242
+Successful purchase:
+![image](https://github.com/projectzuge/Zuge/assets/73687931/e21e77af-b677-460e-9d05-b2e43b3d8d0c)
+
+
+### To test buying the ticket:
+
+- Select from and to cities from the list (the cities have to be different in order to continue)
+  - Working date is **current date**
+- Click "Hae matkoja"
+- Click journey from the component that appeared on the right or below
+- In /route click "Vahvista matka (price)"
+- In /revise add email to "Lipun toimitus"
+- Click "Maksukortti"
+- In /payment add card number **4242 4242 4242 4242** to test successful purchase, and **5555 5555 5555 4444** to test valid card number in frontend but one that doesn't go through in backend
+  - "Etunimi" and "sukunimi" cannot be empty
+  - "Viimeinen voimassaolopäivä" only has to be in the future
+  - "CVC" has to be three numbers
+- When ready, click "Maksa"
+
+#### Note!
+
+When clicking "Takaisin" the app navigates one page back. Selected routes are saved in sessionStorage and therefore the user doesn't always have to start from the beginning.
+
+SessionStorage is emptied when the purchase is done or after 60 minutes.
 
 ### ! Use any email - there is no functionality to send the ticket to user !
 
-### ToDo in the future:
-
-- Send ticket to email
-- Make routes for all cities
-- Confirmation email to user email
 
 ### Login:
 
@@ -140,5 +152,15 @@ If none of the fields are red and the email is not already in the database, then
 
 Clicking "Etusivulle" navigates to the front page on both registration form and registration successful -page.
 
+
+# ToDo in the future:
+
+- Send ticket to email
+- Make routes for all cities
+- Confirmation email to user email
+- Give the user a carriage and seat numbers
+- Create personnel role and pages to manage routes, users and news
+- Support for different languages (EN, SE)
+- Make it possible for the user to change their password
 
 
