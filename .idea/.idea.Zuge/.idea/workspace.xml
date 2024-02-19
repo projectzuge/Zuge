@@ -11,14 +11,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_13_2_2024_19_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_13_2_2024_19_28__Changes_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_16_2_2024_15_13__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_16_2_2024_15_13__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_10_19__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_10_19__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_12_52__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_12_52__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_14_01__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_14_01__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +99,7 @@
       <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
       <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
       <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
-      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
+      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="" />
       <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
       <option name="AZURE_WEB_APP_ID" value="/subscriptions/8fe94204-854a-40f8-8c97-045aa58e232d/resourceGroups/buutti-js-cloud/providers/Microsoft.Web/sites/zuge-project" />
       <option name="AZURE_WEB_APP_NAME" value="" />
@@ -119,7 +116,7 @@
       <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
       <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
       <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
-      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
+      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="" />
       <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
       <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
       <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
@@ -139,7 +136,7 @@
       <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
       <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
       <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
-      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
+      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="" />
       <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
       <option name="AZURE_WEB_APP_ID" value="/subscriptions/8fe94204-854a-40f8-8c97-045aa58e232d/resourceGroups/buutti-js-cloud/providers/Microsoft.Web/sites/zuge-project" />
       <option name="AZURE_WEB_APP_NAME" value="" />
@@ -156,7 +153,7 @@
       <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
       <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
       <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
-      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
+      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="" />
       <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
       <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
       <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
@@ -330,6 +327,10 @@
       <workItem from="1708264815832" duration="23984000" />
       <workItem from="1708330666027" duration="10212000" />
       <workItem from="1708350201270" duration="78000" />
+      <workItem from="1708361756518" duration="61000" />
+      <workItem from="1708361831258" duration="158000" />
+      <workItem from="1708364373840" duration="785000" />
+      <workItem from="1708365190368" duration="268000" />
     </task>
     <servers />
   </component>
