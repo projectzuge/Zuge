@@ -1,7 +1,10 @@
 ﻿namespace Zuge.Tests;
 
-public class DomainIntegrationTests(WebApplicationFactory<Program> factory) :
-    IClassFixture<WebApplicationFactory<Program>>
+using Microsoft.AspNetCore.Mvc.Testing;
+using System.Net.Http.Json;
+using Xunit;
+
+public class DomainIntegrationTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
 {
     [Fact]
     async void PurchaseTicketAsync()

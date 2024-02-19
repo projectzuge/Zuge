@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.ComponentModel.DataAnnotations;
 
-namespace Zuge.Infrastructure;
+namespace Zuge.UI.Server;
 
 public class ApplicationUser : IdentityUser
 {
@@ -15,6 +15,8 @@ public class ApplicationUser : IdentityUser
     public string LastName { get; set; } = "";
 }
 
+public class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : IdentityDbContext<ApplicationUser>(options);
+
 public class ApplicationUserManager(
     IUserStore<ApplicationUser> store,
     IOptions<IdentityOptions> optionsAccessor,
@@ -24,8 +26,7 @@ public class ApplicationUserManager(
     ILookupNormalizer keyNormalizer,
     IdentityErrorDescriber errors,
     IServiceProvider services,
-    ILogger<UserManager<ApplicationUser>> logger)
-    :
+    ILogger<UserManager<ApplicationUser>> logger) :
         UserManager<ApplicationUser>(
             store,
             optionsAccessor,
@@ -36,5 +37,3 @@ public class ApplicationUserManager(
             errors,
             services,
             logger);
-
-public class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : IdentityDbContext<ApplicationUser>(options);
