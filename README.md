@@ -28,13 +28,13 @@
   ```
   
 - ## Usage
-  Run in project root:
+  Run in ```src/Zuge.UI/Zuge.UI.Server```:
   ```
-  docker compose up
+  dotnet run
   ```
   Open browser, navigate to:
   ```
-  http://localhost:5197
+  http://localhost:5173
   ```
 
 # Entity Framework Core
