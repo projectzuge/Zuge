@@ -71,10 +71,10 @@ Scaffold DbContext
 
 ### Frontpage:
 
-![Wide screen](https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-wide-screen.jpg)
+![Wide screen]([https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-wide-screen.jpg](https://github.com/projectzuge/Zuge/blob/main/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-wide-screen.jpg))
 Frontpage on the computer
 
-![Phone screen](https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-phone-screen.jpg)
+!([https://github.com/projectzuge/Zuge/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-phone-screen.jpg](https://github.com/projectzuge/Zuge/blob/main/src/Zuge.UI/zuge.ui.client/src/assets/Frontpage-phone-screen.jpg))
 Frontpage on the phone, dropdown menu opened
 
 
