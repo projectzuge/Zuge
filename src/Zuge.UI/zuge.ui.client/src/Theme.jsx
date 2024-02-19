@@ -37,8 +37,6 @@ const theme = createTheme({
       fontSize: 22,
       fontWeight: "bolder",
     },
-
-    color: "#eeeeee",
   },
 
   // buttons:
@@ -115,8 +113,8 @@ const theme = createTheme({
               border: "none",
             },
           },
-          '&.Mui-error': {
-            outline: 'none',
+          "&.Mui-error": {
+            outline: "none",
           },
         },
       },
