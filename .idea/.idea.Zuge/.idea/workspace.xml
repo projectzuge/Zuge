@@ -11,24 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_13_2_2024_19_28__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_13_2_2024_19_28__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_16_2_2024_15_13__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_16_2_2024_15_13__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_10_19__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_10_19__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_12_52__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_12_52__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_14_01__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/shelf/Uncommitted_changes_before_Update_at_19_2_2024_14_01__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainMigrations/UnitOfWorkModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Identity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Identity.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/IdentityMigrations/AuthenticationDbContextModelSnapshot.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,8 +57,6 @@
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.Private.CoreLib/src/System/DateTime.Windows.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8bb416a5d4877933636ae22013c47cc636987118e78a2cf94d52c71eeaa577/ValidationResult.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/package-lock.json" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
@@ -341,6 +329,7 @@
       <workItem from="1708182222514" duration="14109000" />
       <workItem from="1708264815832" duration="23984000" />
       <workItem from="1708330666027" duration="10212000" />
+      <workItem from="1708350201270" duration="78000" />
     </task>
     <servers />
   </component>
