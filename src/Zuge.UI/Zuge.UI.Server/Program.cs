@@ -62,9 +62,11 @@ _ = app.MapFallbackToFile("/index.html");
 using var scope = app.Services.CreateScope();
 
 var context = scope.ServiceProvider.GetRequiredService<DomainContext>();
+// _ = context.Database.EnsureDeleted();
 _ = context.Database.EnsureCreated();
 
 var authenticationDbContext = scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
+// _ = authenticationDbContext.Database.EnsureDeleted();
 if (authenticationDbContext.Database.EnsureCreated())
 {
     var userManager =

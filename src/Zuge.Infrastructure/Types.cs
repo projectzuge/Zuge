@@ -101,7 +101,7 @@ public class DomainContext(DbContextOptions<DomainContext> options) : DbContext(
         ]);
 
         var utcNow = DateTimeOffset.UtcNow;
-        var date = DateOnly.FromDateTime(utcNow.UtcDateTime);
+        var date = DateOnly.FromDateTime(utcNow.DateTime);
         var offset = utcNow.Offset;
 
         _ = modelBuilder.Entity<Entity.Stop>().HasData
