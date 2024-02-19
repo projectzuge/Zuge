@@ -1,4 +1,4 @@
-# Jäsenet
+# Members
 
 - Jani Meronen
 - Arttu Knuutinen
@@ -6,17 +6,36 @@
 - Tommy Niemi
 - Aleksandra Babenko
 
-# Käynnistäminen
+# Project description
 
-Aja projektin juuressa:
-```
-docker compose up
-```
+  Zuge is a project created during Buutti Trainee Academy 2023, Tampere.
+  
+  The goal is to learn and showcase the skills necessary for a software developer.
 
-Siirry selaimella osoitteeseen:
-```
-http://localhost:5197
-```
+# Getting started
+
+- ## Prerequisites
+  [.NET 8](https://dotnet.microsoft.com/en-us/download)
+  
+  [Node.js 18+](https://nodejs.org/en/download)
+
+  npm ```npm install -g npm```
+
+- ## Installation
+  Run in ```src/Zuge.UI/zuge.ui.client```
+  ```
+  npm -install
+  ```
+  
+- ## Usage
+  Run in project root:
+  ```
+  docker compose up
+  ```
+  Open browser, navigate to:
+  ```
+  http://localhost:5197
+  ```
 
 # Entity Framework Core
 
