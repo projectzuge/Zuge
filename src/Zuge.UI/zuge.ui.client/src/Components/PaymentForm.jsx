@@ -20,6 +20,8 @@ const PaymentForm = ({ DarkMode }) => {
   const [lastName, setLastName] = useState("");
   const [isEmptyFirstName, setIsEmptyFirstName] = useState(false);
   const [isEmptyLastName, setIsEmptyLastName] = useState(false);
+  const [isValidCvc, setIsValidCvc] = useState(null);
+  const [isValidCardNum, setIsValidCardNum] = useState(null);
 
   const navigate = useNavigate();
   const [selectedJourney, setSelectedJourney] = useState(
@@ -48,6 +50,12 @@ const PaymentForm = ({ DarkMode }) => {
     e.preventDefault();
     const cardNumberNoSpaces = e.target.value.replace(/[\s_]/g, "");
     setCardNumber(cardNumberNoSpaces);
+
+    if (checkLuhn(cardNumberNoSpaces)) {
+      setIsValidCardNum(true);
+    } else {
+      setIsValidCardNum(false);
+    }
   };
 
   const checkLuhn = (cardNo) => {
@@ -108,6 +116,16 @@ const PaymentForm = ({ DarkMode }) => {
       setIsEmptyLastName(false);
     } else {
       setIsEmptyLastName(true);
+    }
+  };
+
+  const onCvcChange = (e) => {
+    const cvcNoSpaces = e.target.value.replace(/[\s_]/g, "");
+    setCvc(cvcNoSpaces);
+    if (cvcNoSpaces && cvcNoSpaces.length > 2) {
+      setIsValidCvc(true);
+    } else {
+      setIsValidCvc(false);
     }
   };
 
@@ -194,9 +212,6 @@ const PaymentForm = ({ DarkMode }) => {
                   const { maxLength, ...otherProps } = getCardNumberProps();
                   return otherProps;
                 })()}
-                sx={{
-                  borderRadius: "10px",
-                }}
                 mask="9999 9999 9999 9999"
                 placeholder="#### #### #### ####"
                 fullWidth
@@ -205,11 +220,29 @@ const PaymentForm = ({ DarkMode }) => {
                 onChange={onCardNumberChange}
                 alwaysShowMask={true}
               >
-                {() => <TextField borderRadius={"10px"} />}
+                {() => (
+                  <TextField
+                    borderRadius={"10px"}
+                    error={!isValidCardNum && isValidCardNum !== null}
+                    helperText={
+                      !isValidCardNum && isValidCardNum !== null
+                        ? "Tarkista kortin numero."
+                        : ""
+                    }
+                    InputProps={{
+                      sx: {
+                        border:
+                          !isValidCardNum && isValidCardNum !== null
+                            ? "1px solid red"
+                            : "none",
+                      },
+                    }}
+                  />
+                )}
               </InputMask>{" "}
-              <Typography variant="smallFont" color="red">
+              {/* <Typography variant="smallFont" sx={{ color: "red !important" }}>
                 {!checkLuhn(cardNumber) ? erroredInputs.cardNumber : "\u00a0"}
-              </Typography>
+              </Typography> */}
             </Grid>
           </Grid>
           <Grid container spacing={3} marginBottom={"20px"}>
@@ -221,17 +254,22 @@ const PaymentForm = ({ DarkMode }) => {
 
                 <TextField
                   variant="outlined"
-                  InputProps={{ sx: { borderRadius: "5px" } }}
+                  InputProps={{
+                    sx: {
+                      borderRadius: "5px",
+                      border: isEmptyFirstName ? "1px solid red" : "none",
+                    },
+                  }}
                   id="profile-first-name-field"
                   fullWidth
                   defaultValue={firstName}
                   onChange={onFirstNameChange}
                   required
                   error={isEmptyFirstName}
+                  helperText={isEmptyFirstName ? "Lisää etunimi" : ""}
                 >
                   {firstName}
                 </TextField>
-                <Typography variant="smallFont" color="red"></Typography>
               </Grid>
             </Grid>
             <Grid item xs={12} md={12} lg={6} xl={6}>
@@ -240,13 +278,19 @@ const PaymentForm = ({ DarkMode }) => {
                   Sukunimi
                 </Typography>
                 <TextField
-                  InputProps={{ sx: { borderRadius: "5px" } }}
+                  InputProps={{
+                    sx: {
+                      borderRadius: "5px",
+                      border: isEmptyLastName ? "1px solid red" : "none",
+                    },
+                  }}
                   id="profile-last-name-field"
                   fullWidth
                   defaultValue={lastName}
                   onChange={onLastNameChange}
                   required
                   error={isEmptyLastName}
+                  helperText={isEmptyLastName ? "Lisää sukunimi" : ""}
                 >
                   {lastName}
                 </TextField>
@@ -273,13 +317,28 @@ const PaymentForm = ({ DarkMode }) => {
                   onChange={(e) => setExpiryDate(e.target.value)}
                   alwaysShowMask={true}
                 >
-                  {() => <TextField />}
+                  {() => (
+                    <TextField
+                      InputProps={{
+                        sx: {
+                          borderRadius: "5px",
+                          border: erroredInputs.expiryDate
+                            ? "1px solid red"
+                            : "none",
+                        },
+                      }}
+                      error={erroredInputs.expiryDate}
+                      helperText={
+                        erroredInputs.expiryDate ? erroredInputs.expiryDate : ""
+                      }
+                    />
+                  )}
                 </InputMask>
-                <Typography variant="smallFont" color="red">
+                {/* <Typography variant="smallFont" color="red">
                   {erroredInputs.expiryDate
                     ? erroredInputs.expiryDate
                     : "\u00a0"}
-                </Typography>
+                </Typography> */}
               </Grid>
             </Grid>
             <Grid item xs={12} md={12} lg={6} xl={6}>
@@ -299,10 +358,28 @@ const PaymentForm = ({ DarkMode }) => {
                   value={cvc}
                   mask="999"
                   placeholder="###"
-                  onChange={(e) => setCvc(e.target.value)}
+                  onChange={onCvcChange}
                   alwaysShowMask={true}
                 >
-                  {() => <TextField />}
+                  {() => (
+                    <TextField
+                      InputProps={{
+                        sx: {
+                          borderRadius: "5px",
+                          border:
+                            !isValidCvc && isValidCvc !== null
+                              ? "1px solid red"
+                              : "none",
+                        },
+                      }}
+                      error={!isValidCvc && isValidCvc !== null}
+                      helperText={
+                        !isValidCvc && isValidCvc !== null
+                          ? "Tarkista CVC-luku"
+                          : ""
+                      }
+                    />
+                  )}
                 </InputMask>
 
                 <Typography variant="smallFont" color="red">

@@ -6,39 +6,50 @@ const theme = createTheme({
     fontFamily: "Inria Sans, sans-serif",
     xsFont: {
       fontSize: 11,
+      color: "#eeeeee",
     },
     // Variant 2: Small font sizes
     smallFont: {
       fontSize: 14,
+      color: "#eeeeee",
     },
     // Variant 3: Medium font sizes
     mediumFont: {
       fontSize: 18,
+      color: "#eeeeee",
     },
     // Variant 4: Large font sizes
     largeFont: {
       fontSize: 22,
+      color: "#eeeeee",
     },
     xsBoldFont: {
       fontSize: 11,
       fontWeight: "bolder",
+      color: "#eeeeee",
     },
     smallBoldFont: {
       fontSize: 14,
       fontWeight: "bolder",
+      color: "#eeeeee",
     },
     // Variant 2: Medium font sizes
     mediumBoldFont: {
       fontSize: 18,
       fontWeight: "bolder",
+      color: "#eeeeee",
     },
     // Variant 3: Large font sizes
     largeBoldFont: {
       fontSize: 22,
       fontWeight: "bolder",
+      color: "#eeeeee",
     },
 
-    color: "#eeeeee",
+    smallRed: {
+      fontsize: 14,
+      color: "red",
+    },
   },
 
   // buttons:
@@ -115,8 +126,8 @@ const theme = createTheme({
               border: "none",
             },
           },
-          '&.Mui-error': {
-            outline: 'none',
+          "&.Mui-error": {
+            outline: "none",
           },
         },
       },
