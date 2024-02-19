@@ -41,7 +41,7 @@ function MenuBar({ DarkMode, setDarkMode, cookies, setCookie, removeCookie }) {
 
   const handleClickUser = (event) => {
     if (event.currentTarget.id !== "UserLink") {
-      setAnchorElUser(document.getElementById("UserLink"));
+      setAnchorElUser(anchorEl);
     } else {
       setAnchorElUser(event.currentTarget);
     }
