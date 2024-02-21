@@ -55,71 +55,70 @@ test('does not show "Sign in failed text" when first rendered', () => {
 });
 
 test('does not show "Invalid email" when first rendered', async () => {
-    expect(screen.queryByText(/Invalid email address/i)).toBeNull();
+    expect(screen.queryByText(/Virheellinen sähköposti/i)).toBeNull();
 });
 
 test('does not show "Invalid password" when first rendered', () => {
-    expect(screen.queryByText(/Invalid password/i)).toBeNull();
+    expect(screen.queryByText(/Virheellinen salasana/i)).toBeNull();
 });
 
 // FUNCTIONALITY TESTS:
 
-for (let i = 0; i < 50; i++) {
-    const email = emailLocalPartAcceptable[Math.floor(Math.random() * 
-        emailLocalPartAcceptable.length)] + "@" + 
-        emailDomainPartAcceptable[Math.floor(Math.random() * 
-            emailDomainPartAcceptable.length)];
+for (let i = 0; i < emailLocalPartAcceptable.length; i++) {
+    for (let j = 0; j < emailDomainPartAcceptable.length; j++) {
+        const email = emailLocalPartAcceptable[i] + "@" + 
+            emailDomainPartAcceptable[j];
 
-    test('email field accepts email: ' + email, () => {
-        const emailField = screen.getByRole('textbox');
-        fireEvent.change(emailField, { target: { value: email } });
+        test('email field accepts email: ' + email, () => {
+            const emailField = screen.getByRole('textbox');
+            fireEvent.change(emailField, { target: { value: email } });
 
-        expect(screen.queryByText(/Invalid email address/i)).toBeNull();
-
-    });
+            expect(screen.queryByText(/Virheellinen sähköposti/i)).toBeNull();
+        });
+    }
 }
 
-for (let i = 0; i < 30; i++) {
-    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * 
-        emailLocalPartNotAcceptable.length)] + "@" +
-     emailDomainPartNotAcceptable[Math.floor(Math.random() * 
-        emailDomainPartNotAcceptable.length)];
+for (let i = 0; i < emailLocalPartNotAcceptable.length; i++) {
+    for (let j = 0; j < emailDomainPartNotAcceptable.length; j++) {
+        const email = emailLocalPartNotAcceptable[i] + "@" +
+        emailDomainPartNotAcceptable[j];
 
-    test('email field does not accept email: ' + email, () => {
-        const emailField = screen.getByRole('textbox');
-        fireEvent.change(emailField, { target: { value: email } });
+        test('email field does not accept email: ' + email, () => {
+            const emailField = screen.getByRole('textbox');
+            fireEvent.change(emailField, { target: { value: email } });
 
-        expect(screen.queryByText(/Invalid email address/i)).not.toBeNull();
+            expect(screen.queryByText(/Virheellinen sähköposti/i)).not.toBeNull();
 
-    });
+        });
+    }
 }
 
-for (let i = 0; i < 30; i++) {
-    const email = emailLocalPartAcceptable[Math.floor(Math.random() * 
-        emailLocalPartAcceptable.length)] + "@" +
-     emailDomainPartNotAcceptable[Math.floor(Math.random() * 
-        emailDomainPartNotAcceptable.length)];
+for (let i = 0; i < emailLocalPartNotAcceptable.length; i++) {
+    for (let j = 0; j < emailDomainPartAcceptable.length; j++) {
+        const email = emailLocalPartNotAcceptable[i] + "@" +
+        emailDomainPartAcceptable[j];
 
-    test('email field does not accept email: ' + email, () => {
-        const emailField = screen.getByRole('textbox');
-        fireEvent.change(emailField, { target: { value: email } });
+        test('email field does not accept email: ' + email, () => {
+            const emailField = screen.getByRole('textbox');
+            fireEvent.change(emailField, { target: { value: email } });
 
-        expect(screen.queryByText(/Invalid email address/i)).not.toBeNull();
+            expect(screen.queryByText(/Virheellinen sähköposti/i)).not.toBeNull();
 
-    });
+        });
+    }
 }
 
-for (let i = 0; i < 30; i++) {
-    const email = emailLocalPartNotAcceptable[Math.floor(Math.random() * 
-        emailLocalPartNotAcceptable.length)] + "@" +
-     emailDomainPartAcceptable[Math.floor(Math.random() * 
-        emailDomainPartAcceptable.length)];
+for (let i = 0; i < emailLocalPartAcceptable.length; i++) {
+    for (let j = 0; j < emailDomainPartNotAcceptable.length; j++) {
+        const email = emailLocalPartAcceptable[i] + "@" +
+        emailDomainPartNotAcceptable[j];
 
-    test('email field does not accept email: ' + email, () => {
-        const emailField = screen.getByRole('textbox');
-        fireEvent.change(emailField, { target: { value: email } });
+        test('email field does not accept email: ' + email, () => {
+            const emailField = screen.getByRole('textbox');
+            fireEvent.change(emailField, { target: { value: email } });
 
-        expect(screen.queryByText(/Invalid email address/i)).not.toBeNull();
+            expect(screen.queryByText(/Virheellinen sähköposti/i)).not.toBeNull();
 
-    });
+        });
+    }
 }

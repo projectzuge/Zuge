@@ -34,9 +34,9 @@ import PropTypes from "prop-types";
 LoginForm.propTypes = {
   DarkMode: PropTypes.bool,
   isLoginValid: PropTypes.bool,
-  isEmailValid: PropTypes.any,
+  isEmailValid: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   email: PropTypes.string,
-  isPasswordValid: PropTypes.any,
+  isPasswordValid: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   password:  PropTypes.string,
   showPasswordUser: PropTypes.bool,
   handleItemClick: PropTypes.func,

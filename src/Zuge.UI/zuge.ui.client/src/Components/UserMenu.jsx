@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 UserMenu.propTypes = {
   anchorEl: PropTypes.any,
-  open: PropTypes.any,
+  open: PropTypes.bool,
   handleClose: PropTypes.func,
   DarkMode: PropTypes.bool,
   cookies: PropTypes.any,

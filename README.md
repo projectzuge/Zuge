@@ -81,6 +81,8 @@ Frontpage on the phone, dropdown menu opened:
 
 All the components are responsive from a screen width of 320 pixels upwards.
 
+Navigation bar has a hamburger dropdown menu with all the navigation options except the frontpage if screen widths is under 480 pixels.
+
 
 ### Payment page
 

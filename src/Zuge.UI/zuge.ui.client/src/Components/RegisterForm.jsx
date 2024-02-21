@@ -23,8 +23,10 @@ import PropTypes from 'prop-types';
 
 Register.propTypes = {
     DarkMode: PropTypes.bool,
-    inputs: PropTypes.object,
-    inputValidities: PropTypes.object,
+    inputs: PropTypes.objectOf(
+    PropTypes.string),
+    inputValidities: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.bool, PropTypes.string])),
     showPassword: PropTypes.bool,
     showRePassword: PropTypes.bool,
     handlePasswordVisibility: PropTypes.func,

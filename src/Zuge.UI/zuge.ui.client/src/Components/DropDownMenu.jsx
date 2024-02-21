@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 DropDownMenu.propTypes = {
   anchorEl: PropTypes.any,
-  open: PropTypes.any,
+  open: PropTypes.bool,
   handleClose: PropTypes.func,
   handleClickUser: PropTypes.func,
   handleItemClick: PropTypes.func,
