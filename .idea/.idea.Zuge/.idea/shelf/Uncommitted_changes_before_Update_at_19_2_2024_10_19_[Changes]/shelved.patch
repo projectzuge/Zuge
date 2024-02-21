@@ -1,0 +1,2805 @@
+Index: src/Zuge.Infrastructure/Types.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Zuge.Infrastructure;\r\n\r\npublic class Repository<T>(DbSet<T> source) : IRepository<T> where T : class\r\n{\r\n    public void AddRange(IEnumerable<T> entities) =>\r\n        source.AddRange(entities);\r\n    \r\n    public Task<T?> FirstOrDefaultAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default) =>\r\n        source.Where(predicate).FirstOrDefaultAsync(cancellationToken);\r\n\r\n    public Task<List<T>> ToListAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default) =>\r\n        source.Where(predicate).ToListAsync(cancellationToken);\r\n}\r\n\r\npublic class UnitOfWork(DbContextOptions<UnitOfWork> options) :\r\n    DbContext(options),\r\n    IUnitOfWork\r\n{\r\n    public IRepository<Journey> Journeys =>\r\n        new Repository<Journey>(Set<Journey>());\r\n\r\n    public IRepository<Stop> Stops =>\r\n        new Repository<Stop>(Set<Stop>());\r\n\r\n    public IRepository<Ticket> Tickets =>\r\n        new Repository<Ticket>(Set<Ticket>());\r\n\r\n    public Task CommitAsync(CancellationToken cancellationToken = default) =>\r\n        SaveChangesAsync(cancellationToken);\r\n\r\n    public Task MigrateAsync(CancellationToken cancellationToken = default) =>\r\n        Database.IsRelational()\r\n            ? Database.MigrateAsync(cancellationToken)\r\n            : Database.EnsureCreatedAsync(cancellationToken);\r\n\r\n    protected override void OnModelCreating(ModelBuilder modelBuilder)\r\n    {\r\n        var date = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date);\r\n        var offset = TimeSpan.Zero;\r\n\r\n        _ = modelBuilder.Entity<Journey>().HasData\r\n        ([\r\n            new\r\n            {\r\n                Duration = new TimeSpan(1, 43, 0),\r\n                Id = 1,\r\n                Price = 10M,\r\n                Train = \"Juna 1\"\r\n            },\r\n            new\r\n            {\r\n                Duration = new TimeSpan(1, 41, 0),\r\n                Id = 2,\r\n                Price = 10M,\r\n                Train = \"Juna 1\"\r\n            }\r\n        ]);\r\n\r\n        _ = modelBuilder.Entity<Stop>().HasData\r\n        ([\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(5, 57), offset),\r\n                ArrivesFrom = \"Keuruu\",\r\n                DepartsAt = new DateTimeOffset(date, new(5, 57), offset),\r\n                DepartsFrom = \"Keuruu\",\r\n                Duration = TimeSpan.Zero,\r\n                Id = 1,\r\n                JourneyId = 1,\r\n                Ordinal = 1\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 11), offset),\r\n                ArrivesFrom = \"Keuruu\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 19), offset),\r\n                DepartsFrom = \"Haapamäki\",\r\n                Duration = new TimeSpan(0, 14, 0),\r\n                Id = 2,\r\n                JourneyId = 1,\r\n                Ordinal = 2\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 28), offset),\r\n                ArrivesFrom = \"Haapamäki\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 29), offset),\r\n                DepartsFrom = \"Kolho\",\r\n                Duration = new TimeSpan(0, 9, 0),\r\n                Id = 3,\r\n                JourneyId = 1,\r\n                Ordinal = 3\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 38), offset),\r\n                ArrivesFrom = \"Kolho\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 40), offset),\r\n                DepartsFrom = \"Vilppula\",\r\n                Duration = new TimeSpan(0, 9, 0),\r\n                Id = 4,\r\n                JourneyId = 1,\r\n                Ordinal = 4\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(6, 58), offset),\r\n                ArrivesFrom = \"Vilppula\",\r\n                DepartsAt = new DateTimeOffset(date, new(6, 59), offset),\r\n                DepartsFrom = \"Juupajoki\",\r\n                Duration = new TimeSpan(0, 18, 0),\r\n                Id = 5,\r\n                JourneyId = 1,\r\n                Ordinal = 5,\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(7, 9), offset),\r\n                ArrivesFrom = \"Juupajoki\",\r\n                DepartsAt = new DateTimeOffset(date, new(7, 10), offset),\r\n                DepartsFrom = \"Orivesi Keskusta\",\r\n                Duration = new TimeSpan(0, 10, 0),\r\n                Id = 6,\r\n                JourneyId = 1,\r\n                Ordinal = 6\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(7, 14), offset),\r\n                ArrivesFrom = \"Orivesi Keskusta\",\r\n                DepartsAt = new DateTimeOffset(date, new(7, 15), offset),\r\n                DepartsFrom = \"Orivesi\",\r\n                Duration = new TimeSpan(0, 4, 0),\r\n                Id = 7,\r\n                JourneyId = 1,\r\n                Ordinal = 7\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(7, 40), offset),\r\n                ArrivesFrom = \"Orivesi\",\r\n                DepartsAt = new DateTimeOffset(date, new(7, 40), offset),\r\n                DepartsFrom = \"Tampere\",\r\n                Duration = new TimeSpan(0, 25, 0),\r\n                Id = 8,\r\n                JourneyId = 1,\r\n                Ordinal = 8\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 6), offset),\r\n                ArrivesFrom = \"Tampere\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 6), offset),\r\n                DepartsFrom = \"Tampere\",\r\n                Duration = TimeSpan.Zero,\r\n                Id = 9,\r\n                JourneyId = 2,\r\n                Ordinal = 1\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 31), offset),\r\n                ArrivesFrom = \"Tampere\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 32), offset),\r\n                DepartsFrom = \"Orivesi\",\r\n                Duration = new TimeSpan(0, 25, 0),\r\n                Id = 10,\r\n                JourneyId = 2,\r\n                Ordinal = 2\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 35), offset),\r\n                ArrivesFrom = \"Orivesi\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 36), offset),\r\n                DepartsFrom = \"Orivesi Keskusta\",\r\n                Duration = new TimeSpan(0, 3, 0),\r\n                Id = 11,\r\n                JourneyId = 2,\r\n                Ordinal = 3\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(8, 46), offset),\r\n                ArrivesFrom = \"Orivesi Keskusta\",\r\n                DepartsAt = new DateTimeOffset(date, new(8, 47), offset),\r\n                DepartsFrom = \"Juupajoki\",\r\n                Duration = new TimeSpan(0, 10, 0),\r\n                Id = 12,\r\n                JourneyId = 2,\r\n                Ordinal = 4,\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 6), offset),\r\n                ArrivesFrom = \"Juupajoki\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 7), offset),\r\n                DepartsFrom = \"Vilppula\",\r\n                Duration = new TimeSpan(0, 19, 0),\r\n                Id = 13,\r\n                JourneyId = 2,\r\n                Ordinal = 5\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 14), offset),\r\n                ArrivesFrom = \"Vilppula\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 15), offset),\r\n                DepartsFrom = \"Kolho\",\r\n                Duration = new TimeSpan(0, 7, 0),\r\n                Id = 14,\r\n                JourneyId = 2,\r\n                Ordinal = 6,\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 25), offset),\r\n                ArrivesFrom = \"Kolho\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 33), offset),\r\n                DepartsFrom = \"Haapamäki\",\r\n                Duration = new TimeSpan(0, 10, 0),\r\n                Id = 15,\r\n                JourneyId = 2,\r\n                Ordinal = 7\r\n            },\r\n            new\r\n            {\r\n                ArrivesAt = new DateTimeOffset(date, new(9, 47), offset),\r\n                ArrivesFrom = \"Kolho\",\r\n                DepartsAt = new DateTimeOffset(date, new(9, 47), offset),\r\n                DepartsFrom = \"Keuruu\",\r\n                Duration = new TimeSpan(0, 14, 0),\r\n                Id = 16,\r\n                JourneyId = 2,\r\n                Ordinal = 8\r\n            }\r\n        ]);\r\n\r\n        _ = modelBuilder.Entity<Ticket>();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Infrastructure/Types.cs b/src/Zuge.Infrastructure/Types.cs
+--- a/src/Zuge.Infrastructure/Types.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.Infrastructure/Types.cs	(date 1708287752240)
+@@ -1,243 +1,83 @@
++using System.ComponentModel.DataAnnotations;
++using Microsoft.EntityFrameworkCore;
++using Zuge.Domain;
++
+ namespace Zuge.Infrastructure;
+ 
+-public class Repository<T>(DbSet<T> source) : IRepository<T> where T : class
++public class DomainContext(DbContextOptions<DomainContext> options) : DbContext(options)
+ {
+-    public void AddRange(IEnumerable<T> entities) =>
+-        source.AddRange(entities);
+-    
+-    public Task<T?> FirstOrDefaultAsync(
+-        Expression<Func<T, bool>> predicate,
+-        CancellationToken cancellationToken = default) =>
+-        source.Where(predicate).FirstOrDefaultAsync(cancellationToken);
++    public PurchaseTicketAsync PurchaseTicketAsync => (cardCvc, cardDate, cardHolder, cardNumber, emailAddress, journeyId, cancellationToken) =>
++    {
++        new RegularExpressionAttribute(@"^\d{3,4}$").Validate(cardCvc, nameof(cardCvc));
++        new RangeAttribute(typeof(DateOnly), $"{DateOnly.FromDateTime(DateTime.UtcNow)}", $"{DateOnly.MaxValue}").Validate(cardDate, nameof(cardDate));
++        new RequiredAttribute().Validate(cardHolder, nameof(cardHolder));
++        new CreditCardAttribute().Validate(cardNumber, nameof(cardNumber));
++        new AllowedValuesAttribute(["4242424242424242"]).Validate(cardNumber, nameof(cardNumber));
++        new EmailAddressAttribute().Validate(emailAddress, nameof(emailAddress));
++        new RangeAttribute(1, int.MaxValue).Validate(journeyId, nameof(journeyId));
+ 
+-    public Task<List<T>> ToListAsync(
+-        Expression<Func<T, bool>> predicate,
+-        CancellationToken cancellationToken = default) =>
+-        source.Where(predicate).ToListAsync(cancellationToken);
+-}
++        Add(new Ticket(emailAddress, 0, journeyId));
++        return SaveChangesAsync(cancellationToken);
++    };
+ 
+-public class UnitOfWork(DbContextOptions<UnitOfWork> options) :
+-    DbContext(options),
+-    IUnitOfWork
+-{
+-    public IRepository<Journey> Journeys =>
+-        new Repository<Journey>(Set<Journey>());
+-
+-    public IRepository<Stop> Stops =>
+-        new Repository<Stop>(Set<Stop>());
++    public SearchJourneysAsync SearchJourneysAsync => async (date, from, to, cancellationToken) =>
++    {
++        var departures = await Set<Stop>()
++            .Where(stop => DateOnly.FromDateTime(stop.DepartsAt.Date) == date && stop.DepartsFrom == from)
++            .ToListAsync(cancellationToken);
+ 
+-    public IRepository<Ticket> Tickets =>
+-        new Repository<Ticket>(Set<Ticket>());
++        var arrivals = await Set<Stop>()
++            .Where(stop => DateOnly.FromDateTime(stop.DepartsAt.Date) >= date && stop.DepartsFrom == to)
++            .ToListAsync(cancellationToken);
+ 
+-    public Task CommitAsync(CancellationToken cancellationToken = default) =>
+-        SaveChangesAsync(cancellationToken);
++        var journeyIds = departures
++            .Zip(arrivals)
++            .Where(pair => pair.First.JourneyId == pair.Second.JourneyId && pair.First.Ordinal < pair.Second.Ordinal)
++            .Select(pair => pair.First.JourneyId);
+ 
+-    public Task MigrateAsync(CancellationToken cancellationToken = default) =>
+-        Database.IsRelational()
+-            ? Database.MigrateAsync(cancellationToken)
+-            : Database.EnsureCreatedAsync(cancellationToken);
+-
++        return await Set<Journey>()
++            .Where(journey => journeyIds.Contains(journey.Id))
++            .Select(journey => new
++            {
++                journey.Duration,
++                journey.Id,
++                journey.Price,
++                Stops = Set<Stop>().Where(stop => stop.JourneyId == journey.Id),
++                journey.Train
++            })
++            .ToListAsync(cancellationToken);
++    };
++    
+     protected override void OnModelCreating(ModelBuilder modelBuilder)
+     {
+-        var date = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date);
+-        var offset = TimeSpan.Zero;
+-
+         _ = modelBuilder.Entity<Journey>().HasData
+         ([
+-            new
+-            {
+-                Duration = new TimeSpan(1, 43, 0),
+-                Id = 1,
+-                Price = 10M,
+-                Train = "Juna 1"
+-            },
+-            new
+-            {
+-                Duration = new TimeSpan(1, 41, 0),
+-                Id = 2,
+-                Price = 10M,
+-                Train = "Juna 1"
+-            }
++            new(new(1, 43, 0), 1, 0M, "Juna 1"),
++            new(new(1, 41, 0), 2, 0M, "Juna 1")
+         ]);
++
++        var utcNow = DateTimeOffset.UtcNow;
++        var date = DateOnly.FromDateTime(utcNow.UtcDateTime);
++        var offset = utcNow.Offset;
+ 
+         _ = modelBuilder.Entity<Stop>().HasData
+         ([
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(5, 57), offset),
+-                ArrivesFrom = "Keuruu",
+-                DepartsAt = new DateTimeOffset(date, new(5, 57), offset),
+-                DepartsFrom = "Keuruu",
+-                Duration = TimeSpan.Zero,
+-                Id = 1,
+-                JourneyId = 1,
+-                Ordinal = 1
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(6, 11), offset),
+-                ArrivesFrom = "Keuruu",
+-                DepartsAt = new DateTimeOffset(date, new(6, 19), offset),
+-                DepartsFrom = "Haapamäki",
+-                Duration = new TimeSpan(0, 14, 0),
+-                Id = 2,
+-                JourneyId = 1,
+-                Ordinal = 2
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(6, 28), offset),
+-                ArrivesFrom = "Haapamäki",
+-                DepartsAt = new DateTimeOffset(date, new(6, 29), offset),
+-                DepartsFrom = "Kolho",
+-                Duration = new TimeSpan(0, 9, 0),
+-                Id = 3,
+-                JourneyId = 1,
+-                Ordinal = 3
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(6, 38), offset),
+-                ArrivesFrom = "Kolho",
+-                DepartsAt = new DateTimeOffset(date, new(6, 40), offset),
+-                DepartsFrom = "Vilppula",
+-                Duration = new TimeSpan(0, 9, 0),
+-                Id = 4,
+-                JourneyId = 1,
+-                Ordinal = 4
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(6, 58), offset),
+-                ArrivesFrom = "Vilppula",
+-                DepartsAt = new DateTimeOffset(date, new(6, 59), offset),
+-                DepartsFrom = "Juupajoki",
+-                Duration = new TimeSpan(0, 18, 0),
+-                Id = 5,
+-                JourneyId = 1,
+-                Ordinal = 5,
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(7, 9), offset),
+-                ArrivesFrom = "Juupajoki",
+-                DepartsAt = new DateTimeOffset(date, new(7, 10), offset),
+-                DepartsFrom = "Orivesi Keskusta",
+-                Duration = new TimeSpan(0, 10, 0),
+-                Id = 6,
+-                JourneyId = 1,
+-                Ordinal = 6
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(7, 14), offset),
+-                ArrivesFrom = "Orivesi Keskusta",
+-                DepartsAt = new DateTimeOffset(date, new(7, 15), offset),
+-                DepartsFrom = "Orivesi",
+-                Duration = new TimeSpan(0, 4, 0),
+-                Id = 7,
+-                JourneyId = 1,
+-                Ordinal = 7
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(7, 40), offset),
+-                ArrivesFrom = "Orivesi",
+-                DepartsAt = new DateTimeOffset(date, new(7, 40), offset),
+-                DepartsFrom = "Tampere",
+-                Duration = new TimeSpan(0, 25, 0),
+-                Id = 8,
+-                JourneyId = 1,
+-                Ordinal = 8
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(8, 6), offset),
+-                ArrivesFrom = "Tampere",
+-                DepartsAt = new DateTimeOffset(date, new(8, 6), offset),
+-                DepartsFrom = "Tampere",
+-                Duration = TimeSpan.Zero,
+-                Id = 9,
+-                JourneyId = 2,
+-                Ordinal = 1
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(8, 31), offset),
+-                ArrivesFrom = "Tampere",
+-                DepartsAt = new DateTimeOffset(date, new(8, 32), offset),
+-                DepartsFrom = "Orivesi",
+-                Duration = new TimeSpan(0, 25, 0),
+-                Id = 10,
+-                JourneyId = 2,
+-                Ordinal = 2
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(8, 35), offset),
+-                ArrivesFrom = "Orivesi",
+-                DepartsAt = new DateTimeOffset(date, new(8, 36), offset),
+-                DepartsFrom = "Orivesi Keskusta",
+-                Duration = new TimeSpan(0, 3, 0),
+-                Id = 11,
+-                JourneyId = 2,
+-                Ordinal = 3
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(8, 46), offset),
+-                ArrivesFrom = "Orivesi Keskusta",
+-                DepartsAt = new DateTimeOffset(date, new(8, 47), offset),
+-                DepartsFrom = "Juupajoki",
+-                Duration = new TimeSpan(0, 10, 0),
+-                Id = 12,
+-                JourneyId = 2,
+-                Ordinal = 4,
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(9, 6), offset),
+-                ArrivesFrom = "Juupajoki",
+-                DepartsAt = new DateTimeOffset(date, new(9, 7), offset),
+-                DepartsFrom = "Vilppula",
+-                Duration = new TimeSpan(0, 19, 0),
+-                Id = 13,
+-                JourneyId = 2,
+-                Ordinal = 5
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(9, 14), offset),
+-                ArrivesFrom = "Vilppula",
+-                DepartsAt = new DateTimeOffset(date, new(9, 15), offset),
+-                DepartsFrom = "Kolho",
+-                Duration = new TimeSpan(0, 7, 0),
+-                Id = 14,
+-                JourneyId = 2,
+-                Ordinal = 6,
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(9, 25), offset),
+-                ArrivesFrom = "Kolho",
+-                DepartsAt = new DateTimeOffset(date, new(9, 33), offset),
+-                DepartsFrom = "Haapamäki",
+-                Duration = new TimeSpan(0, 10, 0),
+-                Id = 15,
+-                JourneyId = 2,
+-                Ordinal = 7
+-            },
+-            new
+-            {
+-                ArrivesAt = new DateTimeOffset(date, new(9, 47), offset),
+-                ArrivesFrom = "Kolho",
+-                DepartsAt = new DateTimeOffset(date, new(9, 47), offset),
+-                DepartsFrom = "Keuruu",
+-                Duration = new TimeSpan(0, 14, 0),
+-                Id = 16,
+-                JourneyId = 2,
+-                Ordinal = 8
+-            }
++            new(new(date, new(5, 57), offset), "Keuruu", new(date, new(5, 57), offset), "Keuruu", TimeSpan.Zero, 1, 1, 1),
++            new(new(date, new(6, 11), offset), "Keuruu", new(date, new(6, 19), offset), "Haapamäki", new(0, 14, 0), 2, 1, 2),
++            new(new(date, new(6, 28), offset), "Haapamäki", new(date, new(6, 29), offset), "Kolho", new(0, 9, 0), 3, 1, 3),
++            new(new(date, new(6, 38), offset), "Kolho", new(date, new(6, 40), offset), "Vilppula", new(0, 9, 0), 4, 1, 4),
++            new(new(date, new(6, 58), offset), "Vilppula", new(date, new(6, 59), offset), "Juupajoki", new(0, 18, 0), 5, 1, 5),
++            new(new(date, new(7, 9), offset), "Juupajoki", new(date, new(7, 10), offset), "Orivesi Keskusta", new(0, 10, 0), 6, 1, 6),
++            new(new(date, new(7, 14), offset), "Orivesi Keskusta", new(date, new(7, 15), offset), "Orivesi", new(0, 4, 0), 7, 1, 7),
++            new(new(date, new(7, 40), offset), "Orivesi", new(date, new(7, 40), offset), "Tampere", new(0, 25, 0), 8, 1, 8),
++            new(new(date, new(8, 6), offset), "Tampere", new(date, new(8, 6), offset), "Tampere", TimeSpan.Zero, 9, 2, 1),
++            new(new(date, new(8, 31), offset), "Tampere", new(date, new(8, 32), offset), "Orivesi", new(0, 25, 0), 10, 2, 2),
++            new(new(date, new(8, 35), offset), "Orivesi", new(date, new(8, 36), offset), "Orivesi Keskusta", new(0, 3, 0), 11, 2, 3),
++            new(new(date, new(8, 46), offset), "Orivesi Keskusta", new(date, new(8, 47), offset), "Juupajoki", new(0, 10, 0), 12, 2, 4),
++            new(new(date, new(9, 6), offset), "Juupajoki", new(date, new(9, 7), offset), "Vilppula", new(0, 19, 0), 13, 2, 5),
++            new(new(date, new(9, 14), offset), "Vilppula", new(date, new(9, 15), offset), "Kolho", new(0, 7, 0), 14, 2, 6),
++            new(new(date, new(9, 25), offset), "Kolho", new(date, new(9, 33), offset), "Haapamäki", new(0, 10, 0), 15, 2, 7),
++            new(new(date, new(9, 47), offset), "Haapamäki", new(date, new(9, 47), offset), "Keuruu", new(0, 14, 0), 16, 2, 8)
+         ]);
+ 
+         _ = modelBuilder.Entity<Ticket>();
+Index: src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.cs
+===================================================================
+diff --git a/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.cs b/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.cs
+deleted file mode 100644
+--- a/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,225 +0,0 @@
+-using System;
+-using Microsoft.EntityFrameworkCore.Migrations;
+-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+-
+-#nullable disable
+-
+-namespace Zuge.Infrastructure.IdentityMigrations
+-{
+-    /// <inheritdoc />
+-    public partial class Initial : Migration
+-    {
+-        /// <inheritdoc />
+-        protected override void Up(MigrationBuilder migrationBuilder)
+-        {
+-            migrationBuilder.CreateTable(
+-                name: "AspNetRoles",
+-                columns: table => new
+-                {
+-                    Id = table.Column<string>(type: "text", nullable: false),
+-                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+-                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "AspNetUsers",
+-                columns: table => new
+-                {
+-                    Id = table.Column<string>(type: "text", nullable: false),
+-                    FirstName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+-                    LastName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+-                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+-                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+-                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+-                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "AspNetRoleClaims",
+-                columns: table => new
+-                {
+-                    Id = table.Column<int>(type: "integer", nullable: false)
+-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+-                    RoleId = table.Column<string>(type: "text", nullable: false),
+-                    ClaimType = table.Column<string>(type: "text", nullable: true),
+-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+-                    table.ForeignKey(
+-                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+-                        column: x => x.RoleId,
+-                        principalTable: "AspNetRoles",
+-                        principalColumn: "Id",
+-                        onDelete: ReferentialAction.Cascade);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "AspNetUserClaims",
+-                columns: table => new
+-                {
+-                    Id = table.Column<int>(type: "integer", nullable: false)
+-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+-                    UserId = table.Column<string>(type: "text", nullable: false),
+-                    ClaimType = table.Column<string>(type: "text", nullable: true),
+-                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+-                    table.ForeignKey(
+-                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+-                        column: x => x.UserId,
+-                        principalTable: "AspNetUsers",
+-                        principalColumn: "Id",
+-                        onDelete: ReferentialAction.Cascade);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "AspNetUserLogins",
+-                columns: table => new
+-                {
+-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+-                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+-                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+-                    UserId = table.Column<string>(type: "text", nullable: false)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+-                    table.ForeignKey(
+-                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+-                        column: x => x.UserId,
+-                        principalTable: "AspNetUsers",
+-                        principalColumn: "Id",
+-                        onDelete: ReferentialAction.Cascade);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "AspNetUserRoles",
+-                columns: table => new
+-                {
+-                    UserId = table.Column<string>(type: "text", nullable: false),
+-                    RoleId = table.Column<string>(type: "text", nullable: false)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+-                    table.ForeignKey(
+-                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+-                        column: x => x.RoleId,
+-                        principalTable: "AspNetRoles",
+-                        principalColumn: "Id",
+-                        onDelete: ReferentialAction.Cascade);
+-                    table.ForeignKey(
+-                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+-                        column: x => x.UserId,
+-                        principalTable: "AspNetUsers",
+-                        principalColumn: "Id",
+-                        onDelete: ReferentialAction.Cascade);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "AspNetUserTokens",
+-                columns: table => new
+-                {
+-                    UserId = table.Column<string>(type: "text", nullable: false),
+-                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+-                    Name = table.Column<string>(type: "text", nullable: false),
+-                    Value = table.Column<string>(type: "text", nullable: true)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+-                    table.ForeignKey(
+-                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+-                        column: x => x.UserId,
+-                        principalTable: "AspNetUsers",
+-                        principalColumn: "Id",
+-                        onDelete: ReferentialAction.Cascade);
+-                });
+-
+-            migrationBuilder.CreateIndex(
+-                name: "IX_AspNetRoleClaims_RoleId",
+-                table: "AspNetRoleClaims",
+-                column: "RoleId");
+-
+-            migrationBuilder.CreateIndex(
+-                name: "RoleNameIndex",
+-                table: "AspNetRoles",
+-                column: "NormalizedName",
+-                unique: true);
+-
+-            migrationBuilder.CreateIndex(
+-                name: "IX_AspNetUserClaims_UserId",
+-                table: "AspNetUserClaims",
+-                column: "UserId");
+-
+-            migrationBuilder.CreateIndex(
+-                name: "IX_AspNetUserLogins_UserId",
+-                table: "AspNetUserLogins",
+-                column: "UserId");
+-
+-            migrationBuilder.CreateIndex(
+-                name: "IX_AspNetUserRoles_RoleId",
+-                table: "AspNetUserRoles",
+-                column: "RoleId");
+-
+-            migrationBuilder.CreateIndex(
+-                name: "EmailIndex",
+-                table: "AspNetUsers",
+-                column: "NormalizedEmail");
+-
+-            migrationBuilder.CreateIndex(
+-                name: "UserNameIndex",
+-                table: "AspNetUsers",
+-                column: "NormalizedUserName",
+-                unique: true);
+-        }
+-
+-        /// <inheritdoc />
+-        protected override void Down(MigrationBuilder migrationBuilder)
+-        {
+-            migrationBuilder.DropTable(
+-                name: "AspNetRoleClaims");
+-
+-            migrationBuilder.DropTable(
+-                name: "AspNetUserClaims");
+-
+-            migrationBuilder.DropTable(
+-                name: "AspNetUserLogins");
+-
+-            migrationBuilder.DropTable(
+-                name: "AspNetUserRoles");
+-
+-            migrationBuilder.DropTable(
+-                name: "AspNetUserTokens");
+-
+-            migrationBuilder.DropTable(
+-                name: "AspNetRoles");
+-
+-            migrationBuilder.DropTable(
+-                name: "AspNetUsers");
+-        }
+-    }
+-}
+Index: src/Zuge.Domain/Domain.cs
+===================================================================
+diff --git a/src/Zuge.Domain/Domain.cs b/src/Zuge.Domain/Domain.cs
+deleted file mode 100644
+--- a/src/Zuge.Domain/Domain.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,120 +0,0 @@
+-namespace Zuge.Domain;
+-
+-public static class Domain
+-{
+-    public static PurchaseTicketHandler PurchaseTicketAsync =>
+-        async (unitOfWork, args, cancellationToken) =>
+-        {
+-            var result = await new InlineValidator<PurchaseTicketArgs>
+-            {
+-                rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardCvc)
+-                    .Matches(@"^\d{3,4}$"),
+-
+-                rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardDate)
+-                    .GreaterThanOrEqualTo(DateOnly.FromDateTime(DateTime.Now)),
+-
+-                rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardHolder)
+-                    .NotEmpty(),
+-
+-                rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.CardNumber)
+-                    .CreditCard(),
+-
+-                rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.EmailAddress)
+-                    .EmailAddress(),
+-
+-                rules => rules
+-                    .RuleFor(purchaseTicket => purchaseTicket.JourneyId)
+-                    .GreaterThan(0)
+-            }.ValidateAsync(args, cancellationToken);
+-
+-            if (result.ToDictionary() is { Count: > 0 } errors)
+-                return new(errors, false);
+-
+-            var (_, _, _, cardNumber, emailAddress, journeyId) = args;
+-
+-            var journey = await unitOfWork.Journeys.FirstOrDefaultAsync(
+-                journey => journey.Id == journeyId,
+-                cancellationToken);
+-
+-            if (journey is null)
+-                return new(null, false);
+-
+-            if (cardNumber != "4242424242424242")
+-                return new(null, false);
+-
+-            Ticket ticket = new(emailAddress, 0, journeyId);
+-            unitOfWork.Tickets.AddRange([ticket]);
+-            await unitOfWork.CommitAsync(cancellationToken);
+-
+-            return new(null, true);
+-        };
+-
+-    public static SearchJourneysHandler SearchJourneysAsync =>
+-        async (unitOfWork, args, cancellationToken) =>
+-        {
+-            var result = await new InlineValidator<SearchJourneysArgs>
+-            {
+-                rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.Date)
+-                    .GreaterThanOrEqualTo(
+-                        DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)),
+-
+-                rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.From)
+-                    .NotEmpty(),
+-
+-                rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.To)
+-                    .NotEmpty(),
+-
+-                rules => rules
+-                    .RuleFor(searchJourneys => searchJourneys.From)
+-                    .NotEqual(searchJourneys => searchJourneys.To)
+-            }.ValidateAsync(args, cancellationToken);
+-
+-            if (result.ToDictionary() is { Count: > 0 } errors)
+-                return new(errors, false);
+-
+-            var (date, from, to) = args;
+-
+-            var froms = await unitOfWork.Stops.ToListAsync(stop =>
+-                    DateOnly.FromDateTime(stop.DepartsAt.Date) <= date &&
+-                    stop.DepartsFrom == from,
+-                cancellationToken);
+-
+-            var tos = await unitOfWork.Stops.ToListAsync(stop =>
+-                    DateOnly.FromDateTime(stop.DepartsAt.Date) >= date &&
+-                    stop.DepartsFrom == to,
+-                cancellationToken);
+-
+-            var ids = froms
+-                .Zip(tos)
+-                .Where(pair =>
+-                    pair.First.JourneyId == pair.Second.JourneyId &&
+-                    pair.First.Ordinal < pair.Second.Ordinal)
+-                .Select(pair => pair.First.JourneyId);
+-
+-            var journeys = await unitOfWork.Journeys.ToListAsync(
+-                journey => ids.Contains(journey.Id),
+-                cancellationToken);
+-
+-            var data = await Task.WhenAll(
+-                journeys.Select(async journey => new
+-                {
+-                    journey.Duration,
+-                    journey.Id,
+-                    journey.Price,
+-                    Stops = await unitOfWork.Stops.ToListAsync(
+-                        stop => stop.JourneyId == journey.Id,
+-                        cancellationToken),
+-                    journey.Train
+-                }));
+-
+-            return new(data, true);
+-        };
+-}
+\ No newline at end of file
+Index: src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.Designer.cs
+===================================================================
+diff --git a/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.Designer.cs b/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.Designer.cs
+deleted file mode 100644
+--- a/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.Designer.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,303 +0,0 @@
+-// <auto-generated />
+-using System;
+-using Microsoft.EntityFrameworkCore;
+-using Microsoft.EntityFrameworkCore.Infrastructure;
+-using Microsoft.EntityFrameworkCore.Migrations;
+-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+-using Zuge.Infrastructure;
+-
+-#nullable disable
+-
+-namespace Zuge.Infrastructure.DomainMigrations
+-{
+-    [DbContext(typeof(UnitOfWork))]
+-    [Migration("20240213102148_Initial")]
+-    partial class Initial
+-    {
+-        /// <inheritdoc />
+-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+-        {
+-#pragma warning disable 612, 618
+-            modelBuilder
+-                .HasAnnotation("ProductVersion", "8.0.1")
+-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+-
+-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+-
+-            modelBuilder.Entity("Zuge.Domain.Journey", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<TimeSpan>("Duration")
+-                        .HasColumnType("interval");
+-
+-                    b.Property<decimal>("Price")
+-                        .HasColumnType("numeric");
+-
+-                    b.Property<string>("Train")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("Id");
+-
+-                    b.ToTable("Journey");
+-
+-                    b.HasData(
+-                        new
+-                        {
+-                            Id = 1,
+-                            Duration = new TimeSpan(0, 1, 43, 0, 0),
+-                            Price = 10m,
+-                            Train = "Juna 1"
+-                        },
+-                        new
+-                        {
+-                            Id = 2,
+-                            Duration = new TimeSpan(0, 1, 41, 0, 0),
+-                            Price = 10m,
+-                            Train = "Juna 1"
+-                        });
+-                });
+-
+-            modelBuilder.Entity("Zuge.Domain.Stop", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<DateTimeOffset>("ArrivesAt")
+-                        .HasColumnType("timestamp with time zone");
+-
+-                    b.Property<string>("ArrivesFrom")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.Property<DateTimeOffset>("DepartsAt")
+-                        .HasColumnType("timestamp with time zone");
+-
+-                    b.Property<string>("DepartsFrom")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.Property<TimeSpan>("Duration")
+-                        .HasColumnType("interval");
+-
+-                    b.Property<int>("JourneyId")
+-                        .HasColumnType("integer");
+-
+-                    b.Property<int>("Ordinal")
+-                        .HasColumnType("integer");
+-
+-                    b.HasKey("Id");
+-
+-                    b.ToTable("Stop");
+-
+-                    b.HasData(
+-                        new
+-                        {
+-                            Id = 1,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 5, 57, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Keuruu",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 5, 57, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Keuruu",
+-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 1
+-                        },
+-                        new
+-                        {
+-                            Id = 2,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 11, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Keuruu",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 19, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Haapamäki",
+-                            Duration = new TimeSpan(0, 0, 14, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 2
+-                        },
+-                        new
+-                        {
+-                            Id = 3,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 28, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Haapamäki",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 29, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Kolho",
+-                            Duration = new TimeSpan(0, 0, 9, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 3
+-                        },
+-                        new
+-                        {
+-                            Id = 4,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 38, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Kolho",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Vilppula",
+-                            Duration = new TimeSpan(0, 0, 9, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 4
+-                        },
+-                        new
+-                        {
+-                            Id = 5,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 58, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Vilppula",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 59, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Juupajoki",
+-                            Duration = new TimeSpan(0, 0, 18, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 5
+-                        },
+-                        new
+-                        {
+-                            Id = 6,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 9, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Juupajoki",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 10, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi Keskusta",
+-                            Duration = new TimeSpan(0, 0, 10, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 6
+-                        },
+-                        new
+-                        {
+-                            Id = 7,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 14, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi Keskusta",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi",
+-                            Duration = new TimeSpan(0, 0, 4, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 7
+-                        },
+-                        new
+-                        {
+-                            Id = 8,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Tampere",
+-                            Duration = new TimeSpan(0, 0, 25, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 8
+-                        },
+-                        new
+-                        {
+-                            Id = 9,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Tampere",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Tampere",
+-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 1
+-                        },
+-                        new
+-                        {
+-                            Id = 10,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 31, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Tampere",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 32, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi",
+-                            Duration = new TimeSpan(0, 0, 25, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 2
+-                        },
+-                        new
+-                        {
+-                            Id = 11,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 35, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 36, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi Keskusta",
+-                            Duration = new TimeSpan(0, 0, 3, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 3
+-                        },
+-                        new
+-                        {
+-                            Id = 12,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 46, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi Keskusta",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Juupajoki",
+-                            Duration = new TimeSpan(0, 0, 10, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 4
+-                        },
+-                        new
+-                        {
+-                            Id = 13,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Juupajoki",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 7, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Vilppula",
+-                            Duration = new TimeSpan(0, 0, 19, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 5
+-                        },
+-                        new
+-                        {
+-                            Id = 14,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 14, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Vilppula",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Kolho",
+-                            Duration = new TimeSpan(0, 0, 7, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 6
+-                        },
+-                        new
+-                        {
+-                            Id = 15,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 25, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Kolho",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 33, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Haapamäki",
+-                            Duration = new TimeSpan(0, 0, 10, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 7
+-                        },
+-                        new
+-                        {
+-                            Id = 16,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Kolho",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Keuruu",
+-                            Duration = new TimeSpan(0, 0, 14, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 8
+-                        });
+-                });
+-
+-            modelBuilder.Entity("Zuge.Domain.Ticket", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<string>("EmailAddress")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.Property<int>("JourneyId")
+-                        .HasColumnType("integer");
+-
+-                    b.HasKey("Id");
+-
+-                    b.ToTable("Ticket");
+-                });
+-#pragma warning restore 612, 618
+-        }
+-    }
+-}
+Index: src/Zuge.Infrastructure/DomainMigrations/UnitOfWorkModelSnapshot.cs
+===================================================================
+diff --git a/src/Zuge.Infrastructure/DomainMigrations/UnitOfWorkModelSnapshot.cs b/src/Zuge.Infrastructure/DomainMigrations/UnitOfWorkModelSnapshot.cs
+deleted file mode 100644
+--- a/src/Zuge.Infrastructure/DomainMigrations/UnitOfWorkModelSnapshot.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,300 +0,0 @@
+-// <auto-generated />
+-using System;
+-using Microsoft.EntityFrameworkCore;
+-using Microsoft.EntityFrameworkCore.Infrastructure;
+-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+-using Zuge.Infrastructure;
+-
+-#nullable disable
+-
+-namespace Zuge.Infrastructure.DomainMigrations
+-{
+-    [DbContext(typeof(UnitOfWork))]
+-    partial class UnitOfWorkModelSnapshot : ModelSnapshot
+-    {
+-        protected override void BuildModel(ModelBuilder modelBuilder)
+-        {
+-#pragma warning disable 612, 618
+-            modelBuilder
+-                .HasAnnotation("ProductVersion", "8.0.1")
+-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+-
+-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+-
+-            modelBuilder.Entity("Zuge.Domain.Journey", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<TimeSpan>("Duration")
+-                        .HasColumnType("interval");
+-
+-                    b.Property<decimal>("Price")
+-                        .HasColumnType("numeric");
+-
+-                    b.Property<string>("Train")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("Id");
+-
+-                    b.ToTable("Journey");
+-
+-                    b.HasData(
+-                        new
+-                        {
+-                            Id = 1,
+-                            Duration = new TimeSpan(0, 1, 43, 0, 0),
+-                            Price = 10m,
+-                            Train = "Juna 1"
+-                        },
+-                        new
+-                        {
+-                            Id = 2,
+-                            Duration = new TimeSpan(0, 1, 41, 0, 0),
+-                            Price = 10m,
+-                            Train = "Juna 1"
+-                        });
+-                });
+-
+-            modelBuilder.Entity("Zuge.Domain.Stop", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<DateTimeOffset>("ArrivesAt")
+-                        .HasColumnType("timestamp with time zone");
+-
+-                    b.Property<string>("ArrivesFrom")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.Property<DateTimeOffset>("DepartsAt")
+-                        .HasColumnType("timestamp with time zone");
+-
+-                    b.Property<string>("DepartsFrom")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.Property<TimeSpan>("Duration")
+-                        .HasColumnType("interval");
+-
+-                    b.Property<int>("JourneyId")
+-                        .HasColumnType("integer");
+-
+-                    b.Property<int>("Ordinal")
+-                        .HasColumnType("integer");
+-
+-                    b.HasKey("Id");
+-
+-                    b.ToTable("Stop");
+-
+-                    b.HasData(
+-                        new
+-                        {
+-                            Id = 1,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 5, 57, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Keuruu",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 5, 57, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Keuruu",
+-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 1
+-                        },
+-                        new
+-                        {
+-                            Id = 2,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 11, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Keuruu",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 19, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Haapamäki",
+-                            Duration = new TimeSpan(0, 0, 14, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 2
+-                        },
+-                        new
+-                        {
+-                            Id = 3,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 28, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Haapamäki",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 29, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Kolho",
+-                            Duration = new TimeSpan(0, 0, 9, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 3
+-                        },
+-                        new
+-                        {
+-                            Id = 4,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 38, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Kolho",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Vilppula",
+-                            Duration = new TimeSpan(0, 0, 9, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 4
+-                        },
+-                        new
+-                        {
+-                            Id = 5,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 58, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Vilppula",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 6, 59, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Juupajoki",
+-                            Duration = new TimeSpan(0, 0, 18, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 5
+-                        },
+-                        new
+-                        {
+-                            Id = 6,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 9, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Juupajoki",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 10, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi Keskusta",
+-                            Duration = new TimeSpan(0, 0, 10, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 6
+-                        },
+-                        new
+-                        {
+-                            Id = 7,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 14, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi Keskusta",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi",
+-                            Duration = new TimeSpan(0, 0, 4, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 7
+-                        },
+-                        new
+-                        {
+-                            Id = 8,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 7, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Tampere",
+-                            Duration = new TimeSpan(0, 0, 25, 0, 0),
+-                            JourneyId = 1,
+-                            Ordinal = 8
+-                        },
+-                        new
+-                        {
+-                            Id = 9,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Tampere",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Tampere",
+-                            Duration = new TimeSpan(0, 0, 0, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 1
+-                        },
+-                        new
+-                        {
+-                            Id = 10,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 31, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Tampere",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 32, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi",
+-                            Duration = new TimeSpan(0, 0, 25, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 2
+-                        },
+-                        new
+-                        {
+-                            Id = 11,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 35, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 36, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Orivesi Keskusta",
+-                            Duration = new TimeSpan(0, 0, 3, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 3
+-                        },
+-                        new
+-                        {
+-                            Id = 12,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 46, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Orivesi Keskusta",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 8, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Juupajoki",
+-                            Duration = new TimeSpan(0, 0, 10, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 4
+-                        },
+-                        new
+-                        {
+-                            Id = 13,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Juupajoki",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 7, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Vilppula",
+-                            Duration = new TimeSpan(0, 0, 19, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 5
+-                        },
+-                        new
+-                        {
+-                            Id = 14,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 14, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Vilppula",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Kolho",
+-                            Duration = new TimeSpan(0, 0, 7, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 6
+-                        },
+-                        new
+-                        {
+-                            Id = 15,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 25, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Kolho",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 33, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Haapamäki",
+-                            Duration = new TimeSpan(0, 0, 10, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 7
+-                        },
+-                        new
+-                        {
+-                            Id = 16,
+-                            ArrivesAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            ArrivesFrom = "Kolho",
+-                            DepartsAt = new DateTimeOffset(new DateTime(2024, 2, 13, 9, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)),
+-                            DepartsFrom = "Keuruu",
+-                            Duration = new TimeSpan(0, 0, 14, 0, 0),
+-                            JourneyId = 2,
+-                            Ordinal = 8
+-                        });
+-                });
+-
+-            modelBuilder.Entity("Zuge.Domain.Ticket", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<string>("EmailAddress")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.Property<int>("JourneyId")
+-                        .HasColumnType("integer");
+-
+-                    b.HasKey("Id");
+-
+-                    b.ToTable("Ticket");
+-                });
+-#pragma warning restore 612, 618
+-        }
+-    }
+-}
+Index: src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.Designer.cs
+===================================================================
+diff --git a/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.Designer.cs b/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.Designer.cs
+deleted file mode 100644
+--- a/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.Designer.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,287 +0,0 @@
+-// <auto-generated />
+-using System;
+-using Microsoft.EntityFrameworkCore;
+-using Microsoft.EntityFrameworkCore.Infrastructure;
+-using Microsoft.EntityFrameworkCore.Migrations;
+-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+-using Zuge.Infrastructure;
+-
+-#nullable disable
+-
+-namespace Zuge.Infrastructure.IdentityMigrations
+-{
+-    [DbContext(typeof(AuthenticationDbContext))]
+-    [Migration("20240213102530_Initial")]
+-    partial class Initial
+-    {
+-        /// <inheritdoc />
+-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+-        {
+-#pragma warning disable 612, 618
+-            modelBuilder
+-                .HasAnnotation("ProductVersion", "8.0.1")
+-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+-
+-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+-                {
+-                    b.Property<string>("Id")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ConcurrencyStamp")
+-                        .IsConcurrencyToken()
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Name")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<string>("NormalizedName")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("NormalizedName")
+-                        .IsUnique()
+-                        .HasDatabaseName("RoleNameIndex");
+-
+-                    b.ToTable("AspNetRoles", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<string>("ClaimType")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ClaimValue")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("RoleId")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("RoleId");
+-
+-                    b.ToTable("AspNetRoleClaims", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<string>("ClaimType")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ClaimValue")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("UserId")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("UserId");
+-
+-                    b.ToTable("AspNetUserClaims", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+-                {
+-                    b.Property<string>("LoginProvider")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ProviderKey")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ProviderDisplayName")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("UserId")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("LoginProvider", "ProviderKey");
+-
+-                    b.HasIndex("UserId");
+-
+-                    b.ToTable("AspNetUserLogins", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+-                {
+-                    b.Property<string>("UserId")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("RoleId")
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("UserId", "RoleId");
+-
+-                    b.HasIndex("RoleId");
+-
+-                    b.ToTable("AspNetUserRoles", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+-                {
+-                    b.Property<string>("UserId")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("LoginProvider")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Name")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Value")
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("UserId", "LoginProvider", "Name");
+-
+-                    b.ToTable("AspNetUserTokens", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Zuge.Infrastructure.ApplicationUser", b =>
+-                {
+-                    b.Property<string>("Id")
+-                        .HasColumnType("text");
+-
+-                    b.Property<int>("AccessFailedCount")
+-                        .HasColumnType("integer");
+-
+-                    b.Property<string>("ConcurrencyStamp")
+-                        .IsConcurrencyToken()
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Email")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<bool>("EmailConfirmed")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<string>("FirstName")
+-                        .IsRequired()
+-                        .HasMaxLength(100)
+-                        .HasColumnType("character varying(100)");
+-
+-                    b.Property<string>("LastName")
+-                        .IsRequired()
+-                        .HasMaxLength(100)
+-                        .HasColumnType("character varying(100)");
+-
+-                    b.Property<bool>("LockoutEnabled")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<DateTimeOffset?>("LockoutEnd")
+-                        .HasColumnType("timestamp with time zone");
+-
+-                    b.Property<string>("NormalizedEmail")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<string>("NormalizedUserName")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<string>("PasswordHash")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("PhoneNumber")
+-                        .HasColumnType("text");
+-
+-                    b.Property<bool>("PhoneNumberConfirmed")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<string>("SecurityStamp")
+-                        .HasColumnType("text");
+-
+-                    b.Property<bool>("TwoFactorEnabled")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<string>("UserName")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("NormalizedEmail")
+-                        .HasDatabaseName("EmailIndex");
+-
+-                    b.HasIndex("NormalizedUserName")
+-                        .IsUnique()
+-                        .HasDatabaseName("UserNameIndex");
+-
+-                    b.ToTable("AspNetUsers", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+-                {
+-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+-                        .WithMany()
+-                        .HasForeignKey("RoleId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+-                {
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+-                {
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+-                {
+-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+-                        .WithMany()
+-                        .HasForeignKey("RoleId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+-                {
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-#pragma warning restore 612, 618
+-        }
+-    }
+-}
+Index: src/Zuge.Infrastructure/IdentityMigrations/AuthenticationDbContextModelSnapshot.cs
+===================================================================
+diff --git a/src/Zuge.Infrastructure/IdentityMigrations/AuthenticationDbContextModelSnapshot.cs b/src/Zuge.Infrastructure/IdentityMigrations/AuthenticationDbContextModelSnapshot.cs
+deleted file mode 100644
+--- a/src/Zuge.Infrastructure/IdentityMigrations/AuthenticationDbContextModelSnapshot.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,284 +0,0 @@
+-// <auto-generated />
+-using System;
+-using Microsoft.EntityFrameworkCore;
+-using Microsoft.EntityFrameworkCore.Infrastructure;
+-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+-using Zuge.Infrastructure;
+-
+-#nullable disable
+-
+-namespace Zuge.Infrastructure.IdentityMigrations
+-{
+-    [DbContext(typeof(AuthenticationDbContext))]
+-    partial class AuthenticationDbContextModelSnapshot : ModelSnapshot
+-    {
+-        protected override void BuildModel(ModelBuilder modelBuilder)
+-        {
+-#pragma warning disable 612, 618
+-            modelBuilder
+-                .HasAnnotation("ProductVersion", "8.0.1")
+-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+-
+-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+-                {
+-                    b.Property<string>("Id")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ConcurrencyStamp")
+-                        .IsConcurrencyToken()
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Name")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<string>("NormalizedName")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("NormalizedName")
+-                        .IsUnique()
+-                        .HasDatabaseName("RoleNameIndex");
+-
+-                    b.ToTable("AspNetRoles", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<string>("ClaimType")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ClaimValue")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("RoleId")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("RoleId");
+-
+-                    b.ToTable("AspNetRoleClaims", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+-                {
+-                    b.Property<int>("Id")
+-                        .ValueGeneratedOnAdd()
+-                        .HasColumnType("integer");
+-
+-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+-
+-                    b.Property<string>("ClaimType")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ClaimValue")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("UserId")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("UserId");
+-
+-                    b.ToTable("AspNetUserClaims", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+-                {
+-                    b.Property<string>("LoginProvider")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ProviderKey")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("ProviderDisplayName")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("UserId")
+-                        .IsRequired()
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("LoginProvider", "ProviderKey");
+-
+-                    b.HasIndex("UserId");
+-
+-                    b.ToTable("AspNetUserLogins", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+-                {
+-                    b.Property<string>("UserId")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("RoleId")
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("UserId", "RoleId");
+-
+-                    b.HasIndex("RoleId");
+-
+-                    b.ToTable("AspNetUserRoles", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+-                {
+-                    b.Property<string>("UserId")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("LoginProvider")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Name")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Value")
+-                        .HasColumnType("text");
+-
+-                    b.HasKey("UserId", "LoginProvider", "Name");
+-
+-                    b.ToTable("AspNetUserTokens", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Zuge.Infrastructure.ApplicationUser", b =>
+-                {
+-                    b.Property<string>("Id")
+-                        .HasColumnType("text");
+-
+-                    b.Property<int>("AccessFailedCount")
+-                        .HasColumnType("integer");
+-
+-                    b.Property<string>("ConcurrencyStamp")
+-                        .IsConcurrencyToken()
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("Email")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<bool>("EmailConfirmed")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<string>("FirstName")
+-                        .IsRequired()
+-                        .HasMaxLength(100)
+-                        .HasColumnType("character varying(100)");
+-
+-                    b.Property<string>("LastName")
+-                        .IsRequired()
+-                        .HasMaxLength(100)
+-                        .HasColumnType("character varying(100)");
+-
+-                    b.Property<bool>("LockoutEnabled")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<DateTimeOffset?>("LockoutEnd")
+-                        .HasColumnType("timestamp with time zone");
+-
+-                    b.Property<string>("NormalizedEmail")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<string>("NormalizedUserName")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.Property<string>("PasswordHash")
+-                        .HasColumnType("text");
+-
+-                    b.Property<string>("PhoneNumber")
+-                        .HasColumnType("text");
+-
+-                    b.Property<bool>("PhoneNumberConfirmed")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<string>("SecurityStamp")
+-                        .HasColumnType("text");
+-
+-                    b.Property<bool>("TwoFactorEnabled")
+-                        .HasColumnType("boolean");
+-
+-                    b.Property<string>("UserName")
+-                        .HasMaxLength(256)
+-                        .HasColumnType("character varying(256)");
+-
+-                    b.HasKey("Id");
+-
+-                    b.HasIndex("NormalizedEmail")
+-                        .HasDatabaseName("EmailIndex");
+-
+-                    b.HasIndex("NormalizedUserName")
+-                        .IsUnique()
+-                        .HasDatabaseName("UserNameIndex");
+-
+-                    b.ToTable("AspNetUsers", (string)null);
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+-                {
+-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+-                        .WithMany()
+-                        .HasForeignKey("RoleId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+-                {
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+-                {
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+-                {
+-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+-                        .WithMany()
+-                        .HasForeignKey("RoleId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-
+-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+-                {
+-                    b.HasOne("Zuge.Infrastructure.ApplicationUser", null)
+-                        .WithMany()
+-                        .HasForeignKey("UserId")
+-                        .OnDelete(DeleteBehavior.Cascade)
+-                        .IsRequired();
+-                });
+-#pragma warning restore 612, 618
+-        }
+-    }
+-}
+Index: src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.cs
+===================================================================
+diff --git a/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.cs b/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.cs
+deleted file mode 100644
+--- a/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ /dev/null	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
+@@ -1,111 +0,0 @@
+-using System;
+-using Microsoft.EntityFrameworkCore.Migrations;
+-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+-
+-#nullable disable
+-
+-#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+-
+-namespace Zuge.Infrastructure.DomainMigrations
+-{
+-    /// <inheritdoc />
+-    public partial class Initial : Migration
+-    {
+-        /// <inheritdoc />
+-        protected override void Up(MigrationBuilder migrationBuilder)
+-        {
+-            migrationBuilder.CreateTable(
+-                name: "Journey",
+-                columns: table => new
+-                {
+-                    Id = table.Column<int>(type: "integer", nullable: false)
+-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+-                    Duration = table.Column<TimeSpan>(type: "interval", nullable: false),
+-                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+-                    Train = table.Column<string>(type: "text", nullable: false)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_Journey", x => x.Id);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "Stop",
+-                columns: table => new
+-                {
+-                    Id = table.Column<int>(type: "integer", nullable: false)
+-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+-                    ArrivesAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+-                    ArrivesFrom = table.Column<string>(type: "text", nullable: false),
+-                    DepartsAt = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+-                    DepartsFrom = table.Column<string>(type: "text", nullable: false),
+-                    Duration = table.Column<TimeSpan>(type: "interval", nullable: false),
+-                    JourneyId = table.Column<int>(type: "integer", nullable: false),
+-                    Ordinal = table.Column<int>(type: "integer", nullable: false)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_Stop", x => x.Id);
+-                });
+-
+-            migrationBuilder.CreateTable(
+-                name: "Ticket",
+-                columns: table => new
+-                {
+-                    Id = table.Column<int>(type: "integer", nullable: false)
+-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+-                    EmailAddress = table.Column<string>(type: "text", nullable: false),
+-                    JourneyId = table.Column<int>(type: "integer", nullable: false)
+-                },
+-                constraints: table =>
+-                {
+-                    table.PrimaryKey("PK_Ticket", x => x.Id);
+-                });
+-
+-            migrationBuilder.InsertData(
+-                table: "Journey",
+-                columns: new[] { "Id", "Duration", "Price", "Train" },
+-                values: new object[,]
+-                {
+-                    { 1, new TimeSpan(0, 1, 43, 0, 0), 10m, "Juna 1" },
+-                    { 2, new TimeSpan(0, 1, 41, 0, 0), 10m, "Juna 1" }
+-                });
+-
+-            migrationBuilder.InsertData(
+-                table: "Stop",
+-                columns: new[] { "Id", "ArrivesAt", "ArrivesFrom", "DepartsAt", "DepartsFrom", "Duration", "JourneyId", "Ordinal" },
+-                values: new object[,]
+-                {
+-                    { 1, new DateTimeOffset(new DateTime(2024, 2, 13, 5, 57, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Keuruu", new DateTimeOffset(new DateTime(2024, 2, 13, 5, 57, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Keuruu", new TimeSpan(0, 0, 0, 0, 0), 1, 1 },
+-                    { 2, new DateTimeOffset(new DateTime(2024, 2, 13, 6, 11, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Keuruu", new DateTimeOffset(new DateTime(2024, 2, 13, 6, 19, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Haapamäki", new TimeSpan(0, 0, 14, 0, 0), 1, 2 },
+-                    { 3, new DateTimeOffset(new DateTime(2024, 2, 13, 6, 28, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Haapamäki", new DateTimeOffset(new DateTime(2024, 2, 13, 6, 29, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Kolho", new TimeSpan(0, 0, 9, 0, 0), 1, 3 },
+-                    { 4, new DateTimeOffset(new DateTime(2024, 2, 13, 6, 38, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Kolho", new DateTimeOffset(new DateTime(2024, 2, 13, 6, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Vilppula", new TimeSpan(0, 0, 9, 0, 0), 1, 4 },
+-                    { 5, new DateTimeOffset(new DateTime(2024, 2, 13, 6, 58, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Vilppula", new DateTimeOffset(new DateTime(2024, 2, 13, 6, 59, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Juupajoki", new TimeSpan(0, 0, 18, 0, 0), 1, 5 },
+-                    { 6, new DateTimeOffset(new DateTime(2024, 2, 13, 7, 9, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Juupajoki", new DateTimeOffset(new DateTime(2024, 2, 13, 7, 10, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi Keskusta", new TimeSpan(0, 0, 10, 0, 0), 1, 6 },
+-                    { 7, new DateTimeOffset(new DateTime(2024, 2, 13, 7, 14, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi Keskusta", new DateTimeOffset(new DateTime(2024, 2, 13, 7, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi", new TimeSpan(0, 0, 4, 0, 0), 1, 7 },
+-                    { 8, new DateTimeOffset(new DateTime(2024, 2, 13, 7, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi", new DateTimeOffset(new DateTime(2024, 2, 13, 7, 40, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Tampere", new TimeSpan(0, 0, 25, 0, 0), 1, 8 },
+-                    { 9, new DateTimeOffset(new DateTime(2024, 2, 13, 8, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Tampere", new DateTimeOffset(new DateTime(2024, 2, 13, 8, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Tampere", new TimeSpan(0, 0, 0, 0, 0), 2, 1 },
+-                    { 10, new DateTimeOffset(new DateTime(2024, 2, 13, 8, 31, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Tampere", new DateTimeOffset(new DateTime(2024, 2, 13, 8, 32, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi", new TimeSpan(0, 0, 25, 0, 0), 2, 2 },
+-                    { 11, new DateTimeOffset(new DateTime(2024, 2, 13, 8, 35, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi", new DateTimeOffset(new DateTime(2024, 2, 13, 8, 36, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi Keskusta", new TimeSpan(0, 0, 3, 0, 0), 2, 3 },
+-                    { 12, new DateTimeOffset(new DateTime(2024, 2, 13, 8, 46, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Orivesi Keskusta", new DateTimeOffset(new DateTime(2024, 2, 13, 8, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Juupajoki", new TimeSpan(0, 0, 10, 0, 0), 2, 4 },
+-                    { 13, new DateTimeOffset(new DateTime(2024, 2, 13, 9, 6, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Juupajoki", new DateTimeOffset(new DateTime(2024, 2, 13, 9, 7, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Vilppula", new TimeSpan(0, 0, 19, 0, 0), 2, 5 },
+-                    { 14, new DateTimeOffset(new DateTime(2024, 2, 13, 9, 14, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Vilppula", new DateTimeOffset(new DateTime(2024, 2, 13, 9, 15, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Kolho", new TimeSpan(0, 0, 7, 0, 0), 2, 6 },
+-                    { 15, new DateTimeOffset(new DateTime(2024, 2, 13, 9, 25, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Kolho", new DateTimeOffset(new DateTime(2024, 2, 13, 9, 33, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Haapamäki", new TimeSpan(0, 0, 10, 0, 0), 2, 7 },
+-                    { 16, new DateTimeOffset(new DateTime(2024, 2, 13, 9, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Kolho", new DateTimeOffset(new DateTime(2024, 2, 13, 9, 47, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 0, 0, 0, 0)), "Keuruu", new TimeSpan(0, 0, 14, 0, 0), 2, 8 }
+-                });
+-        }
+-
+-        /// <inheritdoc />
+-        protected override void Down(MigrationBuilder migrationBuilder)
+-        {
+-            migrationBuilder.DropTable(
+-                name: "Journey");
+-
+-            migrationBuilder.DropTable(
+-                name: "Stop");
+-
+-            migrationBuilder.DropTable(
+-                name: "Ticket");
+-        }
+-    }
+-}
+Index: src/Zuge.UI/Zuge.UI.Server/Identity/AuthenticationDbContext.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.UI/Zuge.UI.Server/Identity/AuthenticationDbContext.cs b/src/Zuge.UI/Zuge.UI.Server/Identity/AuthenticationDbContext.cs
+new file mode 100644
+--- /dev/null	(date 1708191574032)
++++ b/src/Zuge.UI/Zuge.UI.Server/Identity/AuthenticationDbContext.cs	(date 1708191574032)
+@@ -0,0 +1,6 @@
++using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
++using Microsoft.EntityFrameworkCore;
++
++namespace Zuge.UI.Server.Identity;
++
++public class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : IdentityDbContext<ApplicationUser>(options);
+\ No newline at end of file
+Index: tests/Zuge.Tests/DomainIntegrationTests.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Zuge.Tests;\r\n\r\npublic class DomainIntegrationTests(WebApplicationFactory<Program> factory) :\r\n    IClassFixture<WebApplicationFactory<Program>>\r\n{\r\n    [Fact]\r\n    async void PurchaseTicketAsync()\r\n    {\r\n        // Arrange\r\n        var sut = factory.CreateClient();\r\n\r\n        // Act\r\n        var response = await sut.PostAsJsonAsync(\"purchase\", new\r\n        {\r\n            CardCvc = \"123\",\r\n            CardDate = \"2025-01-01\",\r\n            CardHolder = \"DOE JOHN\",\r\n            CardNumber = \"1111222233334444\",\r\n            EmailAddress = \"john@doe.com\",\r\n            JourneyId = 1\r\n        });\r\n\r\n        // Assert\r\n        Assert.True(response.IsSuccessStatusCode);\r\n    }\r\n\r\n    [Fact]\r\n    async void SearchJourneysAsync()\r\n    {\r\n        // Arrange\r\n        var sut = factory.CreateClient();\r\n\r\n        // Act\r\n        var response = await sut.PostAsJsonAsync(\"search\", new\r\n        {\r\n            Date = DateOnly.FromDateTime(DateTime.Now).ToShortDateString(),\r\n            From = \"Tampere\",\r\n            To = \"Keuruu\"\r\n        });\r\n\r\n        // Assert\r\n        Assert.True(response.IsSuccessStatusCode);\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/Zuge.Tests/DomainIntegrationTests.cs b/tests/Zuge.Tests/DomainIntegrationTests.cs
+--- a/tests/Zuge.Tests/DomainIntegrationTests.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/tests/Zuge.Tests/DomainIntegrationTests.cs	(date 1708100421902)
+@@ -1,7 +1,10 @@
+ namespace Zuge.Tests;
+ 
+-public class DomainIntegrationTests(WebApplicationFactory<Program> factory) :
+-    IClassFixture<WebApplicationFactory<Program>>
++using Microsoft.AspNetCore.Mvc.Testing;
++using System.Net.Http.Json;
++using Xunit;
++
++public class DomainIntegrationTests(WebApplicationFactory<Program> factory) : IClassFixture<WebApplicationFactory<Program>>
+ {
+     [Fact]
+     async void PurchaseTicketAsync()
+Index: src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Microsoft.AspNetCore.Authorization;\r\nusing Microsoft.AspNetCore.Identity;\r\nusing Microsoft.AspNetCore.Mvc;\r\nusing System.ComponentModel.DataAnnotations;\r\n\r\nnamespace Zuge.UI.Server.Controllers;\r\n\r\npublic record RegistrationInformation(\r\n    [Length(1, 100)] string FirstName, \r\n    [Length(1, 100)] string LastName, \r\n    [Phone] string? PhoneNumber);\r\n\r\n[ApiController]\r\n[Route(\"account\")]\r\npublic class AccountController(AuthenticationDbContext authenticationDbContext, ApplicationUserManager userManager) : ControllerBase\r\n{\r\n    [HttpGet]\r\n    [Authorize(Policy = \"User\")]\r\n    public async Task<IActionResult> OnGetAsync()\r\n    {\r\n        var appUser = await userManager.GetUserAsync(User);\r\n        if (appUser is null) return NotFound(\"This should not happen\");\r\n        var roles = await userManager.GetRolesAsync(appUser);\r\n        var userId = await userManager.GetUserIdAsync(appUser);\r\n\r\n        return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });\r\n    }\r\n    [HttpGet]\r\n    [Authorize(Policy = \"Admin\")]\r\n    [Route(\"pingauth/admin\")]\r\n    public IActionResult OnGetPingAuthAdmin()\r\n    {\r\n        return Ok();\r\n    }\r\n    [HttpGet]\r\n    [Authorize(Policy = \"Employee\")]\r\n    [Route(\"pingauth/employee\")]\r\n    public IActionResult OnGetPingAuthEmployee()\r\n    {\r\n        return Ok();\r\n    }\r\n    [HttpGet]\r\n    [Authorize(Policy = \"User\")]\r\n    [Route(\"pingauth\")]\r\n    public IActionResult OnGetPingAuthUser()\r\n    {\r\n        return Ok();\r\n    }\r\n    [HttpPost]\r\n    [Route(\"manage/register\")]\r\n    public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)\r\n    {\r\n        var user = await authenticationDbContext.Users.FirstOrDefaultAsync(user => user.Email == email);\r\n        if (user == null) return NotFound();\r\n\r\n        var trimmedInfo = new RegistrationInformation(\r\n            info.FirstName.Trim(),\r\n            info.LastName.Trim(),\r\n            info.PhoneNumber?.Trim());\r\n\r\n        if (!TryValidateModel(trimmedInfo)) return BadRequest();\r\n            \r\n        user.FirstName = trimmedInfo.FirstName;\r\n        user.LastName = trimmedInfo.LastName;\r\n        user.PhoneNumber = trimmedInfo.PhoneNumber;\r\n        await userManager.AddToRoleAsync(user, \"User\");\r\n        await userManager.UpdateAsync(user);\r\n\r\n        return Ok();\r\n    }\r\n    [HttpPut]\r\n    [Route(\"manage/info\")]\r\n    [Authorize(Policy = \"User\")]\r\n    public async Task<IActionResult> OnPutAsync([FromBody] RegistrationInformation info)\r\n    {\r\n        if (!TryValidateModel(info)) return BadRequest();\r\n\r\n        var user = await userManager.GetUserAsync(User);\r\n        if (user == null) return NotFound();\r\n\r\n        user.FirstName = info.FirstName;\r\n        user.LastName = info.LastName;\r\n        user.PhoneNumber = info.PhoneNumber;\r\n        await userManager.UpdateAsync(user);\r\n        var roles = await userManager.GetRolesAsync(user);\r\n        var userId = await userManager.GetUserIdAsync(user);\r\n\r\n        return Ok(new { user.Email, user.FirstName, user.LastName, user.PhoneNumber, roles, userId });\r\n    }\r\n    [HttpPost]\r\n    [Authorize(Policy = \"User\")]\r\n    [Route(\"logout\")]\r\n    public async Task<IActionResult> OnPostLogoutAsync([FromServices] SignInManager<ApplicationUser> signInManager, [FromBody] object? empty)\r\n    {\r\n        if (empty != null)\r\n        {\r\n            await signInManager.SignOutAsync();\r\n            return Ok();\r\n        }\r\n\r\n        return Unauthorized();\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs b/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs
+--- a/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs	(date 1708191536570)
+@@ -1,14 +1,11 @@
++using Zuge.UI.Server.Identity;
++
++namespace Zuge.UI.Server.Controllers;
++
+ using Microsoft.AspNetCore.Authorization;
+ using Microsoft.AspNetCore.Identity;
+ using Microsoft.AspNetCore.Mvc;
+-using System.ComponentModel.DataAnnotations;
+-
+-namespace Zuge.UI.Server.Controllers;
+-
+-public record RegistrationInformation(
+-    [Length(1, 100)] string FirstName, 
+-    [Length(1, 100)] string LastName, 
+-    [Phone] string? PhoneNumber);
++using Microsoft.EntityFrameworkCore;
+ 
+ [ApiController]
+ [Route("account")]
+@@ -25,6 +22,7 @@
+ 
+         return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });
+     }
++
+     [HttpGet]
+     [Authorize(Policy = "Admin")]
+     [Route("pingauth/admin")]
+@@ -32,6 +30,7 @@
+     {
+         return Ok();
+     }
++
+     [HttpGet]
+     [Authorize(Policy = "Employee")]
+     [Route("pingauth/employee")]
+@@ -39,6 +38,7 @@
+     {
+         return Ok();
+     }
++
+     [HttpGet]
+     [Authorize(Policy = "User")]
+     [Route("pingauth")]
+@@ -46,6 +46,7 @@
+     {
+         return Ok();
+     }
++
+     [HttpPost]
+     [Route("manage/register")]
+     public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
+@@ -59,7 +60,7 @@
+             info.PhoneNumber?.Trim());
+ 
+         if (!TryValidateModel(trimmedInfo)) return BadRequest();
+-            
++
+         user.FirstName = trimmedInfo.FirstName;
+         user.LastName = trimmedInfo.LastName;
+         user.PhoneNumber = trimmedInfo.PhoneNumber;
+@@ -68,6 +69,7 @@
+ 
+         return Ok();
+     }
++
+     [HttpPut]
+     [Route("manage/info")]
+     [Authorize(Policy = "User")]
+@@ -87,6 +89,7 @@
+ 
+         return Ok(new { user.Email, user.FirstName, user.LastName, user.PhoneNumber, roles, userId });
+     }
++
+     [HttpPost]
+     [Authorize(Policy = "User")]
+     [Route("logout")]
+Index: src/Zuge.Domain/Zuge.Domain.csproj
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><Project Sdk=\"Microsoft.NET.Sdk\">\r\n    <PropertyGroup>\r\n        <ImplicitUsings>enable</ImplicitUsings>\r\n        <Nullable>enable</Nullable>\r\n        <TargetFramework>net8.0</TargetFramework>\r\n        <WarningsAsErrors>Nullable</WarningsAsErrors>\r\n    </PropertyGroup>\r\n    <ItemGroup>\r\n        <PackageReference Include=\"FluentValidation\" Version=\"11.9.0\"/>\r\n        <Using Include=\"FluentValidation\"/>\r\n        <Using Include=\"System.Linq.Expressions\"/>\r\n    </ItemGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Domain/Zuge.Domain.csproj b/src/Zuge.Domain/Zuge.Domain.csproj
+--- a/src/Zuge.Domain/Zuge.Domain.csproj	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.Domain/Zuge.Domain.csproj	(date 1708194439502)
+@@ -5,9 +5,4 @@
+         <TargetFramework>net8.0</TargetFramework>
+         <WarningsAsErrors>Nullable</WarningsAsErrors>
+     </PropertyGroup>
+-    <ItemGroup>
+-        <PackageReference Include="FluentValidation" Version="11.9.0"/>
+-        <Using Include="FluentValidation"/>
+-        <Using Include="System.Linq.Expressions"/>
+-    </ItemGroup>
+ </Project>
+\ No newline at end of file
+Index: tests/Zuge.Tests/Zuge.Tests.csproj
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><Project Sdk=\"Microsoft.NET.Sdk\">\r\n    <PropertyGroup>\r\n        <ImplicitUsings>enable</ImplicitUsings>\r\n        <IsPackable>false</IsPackable>\r\n        <IsTestProject>true</IsTestProject>\r\n        <Nullable>enable</Nullable>\r\n        <TargetFramework>net8.0</TargetFramework>\r\n        <WarningsAsErrors>Nullable</WarningsAsErrors>\r\n    </PropertyGroup>\r\n    <ItemGroup>\r\n        <PackageReference Include=\"Microsoft.NET.Test.Sdk\" Version=\"17.10.0-preview-24080-01\"/>\r\n        <PackageReference Include=\"xunit\" Version=\"2.6.6\"/>\r\n        <PackageReference Include=\"xunit.runner.visualstudio\" Version=\"2.5.6\">\r\n            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\r\n            <PrivateAssets>all</PrivateAssets>\r\n        </PackageReference>\r\n        <PackageReference Include=\"coverlet.collector\" Version=\"6.0.0\">\r\n            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\r\n            <PrivateAssets>all</PrivateAssets>\r\n        </PackageReference>\r\n        <ProjectReference Include=\"..\\..\\src\\Zuge.UI\\Zuge.UI.Server\\Zuge.UI.Server.csproj\"/>\r\n        <using Include=\"Microsoft.AspNetCore.Mvc.Testing\"/>\r\n        <using Include=\"System.Net.Http.Json\"/>\r\n        <using Include=\"Xunit\"/>\r\n    </ItemGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/Zuge.Tests/Zuge.Tests.csproj b/tests/Zuge.Tests/Zuge.Tests.csproj
+--- a/tests/Zuge.Tests/Zuge.Tests.csproj	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/tests/Zuge.Tests/Zuge.Tests.csproj	(date 1708101193751)
+@@ -8,9 +8,10 @@
+         <WarningsAsErrors>Nullable</WarningsAsErrors>
+     </PropertyGroup>
+     <ItemGroup>
++        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
+         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0-preview-24080-01"/>
+-        <PackageReference Include="xunit" Version="2.6.6"/>
+-        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6">
++        <PackageReference Include="xunit" Version="2.7.0" />
++        <PackageReference Include="xunit.runner.visualstudio" Version="2.5.7">
+             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+             <PrivateAssets>all</PrivateAssets>
+         </PackageReference>
+@@ -18,9 +19,8 @@
+             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+             <PrivateAssets>all</PrivateAssets>
+         </PackageReference>
++    </ItemGroup>
++    <ItemGroup>
+         <ProjectReference Include="..\..\src\Zuge.UI\Zuge.UI.Server\Zuge.UI.Server.csproj"/>
+-        <using Include="Microsoft.AspNetCore.Mvc.Testing"/>
+-        <using Include="System.Net.Http.Json"/>
+-        <using Include="Xunit"/>
+     </ItemGroup>
+ </Project>
+\ No newline at end of file
+Index: src/Zuge.Infrastructure/Zuge.Infrastructure.csproj
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><Project Sdk=\"Microsoft.NET.Sdk\">\r\n    <PropertyGroup>\r\n        <ImplicitUsings>enable</ImplicitUsings>\r\n        <Nullable>enable</Nullable>\r\n        <TargetFramework>net8.0</TargetFramework>\r\n        <WarningsAsErrors>Nullable</WarningsAsErrors>\r\n    </PropertyGroup>\r\n    <ItemGroup>\r\n        <PackageReference Include=\"Microsoft.AspNetCore.Identity.EntityFrameworkCore\" Version=\"8.0.1\"/>\r\n        <PackageReference Include=\"Microsoft.EntityFrameworkCore.Analyzers\" Version=\"8.0.1\"/>\r\n        <PackageReference Include=\"Microsoft.EntityFrameworkCore.Design\" Version=\"8.0.1\">\r\n            <PrivateAssets>all</PrivateAssets>\r\n            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\r\n        </PackageReference>\r\n        <PackageReference Include=\"Microsoft.EntityFrameworkCore.InMemory\" Version=\"8.0.1\"/>\r\n        <PackageReference Include=\"Microsoft.EntityFrameworkCore.Tools\" Version=\"8.0.1\">\r\n            <PrivateAssets>all</PrivateAssets>\r\n            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\r\n        </PackageReference>\r\n        <PackageReference Include=\"Npgsql.EntityFrameworkCore.PostgreSQL\" Version=\"8.0.0\"/>\r\n        <ProjectReference Include=\"..\\Zuge.Domain\\Zuge.Domain.csproj\"/>\r\n        <Using Include=\"Microsoft.EntityFrameworkCore\"/>\r\n        <Using Include=\"Zuge.Domain\"/>\r\n        <Using Include=\"System.Linq.Expressions\"/>\r\n    </ItemGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj b/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj
+--- a/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj	(date 1708191303465)
+@@ -6,21 +6,7 @@
+         <WarningsAsErrors>Nullable</WarningsAsErrors>
+     </PropertyGroup>
+     <ItemGroup>
+-        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.1"/>
+-        <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="8.0.1"/>
+-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+-            <PrivateAssets>all</PrivateAssets>
+-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+-        </PackageReference>
+-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.1"/>
+-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.1">
+-            <PrivateAssets>all</PrivateAssets>
+-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+-        </PackageReference>
+-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0"/>
++        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2"/>
+         <ProjectReference Include="..\Zuge.Domain\Zuge.Domain.csproj"/>
+-        <Using Include="Microsoft.EntityFrameworkCore"/>
+-        <Using Include="Zuge.Domain"/>
+-        <Using Include="System.Linq.Expressions"/>
+     </ItemGroup>
+ </Project>
+\ No newline at end of file
+Index: src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><Project Sdk=\"Microsoft.NET.Sdk.Web\">\r\n    <PropertyGroup>\r\n        <DockerComposeProjectPath>..\\..\\..\\docker-compose.dcproj</DockerComposeProjectPath>\r\n        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>\r\n        <DockerfileContext>..\\..\\..</DockerfileContext>\r\n        <ImplicitUsings>enable</ImplicitUsings>\r\n        <Nullable>enable</Nullable>\r\n        <SpaProxyLaunchCommand>npm run dev</SpaProxyLaunchCommand>\r\n        <SpaProxyServerUrl>https://localhost:5173</SpaProxyServerUrl>\r\n        <SpaRoot>..\\zuge.ui.client</SpaRoot>\r\n        <TargetFramework>net8.0</TargetFramework>\r\n        <WarningsAsErrors>Nullable</WarningsAsErrors>\r\n    </PropertyGroup>\r\n    <ItemGroup>\r\n        <PackageReference Include=\"Microsoft.AspNetCore.Mvc.Testing\" Version=\"8.0.1\"/>\r\n        <PackageReference Include=\"Microsoft.AspNetCore.SpaProxy\">\r\n            <Version>8.0.1</Version>\r\n        </PackageReference>\r\n        <PackageReference Include=\"Microsoft.EntityFrameworkCore.Design\" Version=\"8.0.1\">\r\n            <PrivateAssets>all</PrivateAssets>\r\n            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>\r\n        </PackageReference>\r\n        <PackageReference Include=\"Microsoft.VisualStudio.Azure.Containers.Tools.Targets\" Version=\"1.19.6\"/>\r\n        <PackageReference Include=\"Swashbuckle.AspNetCore\" Version=\"6.5.0\"/>\r\n        <ProjectReference Include=\"..\\..\\Zuge.Domain\\Zuge.Domain.csproj\"/>\r\n        <ProjectReference Include=\"..\\..\\Zuge.Infrastructure\\Zuge.Infrastructure.csproj\"/>\r\n        <ProjectReference Include=\"..\\zuge.ui.client\\zuge.ui.client.esproj\">\r\n            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>\r\n        </ProjectReference>\r\n        <Using Include=\"Microsoft.EntityFrameworkCore\"/>\r\n        <Using Include=\"Zuge.Domain\"/>\r\n        <Using Include=\"Zuge.Infrastructure\"/>\r\n    </ItemGroup>\r\n    <ItemGroup>\r\n      <None Remove=\"Properties\\launchSettings.json\" />\r\n    </ItemGroup>\r\n</Project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj b/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj
+--- a/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj	(date 1708191858848)
+@@ -12,26 +12,14 @@
+         <WarningsAsErrors>Nullable</WarningsAsErrors>
+     </PropertyGroup>
+     <ItemGroup>
+-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1"/>
+-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
+-            <Version>8.0.1</Version>
+-        </PackageReference>
+-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.1">
+-            <PrivateAssets>all</PrivateAssets>
+-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+-        </PackageReference>
++        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.2"/>
++        <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.2"/>
++        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.2"/>
+         <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.6"/>
++        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0"/>
+         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0"/>
+         <ProjectReference Include="..\..\Zuge.Domain\Zuge.Domain.csproj"/>
+         <ProjectReference Include="..\..\Zuge.Infrastructure\Zuge.Infrastructure.csproj"/>
+-        <ProjectReference Include="..\zuge.ui.client\zuge.ui.client.esproj">
+-            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+-        </ProjectReference>
+-        <Using Include="Microsoft.EntityFrameworkCore"/>
+-        <Using Include="Zuge.Domain"/>
+-        <Using Include="Zuge.Infrastructure"/>
+-    </ItemGroup>
+-    <ItemGroup>
+-      <None Remove="Properties\launchSettings.json" />
++        <ProjectReference Include="..\zuge.ui.client\zuge.ui.client.esproj" ReferenceOutputAssembly="false"/>
+     </ItemGroup>
+ </Project>
+\ No newline at end of file
+Index: src/Zuge.UI/Zuge.UI.Server/Program.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>using Microsoft.AspNetCore.Identity;\r\n\r\n//Environment.SetEnvironmentVariable(\r\n//    \"ASPNETCORE_ENVIRONMENT\",\r\n//    \"Development\");\r\n\r\nEnvironment.SetEnvironmentVariable(\r\n    \"ASPNETCORE_HOSTINGSTARTUPASSEMBLIES\",\r\n    \"Microsoft.AspNetCore.SpaProxy\");\r\n\r\nvar builder = WebApplication.CreateBuilder(args);\r\n\r\n_ = builder.Services.AddDbContext<IUnitOfWork, UnitOfWork>(options =>\r\n    _ = builder.Environment.IsProduction()\r\n        ? options.UseNpgsql(\r\n            Environment.GetEnvironmentVariable(\"POSTGRESQLCONNSTR_DOMAIN\"))\r\n        : options.UseInMemoryDatabase(\"Domain\"));\r\n\r\n_ = builder.Services\r\n    .AddDbContext<AuthenticationDbContext>(options =>\r\n        _ = builder.Environment.IsProduction()\r\n            ? options.UseNpgsql(\r\n                Environment.GetEnvironmentVariable(\r\n                    \"POSTGRESQLCONNSTR_IDENTITY\"))\r\n            : options.UseInMemoryDatabase(\"Identity\"))\r\n    .AddAuthorization(options =>\r\n    {\r\n        options.AddPolicy(\"Admin\", policy => policy.RequireRole(\"Admin\"));\r\n        options.AddPolicy(\"Employee\", policy => policy.RequireRole(\"Employee\"));\r\n        options.AddPolicy(\"User\", policy => policy.RequireRole(\"User\"));\r\n    })\r\n    .AddIdentityApiEndpoints<ApplicationUser>()\r\n    .AddRoles<IdentityRole>()\r\n    .AddUserManager<ApplicationUserManager>()\r\n    .AddRoleManager<RoleManager<IdentityRole>>()\r\n    .AddEntityFrameworkStores<AuthenticationDbContext>();\r\n\r\n_ = builder.Services.ConfigureApplicationCookie(options =>\r\n{\r\n    options.Cookie.Name = \"ZugeAuth\";\r\n    options.Cookie.HttpOnly = true;\r\n    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);\r\n    options.SlidingExpiration = true;\r\n});\r\n\r\n_ = builder.Services.AddControllers();\r\n_ = builder.Services.AddEndpointsApiExplorer();\r\n_ = builder.Services.AddSwaggerGen();\r\n\r\nvar app = builder.Build();\r\n_ = app.UseDefaultFiles();\r\n_ = app.UseStaticFiles();\r\n_ = app.UseSwagger();\r\n_ = app.UseSwaggerUI();\r\n_ = app.UseHttpsRedirection();\r\n_ = app.UseAuthorization();\r\n_ = app.MapControllers();\r\n_ = app.MapPost(\"purchase\", Domain.PurchaseTicketAsync);\r\n_ = app.MapPost(\"search\", Domain.SearchJourneysAsync);\r\n_ = app.MapGroup(\"account\").MapIdentityApi<ApplicationUser>();\r\n\r\n_ = app.MapFallbackToFile(\"/index.html\");\r\n\r\nusing var scope = app.Services.CreateScope();\r\nvar unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();\r\nawait unitOfWork.MigrateAsync(CancellationToken.None);\r\n\r\nvar authenticationContext =\r\n    scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();\r\n\r\nawait (authenticationContext.Database.IsRelational()\r\n    ? authenticationContext.Database.MigrateAsync(CancellationToken.None)\r\n    : authenticationContext.Database.EnsureCreatedAsync(\r\n        CancellationToken.None));\r\n\r\nif (app.Environment.IsDevelopment())\r\n{\r\n#region create test users for in-memory db\r\n    var userManager =\r\n       scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();\r\n    var userStore = scope.ServiceProvider\r\n        .GetRequiredService<IUserStore<ApplicationUser>>();\r\n    var roleManager =\r\n        scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();\r\n    var emailStore = (IUserEmailStore<ApplicationUser>)userStore;\r\n\r\n    string adminEmail = \"admin@zuge.fi\";\r\n    string empEmail = \"employee@zuge.fi\";\r\n    string userEmail = \"user@zuge.fi\";\r\n    string password = \"P@ssw0rd\";\r\n\r\n    var admin = new ApplicationUser\r\n    { FirstName = \"Test\", LastName = \"Admin\", PhoneNumber = \"1234567890\" };\r\n    var employee = new ApplicationUser\r\n    { FirstName = \"Test\", LastName = \"Employee\", PhoneNumber = \"1234567890\" };\r\n    var user = new ApplicationUser\r\n    { FirstName = \"Test\", LastName = \"User\", PhoneNumber = \"1234567890\" };\r\n\r\n    await roleManager.CreateAsync(new IdentityRole(\"Admin\"));\r\n    await roleManager.CreateAsync(new IdentityRole(\"Employee\"));\r\n    await roleManager.CreateAsync(new IdentityRole(\"User\"));\r\n\r\n    await userStore.SetUserNameAsync(admin, adminEmail, CancellationToken.None);\r\n    await emailStore.SetEmailAsync(admin, adminEmail, CancellationToken.None);\r\n    await userManager.CreateAsync(admin, password);\r\n    await userManager.AddToRolesAsync(admin, [\"Admin\", \"Employee\", \"User\"]);\r\n\r\n    await userStore.SetUserNameAsync(employee, empEmail, CancellationToken.None);\r\n    await emailStore.SetEmailAsync(employee, empEmail, CancellationToken.None);\r\n    await userManager.CreateAsync(employee, password);\r\n    await userManager.AddToRolesAsync(employee, [\"Employee\", \"User\"]);\r\n\r\n    await userStore.SetUserNameAsync(user, userEmail, CancellationToken.None);\r\n    await emailStore.SetEmailAsync(user, userEmail, CancellationToken.None);\r\n    await userManager.CreateAsync(user, password);\r\n    await userManager.AddToRoleAsync(user, \"User\");\r\n#endregion\r\n}\r\n\r\napp.Run();\r\n\r\npublic partial class Program;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.UI/Zuge.UI.Server/Program.cs b/src/Zuge.UI/Zuge.UI.Server/Program.cs
+--- a/src/Zuge.UI/Zuge.UI.Server/Program.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.UI/Zuge.UI.Server/Program.cs	(date 1708288897150)
+@@ -1,28 +1,25 @@
+ using Microsoft.AspNetCore.Identity;
++using Microsoft.EntityFrameworkCore;
++using Zuge.Domain;
++using Zuge.Infrastructure;
++using Zuge.UI.Server.Identity;
+ 
+-//Environment.SetEnvironmentVariable(
+-//    "ASPNETCORE_ENVIRONMENT",
+-//    "Development");
+-
+-Environment.SetEnvironmentVariable(
+-    "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES",
+-    "Microsoft.AspNetCore.SpaProxy");
++// Environment.SetEnvironmentVariable("ASPNETCORE_HOSTINGSTARTUPASSEMBLIES", "Microsoft.AspNetCore.SpaProxy");
+ 
+ var builder = WebApplication.CreateBuilder(args);
+ 
+-_ = builder.Services.AddDbContext<IUnitOfWork, UnitOfWork>(options =>
+-    _ = builder.Environment.IsProduction()
+-        ? options.UseNpgsql(
+-            Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DOMAIN"))
+-        : options.UseInMemoryDatabase("Domain"));
++_ = builder.Services.AddDbContext<DomainContext>(optionsBuilder =>
++    _ = Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_DOMAIN") is { } connectionString
++        ? optionsBuilder.UseNpgsql(connectionString)
++        : optionsBuilder.UseInMemoryDatabase("Domain"));
+ 
+-_ = builder.Services
+-    .AddDbContext<AuthenticationDbContext>(options =>
+-        _ = builder.Environment.IsProduction()
+-            ? options.UseNpgsql(
+-                Environment.GetEnvironmentVariable(
+-                    "POSTGRESQLCONNSTR_IDENTITY"))
+-            : options.UseInMemoryDatabase("Identity"))
++_ = builder.Services.AddScoped<PurchaseTicketAsync>(provider => provider.GetRequiredService<DomainContext>().PurchaseTicketAsync);
++_ = builder.Services.AddScoped<SearchJourneysAsync>(provider => provider.GetRequiredService<DomainContext>().SearchJourneysAsync);
++
++_ = builder.Services.AddDbContext<AuthenticationDbContext>(options =>
++    _ = Environment.GetEnvironmentVariable("POSTGRESQLCONNSTR_IDENTITY") is { } connectionString
++        ? options.UseNpgsql(connectionString)
++        : options.UseInMemoryDatabase("Identity"))
+     .AddAuthorization(options =>
+     {
+         options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
+@@ -55,29 +52,26 @@
+ _ = app.UseHttpsRedirection();
+ _ = app.UseAuthorization();
+ _ = app.MapControllers();
+-_ = app.MapPost("purchase", Domain.PurchaseTicketAsync);
+-_ = app.MapPost("search", Domain.SearchJourneysAsync);
++
++_ = app.MapPost("purchase", (PurchaseTicketAsync purchaseTicketAsync, PurchaseRequest request, CancellationToken cancellationToken) =>
++    purchaseTicketAsync(request.CardCvc, request.CardDate, request.CardHolder, request.CardNumber, request.EmailAddress, request.JourneyId, cancellationToken));
++
++_ = app.MapPost("search", (SearchJourneysAsync searchJourneysAsync, SearchRequest request, CancellationToken cancellationToken) =>
++    searchJourneysAsync(request.Date, request.From, request.To, cancellationToken));
++
+ _ = app.MapGroup("account").MapIdentityApi<ApplicationUser>();
+-
+ _ = app.MapFallbackToFile("/index.html");
+ 
+ using var scope = app.Services.CreateScope();
+-var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+-await unitOfWork.MigrateAsync(CancellationToken.None);
+ 
+-var authenticationContext =
+-    scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
++var context = scope.ServiceProvider.GetRequiredService<DomainContext>();
++_ = context.Database.EnsureCreated();
+ 
+-await (authenticationContext.Database.IsRelational()
+-    ? authenticationContext.Database.MigrateAsync(CancellationToken.None)
+-    : authenticationContext.Database.EnsureCreatedAsync(
+-        CancellationToken.None));
+-
+-if (app.Environment.IsDevelopment())
++var authenticationDbContext = scope.ServiceProvider.GetRequiredService<AuthenticationDbContext>();
++if (authenticationDbContext.Database.EnsureCreated())
+ {
+-#region create test users for in-memory db
+     var userManager =
+-       scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();
++        scope.ServiceProvider.GetRequiredService<ApplicationUserManager>();
+     var userStore = scope.ServiceProvider
+         .GetRequiredService<IUserStore<ApplicationUser>>();
+     var roleManager =
+@@ -90,11 +84,13 @@
+     string password = "P@ssw0rd";
+ 
+     var admin = new ApplicationUser
+-    { FirstName = "Test", LastName = "Admin", PhoneNumber = "1234567890" };
++        { FirstName = "Test", LastName = "Admin", PhoneNumber = "1234567890" };
+     var employee = new ApplicationUser
+-    { FirstName = "Test", LastName = "Employee", PhoneNumber = "1234567890" };
++    {
++        FirstName = "Test", LastName = "Employee", PhoneNumber = "1234567890"
++    };
+     var user = new ApplicationUser
+-    { FirstName = "Test", LastName = "User", PhoneNumber = "1234567890" };
++        { FirstName = "Test", LastName = "User", PhoneNumber = "1234567890" };
+ 
+     await roleManager.CreateAsync(new IdentityRole("Admin"));
+     await roleManager.CreateAsync(new IdentityRole("Employee"));
+@@ -105,7 +101,8 @@
+     await userManager.CreateAsync(admin, password);
+     await userManager.AddToRolesAsync(admin, ["Admin", "Employee", "User"]);
+ 
+-    await userStore.SetUserNameAsync(employee, empEmail, CancellationToken.None);
++    await userStore.SetUserNameAsync(employee, empEmail,
++        CancellationToken.None);
+     await emailStore.SetEmailAsync(employee, empEmail, CancellationToken.None);
+     await userManager.CreateAsync(employee, password);
+     await userManager.AddToRolesAsync(employee, ["Employee", "User"]);
+@@ -114,9 +111,21 @@
+     await emailStore.SetEmailAsync(user, userEmail, CancellationToken.None);
+     await userManager.CreateAsync(user, password);
+     await userManager.AddToRoleAsync(user, "User");
+-#endregion
+ }
+ 
+ app.Run();
+ 
+-public partial class Program;
+\ No newline at end of file
++public partial class Program;
++
++public record PurchaseRequest(
++    string CardCvc,
++    DateOnly CardDate,
++    string CardHolder,
++    string CardNumber,
++    string EmailAddress,
++    int JourneyId);
++
++public record SearchRequest(
++    DateOnly Date,
++    string From,
++    string To);
+\ No newline at end of file
+Index: .idea/.idea.Zuge/.idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoGeneratedRunConfigurationManager\">\r\n    <projectFile kind=\"DockerCompose\">docker-compose.dcproj</projectFile>\r\n    <projectFile profileName=\"Zuge.UI.Server\">src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj</projectFile>\r\n    <projectFile profileName=\"https\">src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj</projectFile>\r\n    <projectFile kind=\"EcmaScript\">src/Zuge.UI/zuge.ui.client/zuge.ui.client.esproj</projectFile>\r\n  </component>\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0492abcf-4647-4ece-97fe-1d98a4978261\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;JaniMeronen&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GitHubPullRequestState\">{\r\n  &quot;prStates&quot;: [\r\n  ]\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/projectzuge/Zuge.git&quot;,\r\n    &quot;accountId&quot;: &quot;e982d0d4-1e2a-45fc-94e6-3ca3f72c2e44&quot;\r\n  }\r\n}</component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContext.cs\" root0=\"SKIP_HIGHLIGHTING\" />\r\n    <setting file=\"file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContextOptionsBuilder.cs\" root0=\"SKIP_HIGHLIGHTING\" />\r\n    <setting file=\"file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8bb416a5d4877933636ae22013c47cc636987118e78a2cf94d52c71eeaa577/ValidationResult.cs\" root0=\"SKIP_HIGHLIGHTING\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 8\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2bzfbffdfFbByc6XpLM6hIPo1U0\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \".NET Project.Zuge.UI.Server.executor\": \"Run\",\r\n    \"ASKED_ADD_EXTERNAL_FILES\": \"true\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"git-widget-placeholder\": \"main\",\r\n    \"ignore.virus.scanning.warn.message\": \"true\",\r\n    \"node.js.detected.package.eslint\": \"true\",\r\n    \"node.js.detected.package.stylelint\": \"true\",\r\n    \"node.js.detected.package.tslint\": \"true\",\r\n    \"node.js.selected.package.eslint\": \"(autodetect)\",\r\n    \"node.js.selected.package.stylelint\": \"\",\r\n    \"node.js.selected.package.tslint\": \"(autodetect)\",\r\n    \"nodejs_package_manager_path\": \"npm\",\r\n    \"settings.editor.selected.configurable\": \"preferences.sourceCode.C#\",\r\n    \"vue.rearranger.settings.migration\": \"true\"\r\n  },\r\n  \"keyToStringList\": {\r\n    \"rider.external.source.directories\": [\r\n      \"C:\\\\Users\\\\Buutti\\\\AppData\\\\Roaming\\\\JetBrains\\\\Rider2024.1\\\\resharper-host\\\\DecompilerCache\",\r\n      \"C:\\\\Users\\\\Buutti\\\\AppData\\\\Roaming\\\\JetBrains\\\\Rider2024.1\\\\resharper-host\\\\SourcesCache\",\r\n      \"C:\\\\Users\\\\Buutti\\\\AppData\\\\Local\\\\Symbols\\\\src\"\r\n    ]\r\n  }\r\n}]]></component>\r\n  <component name=\"RunManager\" selected=\".NET Project.Zuge.UI.Server\">\r\n    <configuration name=\"Zuge.UI.Server\" type=\"DotNetProject\" factoryName=\".NET Project\" temporary=\"true\">\r\n      <option name=\"EXE_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/bin/Debug/net8.0/Zuge.UI.Server.exe\" />\r\n      <option name=\"PROGRAM_PARAMETERS\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server\" />\r\n      <option name=\"PASS_PARENT_ENVS\" value=\"1\" />\r\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\r\n      <option name=\"USE_MONO\" value=\"0\" />\r\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\r\n      <option name=\"PROJECT_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj\" />\r\n      <option name=\"PROJECT_EXE_PATH_TRACKING\" value=\"1\" />\r\n      <option name=\"PROJECT_ARGUMENTS_TRACKING\" value=\"1\" />\r\n      <option name=\"PROJECT_WORKING_DIRECTORY_TRACKING\" value=\"1\" />\r\n      <option name=\"PROJECT_KIND\" value=\"DotNetCore\" />\r\n      <option name=\"PROJECT_TFM\" value=\"net8.0\" />\r\n      <method v=\"2\">\r\n        <option name=\"Build\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Zuge.UI.Server\" type=\"LaunchSettings\" factoryName=\".NET Launch Settings Profile\">\r\n      <option name=\"LAUNCH_PROFILE_PROJECT_FILE_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj\" />\r\n      <option name=\"LAUNCH_PROFILE_TFM\" value=\"net8.0\" />\r\n      <option name=\"LAUNCH_PROFILE_NAME\" value=\"Zuge.UI.Server\" />\r\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\r\n      <option name=\"USE_MONO\" value=\"0\" />\r\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\r\n      <option name=\"GENERATE_APPLICATIONHOST_CONFIG\" value=\"1\" />\r\n      <option name=\"SHOW_IIS_EXPRESS_OUTPUT\" value=\"0\" />\r\n      <option name=\"SEND_DEBUG_REQUEST\" value=\"1\" />\r\n      <option name=\"ADDITIONAL_IIS_EXPRESS_ARGUMENTS\" value=\"\" />\r\n      <method v=\"2\">\r\n        <option name=\"Build\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"Zuge.UI.Server: https\" type=\"LaunchSettings\" factoryName=\".NET Launch Settings Profile\">\r\n      <option name=\"LAUNCH_PROFILE_PROJECT_FILE_PATH\" value=\"$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj\" />\r\n      <option name=\"LAUNCH_PROFILE_TFM\" value=\"net8.0\" />\r\n      <option name=\"LAUNCH_PROFILE_NAME\" value=\"https\" />\r\n      <option name=\"USE_EXTERNAL_CONSOLE\" value=\"0\" />\r\n      <option name=\"USE_MONO\" value=\"0\" />\r\n      <option name=\"RUNTIME_ARGUMENTS\" value=\"\" />\r\n      <option name=\"GENERATE_APPLICATIONHOST_CONFIG\" value=\"1\" />\r\n      <option name=\"SHOW_IIS_EXPRESS_OUTPUT\" value=\"0\" />\r\n      <option name=\"SEND_DEBUG_REQUEST\" value=\"1\" />\r\n      <option name=\"ADDITIONAL_IIS_EXPRESS_ARGUMENTS\" value=\"\" />\r\n      <method v=\"2\">\r\n        <option name=\"Build\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration default=\"true\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" temporary=\"true\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings />\r\n      </deployment>\r\n      <EXTENSION ID=\"com.jetbrains.rider.docker.debug\" isFastModeEnabled=\"true\" isSslEnabled=\"false\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"docker-compose.yml: Compose Deployment\" type=\"docker-deploy\" factoryName=\"docker-compose.yml\" server-name=\"Docker\">\r\n      <deployment type=\"docker-compose.yml\">\r\n        <settings>\r\n          <option name=\"sourceFilePath\" value=\"docker-compose.yml\" />\r\n        </settings>\r\n      </deployment>\r\n      <EXTENSION ID=\"com.jetbrains.rider.docker.debug\" isFastModeEnabled=\"true\" isSslEnabled=\"false\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"zuge.ui.client: run\" type=\"js.build_tools.npm\" nameIsGenerated=\"true\">\r\n      <package-json value=\"$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/package.json\" />\r\n      <command value=\"run\" />\r\n      <scripts>\r\n        <script value=\"dev\" />\r\n      </scripts>\r\n      <node-interpreter value=\"project\" />\r\n      <envs />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\".NET Project.Zuge.UI.Server\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0492abcf-4647-4ece-97fe-1d98a4978261\" name=\"Changes\" comment=\"\" />\r\n      <created>1707222902402</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1707222902402</updated>\r\n      <workItem from=\"1707222905518\" duration=\"87000\" />\r\n      <workItem from=\"1707223282288\" duration=\"986000\" />\r\n      <workItem from=\"1707322741025\" duration=\"217000\" />\r\n      <workItem from=\"1707322985748\" duration=\"8624000\" />\r\n      <workItem from=\"1707374846805\" duration=\"3060000\" />\r\n      <workItem from=\"1707389447917\" duration=\"10429000\" />\r\n      <workItem from=\"1707415210656\" duration=\"9235000\" />\r\n      <workItem from=\"1707462051385\" duration=\"12378000\" />\r\n      <workItem from=\"1707475773505\" duration=\"160000\" />\r\n      <workItem from=\"1707476067796\" duration=\"2625000\" />\r\n      <workItem from=\"1707489604092\" duration=\"8057000\" />\r\n      <workItem from=\"1707501851662\" duration=\"7706000\" />\r\n      <workItem from=\"1707562254112\" duration=\"140000\" />\r\n      <workItem from=\"1707573645852\" duration=\"10261000\" />\r\n      <workItem from=\"1707660397558\" duration=\"21128000\" />\r\n      <workItem from=\"1707819259640\" duration=\"29000\" />\r\n      <workItem from=\"1707819375812\" duration=\"1198000\" />\r\n      <workItem from=\"1707820834615\" duration=\"1043000\" />\r\n    </task>\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"UnityProjectConfiguration\" hasMinimizedUI=\"false\" />\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <option name=\"CLEAR_INITIAL_COMMIT_MESSAGE\" value=\"true\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/.idea.Zuge/.idea/workspace.xml b/.idea/.idea.Zuge/.idea/workspace.xml
+--- a/.idea/.idea.Zuge/.idea/workspace.xml	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/.idea/.idea.Zuge/.idea/workspace.xml	(date 1708330703780)
+@@ -11,8 +11,27 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0492abcf-4647-4ece-97fe-1d98a4978261" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUser.cs" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Identity/AuthenticationDbContext.cs" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Identity/RegistrationInformation.cs" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Zuge/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Domain.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Types.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Domain/Zuge.Domain.csproj" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.Designer.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainMigrations/20240213102148_Initial.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/DomainMigrations/UnitOfWorkModelSnapshot.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Identity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUserManager.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.Designer.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/IdentityMigrations/20240213102530_Initial.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/IdentityMigrations/AuthenticationDbContextModelSnapshot.cs" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Types.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.Infrastructure/Zuge.Infrastructure.csproj" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Controllers/AccountController.cs" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Program.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/DomainIntegrationTests.cs" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Zuge.Tests/Zuge.Tests.csproj" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -41,7 +60,16 @@
+   <component name="HighlightingSettingsPerFile">
+     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
+     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/423b1a0d38036efcefdbf1dfb80955449eae1238/src/EFCore/DbContextOptionsBuilder.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/a97f6ffcf78100056683c8c3b116721a89e5c58c/src/EFCore/DbContext.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/a97f6ffcf78100056683c8c3b116721a89e5c58c/src/EFCore/DbSet.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/efcore/a97f6ffcf78100056683c8c3b116721a89e5c58c/src/EFCore/Extensions/EntityFrameworkServiceCollectionExtensions.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.ComponentModel.Annotations/src/System/ComponentModel/DataAnnotations/CreditCardAttribute.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.ComponentModel.Annotations/src/System/ComponentModel/DataAnnotations/RangeAttribute.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.ComponentModel.Annotations/src/System/ComponentModel/DataAnnotations/RequiredAttribute.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.ComponentModel.Annotations/src/System/ComponentModel/DataAnnotations/ValidationAttribute.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.Private.CoreLib/src/System/DateTime.Windows.cs" root0="SKIP_HIGHLIGHTING" />
+     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/8bb416a5d4877933636ae22013c47cc636987118e78a2cf94d52c71eeaa577/ValidationResult.cs" root0="SKIP_HIGHLIGHTING" />
++    <setting file="file://$PROJECT_DIR$/src/Zuge.UI/zuge.ui.client/package-lock.json" root0="SKIP_HIGHLIGHTING" />
+   </component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 8
+@@ -54,32 +82,146 @@
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent"><![CDATA[{
+-  "keyToString": {
+-    ".NET Project.Zuge.UI.Server.executor": "Run",
+-    "ASKED_ADD_EXTERNAL_FILES": "true",
+-    "RunOnceActivity.ShowReadmeOnStart": "true",
+-    "git-widget-placeholder": "main",
+-    "ignore.virus.scanning.warn.message": "true",
+-    "node.js.detected.package.eslint": "true",
+-    "node.js.detected.package.stylelint": "true",
+-    "node.js.detected.package.tslint": "true",
+-    "node.js.selected.package.eslint": "(autodetect)",
+-    "node.js.selected.package.stylelint": "",
+-    "node.js.selected.package.tslint": "(autodetect)",
+-    "nodejs_package_manager_path": "npm",
+-    "settings.editor.selected.configurable": "preferences.sourceCode.C#",
+-    "vue.rearranger.settings.migration": "true"
++  <component name="PropertiesComponent">{
++  &quot;keyToString&quot;: {
++    &quot;.NET Project.Zuge.UI.Server.executor&quot;: &quot;Run&quot;,
++    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
++    &quot;Azure - Publish Web App.Publish Zuge.UI.Server to Azure (1).executor&quot;: &quot;Run&quot;,
++    &quot;Azure - Publish Web App.Publish Zuge.UI.Server to Azure (2).executor&quot;: &quot;Run&quot;,
++    &quot;Azure - Publish Web App.Publish Zuge.UI.Server to Azure.executor&quot;: &quot;Run&quot;,
++    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
++    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
++    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
++    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
++    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
++    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
++    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
++    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
++    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C#&quot;,
++    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+   },
+-  "keyToStringList": {
+-    "rider.external.source.directories": [
+-      "C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+-      "C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+-      "C:\\Users\\Buutti\\AppData\\Local\\Symbols\\src"
++  &quot;keyToStringList&quot;: {
++    &quot;rider.external.source.directories&quot;: [
++      &quot;C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
++      &quot;C:\\Users\\Buutti\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
++      &quot;C:\\Users\\Buutti\\AppData\\Local\\Symbols\\src&quot;
+     ]
+   }
+-}]]></component>
++}</component>
+   <component name="RunManager" selected=".NET Project.Zuge.UI.Server">
++    <configuration name="Publish Zuge.UI.Server to Azure (1)" type="AzureDotNetWebAppPublish" factoryName="Azure Web App">
++      <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
++      <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
++      <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
++      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
++      <option name="AZURE_WEB_APP_ID" value="/subscriptions/8fe94204-854a-40f8-8c97-045aa58e232d/resourceGroups/buutti-js-cloud/providers/Microsoft.Web/sites/zuge-project" />
++      <option name="AZURE_WEB_APP_NAME" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_WEB_APP_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPERATING_SYSTEM" value="WINDOWS" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP_SERVICE_PLAN" value="0" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_ID" value="" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_NAME" value="" />
++      <option name="AZURE_WEB_APP_LOCATION" value="eastus" />
++      <option name="AZURE_WEB_APP_PRICING_TIER" value="" />
++      <option name="AZURE_WEB_APP_NET_FRAMEWORK" value="4.7" />
++      <option name="AZURE_WEB_APP_NET_CORE_RUNTIME" value="DOTNETCORE 8.0" />
++      <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
++      <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
++      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
++      <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
++      <option name="AZURE_SQL_DATABASE_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_SQL_DATABASE_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_SQL_SERVER" value="0" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ADMIN_LOGIN" value="N/A" />
++      <option name="AZURE_SQL_DATABASE_LOCATION" value="eastus" />
++      <option name="AZURE_SQL_DATABASE_COLLATION" value="SQL_Latin1_General_CP1_CI_AS" />
++      <method v="2" />
++    </configuration>
++    <configuration name="Publish Zuge.UI.Server to Azure (2)" type="AzureDotNetWebAppPublish" factoryName="Azure Web App">
++      <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
++      <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
++      <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
++      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
++      <option name="AZURE_WEB_APP_ID" value="/subscriptions/8fe94204-854a-40f8-8c97-045aa58e232d/resourceGroups/buutti-js-cloud/providers/Microsoft.Web/sites/zuge-project" />
++      <option name="AZURE_WEB_APP_NAME" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_WEB_APP_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPERATING_SYSTEM" value="WINDOWS" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP_SERVICE_PLAN" value="0" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_ID" value="" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_NAME" value="" />
++      <option name="AZURE_WEB_APP_LOCATION" value="eastus" />
++      <option name="AZURE_WEB_APP_PRICING_TIER" value="" />
++      <option name="AZURE_WEB_APP_NET_FRAMEWORK" value="4.7" />
++      <option name="AZURE_WEB_APP_NET_CORE_RUNTIME" value="DOTNETCORE 8.0" />
++      <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
++      <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
++      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="8fe94204-854a-40f8-8c97-045aa58e232d" />
++      <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
++      <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
++      <option name="AZURE_SQL_DATABASE_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_SQL_DATABASE_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_SQL_SERVER" value="0" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ADMIN_LOGIN" value="N/A" />
++      <option name="AZURE_SQL_DATABASE_LOCATION" value="eastus" />
++      <option name="AZURE_SQL_DATABASE_COLLATION" value="SQL_Latin1_General_CP1_CI_AS" />
++      <method v="2" />
++    </configuration>
++    <configuration name="Publish Zuge.UI.Server to Azure" type="AzureDotNetWebAppPublish" factoryName="Azure Web App">
++      <option name="AZURE_WEB_APP_PROJECT" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/Zuge.UI.Server.csproj" />
++      <option name="AZURE_WEB_APP_CONFIGURATION" value="Release" />
++      <option name="AZURE_WEB_APP_PLATFORM" value="Any CPU" />
++      <option name="AZURE_WEB_APP_SUBSCRIPTION_ID" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP" value="0" />
++      <option name="AZURE_WEB_APP_ID" value="/subscriptions/d8c1a7f0-b9d8-4de7-a7bf-3574198f6616/resourceGroups/Zuge/providers/Microsoft.Web/sites/zuge" />
++      <option name="AZURE_WEB_APP_NAME" value="" />
++      <option name="AZURE_WEB_APP_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_WEB_APP_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPERATING_SYSTEM" value="WINDOWS" />
++      <option name="AZURE_WEB_APP_IS_CREATE_APP_SERVICE_PLAN" value="0" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_ID" value="" />
++      <option name="AZURE_WEB_APP_SERVICE_PLAN_NAME" value="" />
++      <option name="AZURE_WEB_APP_LOCATION" value="eastus" />
++      <option name="AZURE_WEB_APP_PRICING_TIER" value="" />
++      <option name="AZURE_WEB_APP_NET_FRAMEWORK" value="4.7" />
++      <option name="AZURE_WEB_APP_NET_CORE_RUNTIME" value="DOTNETCORE 8.0" />
++      <option name="AZURE_WEB_APP_IS_DEPLOY_TO_SLOT" value="0" />
++      <option name="AZURE_WEB_APP_SLOT_NAME" value="" />
++      <option name="AZURE_WEB_APP_OPEN_BROWSER_PUBLISH" value="0" />
++      <option name="AZURE_SQL_DATABASE_SUBSCRIPTION_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_ENABLED" value="0" />
++      <option name="AZURE_SQL_DATABASE_CONNECTION_STRING_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE" value="0" />
++      <option name="AZURE_SQL_DATABASE_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_RESOURCE_GROUP" value="0" />
++      <option name="AZURE_SQL_DATABASE_RESOURCE_GROUP_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_IS_CREATE_SQL_SERVER" value="0" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ID" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_NAME" value="" />
++      <option name="AZURE_SQL_DATABASE_SQL_SERVER_ADMIN_LOGIN" value="N/A" />
++      <option name="AZURE_SQL_DATABASE_LOCATION" value="eastus" />
++      <option name="AZURE_SQL_DATABASE_COLLATION" value="SQL_Latin1_General_CP1_CI_AS" />
++      <method v="2" />
++    </configuration>
+     <configuration name="Zuge.UI.Server" type="DotNetProject" factoryName=".NET Project" temporary="true">
+       <option name="EXE_PATH" value="$PROJECT_DIR$/src/Zuge.UI/Zuge.UI.Server/bin/Debug/net8.0/Zuge.UI.Server.exe" />
+       <option name="PROGRAM_PARAMETERS" value="" />
+@@ -186,6 +328,19 @@
+       <workItem from="1707819259640" duration="29000" />
+       <workItem from="1707819375812" duration="1198000" />
+       <workItem from="1707820834615" duration="1043000" />
++      <workItem from="1707822067362" duration="2905000" />
++      <workItem from="1707827521584" duration="3594000" />
++      <workItem from="1707844123946" duration="7456000" />
++      <workItem from="1707893766704" duration="10888000" />
++      <workItem from="1707906963498" duration="2625000" />
++      <workItem from="1707913346359" duration="18715000" />
++      <workItem from="1707979601409" duration="20845000" />
++      <workItem from="1708013460618" duration="6719000" />
++      <workItem from="1708068243545" duration="9705000" />
++      <workItem from="1708100748779" duration="151000" />
++      <workItem from="1708101010632" duration="14626000" />
++      <workItem from="1708182222514" duration="14109000" />
++      <workItem from="1708264815832" duration="23984000" />
+     </task>
+     <servers />
+   </component>
+Index: src/Zuge.Domain/Types.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>namespace Zuge.Domain;\r\n\r\npublic record Journey(\r\n    TimeSpan Duration,\r\n    int Id,\r\n    decimal Price,\r\n    string Train);\r\n\r\npublic record Stop(\r\n    DateTimeOffset ArrivesAt,\r\n    string ArrivesFrom,\r\n    DateTimeOffset DepartsAt,\r\n    string DepartsFrom,\r\n    TimeSpan Duration,\r\n    int Id,\r\n    int JourneyId,\r\n    int Ordinal);\r\n\r\npublic record Ticket(\r\n    string EmailAddress,\r\n    int Id,\r\n    int JourneyId);\r\n\r\npublic interface IRepository<T>\r\n{\r\n    void AddRange(IEnumerable<T> entities);\r\n\r\n    Task<List<T>> ToListAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default);\r\n    \r\n    Task<T?> FirstOrDefaultAsync(\r\n        Expression<Func<T, bool>> predicate,\r\n        CancellationToken cancellationToken = default);\r\n}\r\n\r\npublic interface IUnitOfWork\r\n{\r\n    IRepository<Journey> Journeys { get; }\r\n    IRepository<Stop> Stops { get; }\r\n    IRepository<Ticket> Tickets { get; }\r\n\r\n    Task CommitAsync(CancellationToken cancellationToken = default);\r\n    Task MigrateAsync(CancellationToken cancellationToken = default);\r\n}\r\n\r\npublic record Result(\r\n    object? Data,\r\n    bool Success);\r\n\r\npublic record PurchaseTicketArgs(\r\n    string CardCvc,\r\n    DateOnly CardDate,\r\n    string CardHolder,\r\n    string CardNumber,\r\n    string EmailAddress,\r\n    int JourneyId);\r\n\r\npublic delegate Task<Result> PurchaseTicketHandler(\r\n    IUnitOfWork unitOfWork,\r\n    PurchaseTicketArgs args,\r\n    CancellationToken cancellationToken = default);\r\n\r\npublic record SearchJourneysArgs(\r\n    DateOnly Date,\r\n    string From,\r\n    string To);\r\n    \r\npublic delegate Task<Result> SearchJourneysHandler(\r\n    IUnitOfWork unitOfWork,\r\n    SearchJourneysArgs args,\r\n    CancellationToken cancellationToken = default);
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Domain/Types.cs b/src/Zuge.Domain/Types.cs
+--- a/src/Zuge.Domain/Types.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.Domain/Types.cs	(date 1708288653889)
+@@ -21,52 +21,17 @@
+     int Id,
+     int JourneyId);
+ 
+-public interface IRepository<T>
+-{
+-    void AddRange(IEnumerable<T> entities);
+-
+-    Task<List<T>> ToListAsync(
+-        Expression<Func<T, bool>> predicate,
+-        CancellationToken cancellationToken = default);
+-    
+-    Task<T?> FirstOrDefaultAsync(
+-        Expression<Func<T, bool>> predicate,
+-        CancellationToken cancellationToken = default);
+-}
+-
+-public interface IUnitOfWork
+-{
+-    IRepository<Journey> Journeys { get; }
+-    IRepository<Stop> Stops { get; }
+-    IRepository<Ticket> Tickets { get; }
+-
+-    Task CommitAsync(CancellationToken cancellationToken = default);
+-    Task MigrateAsync(CancellationToken cancellationToken = default);
+-}
+-
+-public record Result(
+-    object? Data,
+-    bool Success);
+-
+-public record PurchaseTicketArgs(
++public delegate Task PurchaseTicketAsync(
+     string CardCvc,
+     DateOnly CardDate,
+     string CardHolder,
+     string CardNumber,
+     string EmailAddress,
+-    int JourneyId);
+-
+-public delegate Task<Result> PurchaseTicketHandler(
+-    IUnitOfWork unitOfWork,
+-    PurchaseTicketArgs args,
++    int JourneyId,
+     CancellationToken cancellationToken = default);
+ 
+-public record SearchJourneysArgs(
++public delegate Task<IEnumerable<object>> SearchJourneysAsync(
+     DateOnly Date,
+     string From,
+-    string To);
+-    
+-public delegate Task<Result> SearchJourneysHandler(
+-    IUnitOfWork unitOfWork,
+-    SearchJourneysArgs args,
++    string To,
+     CancellationToken cancellationToken = default);
+\ No newline at end of file
+Index: src/Zuge.UI/Zuge.UI.Server/Identity/RegistrationInformation.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.UI/Zuge.UI.Server/Identity/RegistrationInformation.cs b/src/Zuge.UI/Zuge.UI.Server/Identity/RegistrationInformation.cs
+new file mode 100644
+--- /dev/null	(date 1708191673569)
++++ b/src/Zuge.UI/Zuge.UI.Server/Identity/RegistrationInformation.cs	(date 1708191673569)
+@@ -0,0 +1,8 @@
++using System.ComponentModel.DataAnnotations;
++
++namespace Zuge.UI.Server.Identity;
++
++public record RegistrationInformation(
++    [Length(1, 100)] string FirstName,
++    [Length(1, 100)] string LastName,
++    [Phone] string? PhoneNumber);
+\ No newline at end of file
+Index: src/Zuge.Infrastructure/Identity.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.Infrastructure/Identity.cs b/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUserManager.cs
+rename from src/Zuge.Infrastructure/Identity.cs
+rename to src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUserManager.cs
+--- a/src/Zuge.Infrastructure/Identity.cs	(revision 4f074318fef90f8c5b664de410d6310fc289cacc)
++++ b/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUserManager.cs	(date 1708191549974)
+@@ -1,19 +1,7 @@
+ using Microsoft.AspNetCore.Identity;
+-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+-using Microsoft.Extensions.Logging;
+ using Microsoft.Extensions.Options;
+-using System.ComponentModel.DataAnnotations;
+-
+-namespace Zuge.Infrastructure;
+ 
+-public class ApplicationUser : IdentityUser
+-{
+-    [PersonalData, StringLength(100, MinimumLength = 1)]
+-    public string FirstName { get; set; } = "";
+-
+-    [PersonalData, StringLength(100, MinimumLength = 1)]
+-    public string LastName { get; set; } = "";
+-}
++namespace Zuge.UI.Server.Identity;
+ 
+ public class ApplicationUserManager(
+     IUserStore<ApplicationUser> store,
+@@ -35,6 +23,4 @@
+             keyNormalizer,
+             errors,
+             services,
+-            logger);
+-
+-public class AuthenticationDbContext(DbContextOptions<AuthenticationDbContext> options) : IdentityDbContext<ApplicationUser>(options);
+\ No newline at end of file
++            logger);
+\ No newline at end of file
+Index: src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUser.cs
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUser.cs b/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUser.cs
+new file mode 100644
+--- /dev/null	(date 1708191536566)
++++ b/src/Zuge.UI/Zuge.UI.Server/Identity/ApplicationUser.cs	(date 1708191536566)
+@@ -0,0 +1,13 @@
++using System.ComponentModel.DataAnnotations;
++using Microsoft.AspNetCore.Identity;
++
++namespace Zuge.UI.Server.Identity;
++
++public class ApplicationUser : IdentityUser
++{
++    [PersonalData, StringLength(100, MinimumLength = 1)]
++    public string FirstName { get; set; } = "";
++
++    [PersonalData, StringLength(100, MinimumLength = 1)]
++    public string LastName { get; set; } = "";
++}
+\ No newline at end of file

@@ -1,13 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Zuge.UI.Server.Controllers;
 
 public record RegistrationInformation(
-    [Length(1, 100)] string FirstName, 
-    [Length(1, 100)] string LastName, 
+    [Length(1, 100)] string FirstName,
+    [Length(1, 100)] string LastName,
     [Phone] string? PhoneNumber);
 
 [ApiController]
@@ -25,6 +26,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
 
         return Ok(new { appUser.Email, appUser.FirstName, appUser.LastName, appUser.PhoneNumber, roles, userId });
     }
+
     [HttpGet]
     [Authorize(Policy = "Admin")]
     [Route("pingauth/admin")]
@@ -32,6 +34,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     {
         return Ok();
     }
+
     [HttpGet]
     [Authorize(Policy = "Employee")]
     [Route("pingauth/employee")]
@@ -39,6 +42,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     {
         return Ok();
     }
+
     [HttpGet]
     [Authorize(Policy = "User")]
     [Route("pingauth")]
@@ -46,6 +50,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
     {
         return Ok();
     }
+
     [HttpPost]
     [Route("manage/register")]
     public async Task<IActionResult> OnPostAsync([FromBody] RegistrationInformation info, [FromQuery] string email)
@@ -59,7 +64,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
             info.PhoneNumber?.Trim());
 
         if (!TryValidateModel(trimmedInfo)) return BadRequest();
-            
+
         user.FirstName = trimmedInfo.FirstName;
         user.LastName = trimmedInfo.LastName;
         user.PhoneNumber = trimmedInfo.PhoneNumber;
@@ -68,6 +73,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
 
         return Ok();
     }
+
     [HttpPut]
     [Route("manage/info")]
     [Authorize(Policy = "User")]
@@ -87,6 +93,7 @@ public class AccountController(AuthenticationDbContext authenticationDbContext, 
 
         return Ok(new { user.Email, user.FirstName, user.LastName, user.PhoneNumber, roles, userId });
     }
+
     [HttpPost]
     [Authorize(Policy = "User")]
     [Route("logout")]
